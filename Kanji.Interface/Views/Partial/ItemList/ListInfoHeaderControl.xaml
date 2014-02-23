@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.ListInfoHeaderControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:converters="clr-namespace:Kanji.Interface.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <TextBlock>
+        <TextBlock.Resources>
+            <sys:Int32 x:Key="IntegerTwo">2</sys:Int32>
+        </TextBlock.Resources>
+        <TextBlock.Style>
+            <Style TargetType="TextBlock">
+                <Style.Triggers>
+                    <!-- Loaded, all items are being displayed and there are
+                    at least 2 results: show appropriate message -->
+                    <DataTrigger Value="True">
+                        <DataTrigger.Binding>
+                            <MultiBinding Converter="{StaticResource ComparablesToBooleanConverter}">
+                                <Binding Path="LoadedItems.Count" />
+                                <Binding Path="TotalItemCount" />
+                            </MultiBinding>
+                        </DataTrigger.Binding>
+                        <Setter Property="Text">
+                            <Setter.Value>
+                                <Binding Path="TotalItemCount" Mode="OneWay"
+                                    StringFormat="{}Displaying all {0} results." />
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                    <!-- Loaded but no results: display an appropriate message -->
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding LoadedItems.Count}" Value="0" />
+                            <Condition Binding="{Binding TotalItemCount}" Value="0" />
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Text" Value="There are no results for this request." />
+                    </MultiDataTrigger>
+                    <!-- Loaded with one single result: display an appropriate message -->
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding LoadedItems.Count}" Value="1" />
+                            <Condition Binding="{Binding TotalItemCount}" Value="1" />
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Text" Value="Displaying the only result." />
+                    </MultiDataTrigger>
+                    <!-- If loading: display loading indicator -->
+                    <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                        <Setter Property="Text" Value="Loading items. Please wait." />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsFiltering}" Value="True">
+                        <Setter Property="Text" Value="Loading filters. Please wait." />
+                    </DataTrigger>
+                    <!-- Max priority: display the number of items being loaded. -->
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding LoadedItems.Count}" Value="0" />
+                            <Condition Value="True">
+                                <Condition.Binding>
+                                    <MultiBinding Converter="{StaticResource ComparablesToBooleanConverter}"
+                                        ConverterParameter="{x:Static converters:ComparablesToBooleanConversionEnum.Greater}">
+                                        <Binding Path="TotalItemCount" />
+                                        <Binding Source="{StaticResource IntegerTwo}" />
+                                    </MultiBinding>
+                                </Condition.Binding>
+                            </Condition>
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Text">
+                            <Setter.Value>
+                                <Binding Path="TotalItemCount" Mode="OneWay" StringFormat="{}Loading {0} results. Please wait." />
+                            </Setter.Value>
+                        </Setter>
+                    </MultiDataTrigger>
+                    <!-- (if loading one single result: display an appropriate message) -->
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding LoadedItems.Count}" Value="0" />
+                            <Condition Binding="{Binding TotalItemCount}" Value="1" />
+                        </MultiDataTrigger.Conditions>
+                        <MultiDataTrigger.Setters>
+                            <Setter Property="Text" Value="Loading 1 result. Please wait." />
+                        </MultiDataTrigger.Setters>
+                    </MultiDataTrigger>
+                </Style.Triggers>
+                <!-- Default case: show the number of displayed items and the total number of results -->
+                <Setter Property="Text">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}Displaying {0} of {1} results.">
+                            <Binding Path="LoadedItems.Count" Mode="OneWay" />
+                            <Binding Path="TotalItemCount" Mode="OneWay" />
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </TextBlock.Style>
+    </TextBlock>
+</UserControl>

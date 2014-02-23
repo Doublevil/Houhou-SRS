@@ -1,0 +1,189 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.KanjiDetails"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:converters="clr-namespace:Kanji.Interface.Converters"
+      xmlns:controls="clr-namespace:Kanji.Interface.Controls"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="600">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!-- Big kanji character -->
+        <TextBox x:Name="KanjiTitleLabel" Grid.Column="0" Grid.Row="0" Style="{StaticResource KanjiTitle}" Text="{Binding KanjiEntity.DbKanji.Character}" />
+        <Grid Grid.Column="1" Grid.Row="0" Margin="10 5 5 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <!-- Meanings label -->
+            <TextBox x:Name="MeaningsLabel" Grid.ColumnSpan="2" Style="{StaticResource KanjiMeaningLabel}"
+                Text="{Binding Path=KanjiEntity.DbKanji,
+                Converter={StaticResource KanjiToStringConverter},
+                ConverterParameter={x:Static converters:KanjiToStringConversionType.Full}}" />
+            
+            <!-- Secondary information panel -->
+            <StackPanel Grid.Row="1">
+                <TextBox x:Name="MostUsedLabel">
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource LabelBox}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding KanjiEntity.DbKanji.MostUsedRank}" Value="{x:Null}">
+                                    <Setter Property="Text" Value="Not one of the 2500 most used kanji." />
+                                </DataTrigger>
+                            </Style.Triggers>
+                            <Setter Property="Text" Value="{Binding Path=KanjiEntity.DbKanji.MostUsedRank, StringFormat=\{0\} of the most used kanji.}" />
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBox x:Name="GradeLabel">
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource LabelBox}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding KanjiEntity.DbKanji.Grade}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                            <Setter Property="Text" Value="{Binding Path=KanjiEntity.DbKanji.Grade, StringFormat=Taught in grade \{0\}.}" />
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBox x:Name="StrokeCountLabel">
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource LabelBox}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding KanjiEntity.DbKanji.StrokeCount}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                            <Setter Property="Text" Value="{Binding Path=KanjiEntity.DbKanji.StrokeCount, StringFormat=\{0\} strokes.}" />
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+            </StackPanel>
+            
+            <!-- Action buttons panel -->
+            <StackPanel x:Name="ActionButtonsPanel" Grid.Column="1" Grid.Row="1">
+                <Grid x:Name="ProgressContainer">
+                    <Button Content="Add to my list" FontSize="14" Height="25" Margin="0,0,0,5"
+                            Command="{Binding AddToSrsCommand}">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SrsEntry}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <!-- SRS entry progress control -->
+                    <controls:SrsEntryProgress DataContext="{Binding SrsEntry}" Margin="0 0 0 2">
+                        <controls:SrsEntryProgress.Style>
+                            <Style TargetType="{x:Type controls:SrsEntryProgress}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding .}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </controls:SrsEntryProgress.Style>
+                    </controls:SrsEntryProgress>
+                </Grid>
+                <Button Command="{Binding ToggleDetailsCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ShowDetails}" Value="False">
+                                    <Setter Property="Content" Value="Show details" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                            <Setter Property="Content" Value="Hide details" />
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Grid>
+        
+        <!-- Radical list -->
+        <StackPanel Grid.Column="0" Grid.Row="1" Margin="5 0 5 0"
+                    Visibility="{Binding ShowDetails, Converter={StaticResource ValueToVisibilityConverter}}">
+            <ListBox ItemsSource="{Binding KanjiEntity.Radicals}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     BorderThickness="0"
+                     ItemContainerStyle="{StaticResource MiniRadicalInList}"
+                     Width="100"
+                     Background="Transparent">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+        </StackPanel>
+        
+        <!-- Readings -->
+        <Grid Grid.Column="1" Grid.Row="1" Margin="10 0 5 0" Background="#0A000000"
+              Visibility="{Binding ShowDetails, Converter={StaticResource ValueToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <TextBox Grid.Column="0" Style="{StaticResource ReadingLabelTitle}" Text="On'yomi" />
+            <TextBox Grid.Column="1" Style="{StaticResource ReadingLabelTitle}" Text="Kun'yomi"
+                BorderThickness="0,1,0,0" />
+            <TextBox Grid.Column="2" Style="{StaticResource ReadingLabelTitle}" Text="Nanori" />
+
+            <ListBox Grid.Column="0" Grid.Row="1" Style="{StaticResource KanjiReadingListbox}"
+                ItemsSource="{Binding KanjiEntity.DbKanji.OnYomi,
+                Converter={StaticResource KanjiReadingToListConverter},
+                ConverterParameter={x:Static converters:KanjiReadingToListConversionType.OnYomi}}" />
+            <ListBox Grid.Column="1" Grid.Row="1" Style="{StaticResource KanjiKunYomiReadingListbox}"
+                ItemsSource="{Binding KanjiEntity.DbKanji.KunYomi,
+                Converter={StaticResource KanjiReadingToListConverter},
+                ConverterParameter={x:Static converters:KanjiReadingToListConversionType.KunYomi}}" />
+            <ListBox Grid.Column="2" Grid.Row="1" Style="{StaticResource KanjiReadingListbox}"
+                ItemsSource="{Binding KanjiEntity.DbKanji.Nanori,
+                Converter={StaticResource KanjiReadingToListConverter},
+                ConverterParameter={x:Static converters:KanjiReadingToListConversionType.Nanori}}" />
+        </Grid>
+        
+        <!-- Vocab table title -->
+        <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <Separator Margin="5,10" Height="2" Background="Black" Foreground="Black" BorderBrush="Black" />
+            
+            <!-- Reading filter -->
+            <controls:VocabFilterControl Grid.Row="1" DataContext="{Binding VocabFilterVm}" />
+        </Grid>
+
+        <!-- Vocab table -->
+        <controls:VocabList x:Name="VocabList" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"
+            VerticalAlignment="Stretch" DataContext="{Binding VocabListVm}" />
+    </Grid>
+</UserControl>

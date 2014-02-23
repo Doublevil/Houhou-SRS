@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.VocabFilterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:Kanji.Interface.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="500">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Reading filter -->
+        <AdornerDecorator>
+            <controls:CommandTextBox Text="{Binding ReadingFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                ValidationCommand="{Binding SendReadingFilterCommand}" IsKanaInput="True" Margin="0 0 5 0">
+                <controls:WatermarkService.Watermark>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                        Kana reading filter
+                    </TextBlock>
+                </controls:WatermarkService.Watermark>
+            </controls:CommandTextBox>
+        </AdornerDecorator>
+
+        <!-- Meaning filter -->
+        <AdornerDecorator Grid.Column="1">
+            <controls:CommandTextBox Text="{Binding MeaningFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                ValidationCommand="{Binding SendMeaningFilterCommand}" Margin="5 0 0 0">
+                <controls:WatermarkService.Watermark>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                        Meaning filter
+                    </TextBlock>
+                </controls:WatermarkService.Watermark>
+            </controls:CommandTextBox>
+        </AdornerDecorator>
+        
+        <!-- Filter buttons -->
+        <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="5 0 0 0">
+            <Button Content="pack://application:,,,/Data/UI/SortFrequencyIcon.png"
+                Command="{Binding SwitchCommonOrderCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource ImageActionButton}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsCommonFirst}" Value="True">
+                                <Setter Property="Tag" Value="True" />
+                                <Setter Property="ToolTip">
+                                    <Setter.Value>
+                                        <TextBlock>
+                                            Common vocab is displayed first.<LineBreak />
+                                            Click this button if you want to change this behavior.
+                                        </TextBlock>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Tag" Value="False" />
+                        <Setter Property="ToolTip">
+                            <Setter.Value>
+                                <TextBlock>
+                                    Common vocab is not displayed first.<LineBreak />
+                                    Click this button if you want common vocab to be displayed first.
+                                </TextBlock>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="pack://application:,,,/Data/UI/SortLengthIcon.png"
+                Command="{Binding SwitchWritingLengthOrderCommand}" Margin="5 0 0 0">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource ImageActionButton}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsShortReadingFirst}" Value="True">
+                                <Setter Property="Tag" Value="True" />
+                                <Setter Property="ToolTip">
+                                    <Setter.Value>
+                                        <TextBlock>
+                                            Vocab is sorted by ascending writing length.<LineBreak />
+                                            Click this button if you want to change this behavior.
+                                        </TextBlock>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Tag" Value="False" />
+                        <Setter Property="ToolTip">
+                            <Setter.Value>
+                                <TextBlock>
+                                    Vocab is sorted by descending writing length.<LineBreak />
+                                    Click this button if you want to change this behavior.
+                                </TextBlock>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

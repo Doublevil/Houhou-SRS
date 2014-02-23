@@ -1,0 +1,162 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.SrsEntrySelectionStatsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="80" d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Border" x:Key="StatBox">
+                <Setter Property="BorderBrush" Value="{StaticResource FadedBorderBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="Background" Value="#99000000" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <UserControl.Style>
+        <Style TargetType="UserControl">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedItems.Count}" Value="0">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
+    
+    <UniformGrid Rows="1" Margin="0 0 0 5">
+        <!-- Total review count -->
+        <Border Style="{StaticResource StatBox}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                
+                <Viewbox>
+                    <Viewbox.RenderTransform>
+                        <TranslateTransform X="-1" Y="-1" />
+                    </Viewbox.RenderTransform>
+                    <TextBlock Foreground="Black" Text="{Binding SelectionTotalReviews}" FontWeight="SemiBold" />
+                </Viewbox>
+                <Viewbox>
+                    <TextBlock Foreground="White" Text="{Binding SelectionTotalReviews}" FontWeight="SemiBold" />
+                </Viewbox>
+                
+                <Viewbox Grid.Row="1">
+                    <TextBlock Foreground="#99FFFFFF">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource LegendText}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectionTotalReviews}" Value="1">
+                                        <Setter Property="Text" Value="totalled review" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="Text" Value="totalled reviews" />
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Viewbox>
+            </Grid>
+        </Border>
+        
+        <!-- Total success count -->
+        <Border Style="{StaticResource StatBox}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Viewbox>
+                    <Viewbox.RenderTransform>
+                        <TranslateTransform X="-1" Y="-1" />
+                    </Viewbox.RenderTransform>
+                    <TextBlock Foreground="Black" Text="{Binding SelectionTotalSuccesses}" FontWeight="SemiBold" />
+                </Viewbox>
+                <Viewbox>
+                    <TextBlock Foreground="White" Text="{Binding SelectionTotalSuccesses}" FontWeight="SemiBold" />
+                </Viewbox>
+
+                <Viewbox Grid.Row="1">
+                    <TextBlock Foreground="#99FFFFFF">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource LegendText}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectionTotalSuccesses}" Value="1">
+                                        <Setter Property="Text" Value="totalled success" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="Text" Value="totalled successes" />
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Viewbox>
+            </Grid>
+        </Border>
+        
+        <!-- Total failure count -->
+        <Border Style="{StaticResource StatBox}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Viewbox>
+                    <Viewbox.RenderTransform>
+                        <TranslateTransform X="-1" Y="-1" />
+                    </Viewbox.RenderTransform>
+                    <TextBlock Foreground="Black" Text="{Binding SelectionTotalFailures}" FontWeight="SemiBold" />
+                </Viewbox>
+                <Viewbox>
+                    <TextBlock Foreground="White" Text="{Binding SelectionTotalFailures}" FontWeight="SemiBold" />
+                </Viewbox>
+
+                <Viewbox Grid.Row="1">
+                    <TextBlock Foreground="#99FFFFFF">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource LegendText}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectionTotalFailures}" Value="1">
+                                        <Setter Property="Text" Value="totalled failure" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="Text" Value="totalled failures" />
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Viewbox>
+            </Grid>
+        </Border>
+        
+        <!-- Average success ratio -->
+        <Border Style="{StaticResource StatBox}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Viewbox>
+                    <Viewbox.RenderTransform>
+                        <TranslateTransform X="-1" Y="-1" />
+                    </Viewbox.RenderTransform>
+                    <TextBlock Foreground="Black" FontWeight="SemiBold" Text="{Binding SelectionSuccessRatio,
+                        Converter={StaticResource PercentageToStringConverter}}" />
+                </Viewbox>
+                <Viewbox>
+                    <TextBlock Foreground="White" FontWeight="SemiBold" Text="{Binding SelectionSuccessRatio,
+                        Converter={StaticResource PercentageToStringConverter}}" />
+                </Viewbox>
+
+                <Viewbox Grid.Row="1">
+                    <TextBlock Foreground="#99FFFFFF" Style="{StaticResource LegendText}" Text="average success" />
+                </Viewbox>
+            </Grid>
+        </Border>
+    </UniformGrid>
+</UserControl>

@@ -1,0 +1,261 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.SrsEntrySelectionActionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:Kanji.Interface.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <Grid>
+        <!-- Nothing selected -->
+        <Grid x:Name="ZeroItemPanel" Visibility="{Binding SelectedItems.Count,
+                Converter={StaticResource ValueToVisibilityConverter},
+                ConverterParameter=0}">
+            <TextBlock Text="Select items in the list to view stats or perform bulk edition."
+                TextWrapping="Wrap" TextAlignment="Center" Style="{StaticResource LegendText}" />
+        </Grid>
+
+        <!-- 1 item selected -->
+        <Grid x:Name="OneItemPanel"
+              Visibility="{Binding SelectedItems.Count,
+                Converter={StaticResource ValueToVisibilityConverter},
+                ConverterParameter=1}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Button Style="{StaticResource ActionButton}" Content="Edit the item"
+                Command="{Binding EditSingleSelectionCommand}" />
+
+            <TextBlock Grid.Row="1" Text="Select other items in the list to view stats or perform bulk edition."
+                TextWrapping="Wrap" TextAlignment="Center" Style="{StaticResource LegendText}" />
+        </Grid>
+
+        <!-- Multiple items selected -->
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Visibility, ElementName=OneItemPanel}" Value="Visible">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Visibility, ElementName=ZeroItemPanel}" Value="Visible">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+
+            <!-- BulkEditMode = None -->
+            <ScrollViewer Margin="0 0 0 5" VerticalScrollBarVisibility="Auto">
+                <UniformGrid Columns="1" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    Visibility="{Binding BulkEditMode,
+                    Converter={StaticResource ValueToVisibilityConverter},
+                    ConverterParameter=None}">
+                    <Button Style="{StaticResource ActionButton}" Content="Bulk edit the meaning note"
+                        Margin="0 0 0 5" Command="{Binding BulkEditMeaningNoteCommand}" Height="Auto" MinHeight="20" />
+                    <Button Style="{StaticResource ActionButton}" Content="Bulk edit the reading note"
+                        Margin="0 0 0 5" Command="{Binding BulkEditReadingNoteCommand}" Height="Auto" MinHeight="20" />
+                    <Button Style="{StaticResource ActionButton}" Content="Bulk edit the tags"
+                        Margin="0 0 0 5" Command="{Binding BulkEditTagsCommand}" Height="Auto" MinHeight="20" />
+                    <Button Style="{StaticResource ActionButton}" Content="Bulk edit the SRS level"
+                        Margin="0 0 0 5" Command="{Binding BulkEditLevelCommand}" Height="Auto" MinHeight="20" />
+                    <Button Style="{StaticResource ActionButton}" Content="Suspend all selected items"
+                        Margin="0 0 0 5" Command="{Binding BulkSuspendCommand}" Height="Auto" MinHeight="20" />
+                    <Button Style="{StaticResource ActionButton}" Content="Resume all selected items"
+                        Margin="0 0 0 5" Command="{Binding BulkResumeCommand}" Height="Auto" MinHeight="20" />
+                    <Button Style="{StaticResource ActionButton}" Content="Delete all selected items"
+                        Margin="0 0 0 5" Command="{Binding BulkDeleteCommand}" Height="Auto" MinHeight="20" />
+                </UniformGrid>
+            </ScrollViewer>
+
+
+            <!-- BulkEditMode in (ReadingNote, MeaningNote, Tags) -->
+            <Grid>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding BulkEditMode}" Value="ReadingNote">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding BulkEditMode}" Value="MeaningNote">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding BulkEditMode}" Value="Tags">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </Style>
+                </Grid.Style>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <DockPanel LastChildFill="False">
+                    <TextBlock DockPanel.Dock="Left">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource LegendText}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding BulkEditMode}" Value="MeaningNote">
+                                        <Setter Property="Text" Value="Meaning notes:" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding BulkEditMode}" Value="ReadingNote">
+                                        <Setter Property="Text" Value="Reading notes:" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding BulkEditMode}" Value="Tags">
+                                        <Setter Property="Text" Value="Tags:" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <Button DockPanel.Dock="Right" Style="{StaticResource MiniActionButton}"
+                        Content="Cancel" Padding="8 0" Command="{Binding CancelBulkEditCommand}" />
+                </DockPanel>
+
+                <TextBox Grid.Row="1" Margin="0 5 0 2" Text="{Binding BulkEditValue, Mode=TwoWay}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding BulkEditMode}" Value="MeaningNote">
+                                    <Setter Property="MaxLength" Value="1000" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding BulkEditMode}" Value="ReadingNote">
+                                    <Setter Property="MaxLength" Value="1000" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding BulkEditMode}" Value="Tags">
+                                    <Setter Property="MaxLength" Value="300" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <Button Grid.Row="2" Style="{StaticResource ActionButton}" Content="Apply changes" FontSize="13"
+                    Command="{Binding BulkEditTextApplyCommand}" Margin="0 0 0 5" />
+            </Grid>
+
+            <!-- BulkEditMode = Level -->
+            <Grid Visibility="{Binding BulkEditMode,
+                    Converter={StaticResource ValueToVisibilityConverter},
+                    ConverterParameter=Level}">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding BulkEditMode}" Value="Tags">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </Style>
+                </Grid.Style>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <DockPanel LastChildFill="False">
+                    <TextBlock DockPanel.Dock="Left" Style="{StaticResource LegendText}" Text="Select a level:" />
+
+                    <Button DockPanel.Dock="Right" Style="{StaticResource MiniActionButton}"
+                        Content="Cancel" Padding="8 0" Command="{Binding CancelBulkEditCommand}" />
+                </DockPanel>
+                
+                <controls:SrsLevelPicker Grid.Row="1" DataContext="{Binding LevelPickerVm}"
+                    HorizontalAlignment="Left" Margin="0 0 0 5" />
+
+                <Button Grid.Row="2" Style="{StaticResource ActionButton}" Content="Apply changes" FontSize="13"
+                    Command="{Binding BulkEditLevelApplyCommand}" Margin="0 0 0 5" />
+            </Grid>
+            
+            <!-- BulkEditMode = Applying -->
+            <Grid Visibility="{Binding BulkEditMode,
+                Converter={StaticResource ValueToVisibilityConverter},
+                ConverterParameter=Applying}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="70*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+
+                <Viewbox Grid.Column="1" VerticalAlignment="Bottom" Margin="5 0">
+                    <TextBlock Style="{StaticResource LegendText}" Text="Applying changes" />
+                </Viewbox>
+
+                <Viewbox Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Margin="5 0">
+                    <TextBlock Style="{StaticResource LegendText}" Text="Please wait" />
+                </Viewbox>
+            </Grid>
+
+            <!-- BulkEditMode = Applied -->
+            <Grid Visibility="{Binding BulkEditMode,
+                Converter={StaticResource ValueToVisibilityConverter},
+                ConverterParameter=Applied}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="70*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+
+                <Viewbox Grid.Column="1" VerticalAlignment="Bottom" Margin="5 0">
+                    <TextBlock Style="{StaticResource LegendText}" Text="Changes were applied" />
+                </Viewbox>
+
+                <Viewbox Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Margin="5 0">
+                    <TextBlock>
+                        <TextBlock.ToolTip>
+                            <TextBlock>
+                                Please note that the number of items effectively modified may vary
+                                depending on the nature of the operation.
+                                <LineBreak />
+                                For example, bulk suspending will only affect items that were not
+                                already suspended.
+                            </TextBlock>
+                        </TextBlock.ToolTip>
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource LegendText}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding BulkEditResultCount}" Value="-1">
+                                        <Setter Property="Text" Value="... but an error occured" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding BulkEditResultCount}" Value="0">
+                                        <Setter Property="Text" Value="... but no items were modified" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding BulkEditResultCount}" Value="1">
+                                        <Setter Property="Text" Value="1 item was modified" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="Text">
+                                    <Setter.Value>
+                                        <Binding Path="BulkEditResultCount"
+                                            StringFormat="{}{0} items were modified" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Viewbox>
+
+                <Button Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource ActionButton}" Content="Refresh the list"
+                    Command="{Binding ReapplyFilterCommand}" Margin="0 0 0 5" />
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

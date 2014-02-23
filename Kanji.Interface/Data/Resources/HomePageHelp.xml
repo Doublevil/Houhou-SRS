@@ -1,0 +1,672 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArrayOfHelpCategory xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <HelpCategory>
+    <Title>What is Houhou...</Title>
+    <Content>
+	  <HelpInfo>
+        <Title>Is Houhou just another Japanese dictionary application?</Title>
+        <Content>Houhou includes a Japanese-English word and Kanji dictionary. But it is not limited to that!
+The main aim of Houhou is to help you to actually memorize the words and Kanji that you have to look up.
+
+Obviously, when you are learning Japanese, you come across a lot of vocabulary and Kanji that you don't know. With a classic dictionary, you would look them up and soon forget everything.
+With Houhou, you look them up, add them to your item list, and then you will get to review them hours, days, months later, again and again in an intelligent and time-efficient way, until you are sure not to forget them again. Learn more about the SRS in the "Using the SRS..." help section.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>Is Houhou free?</Title>
+        <Content>As of now, Houhou is entirely free and open. If you like Houhou and would like to support the project, please consider donating! Just click the button on the top-right corner of this tab!</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>Will Houhou teach me Japanese?</Title>
+        <Content>Houhou is merely a vocabulary learning tool. You can use it to learn Kanji and Vocab, but you will still need to understand how grammar works. There are tons of resources out there that you can use to learn grammar.
+See the related question below for a list of useful Japanese language learning resources.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>As an absolute beginner, should I use Houhou?</Title>
+        <Content>The prerequisite to use Houhou is to know hiragana and katakana. Once you know these, you are ready to start. However, it would be a good idea to start building up grammar knowledge before vocabulary.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>What are other useful Japanese language learning resources?</Title>
+        <Content>When learning a language, it is very important to find resources that you are comfortable with.
+Houhou is not designed to be a one-stop tool for learning Japanese, as it is merely a Kanji and Vocabulary learning tool. This is why you may want to use some of these other resources:
+
+Examples of Kanji/Vocabulary learning resources:
+• WaniKani.com (by Tofugu) is an addictive SRS website, that makes you learn more than 1600 Kanji and 5000 Vocab words in an efficient way, using mnemonics. Houhou was very inspired by WaniKani and was designed as a complement to it. You should definitely check it out.
+• Memrise is a free web platform where you can take "courses" consisting in a set of lessons (usually vocabulary), and then review them with the SRS. Courses are created by the community and are not limited to Japanese.
+• Anki is a free multi-platform SRS software that you can use to learn Kanji and Vocab (or anything else).
+
+Examples of grammar learning resources:
+• Textfugu.com (by Tofugu) is a Japanese language learning website designed for self-learners.
+• imabi.net is a free and very deep Japanese language learning website.
+• Tae Kim's Guide to Learning Japanese (guidetojapanese.org) is another good address if you want to learn grammar for free.
+
+Other good addresses:
+• eow.alc.co.jp is a Japanese-English dictionary website that you can use to lookup definitions and sentences. Just type anything in Japanese or in English in the search bar to try it out.
+• Tofugu.com is a Japanese culture and language learning blog by the team behind TextFugu and WaniKani.</Content>
+      </HelpInfo>
+	</Content>
+  </HelpCategory>
+  <HelpCategory>
+    <Title>Using Houhou...</Title>
+    <Content>
+	  <HelpInfo>
+        <Title>How do I use Houhou?</Title>
+        <Content>Houhou is cut in 5 distinct pages, each represented by a tab. You can see the tabs on the top of the window.
+To navigate between tabs, simply click the tab you want to explore. The view will switch to this tab while keeping the state of the previous tab.
+To identify which tab you are currently exploring, look at the color of the tiny border just below the tab line, and see which tab color it matches.
+To learn more about each tab and how to use them, click the help questions below.</Content>
+      </HelpInfo>
+      <HelpInfo>
+        <Title>What is the Home Tab?</Title>
+        <Content>The Home Tab is usually the first thing you see when you start Houhou. It contains update informations and those help sections you are currently reading.
+The main interests of the Home Tab are the three sub-tabs panning on most of the page.
+• If you want to see the latest update details, click the "What's new" tab.
+• If you want to see the planned, future update details and ideas, click the "What's planned" tab.
+• If you want help on how to use Houhou, click the "Help" tab. But you are already reading a Help subsection, so you probably don't need to do that now.
+
+All three of the Homepage sub-tabs are designed on the same principle. They contain lists of topics that you can explore by clicking them.</Content>
+      </HelpInfo>
+      <HelpInfo>
+        <Title>What is the SRS Tab?</Title>
+        <Content>The SRS Tab controls everything related to the SRS feature of Houhou. If you don't know what SRS is or how this SRS system works, please refer to the "Using the SRS..." help section.
+The first and most important page of the SRS Tab is the Dashboard.
+
+• The Dashboard •
+The Dashboard show you how many reviews are available at the moment, shows a breakdown of your items by SRS level, and provides you with some statistics about your SRS items and your success rate. From the Dashboard, you can start reviewing items by clicking the "Start reviewing" bright blue button. Of course, that button appears only when you have reviews available.
+
+• Review session •
+The Review session screen appears when you click the "Start reviewing" button from the Dashboard.
+Please refer to the "Using the SRS..." help section for more info about the review process.
+From the Review session screen, you can go back to the Dashboard by clearing all available reviews, or at any time by clicking the "Close review session" button on the top of the page.
+
+• Adding new items •
+From the Dashboard, you can add new SRS items to your list by clicking the "Add a kanji item" or the "Add a vocab item" buttons on the bottom of the screen.
+Clicking one of these buttons will make the SRS item window appear and will allow you to add a new item from scratch, instead of picking it in the dictionary from the Kanji Tab or the Vocab Tab (though these last two methods are more convenient most of the time).
+
+• SRS item browsing •
+From the Dashboard, click the "Browse SRS items" button, located on the bottom of the page, to get to the SRS item browsing page.
+The SRS item browsing page allows you to list, edit or remove your current SRS items.
+You can filter the items you want to list using the available filters, or click the "Browse all items" to list all of your current SRS items.
+In both cases, the list located below the filters will display results and, if there are results, the Edition panel will appear on the right of the list.
+Click any item on the list to select it. You can select multiple items from the list. When you select items, the Edition panel will show statistics about these specific items, and will allow you to edit them all at once.
+The Edition panel also contains buttons that you can use to select all listed items, or to clear the current selection.
+While the Edition panel provides bulk edition features, it is still possible to edit items individually using the usual SRS item window by clicking the "Edit" button on the right side of each item in the list.
+At any time, you can go back to the Dashboard screen by clicking the "Dashboard" button at the bottom of the page.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>What is the Kanji Tab?</Title>
+        <Content>The Kanji Tab is where you search for Kanji, and get information about Kanji.
+The Kanji Tab is divided in two parts. You can easily identify the rightmost part, the Kanji result list, mostly composed of a list of Kanji resulting from the current filters. The other part, everything on the left of the list, is the Kanji filtering panel.
+
+• The Kanji filtering panel •
+The Kanji filtering panel allows you to filter Kanji based on different info.
+For details about how to use these controls, please refer to the "Searching for Kanji..." help section.
+
+• The Kanji results list panel •
+The Kanji results list panel shows all Kanji that match the filters currently set on the filtering panel.
+It also provides you with a button to clear all filters if you want to start fresh.
+At any time, clicking on a result Kanji will bring up the Kanji Details page.
+
+• The Kanji Details page •
+The Kanji Details page appears over the Kanji filtering panel when you select (click) a Kanji in the results list.
+It is divided in two parts:
+The top-most part provides details about the Kanji itself. You can see the character, at which grade it is taught in Japanese schools (if taught), its stroke count, the Radicals that compose it, and all of its On'yomi, Kun'yomi and Nanori readings.
+The second part is separated from the Kanji info part by a thin black line. That part is a Vocab list, similar to the one found under the Vocab Tab. That list displays all words containing the selected Kanji. You can still filter this Vocab by reading or meaning using the filter fields.
+On the top-right of the Kanji Details page, you can decide to hide or show some of the Kanji details in order to make more room for the Vocab list. Just click the "Hide details" or "Show details" button.
+To add the Kanji to your SRS list, click the "Add to my list" button on the top-right of the Kanji Details page, and fill the window.
+When a Kanji Details page is shown, you can close it using the "Close the Kanji page" button above the Kanji results list. Then you will be able to use the filtering panel again.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>What is the Vocab Tab?</Title>
+        <Content>The Vocab Tab is where you can search for words in the dictionary.
+The Vocab Tab is composed of filters and a list. Fill the filters, and the list will show the results of your search.
+For more details on how to perform a Vocab search, please refer to the "Searching for Vocab..." help section.
+
+When you confirm, the list loads and displays words that match the filters. Results are limited to a certain number that you can expand by clicking the "Load more vocab" button that appears at the bottom of the list if the number of results exceeds the initial capacity.
+
+There are three distinct columns for each resulting dictionary entry. From left to right:
+• The Kanji reading column, which displays how the word is written when you use its Kanji representation (if it can be written in Kanji);
+• The kana reading column, which displays how the word is read in hiragana or katakana;
+• The meaning column, which enumerates the English meanings of the word and provides additional information about things like the class of the word (noun, counter, suffix, etc) or if the word is usually written in kana only.
+
+Below both the Kanji and the kana reading columns, there is a separate row that displays general information about the term if available (mostly used for outdated writings) along with the SRS controls. Click the "Add to my list" button to add the word to your SRS item list.
+The color of the background of each resulting word is also important. When the word row has a pale green background, the word is considered common. For more information on common Vocab, please refer to the appropriate question of the "Searching for Vocab..." help section.
+
+The Kanji reading column can be used to navigate to the Kanji Details panel on the Kanji Tab. Simply click a Kanji to examine it in the Kanji tab. As this feature prevents you from copying the Kanji reading in the clipboard, there is a "Copy" button located on the right edge of the Kanji reading column. You can then paste the Kanji anywhere else using the usual right click and paste, or Ctrl + V shortcut.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>What is the Settings Tab?</Title>
+        <Content>The Settings Tab is where you can configure Houhou to tailor it to your needs.
+The Settings Tab has its own internal navigation system, which is very similar to the tab navigation system of Houhou itself. There are sub-tabs displayed on the left, each of them allowing you to navigate to a different page. Each of these sub-tabs corresponds to a Settings Category page, containing settings controls relevant to the topic of the tab.
+
+The categories are:
+• "Application", which contains settings relevant to the behavior of the application itself (i.e. not specific to one of its components);
+• "Vocab", which contains settings relevant to the Vocab features of Houhou;
+• "Kanji", which contains settings relevant to the Kanji features of Houhou;
+• "SRS", which contains settings relevant to the SRS features of Houhou.
+
+The "Save settings" button, on the bottom of the page, allows you to save your changes permanently.
+For more information on the specific Settings features, please refer to the "Changing Settings..." help section.</Content>
+      </HelpInfo>
+    </Content>
+  </HelpCategory>
+  <HelpCategory>
+    <Title>Searching for Kanji...</Title>
+    <Content>
+      <HelpInfo>
+        <Title>How can I find an unknown Kanji displayed on my computer?</Title>
+        <Content>If you want to find and display a Kanji from another application (web browser, text editor, etc), copy the Kanji to the clipboard in your application, paste it in the top field of the Kanji Tab and press enter to confirm.
+
+Once you confirm your input, the list located on the right will update and show that Kanji.
+You can even copy the full text where the Kanji you are looking for appear, and the list will display all Kanji contained in the text.
+
+If copying the text is not an option, please refer to the next question.</Content>
+      </HelpInfo>
+      <HelpInfo>
+        <Title>How can I find an unknown Kanji that I am not able to copy on my computer?</Title>
+        <Content>When you encounter Kanji outside of your computer or in applications that won't let you copy the text, you will have to manually search for the Kanji.
+To do that, go to the Kanji Tab, and use the filters. If you don't know anything other than the shape of the Kanji, you will have to use the Radical filters.
+
+Radical filters are there to allow you to identify a Kanji using the recurring shapes (or "Radicals") it contains. In most cases, Kanji can be decomposed in a set of radicals. For example, 中 can be decomposed as 口 + ｜.
+
+On the Kanji Tab, you will be able to see the list of Radicals that you can use to identify Kanji. Look for the parts that appear in the Kanji you are searching for, and click them. Once you select a Radical, its color changes and all Kanji containing the selected Radical are automatically displayed in the list located on the right.
+You can select multiple Radicals to filter more accurately and maybe find the Kanji you are looking for faster.
+To learn how to use the Radical search efficiently, please read the relevant question under the "Efficiency tips..." help section.</Content>
+      </HelpInfo>
+      <HelpInfo>
+        <Title>How can I find a known Kanji quickly?</Title>
+        <Content>One of the most efficients ways to find a Kanji that you already know is to enter one of its meanings or readings in the second filter of the Kanji Tab.
+This filter allows you to search for Kanji using an information that you know about them. You can filter using a meaning, a kun'yomi reading, an on'yomi reading or any reading depending on what you selected on the list box located directly on the right of the field.
+
+Don't forget to validate your input by pressing the Enter key (or clicking another field). If you selected a reading filter, your input will be automatically transformed to kana (see the "Using the kana input fields..." section for more info).
+
+Another efficient way is to simply input the Kanji in the top text field of the Kanji Tab using a Japanese IME and press the Enter key.
+
+In all cases, the resulting Kanji will appear in the results list to the right.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How can I find out the Kanji writing of a word I heard/only know in kana?</Title>
+        <Content>When you only know the sound of a word and want to know the Kanji composing it, you have to use the Vocab Tab.
+On the Vocab Tab, type the sounds of the word in the Kana reading filter (the left field). Your input will automatically be transformed to kana (see the "Using the kana input fields..." section for more info).
+
+When you confirm by pressing the Enter key, the list below the fields will start filtering on words containing the sounds you entered.
+
+When you get results, you can see all dictionary entries that contain the sounds you typed in the filter field. Locate the word that you are looking for (check the meaning column), and just look at the Kanji column to see the Kanji writing of the word. If the Kanji writing column is empty, your word has no registered Kanji writing and can only be written in kana.
+Otherwise, you can click each individual Kanji to be automatically directed to the Kanji Tab and see the details about the Kanji you clicked.</Content>
+      </HelpInfo>
+    </Content>
+  </HelpCategory>
+  <HelpCategory>
+    <Title>Searching for Vocab...</Title>
+    <Content>
+      <HelpInfo>
+        <Title>How do I search for Vocab based on a sound or kana sequence?</Title>
+        <Content>When you want to search a word based on a sound you heard or a kana sequence you know, go to the Vocab Tab and type the sound/kana sequence in the Kana reading filter field (the left one). Your input on this field will automatically be transformed to kana (to learn more about that, check the "Using the kana input fields..." help section). When you are done, press the Enter key to confirm.
+When you confirm, the list below the filter fields will start filtering and displaying results.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How do I search for Vocab matching an English term?</Title>
+        <Content>To perform a Vocab meaning search, go to the Vocab Tab and input the English term in the meaning filter. Press Enter to confirm.
+When you confirm, the list below the filter fields will start filtering and displaying results. This kind of search is a bit slow at first and may take a few seconds to a minute to complete, depending on what you entered.
+When results are found, you can see their readings and meanings. Common words appear on a pale green background and are prioritized by default.
+
+Be careful with this type of search though. You may find words that seem appropriate when you look at the English meaning, but that are only used in specific contexts in Japanese.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How do I search for Vocab containing an unknown Kanji?</Title>
+        <Content>There are several ways to find Vocab containing a Kanji you don't know.
+The first and most common way is to search for the Kanji in the Kanji Tab. Please refer to the "Searching for Kanji..." help section to get more info about this. Once you find the Kanji, click it on the result list and you will be taken to the Kanji Details Page, which includes a Vocab list.
+
+The second way is to search directly from the Vocab Tab, using the Kana reading filter.
+• If you can copy the Kanji from the source, paste it in the Kana reading filter and confirm by pressing the Enter key.
+• If you cannot copy the Kanji and know the sound or kana sequence of the word, type the sound or kana sequence in the Kana reading filter and confirm by pressing the Enter key.
+
+When you confirm, the list below the filter fields will start filtering and displaying results.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>Why do some Vocab results appear on a pale green background?</Title>
+        <Content>The pale green background in the Vocab result list indicates that the word is considered common. By default, common words appear first in the list.
+Since it is not trivial to apprehend the usage frequency of Japanese words, this information may not be very accurate, especially with words that have multiple Kanji readings.
+Right now, common words are determined using multiple, arbitrary reference Vocab lists. There is no word usage ranking.
+
+That said, you can still use this indicator to decide, for example, if you are going to add an item to your SRS list or not.</Content>
+      </HelpInfo>
+      <HelpInfo>
+        <Title>How do I reorder Vocab results to find what I am looking for?</Title>
+        <Content>When you are looking for specific Vocab results, you may want to reorder the result list. You can do that with the two buttons located on the right of the filter fields.
+
+The first button controls the priority given to common words. When the button is ON (strong blue color; default), common words appear first in the result list. When it is OFF, no priority is given to common words.
+You may want to tick this one to OFF when you are looking for words with a specific reading, that are not necessarily common.
+
+The second button (right most) controls the kana reading length ordering. When the button is ON (default), words are listed from the shortest to the longest kana reading. When the button is OFF, the order is reversed.
+Turn this one OFF when you are looking for expressions containing a given kana or Kanji sequence.
+
+Click any of these buttons to invert their state and refresh the results. If you are not sure, keep your mouse pointer over the buttons and a text will show up to indicate their state and what they can do for you.</Content>
+      </HelpInfo>
+    </Content>
+  </HelpCategory>
+  <HelpCategory>
+    <Title>Using the SRS...</Title>
+    <Content>
+      <HelpInfo>
+        <Title>What is SRS?</Title>
+        <Content>SRS stands for "Spaced Repetition System". It refers to a learning technique that aims to write things in your long-term memory by making you review them at ever increasing intervals.
+
+Let's take an example. You want to learn the Kanji 蛍 (ほたる - "Firefly") using an SRS. After learning it for the first time, you wait 4 hours and review it. Can you remember it? If so, wait 8 more hours and review it again. Do you still know it? If so, wait 24 more hours and review it again. Eventually, if at some point you don't remember it, reduce the interval of time before the next review. Repeat this operation over and over again until you feel that you know the Kanji well enough and will never forget it.
+
+The SRS technique is suited for learning large number of items and is definitely a good way to learn Japanese Kanji or vocabulary. Your brain will judge an information worth to retain only if you need to remember it regularly over a long period of time.
+This is also why trying to cram a Kanji in your head by writing it a hundred times as soon as you learn it is probably not going to work.</Content>
+      </HelpInfo>
+      <HelpInfo>
+        <Title>How is the SRS implemented in Houhou?</Title>
+        <Content>In Houhou, you can use the SRS to learn Kanji and Vocab (words). But it's up to you to decide what you want to learn, and even how you want to learn.
+Because Houhou doubles as a dictionary, it means that you will be able to pick words and say "I want to learn this one". Then, a few clicks later, the item will be added to your SRS item list.
+
+Once you have items in your SRS list, you will be able to review them at fixed time intervals. By default, your first review comes 4 hours after you add the item to your list. In the Dashboard of the SRS Tab, you will be able to see how many reviews are currently available, or, if you don't have any reviews available, how long before the next one. In our example, as we just added our first item, we should see "Next review in 4 hours".
+
+Your SRS items are classified by current SRS level. Depending on your configuration, your SRS levels may vary. In any way, you should see items you just added under the first level, displayed on the dashboard of the SRS Tab.
+
+When the review is available, you are asked for both the meaning and the reading. If you answer correct on both questions, your SRS item gains a level on the SRS levels scale, and the SRS interval raises. For our example, let's say it rises to 8 hours from after your review.
+In fact, intervals between reviews are linked to the level of the items. In our example, the first level has a delay of 4 hours, the second of 8 hours, etc. If we answer wrong on even one of the two questions (meaning or reading) asked by the SRS next time, our item will go one level back (in our example, back to level 1) with a delay of 4 hours until the next review. See how it works?
+
+Of course, when you have multiple SRS items, each of them is handled individually. They each have their current SRS level and next review date.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How do I add Kanji to my SRS items list?</Title>
+        <Content>There are two types of SRS items: Kanji and Vocab.
+To add a Kanji to your SRS item list, you need to open its Kanji Details page. To do that, you have to search for it either in the Kanji Tab or in a dictionary word from the Vocab Tab. To get detailed information about how to do this, please refer to the "Searching for Kanji..." and "Searching for Vocab..." help sections.
+
+Once you open the Kanji Details page, you'll notice a "Add to my list" button located near the top-right corner of the Kanji Details page, below the Kanji meanings. Click this button to open the SRS item window.
+When you use this method, the required fields of the SRS item window are already filled. You may still want to edit them and add additional information, like notes and tags. To learn more about this, please see the "How do I use the SRS item window?" question below, in this help section.
+
+When you save your SRS item, you will see a control showing the progress of the SRS item you just added, in place of the "Add to my list" button.
+
+Remark: An alternative way to add a Kanji to your SRS items list is to use the "Add Kanji item" button located in the SRS Tab, on the bottom of the page. If you decide to go for this method, though, you will have to manually input the Kanji character, readings and meanings in the SRS item window.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How do I add Vocab (words) to my SRS items list?</Title>
+        <Content>There are two types of SRS items: Kanji and Vocab.
+To add a Vocab SRS item to your list, you need to find the word in a Vocab list, either in a Kanji Details page of the Kanji Tab, or in the Vocab Tab. To learn how to search for Vocab, please see the "Searching for Vocab..." help section.
+
+Once you located your word in the results of a Vocab list, click the "Add to my list" button below the kana reading column, and the SRS item window will show up.
+When you use this method, the fields of the SRS item window are already filled. You may still want to edit them and add additional information, like notes and tags. To learn how to do this, please see the "How do I use the SRS item window?" question below, in this help section.
+
+When you save your SRS item, you will see a control showing the progress of the SRS item matching the Vocab you just added, in place of the "Add to my list" button.
+
+Remark: An alternative way to add a Vocab item to your SRS items list is to use the "Add vocab item" button located in the SRS Tab, on the bottom of the page. If you decide to go for this method, though, you will have to manually input the word and its meanings and readings in the SRS item window.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How do I use the SRS item window?</Title>
+        <Content>Whether you are adding or modifying a Kanji or a Vocab SRS item, you need to use the SRS item window.
+This window allows you to setup how you want to learn your Kanji or word. In this section, you will learn how to use the different fields and controls available on the window.
+We will describe each control and how to use it, from top to bottom and left to right.
+
+• The Vocab/Kanji representation field •
+Located on the top-left corner of the window, this field allows you to modify how the Vocab or Kanji appears during reviews. It shouldn't be modified for Kanji because they are always represented only by their character of course, but you may have to use this field to modify Vocab if you want to learn the kana readings of words instead of the Kanji reading, for example.
+There is a down arrow button located on the right of the field. If you click this button, Houhou will search for the Kanji or Vocab you typed in the field, and try to fill the meaning and reading fields with the information found on the dictionary. You probably shouldn't have to use this too often.
+
+• The Review Status controls •
+The Review Status controls are located on the top-right corner of the window and are composed of three controls:
+  • The Next review date indicator tells you when you will have to review the SRS item you are adding or modifying. Leave your mouse pointer over the text to see the exact date.
+  • The "Suspend" or "Resume" button allows you to pause the SRS item and to resume it later. When an item is suspended, its next review delay is frozen and it will not show up in reviews as long as it has not been resumed.
+  • The Review ratio bar shows you how well you performed during reviews for the SRS items you are modifying. If you are adding an item, or if you are modifying an item that hasn't been reviewed yet, it will show you nothing more than "Not reviewed yet".
+
+• The SRS level picker •
+Located under both of the previous controls, the SRS level picker allows you to define the current level of the item you are adding or modifying. Simply click a level to pick it for your item.
+Changing the level of an item modifies its next review date according to the delay defined for the selected level.
+
+• The Accepted Meanings field •
+On the left part under the level picker is the Accepted Meanings field. This field contains all meanings that will be considered correct during reviews. You have to separate the different meanings using a comma.
+Example: if you enter "my first meaning, my second meaning,third meaning" in the accepted meanings field, the review system will accept any of the three possible answers: "my first meaning", "my second meaning" and "third meaning".
+This field is required for the SRS review system to work.
+
+• The Accepted Readings field •
+On the right part under the level picker is the Accepted Readings field. Much like the Accepted Meanings field, this one defines which readings will be considered correct during reviews. Just input the accepted readings separated by a comma.
+Example: "ひん, びん" will accept any of the two possible answers: "ひん" and "びん".
+This field is also required for the SRS review system to work.
+
+• The Meaning notes field •
+The Meaning notes field is an optional field that allows you to write notes about the meaning of a Kanji or a Vocab SRS item. These notes will be shown whenever you answer the meaning question during reviews and may help you to remember the item, provide examples, context information, or anything you want.
+If you are confused about this field or would like advices, see the "What should I put in the Meaning and Reading notes fields of the SRS item window?" question below.
+
+• The Reading notes field •
+The Reading notes field is an optional field that allows you to write notes about the reading of a Kanji or a Vocab SRS item. These notes will be shown whenever you answer the reading question during reviews. It works just like the Meaning notes field. If you are confused about this field or would like advices, see the "What should I put in the Meaning and Reading notes fields of the SRS item window?" question below.
+
+• The Tags field •
+The Tags field is an optional field located near the bottom of the window. Tags, like meanings and readings, must be separated by a comma. They are used for filtering purposes on the SRS Browsing page. You shouldn't neglect them as they could turn out useful when you want to modify or review statistics about a specific portion of your items.
+If you are confused or would like advices on how to use that field, please refer to the "What should I put in the Tags field of the SRS item window?" question below.
+Remark: the Tags field memorizes the last thing you wrote in it and will automatically re-use this value next time you want to add a new SRS item window.
+
+• The command buttons •
+At the bottom of the window, you will see a couple of command buttons used to for different purposes.
+  • The "Cancel changes" button will close the window without adding or modifying any SRS item.
+  • The "Delete this item" button appears when you are modifying an existing SRS item. It is used to permanently remove the item from your list. A confirmation will be issued, so don't be afraid of hitting it by mistake.
+  • The "Add this item" button appears when you want to add an SRS item to your list. It is used to save everything you entered in the different fields as an SRS item and to add it to your list.
+  • The "Save changes" button appears when you are modifying an existing SRS item. It is used to save the new values of your SRS item.
+</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>What should I put in the Meaning and Reading notes fields of the SRS item window?</Title>
+        <Content>The Meaning notes and Reading notes fields of the SRS item window are both optional. Their content will be shown respectively when you answer to the meaning and reading questions during reviews.
+As such, it may be useful to write some text that will comfort your memory and/or provide useful notes about the context of utilization of a Kanji or especially a word.
+For Kanji items, a good idea is to write mnemonics linking the Radicals composing the Kanji to its meanings and readings. Maybe write a little story involving the different Radicals that you call by names, and that you link somehow to the meanings you want to remember. Then do the same for the readings. Simply writing these mnemonics really helps a lot to remember.
+
+In the end, it's up to you to decide what you want to write in these notes fields (or if you don't want to write at all). If you're not sure, experiment and see what works!</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>What should I put in the Tags field of the SRS item window?</Title>
+        <Content>The Tags field of the SRS item window is completely optional. Tags are separated by a comma and are used for filtering purposes in the SRS browsing page of the SRS Tab. If you want to be able to keep track of what you are learning though, it is recommended to use them.
+An idea would be to use it as a way to keep track of what activity got you to add this particular Kanji or word to your SRS items list. For example, maybe you are learning Japanese vocab through different media (TV shows, music, manga, video games, ...) and you want to keep track of which of these got you to learn a particular word or Kanji. Why not use the Tags field for that? Then if you want to know how many words you learned through video games, you can use your "video games" tag. You can even use another Tag for a specific video game title, like this: "video games, pokémon". This way you can still see how many words you learned through all of your video games, but also how many of these were learned from the specific title Pokémon.
+
+This is only an example, of course, and you are free to do whatever you want with Tags.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How do reviews work?</Title>
+        <Content>When you have available reviews, click the "Start reviewing" button on the dashboard of the SRS tab to begin a review session.
+The SRS Tab page will switch to the review page. In this page, you will be presented with your SRS items that are available for review randomly and asked for a reading or a meaning until you get all questions for all of the available reviews right.
+
+On that screen, from the top to the bottom, you can see:
+• The "Close review session" button that allows you to return to the Dashboard at any time;
+• A thin progress bar with a remaining review count indicator on the right, that allow you to see where you stand in the review session;
+• The item presentation panel that takes most of the top part of the page and that displays the SRS item currently being reviewed. The background is purple when you are reviewing a Vocab item, or blue for a Kanji;
+• The question bar, which is either white text on black background for a reading question, or black text on a white background for a meaning question;
+• The input field, where you type your answer;
+• The bottom part, which displays SRS item information and action buttons once you answer a question.
+
+The question asked is written on the question bar. You have to answer that question in the input field just below.
+• If the question is about a meaning, you have to remember and enter one of the accepted meanings that you have set for the presented SRS item.
+• If the question is about a reading, you have to remember and enter one of the accepted readings that you have set for the presented SRS item.
+Remark: When typing a reading, your text will automatically be converted to kana. For more information about this, please refer to the "Using the kana input fields..." help section.
+
+Once you are satisfied with your answer, hit the enter key. Your answer will be submitted and Houhou will evaluate if it is a right answer, by comparing what you entered with the accepted meanings or readings of the presented SRS item.
+• When your answer is correct, the input field appears in pale green. The meaning questions are evaluated with a lenience system. This means that even if you make slight mistakes in your answer, it might still count as correct (and your answer will be fixed in the input field). This does not work for the reading questions, though.
+• When your answer is incorrect, the input field appears in pale red.
+In both cases, the SRS item information (accepted answers and notes) appear below the input field, in the bottom part, along with some action buttons.
+
+Let's review the different buttons that you can use during reviews:
+• The "Ignore answer" button is used to skip your answer and put the question back in the pool. Use it when your answer was incorrectly deemed correct because of the meaning lenience, or when you answered something wrong but knew the correct answer. Of course, be honest with yourself. Did you really know the answer, for real? Misusing this button will only hurt your memory!
+• The "Add to meanings" or "Add to readings" button appears when you submit a wrong answer. Clicking the button will add the answer you typed to the list of accepted meanings or readings, depending on the nature of the questions. Additionally, your answer will be counted as correct. Again, misusing this feature will only hurt your memory. Plus, it would put wrong answers in the list of accepted answers. Use it only when you know your answer is a correct alternative!
+• The "Edit this item" button allows you to open the SRS item window and modify the item that you are currently reviewing. If you want to adjust the item, modify your notes, or anything, use this button. If the item is no longer due for review after you save it, it will be removed from the review session and another question will be picked.
+
+Once your answer is confirmed (correct or incorrect), you will want to continue to a next random question. To do that, just press the Enter key again from the input field. Your submitted answer will be cleared and a new question should appear.
+Remark: Because the question selection is randomly selected, it is possible that you get the same item to review multiple times in a row until you get both its reading and meaning right.
+
+Once you answer right on both the reading and meaning questions of a same SRS item, you will notice a small level indicator on the bottom-left corner of the item presentation panel (just over the question bar).
+This indicator shows you how the level of your SRS item evolved. The level may either:
+• Rise if you got both questions right without failing once;
+• Fall if you got at least one question wrong;
+• Stay the same if you got at least one question wrong but the level of your item cannot go down because it's already at the first level.
+These modifications are shown by a sign, respectively "+", "-" or "=", next to the new level of your SRS item.
+The next review of the SRS item will be postponed with a delay defined by its new level.
+
+When you are done with all your reviews, the review page will close automatically and you will be taken back to the Dashboard.
+Remark: New reviews may have accumulated while you were doing your reviews. In that case, you will have to start a new review session by clicking the review button again.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>Why is everything mixed up during reviews?</Title>
+        <Content>If you are not familiar with the SRS system, you may think that randomly selecting reading or meaning questions from a random SRS item is a bit chaotic. And it is. But there are reasons for that. This disorder helps your brain in several ways.
+
+• First, it forces you to re-evaluate each time what is it you are asked for. This may only seem annoying, but it's a great deal to keep you awake and active.
+• Second, it allows your memory to separate information from multiple items, instead of learning them as a list. Usually, you will struggle with learning numbers, months, and things like this because you learn them in order. You won't be able to remember "4" before going through "1", "2" and "3". Learning things in a chaotic order removes this issue.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How can I browse my current SRS items?</Title>
+        <Content>To get to the SRS items browsing page, go to the SRS Tab and click the "Browse SRS items" button on the bottom of the page.
+To browse all of your current SRS items, click the "Browse all items" button.
+
+If you want to browse a specific portion of your items, you can use the filters on the top of the page. Let's review them:
+• The meaning filter is used to filter SRS items containing a specified text as an accepted meaning.
+• The reading filter is used to filter SRS items containing a specified kana text as an accepted reading. The text you enter in this field will be automatically converted to kana. To learn more about this, please refer to the "Using the kana input fields..." help section.
+• The tag filter is used to filter SRS items containing the specified tag.
+• The two checkboxes on the right are used to filter on Kanji SRS items or Vocab SRS items specifically. Just uncheck one of the two boxes if you want only Kanji items or only Vocab items.
+• The SRS level filter just below all the other filters is used to filter SRS items by level. Select a comparison operator using the drop down list on the left, and select a level. For example, if you select the "&lt;" operator, every SRS item that has a level strictly inferior to the selected one will appear. The default value is set to "≥" the first SRS level and will therefore match all items.
+
+When you use a filter or click the "Browse all items" button, the list starts loading the matching SRS items.
+Remark: Depending on the number of items to load, the operation might take a while. This will probably be improved in future updates.
+
+Once items are loaded, and if there are results, the list splits in two parts. The actual SRS item list, and the Edition panel on the right.
+You can select any number of items by clicking their row on the list, or using the "Select all" button of the Edition panel.
+When you do that, the Edition panel will react and display statistics about the currently selected items, and allow you to edit the current selection.
+To learn how to edit multiple SRS items at the same time ("bulk edition"), please refer to the "How can I edit multiple SRS items at the same time?" question below, in this help section.
+
+Of course, you can still edit each individual item by clicking its "Edit" button on the right edge of the row. This button will bring up the SRS item window and allow you to modify whatever property you want.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How can I suspend/resume items?</Title>
+        <Content>To pause an SRS item, find it either on the Kanji Tab, on the Vocab Tab or on the Item Browsing page of the SRS Tab, click the "Edit" button, and, in the SRS item window, click the "Suspend" button on the top of the window. Then click the "Save changes" button on the bottom of the window to confirm.
+To resume suspended items, use the same process. Instead of the "Suspend" button, you will find a similar "Resume" button.
+
+Upon resuming an item, the delay before the next review will be the same as when you originally suspended it.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How can I delete items?</Title>
+        <Content>To permanently delete an SRS item, find it either on the Kanji Tab, on the Vocab Tab or on the Item Browsing page of the SRS Tab, click the "Edit" button, and, in the SRS item window, click the "Delete this item" button on the bottom of the window.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How can I edit multiple SRS items at the same time?</Title>
+        <Content>First of all, select all of the SRS items you want to edit in the SRS items browsing page. To learn how to do that, please refer to the "How can I browse my current SRS items?" question above, in this help section.
+
+Once your items are selected, you will notice that the Edition panel displays a set of action buttons, each of them allowing you to edit a specific field for all your items at the same time.
+They are very simple to use. Just click the button and a form will appear. Enter or select the new value, and confirm.
+
+A confirmation message telling you how many items were effectively modified will appear. Click the "Refresh the list" button to reload the list.</Content>
+      </HelpInfo>
+    </Content>
+  </HelpCategory>
+  <HelpCategory>
+    <Title>Using the kana input fields...</Title>
+    <Content>
+      <HelpInfo>
+        <Title>What are kana input fields?</Title>
+        <Content>The term "Kana input field" describes fields that automatically transform what you type to kana (hiragana and katakana). For example, if you type "kana", the field will transform it in real time to display "かな", which is the hiragana for "kana".
+Those fields are handy when it comes to entering Kanji or word readings. If you want to try it out, try to search for a reading in the Vocab Tab.
+
+Remark: you can still use a Japanese IME to directly input kana in the kana input fields.</Content>
+      </HelpInfo>
+      <HelpInfo>
+        <Title>How do I write hiragana using a kana input field?</Title>
+        <Content>To convert what you type to hiragana, simply write lower-case letters like this: "kana" and not like this: "KANA". Your input will be converted to hiragana in real-time.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How do I write katakana using a kana input field?</Title>
+        <Content>To convert what you type to katakana, simply write upper-case letters like this: "KANA" and not like this: "kana". Your input will be converted to katakana in real-time.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How do I write the づ or ヅ character using a kana input field?</Title>
+        <Content>Just write "du" or "dzu" to get the づ character. Enter "DU" or "DZU" in all caps to get the ヅ character.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How do I write the small っ or ッ characters using a kana input field?</Title>
+        <Content>Write a double consonant. For example, to get "みっつ", write "mittsu". To get "ミッツ" (katakana), write "MITTSU" in all caps. If you only want the っ or the ッ, write "xtsu" or "XTSU".</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How do I write the small ぁ, ぇ, ... characters using a kana input field?</Title>
+        <Content>Much like a Japanese IME, you have to type "xa" to get a small "a" (ぁ). Same goes for "xe" (ぇ), "xu" (ぅ), etc.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How do I write the ー long vowel character using a kana input field?</Title>
+        <Content>Simply write a - (minus character). It will be transformed to ー.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How do I write non-kana text in a kana input field?</Title>
+        <Content>Sorry, you cannot do that for now. This feature will probably get added in a future update.</Content>
+      </HelpInfo>
+    </Content>
+  </HelpCategory>
+  <HelpCategory>
+    <Title>Changing Settings...</Title>
+    <Content>
+      <HelpInfo>
+        <Title>What are the Application Settings?</Title>
+        <Content>The Application Settings are relevant to the entire application and its behavior.
+These settings include:
+• Update checker: Checks for Houhou updates. When an update is available, directs you to the download page when you click the Update button. By default, Houhou checks for updates soon after being launched. If you do not want to automatically check for updates, you are free to uncheck the box. You will still be able to check for updates by clicking the "Check for updates" button.
+• Start Page setting: use the drop down list to select the page that you want to start with when you start Houhou.
+• Tray Application settings: use these controls to define how you want the Houhou SRS Tray application to behave. Keep your mouse over the options boxes and a tooltip explaining them in further details will appear.</Content>
+      </HelpInfo>
+      <HelpInfo>
+        <Title>What are the Vocab Settings?</Title>
+        <Content>The Vocab Settings are relevant to the Vocab features of Houhou.
+These settings include:
+Nothing at the moment, but new settings are coming soon.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>What are the Kanji Settings?</Title>
+        <Content>The Kanji Settings are relevant to the Kanji features of Houhou.
+These settings include:
+• The Radical set selector, which allows you to change the Radicals displayed on the Kanji Tab and used for filtering. For more information on that, please refer to the "Radical sets and SRS level sets..." help section.
+Other settings are coming soon.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>What are the SRS Settings?</Title>
+        <Content>The SRS Settings are relevant to the SRS features of Houhou.
+These settings include:
+• The SRS level set selector, which allows you to customize the SRS levels used by the SRS system. For more information on that, please refer to the "Radical sets and SRS level sets..." help section.
+Other settings are coming soon.</Content>
+      </HelpInfo>
+    </Content>
+  </HelpCategory>
+  <HelpCategory>
+    <Title>Radical sets and SRS level sets...</Title>
+    <Content>
+      <HelpInfo>
+        <Title>What exactly are Radical sets and how do I use them?</Title>
+        <Content>A Radical set defines the Radicals that appear in the Kanji Tab and that are used for filtering purposes. All of these Radicals are customizable. You can change their name, representation, and even group several radicals together.
+
+A Radical set is just a definition file that lists all Radicals that you can use and what they represent. Because everyone did not learn Radicals the same way, you may want to rename or regroup certain radicals to allow for easier Kanji search. This features makes it possible.
+
+Several Radical sets are included by default. To change the active set, go to the Settings Tab, in the "Kanji" sub-category. You will see a listing of all available sets. Just click the "Use this set" button to mark a set as active. Of course, you can have only one active set at a time.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How can I create my own Radical set or modify an existing set?</Title>
+        <Content>Before you start digging into this, there is something important you need to understand.
+The Kanji database contains info on 253 Arbitrary Radicals, and all Kanji in which they appear. These Arbitrary Radicals are the base of all Radicals you can create in a Radical set. Because of this, you will not be able to completely create your own Radicals. You cannot just say "This radical appears in Kanji X, Y, Z". That would be too much work anyway. So, instead, your Radicals are linked to one or more Arbitrary Radicals.
+
+However, what you can do is rename the Arbitrary Radicals, regroup them under a single entity by two different means, and remove Arbitrary Radicals that you don't want to include in your set (some of them are indeed pretty much useless).
+The two methods for regrouping Arbitrary Radicals are the following:
+• The "OR" link: Some Radicals, for example 口 and 囗, are confusingly similar. In this situation, you may want to regroup them under a "OR" link. This would mean that selecting this Radical would filter on Kanji containing at least one of these Arbitrary Radicals. One or the other (or both).
+• The "AND" link: Let's say that for some reason, you keep finding Kanji that contain the same 召 pattern. 招, 沼, 紹, 昭, etc. However, 召 is not an Arbitrary Radical. But it can be described as the sum of 口 and 刀, which both are Arbitrary Radicals. In this situation, you may want to create a Radical that links both of these two under the same Radical representation. Selecting this Radical would filter on Kanji containing BOTH 口 and 刀. This link has a serious drawback though, because you cannot specify the arrangement of the symbols. As such, this example Radical would match all of the previously enumerated Kanji, but also 叨, 喫, etc.
+
+• Technical informations while there is not graphic editor •
+In the future, there will be a graphic editor for Radical sets. For now, you will have to deal with XML files.
+Radical sets are composed of a folder, containing a mandatory "info.xml" file describing the metadata of the set (name, author, description, etc), and a "radicals.xml" file describing the Radicals themselves. The folder may contain additional image files used to represent Radicals.
+These folders are located in your user "Documents" directory. You can access the folder of a set by clicking the "Browse" button from the set selector in the Settings Tab.
+As long as there is a valid "info.xml" file in the folder, your set will be listed on the Settings Page. However, if the radical file is invalid, something may go wrong. The expected behavior is to fallback on the default set. Parsing errors may or may not be found in the log file stored under your user AppData/Local/Houhou/Logs folder.
+Anyway, just copy an existing Radical set folder, modify its content and see how it works! This really isn't too hard. You don't have to be an IT expert or whatever.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>What exactly are SRS level sets and how do I use them?</Title>
+        <Content>An SRS level set defines the level scale of your SRS items, and defines the review interval between these levels. You can see a representation of your SRS level set on the Dashboard of the SRS Tab. You may want to change it if you find that the SRS gives you too much or too few work, isn't effective for you, or if you just want to change the name or the color of your SRS levels.
+
+An SRS level set is just a definition file that lists all levels and groups them together.
+
+Several SRS level sets are included by default. To change the active set, go to the Settings Tab, in the "SRS" sub-category. You will see a listing of all available sets. Just click the "Use this set" button to mark a set as active. Of course, you can have only one active set at a time. Don't forget to save your settings and to restart Houhou to see the effects of the change.
+
+Be careful when changing your SRS level set if you already have SRS items. If you select a set that contains less levels than the previous one, items above the level count of the new SRS level set will not be able to follow the new scale and could be marked as never returning after the next review.
+This is a bit confusing, so let's take an example:
+I have a set containing three levels. Let's name them A, B, C. I have one item at each level.
+I switch to a set containing two levels. Let's name them A2 and B2. My item at level A is now level A2. My item at level B is now level B2. But my item that was previously at level C has no matching level. Nevertheless, I will be able to review it once more, because items keep their next review date. But if my answer is correct, the item is supposed to level up. Having no matching level, the item will just say "I will never come back for reviews".
+Don't worry too much though, these items will never be lost. You will be able to reset them at whatever level you want using the Browse screen of the SRS Tab. For more information on how to do this, please refer to the appropriate question of the "Using Houhou..." help section.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How can I create my own SRS level set or modify an existing set?</Title>
+        <Content>• Technical informations while there is not graphic editor •
+In the future, there will be a graphic editor for SRS level sets. For now, you will have to deal with the XML files.
+SRS level sets are composed of a folder, containing a mandatory "info.xml" file describing the metadata of the set (name, author, description, etc), and a "levels.xml" file describing the levels themselves.
+These folders are located in your user "Documents" directory. You can access the folder of a set by clicking the "Browse" button from the set selector in the Settings Tab.
+As long as there is a valid "info.xml" file in the folder, your set will be listed on the Settings Page. However, if the levels file is invalid, the expected behavior is to fallback on the default set. Parsing errors may or may not be found in the log file stored under your user AppData/Local/Houhou/Logs folder.
+Anyway, just copy an existing SRS level set folder, modify its content and see how it works! This really isn't too hard. You don't have to be an IT expert or whatever.</Content>
+      </HelpInfo>
+    </Content>
+  </HelpCategory>
+  <HelpCategory>
+	<Title>About the dictionary...</Title>
+	<Content>
+      <HelpInfo>
+        <Title>What dictionary does Houhou use?</Title>
+        <Content>Houhou uses a collection of open resources to build its dictionary file.
+
+Here are the reference resources in details:
+• The Kanji information comes from the KANJIDIC2 project, by the Electronic Dictionary Research and Development Group.
+• The Radical by Kanji information comes from the RADKFILE, still by the Electronic Dictionary Research and Development Group.
+• The word dictionary information comes from the JMDICT, again by the Electronic Dictionary Research and Development Group.
+
+All these resources are available under a Creative Commons Attribution-ShareAlike License. You can find more information on their website, edrdg.org.
+
+These resources are also used by a number of dictionary applications, such as the online dictionary Jisho.org. This is why you will get about the same results using one or another of the applications.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>I want to improve the word dictionary!</Title>
+        <Content>Fortunately, the JMdict is an open, contributive project. Visit the link below if you think you can help.
+http://www.edrdg.org/jmdictdb/
+
+Please note, however, that Houhou may not use the last version of the JMdict. Updates will not be applied in real-time to Houhou's dictionary.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>How is the Kanji frequency ranking calculated?</Title>
+        <Content>The Kanji frequency ranking information is found in the KANJIDIC2 resource, and is based on a survey using a collection of newspapers.
+Of course, this frequency ranking will not be very accurate if you read through a video game for example. But it is there to give you an idea of how useful a Kanji will be in a general context.</Content>
+      </HelpInfo>
+    </Content>
+  </HelpCategory>  
+  <HelpCategory>
+	<Title>About Houhou...</Title>
+	<Content>
+      <HelpInfo>
+        <Title>Who created Houhou?</Title>
+        <Content>I am Doublevil. Fear my power. Here is my personal biography:
+
+Doublevil is a guy born in 1992 in a small country called France. Then he grew up and studied IT. And also created Houhou. FIN.
+PS: That person is also able to beat you at any popular Nintendo games.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>Why the name "Houhou"?</Title>
+        <Content>Because the owl said so.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>The logo is ugly!</Title>
+        <Content>Yeah well it's not like I'm a designer or anything. If you can draw a better one, go ahead! Just keep it owl-y.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>I don't think the logo is THAT ugly!</Title>
+        <Content>THANK YOU!</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>Why should I give you money?</Title>
+        <Content>Because the owl said so.
+Seriously though, I spend time on Houhou and, while I am obviously not doing it for money, it is always awesome to be rewarded by people who like what you are doing. So, if you enjoy Houhou, want to support the project (updating takes time too!) or just reward me, be awesome and buy me a drink! Even if it's just $1, it's cool!
+If that was not enough to convince you, there's also the matter of the servers hosting the website, that come with a price that I have to pay. There. Convinced?</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>Houhou lacks something</Title>
+        <Content>Please let me know what! I want to improve Houhou as much as you do.
+Even if you think your request is kind of personal, don't hesitate, it's free!
+
+Also, if you know C#, you might want to check the Git repository and improve it yourself. It's all open!</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>Bug and crash reports</Title>
+        <Content>If you find a bug, be sure to let me know. We'll work on fixing the issue.
+
+Alternatively, if you know C#, you might want to check the Git repository and try to fix the issue yourself. That would be awesome, in fact.</Content>
+      </HelpInfo>
+    </Content>
+  </HelpCategory>
+  <HelpCategory>
+    <Title>Efficiency tips...</Title>
+    <Content>
+      <HelpInfo>
+        <Title>Use the Kanji by Radicals search efficiently</Title>
+        <Content>Searching for Kanji by Radicals can be pretty tiring and inefficient if you are browsing and selecting Radicals with your eyes and mouse. The most efficient solution is to use your keyboard.
+As you probably noticed, Radicals are given a name. The filter located to the bottom of the Radicals list allows you to filter Radicals by name.
+Start typing the name of the Radical you are looking for, and you will see the list reduce its content to only Radicals that match the filter. Once there is only one result left in the list, don't lose time and use your mouse, just press Enter. This will select the radical and clear the filter. Then you can proceed with another Radical, or browse the Kanji result list if you are done.
+
+If you know the names of your Radicals well, this method is really efficient and it should usually take you less than five seconds to find a Kanji.
+If you don't like the names of your Radicals, why not change them? See the "Radical sets and SRS level sets..." help section.</Content>
+      </HelpInfo>
+	  <HelpInfo>
+        <Title>Filter fields clear shortcut</Title>
+        <Content>Most of the filter fields have the ability to clear when you press the mouse middle button while hovering the field. You can use this "shortcut" to quickly start a new filter search.</Content>
+      </HelpInfo>
+    </Content>
+  </HelpCategory>
+</ArrayOfHelpCategory>

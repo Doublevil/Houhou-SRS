@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="Kanji.Interface.Views.SrsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+      xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WPF4"
+      xmlns:utilities="clr-namespace:Kanji.Interface.Utilities"
+      xmlns:controls="clr-namespace:Kanji.Interface.Controls"
+      xmlns:business="clr-namespace:Kanji.Interface.Business"
+      xmlns:converters="clr-namespace:Kanji.Interface.Converters"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="600">
+
+    <DockPanel>
+        <controls:NavigationBar DockPanel.Dock="Top" />
+        <Border Style="{StaticResource SrsPageSeparator}" DockPanel.Dock="Top" />
+        <Border Style="{StaticResource SrsPageBorder}">
+            <Grid>
+                <Grid>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <!-- Hide the grid when there is an SRS Reviews session running. -->
+                                <DataTrigger Binding="{Binding Visibility, ElementName=ReviewControl}" Value="Visible">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="85" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <!-- Top controls:
+                    the review count display with the "Start review" button,
+                    and the review stats display. -->
+                    <Grid Visibility="{Binding ControlMode,
+                        Converter={StaticResource ValueToVisibilityConverter},
+                        ConverterParameter=Dashboard}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <controls:DashboardReviewCountControl />
+                        <controls:DashboardReviewStatsControl Grid.Column="1" />
+                    </Grid>
+                    
+                    <!-- Below that, the item count per level group listbox, visible only in Dashboard mode -->
+                    <ListBox Grid.Row="1" Style="{StaticResource ItemsPerLevelGroupListbox}"
+                        Margin="0 5 0 0" Visibility="{Binding ControlMode,
+                        Converter={StaticResource ValueToVisibilityConverter},
+                        ConverterParameter=Dashboard}"/>
+                    
+                    <!-- The filter panel, visible in SimpleFilter mode -->
+                    <Grid Grid.Row="0" Grid.RowSpan="3" Visibility="{Binding ControlMode,
+                        Converter={StaticResource ValueToVisibilityConverter},
+                        ConverterParameter=SimpleFilter}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <controls:SrsEntryFilterControl DataContext="{Binding FilterVm}" />
+                        <controls:SrsEntryList Grid.Row="1" DataContext="{Binding ListVm}" />
+                    </Grid>
+                    
+                    <!-- Navigation control as a footer, always visible -->
+                    <controls:SrsPageNavigationControl Grid.Row="3" />
+                </Grid>
+
+                <!-- SRS Review control taking the whole space when the review session is started -->
+                <controls:SrsReviewControl x:Name="ReviewControl" DataContext="{Binding ReviewVm}" />
+            </Grid>
+        </Border>
+    </DockPanel>
+</UserControl>

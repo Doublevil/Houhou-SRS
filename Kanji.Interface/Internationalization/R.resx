@@ -1,0 +1,546 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="VocabCat_Abbreviation" xml:space="preserve">
+    <value>Abbreviation</value>
+  </data>
+  <data name="VocabCat_Adjective" xml:space="preserve">
+    <value>Adjective</value>
+  </data>
+  <data name="VocabCat_Adverb" xml:space="preserve">
+    <value>Adverb</value>
+  </data>
+  <data name="VocabCat_AdverbialNoun" xml:space="preserve">
+    <value>Adverbial noun</value>
+  </data>
+  <data name="VocabCat_Anatomy" xml:space="preserve">
+    <value>Anatomical term</value>
+  </data>
+  <data name="VocabCat_ArchaicVerb" xml:space="preserve">
+    <value>Archaic verb</value>
+  </data>
+  <data name="VocabCat_Archaism" xml:space="preserve">
+    <value>Archaism</value>
+  </data>
+  <data name="VocabCat_Architecture" xml:space="preserve">
+    <value>Architecture term</value>
+  </data>
+  <data name="VocabCat_Astronomy" xml:space="preserve">
+    <value>Astronomy term</value>
+  </data>
+  <data name="VocabCat_Ateji" xml:space="preserve">
+    <value>Phonetic</value>
+  </data>
+  <data name="VocabCat_Auxiliary" xml:space="preserve">
+    <value>Auxiliary</value>
+  </data>
+  <data name="VocabCat_AuxiliaryAdjective" xml:space="preserve">
+    <value>Auxiliary adjective</value>
+  </data>
+  <data name="VocabCat_AuxiliaryVerb" xml:space="preserve">
+    <value>Auxiliary verb</value>
+  </data>
+  <data name="VocabCat_Baseball" xml:space="preserve">
+    <value>Baseball term</value>
+  </data>
+  <data name="VocabCat_Biology" xml:space="preserve">
+    <value>Biology term</value>
+  </data>
+  <data name="VocabCat_Botany" xml:space="preserve">
+    <value>Botany term</value>
+  </data>
+  <data name="VocabCat_BuddhistTerm" xml:space="preserve">
+    <value>Buddhist term</value>
+  </data>
+  <data name="VocabCat_Business" xml:space="preserve">
+    <value>Business term</value>
+  </data>
+  <data name="VocabCat_Chemistry" xml:space="preserve">
+    <value>Chemistry term</value>
+  </data>
+  <data name="VocabCat_Children" xml:space="preserve">
+    <value>Children's language</value>
+  </data>
+  <data name="VocabCat_Colloquialism" xml:space="preserve">
+    <value>Colloquialism</value>
+  </data>
+  <data name="VocabCat_ComputerTerminology" xml:space="preserve">
+    <value>Computer term</value>
+  </data>
+  <data name="VocabCat_Conjunction" xml:space="preserve">
+    <value>Conjunction</value>
+  </data>
+  <data name="VocabCat_Counter" xml:space="preserve">
+    <value>Counter</value>
+  </data>
+  <data name="VocabCat_Derogatory" xml:space="preserve">
+    <value>Derogative</value>
+  </data>
+  <data name="VocabCat_Economy" xml:space="preserve">
+    <value>Economics term</value>
+  </data>
+  <data name="VocabCat_Engineering" xml:space="preserve">
+    <value>Engineering term</value>
+  </data>
+  <data name="VocabCat_ExclusivelyKana" xml:space="preserve">
+    <value>Exclusively kana</value>
+  </data>
+  <data name="VocabCat_ExclusivelyKanji" xml:space="preserve">
+    <value>Exclusively kanji</value>
+  </data>
+  <data name="VocabCat_Expression" xml:space="preserve">
+    <value>Expression</value>
+  </data>
+  <data name="VocabCat_Familiar" xml:space="preserve">
+    <value>Familiar</value>
+  </data>
+  <data name="VocabCat_Female" xml:space="preserve">
+    <value>Female term</value>
+  </data>
+  <data name="VocabCat_Finance" xml:space="preserve">
+    <value>Finance term</value>
+  </data>
+  <data name="VocabCat_Food" xml:space="preserve">
+    <value>Food term</value>
+  </data>
+  <data name="VocabCat_Geology" xml:space="preserve">
+    <value>Geology term</value>
+  </data>
+  <data name="VocabCat_Geometry" xml:space="preserve">
+    <value>Geometry term</value>
+  </data>
+  <data name="VocabCat_Gikun" xml:space="preserve">
+    <value>Special reading</value>
+  </data>
+  <data name="VocabCat_GodanVerb" xml:space="preserve">
+    <value>Godan verb</value>
+  </data>
+  <data name="VocabCat_GodanVerbAru" xml:space="preserve">
+    <value>-aru godan verb</value>
+  </data>
+  <data name="VocabCat_GodanVerbBu" xml:space="preserve">
+    <value>-bu godan verb</value>
+  </data>
+  <data name="VocabCat_GodanVerbGu" xml:space="preserve">
+    <value>-gu godan verb</value>
+  </data>
+  <data name="VocabCat_GodanVerbIku" xml:space="preserve">
+    <value>-iku godan verb</value>
+  </data>
+  <data name="VocabCat_GodanVerbKu" xml:space="preserve">
+    <value>-ku godan verb</value>
+  </data>
+  <data name="VocabCat_GodanVerbMu" xml:space="preserve">
+    <value>-mu godan verb</value>
+  </data>
+  <data name="VocabCat_GodanVerbNu" xml:space="preserve">
+    <value>-nu godan verb</value>
+  </data>
+  <data name="VocabCat_GodanVerbRu" xml:space="preserve">
+    <value>-ru godan verb</value>
+  </data>
+  <data name="VocabCat_GodanVerbRuIrregular" xml:space="preserve">
+    <value>Irr. -ru godan verb</value>
+  </data>
+  <data name="VocabCat_GodanVerbSu" xml:space="preserve">
+    <value>-su godan verb</value>
+  </data>
+  <data name="VocabCat_GodanVerbTsu" xml:space="preserve">
+    <value>-tsu godan verb</value>
+  </data>
+  <data name="VocabCat_GodanVerbU" xml:space="preserve">
+    <value>-u godan verb</value>
+  </data>
+  <data name="VocabCat_GodanVerbUIrregular" xml:space="preserve">
+    <value>Irr. -u godan verb</value>
+  </data>
+  <data name="VocabCat_GodanVerbUru" xml:space="preserve">
+    <value>-uru godan verb</value>
+  </data>
+  <data name="VocabCat_HokkaidoBen" xml:space="preserve">
+    <value>Hokkaido-ben</value>
+  </data>
+  <data name="VocabCat_Honorific" xml:space="preserve">
+    <value>Honorific</value>
+  </data>
+  <data name="VocabCat_Humble" xml:space="preserve">
+    <value>Humble</value>
+  </data>
+  <data name="VocabCat_IAdjective" xml:space="preserve">
+    <value>-i adjective</value>
+  </data>
+  <data name="VocabCat_IchidanVerb" xml:space="preserve">
+    <value>Ichidan verb</value>
+  </data>
+  <data name="VocabCat_IchidanVerbZuru" xml:space="preserve">
+    <value>-zuru ichidan verb</value>
+  </data>
+  <data name="VocabCat_Idiomatic" xml:space="preserve">
+    <value>Idiomatic expression</value>
+  </data>
+  <data name="VocabCat_Interjection" xml:space="preserve">
+    <value>Interjection</value>
+  </data>
+  <data name="VocabCat_IntransitiveVerb" xml:space="preserve">
+    <value>Intransitive</value>
+  </data>
+  <data name="VocabCat_IrregularKanaUsage" xml:space="preserve">
+    <value>Irregular kana usage</value>
+  </data>
+  <data name="VocabCat_IrregularKanjiUsage" xml:space="preserve">
+    <value>Irregular kanji usage</value>
+  </data>
+  <data name="VocabCat_IrregularOkuriganaUsage" xml:space="preserve">
+    <value>Irregular okurigana</value>
+  </data>
+  <data name="VocabCat_IrregularVerb" xml:space="preserve">
+    <value>Irregular verb</value>
+  </data>
+  <data name="VocabCat_Jocular" xml:space="preserve">
+    <value>Humorous term</value>
+  </data>
+  <data name="VocabCat_KansaiBen" xml:space="preserve">
+    <value>Kansai-ben</value>
+  </data>
+  <data name="VocabCat_KantouBen" xml:space="preserve">
+    <value>Kantou-ben</value>
+  </data>
+  <data name="VocabCat_KariAdjective" xml:space="preserve">
+    <value>-kari adjective (arch.)</value>
+  </data>
+  <data name="VocabCat_KuAdjective" xml:space="preserve">
+    <value>-ku adjective (arch.)</value>
+  </data>
+  <data name="VocabCat_KuruVerb" xml:space="preserve">
+    <value>Kuru verb</value>
+  </data>
+  <data name="VocabCat_KyotoBen" xml:space="preserve">
+    <value>Kyoto-ben</value>
+  </data>
+  <data name="VocabCat_KyuushuuBen" xml:space="preserve">
+    <value>Kyuushuu-ben</value>
+  </data>
+  <data name="VocabCat_Law" xml:space="preserve">
+    <value>Law term</value>
+  </data>
+  <data name="VocabCat_Linguistics" xml:space="preserve">
+    <value>Linguistics term</value>
+  </data>
+  <data name="VocabCat_Male" xml:space="preserve">
+    <value>Male term</value>
+  </data>
+  <data name="VocabCat_MaleSlang" xml:space="preserve">
+    <value>Male slang</value>
+  </data>
+  <data name="VocabCat_MangaSlang" xml:space="preserve">
+    <value>Manga slang</value>
+  </data>
+  <data name="VocabCat_MartialArts" xml:space="preserve">
+    <value>Martial arts term</value>
+  </data>
+  <data name="VocabCat_Mathematics" xml:space="preserve">
+    <value>Mathematics term</value>
+  </data>
+  <data name="VocabCat_Medicine" xml:space="preserve">
+    <value>Medicine term</value>
+  </data>
+  <data name="VocabCat_Military" xml:space="preserve">
+    <value>Military term</value>
+  </data>
+  <data name="VocabCat_Music" xml:space="preserve">
+    <value>Music term</value>
+  </data>
+  <data name="VocabCat_NaAdjective" xml:space="preserve">
+    <value>-na adjective</value>
+  </data>
+  <data name="VocabCat_NaganoBen" xml:space="preserve">
+    <value>Nagano-ben</value>
+  </data>
+  <data name="VocabCat_NariAdjective" xml:space="preserve">
+    <value>-nari adjective (arch.)</value>
+  </data>
+  <data name="VocabCat_NidanVerbU" xml:space="preserve">
+    <value>-u nidan verb</value>
+  </data>
+  <data name="VocabCat_NoAdjective" xml:space="preserve">
+    <value>no-adjective noun</value>
+  </data>
+  <data name="VocabCat_Noun" xml:space="preserve">
+    <value>Noun</value>
+  </data>
+  <data name="VocabCat_Numeric" xml:space="preserve">
+    <value>Numeric</value>
+  </data>
+  <data name="VocabCat_NuVerb" xml:space="preserve">
+    <value>Irr. nu verb</value>
+  </data>
+  <data name="VocabCat_Obscure" xml:space="preserve">
+    <value>Obscure term</value>
+  </data>
+  <data name="VocabCat_Obsolete" xml:space="preserve">
+    <value>Obsolete</value>
+  </data>
+  <data name="VocabCat_OldOrIrregularKana" xml:space="preserve">
+    <value>Irregular kana</value>
+  </data>
+  <data name="VocabCat_Onomatopoeic" xml:space="preserve">
+    <value>Onomatopoeia</value>
+  </data>
+  <data name="VocabCat_OsakaBen" xml:space="preserve">
+    <value>Osaka-ben</value>
+  </data>
+  <data name="VocabCat_OutdatedKana" xml:space="preserve">
+    <value>Outdated kana usage</value>
+  </data>
+  <data name="VocabCat_OutdatedKanji" xml:space="preserve">
+    <value>Outdated kanji usage</value>
+  </data>
+  <data name="VocabCat_Particle" xml:space="preserve">
+    <value>Particle</value>
+  </data>
+  <data name="VocabCat_Physics" xml:space="preserve">
+    <value>Physics term</value>
+  </data>
+  <data name="VocabCat_Poetical" xml:space="preserve">
+    <value>Poetical term</value>
+  </data>
+  <data name="VocabCat_Polite" xml:space="preserve">
+    <value>Polite</value>
+  </data>
+  <data name="VocabCat_Prefix" xml:space="preserve">
+    <value>Prefix</value>
+  </data>
+  <data name="VocabCat_PrefixNoun" xml:space="preserve">
+    <value>Prefix noun</value>
+  </data>
+  <data name="VocabCat_PrenominalAdjective" xml:space="preserve">
+    <value>Prenominal adjective</value>
+  </data>
+  <data name="VocabCat_PrenominalNounVerb" xml:space="preserve">
+    <value>Prenominal</value>
+  </data>
+  <data name="VocabCat_Pronoun" xml:space="preserve">
+    <value>Pronoun</value>
+  </data>
+  <data name="VocabCat_ProperNoun" xml:space="preserve">
+    <value>Proper noun</value>
+  </data>
+  <data name="VocabCat_Proverb" xml:space="preserve">
+    <value>Proverb</value>
+  </data>
+  <data name="VocabCat_Rare" xml:space="preserve">
+    <value>Rare</value>
+  </data>
+  <data name="VocabCat_RuVerb" xml:space="preserve">
+    <value>Irr. ru verb (plain form ends with -ri)</value>
+  </data>
+  <data name="VocabCat_RyuukyuuBen" xml:space="preserve">
+    <value>Ryuukyuu-ben</value>
+  </data>
+  <data name="VocabCat_Sensitive" xml:space="preserve">
+    <value>Sensitive</value>
+  </data>
+  <data name="VocabCat_ShikuAdjective" xml:space="preserve">
+    <value>-shiku adjective (arch.)</value>
+  </data>
+  <data name="VocabCat_Shinto" xml:space="preserve">
+    <value>Shinto term</value>
+  </data>
+  <data name="VocabCat_Slang" xml:space="preserve">
+    <value>Slang</value>
+  </data>
+  <data name="VocabCat_Sports" xml:space="preserve">
+    <value>Sports term</value>
+  </data>
+  <data name="VocabCat_Suffix" xml:space="preserve">
+    <value>Suffix</value>
+  </data>
+  <data name="VocabCat_SuffixNoun" xml:space="preserve">
+    <value>Suffix noun</value>
+  </data>
+  <data name="VocabCat_Sumo" xml:space="preserve">
+    <value>Sumo term</value>
+  </data>
+  <data name="VocabCat_SuruVerb" xml:space="preserve">
+    <value>-suru verb</value>
+  </data>
+  <data name="VocabCat_SuruVerbIrregular" xml:space="preserve">
+    <value>Irr. -suru verb</value>
+  </data>
+  <data name="VocabCat_SuruVerbNoun" xml:space="preserve">
+    <value>-suru verb</value>
+  </data>
+  <data name="VocabCat_SuVerb" xml:space="preserve">
+    <value>-su verb</value>
+  </data>
+  <data name="VocabCat_TaruAdjective" xml:space="preserve">
+    <value>-taru adjective</value>
+  </data>
+  <data name="VocabCat_TemporalNoun" xml:space="preserve">
+    <value>Temporal noun</value>
+  </data>
+  <data name="VocabCat_ToAdverb" xml:space="preserve">
+    <value>-to adverb</value>
+  </data>
+  <data name="VocabCat_TosaBen" xml:space="preserve">
+    <value>Tosa-ben</value>
+  </data>
+  <data name="VocabCat_TouhokuBen" xml:space="preserve">
+    <value>Touhoku-ben</value>
+  </data>
+  <data name="VocabCat_TransitiveVerb" xml:space="preserve">
+    <value>Transitive</value>
+  </data>
+  <data name="VocabCat_TsugaruBen" xml:space="preserve">
+    <value>Tsugaru-ben</value>
+  </data>
+  <data name="VocabCat_UsuallyKana" xml:space="preserve">
+    <value>Usually written in kana</value>
+  </data>
+  <data name="VocabCat_UsuallyKanji" xml:space="preserve">
+    <value>Usually written in kanji</value>
+  </data>
+  <data name="VocabCat_Verb" xml:space="preserve">
+    <value>Verb</value>
+  </data>
+  <data name="VocabCat_Vulgar" xml:space="preserve">
+    <value>Vulgar</value>
+  </data>
+  <data name="VocabCat_X" xml:space="preserve">
+    <value>X-rated term</value>
+  </data>
+  <data name="VocabCat_YodanVerbFu" xml:space="preserve">
+    <value>-fu yodan verb</value>
+  </data>
+  <data name="VocabCat_YodanVerbRu" xml:space="preserve">
+    <value>-ru yodan verb</value>
+  </data>
+  <data name="VocabCat_Zoology" xml:space="preserve">
+    <value>Zoology term</value>
+  </data>
+  <data name="SrsItem_EditFailure" xml:space="preserve">
+    <value>An error occured while trying to save the item. If the problem persists, please contact the support.</value>
+  </data>
+  <data name="SrsItem_MeaningsValidationError" xml:space="preserve">
+    <value>The item must have at least one meaning.</value>
+  </data>
+  <data name="SrsItem_ReadingsValidationError" xml:space="preserve">
+    <value>The item must have at least one reading.</value>
+  </data>
+</root>

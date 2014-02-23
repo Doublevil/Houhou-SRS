@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.SettingSrsTrayIntervalControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="25" d:DesignWidth="300">
+
+    <StackPanel Orientation="Horizontal">
+        <TextBlock Style="{StaticResource SettingText}" Text="Check for new reviews every" Margin="0 0 7 0" />
+        <xctk:IntegerUpDown Minimum="1" Maximum="1440" Value="{Binding Interval}" Width="50" />
+        <TextBlock Style="{StaticResource SettingText}" Text="minute(s)." Margin="7 0 0 0" />
+    </StackPanel>
+</UserControl>

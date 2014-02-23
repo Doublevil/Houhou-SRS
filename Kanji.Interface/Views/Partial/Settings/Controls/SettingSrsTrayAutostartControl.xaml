@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.SettingSrsTrayAutostartControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="25" d:DesignWidth="600">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource SettingText}"
+            Text="Launch the SRS Tray application at system startup:" Margin="0 0 15 0" />
+
+        <RadioButton Grid.Row="1" Grid.Column="1" Content="Yes" Command="{Binding SettingChangeCommand}"
+            IsChecked="{Binding IsAutoStart}"
+            ToolTip="If this button is checked, the SRS Tray application will be launched automatically at system startup."
+            VerticalAlignment="Center" Margin="0 0 15 0" />
+        <RadioButton Grid.Row="1" Grid.Column="2" Content="No" Command="{Binding SettingChangeCommand}"
+            IsChecked="{Binding IsAutoStart, Converter={StaticResource BooleanInverterConverter}, Mode=OneWay}"
+            ToolTip="If this button is checked, the SRS Tray application will not be automatically launched."
+            VerticalAlignment="Center" />
+        
+    </Grid>
+</UserControl>

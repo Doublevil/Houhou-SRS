@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Kanji.Interface.Views.HomePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:Kanji.Interface.Controls"
+             xmlns:business="clr-namespace:Kanji.Interface.Business"
+             xmlns:toolkit="WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="900">
+
+    <DockPanel>
+        <controls:NavigationBar DockPanel.Dock="Top" />
+        <Border Style="{StaticResource HomePageSeparator}" DockPanel.Dock="Top" />
+        <Border Style="{StaticResource HomePageBorder}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="95" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="200" />
+                    </Grid.ColumnDefinitions>
+                    <Viewbox HorizontalAlignment="Left" Margin="0 0 15 0">
+                        <controls:LogoControl />
+                    </Viewbox>
+                    <controls:HomeLinkControl Grid.Column="1" HorizontalAlignment="Right"
+                        Width="200" />
+                </Grid>
+
+                <TabControl Grid.Row="1" Background="#AAFFFFFF" Margin="0 10 0 0">
+                    <TabItem Header="Help">
+                        <controls:HelpListControl DataContext="{Binding HelpInfo}" />
+                    </TabItem>
+                    <TabItem Header="What's new">
+                        <controls:ChangelogListControl DataContext="{Binding ChangesHistory}" />
+                    </TabItem>
+                    <TabItem Header="What's planned">
+                        <controls:ChangelogListControl DataContext="{Binding FutureChanges}" />
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Border>
+    </DockPanel>
+</UserControl>

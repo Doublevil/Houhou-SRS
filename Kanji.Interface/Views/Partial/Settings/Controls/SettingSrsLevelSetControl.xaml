@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.SettingSrsLevelSetControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:business="clr-namespace:Kanji.Interface.Business"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Style="{StaticResource SettingText}" Text="Set of SRS levels to use:" />
+
+        <ListBox Grid.Row="1" Style="{StaticResource SettingUserResourceListBox}"
+            ItemsSource="{Binding AvailableSets, Source={x:Static business:SrsLevelStore.Instance}, Mode=OneWay}" />
+
+    </Grid>
+</UserControl>

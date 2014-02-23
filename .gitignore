@@ -1,0 +1,15 @@
+.DS_Store
+HouhouSetup/HouhouSetup
+Kanji.Common/obj
+Kanji.Common/bin
+Kanji.Database/obj
+Kanji.Database/bin
+Kanji.DatabaseMaker/obj
+Kanji.DatabaseMaker/bin
+Kanji.DatabaseMaker/Resources/JMdict.xml
+Kanji.DatabaseMaker/Resources/kanjidic2.xml
+Kanji.Interface/obj
+Kanji.Interface/bin
+Kanji.Interface/Data/KanjiDatabase.sqlite
+NotifyIconWpf/obj
+NotifyIconWpf/bin

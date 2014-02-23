@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.VocabList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
+             xmlns:converters="clr-namespace:Kanji.Interface.Converters"
+             xmlns:controls="clr-namespace:Kanji.Interface.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        
+        <!-- Vocab count indicator -->
+        <controls:ListInfoHeaderControl />
+        
+        <!-- Sort control buttons -->
+        
+        
+        <!-- Vocab list -->
+        <ListBox x:Name="VocabListBox" Grid.Row="1" Style="{StaticResource VocabList}"
+            ItemsSource="{Binding LoadedItems, IsAsync=True, Mode=OneWay}" />
+        
+        <controls:ListLoadingFooterControl Grid.Row="2" Tag="vocab" />
+    </Grid>
+</UserControl>

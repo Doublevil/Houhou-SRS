@@ -1,0 +1,76 @@
+﻿<Window x:Class="Kanji.Interface.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Kanji.Interface.Controls"
+        xmlns:views="clr-namespace:Kanji.Interface.Views"
+        xmlns:actors="clr-namespace:Kanji.Interface.Actors"
+        xmlns:models="clr-namespace:Kanji.Interface.Models"
+        Title="Houhou" Height="600" Width="1000">
+    <Grid>
+        <views:HomePage>
+            <views:HomePage.Style>
+                <Style TargetType="UserControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Source={x:Static actors:NavigationActor.Instance}, Path=CurrentPage}"
+                            Value="{x:Static models:NavigationPageEnum.Home}">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Visibility" Value="Hidden" />
+                </Style>
+            </views:HomePage.Style>
+        </views:HomePage>
+        <views:KanjiPage>
+            <views:KanjiPage.Style>
+                <Style TargetType="UserControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Source={x:Static actors:NavigationActor.Instance}, Path=CurrentPage}"
+                            Value="{x:Static models:NavigationPageEnum.Kanji}">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Visibility" Value="Hidden" />
+                </Style>
+            </views:KanjiPage.Style>
+        </views:KanjiPage>
+        <views:VocabPage>
+            <views:VocabPage.Style>
+                <Style TargetType="UserControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Source={x:Static actors:NavigationActor.Instance}, Path=CurrentPage}"
+                            Value="{x:Static models:NavigationPageEnum.Vocab}">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Visibility" Value="Hidden" />
+                </Style>
+            </views:VocabPage.Style>
+        </views:VocabPage>
+        <views:SrsPage>
+            <views:SrsPage.Style>
+                <Style TargetType="UserControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Source={x:Static actors:NavigationActor.Instance}, Path=CurrentPage}"
+                            Value="{x:Static models:NavigationPageEnum.Srs}">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Visibility" Value="Hidden" />
+                </Style>
+            </views:SrsPage.Style>
+        </views:SrsPage>
+        <views:SettingsPage>
+            <views:SettingsPage.Style>
+                <Style TargetType="UserControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Source={x:Static actors:NavigationActor.Instance}, Path=CurrentPage}"
+                            Value="{x:Static models:NavigationPageEnum.Settings}">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Visibility" Value="Hidden" />
+                </Style>
+            </views:SettingsPage.Style>
+        </views:SettingsPage>
+    </Grid>
+</Window>

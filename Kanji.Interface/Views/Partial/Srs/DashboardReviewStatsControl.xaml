@@ -1,0 +1,252 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.DashboardReviewStatsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:business="clr-namespace:Kanji.Interface.Business"
+             mc:Ignorable="d" 
+             d:DesignHeight="85" d:DesignWidth="500">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Border" x:Key="StatBox">
+                <Setter Property="BorderBrush" Value="{StaticResource FadedBorderBrush}" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="Margin" Value="3 0" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Background" Value="#FF444444" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <UniformGrid Rows="1">
+        <!-- Remaining reviews today count -->
+        <Border Style="{StaticResource StatBox}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Viewbox>
+                    <Viewbox.RenderTransform>
+                        <TranslateTransform X="-1" Y="-1" />
+                    </Viewbox.RenderTransform>
+                    <TextBlock Foreground="Black" Text="{Binding CurrentReviewInfo.TodayReviewsCount,
+                        Source={x:Static business:SrsBusiness.Instance}}" FontWeight="SemiBold" />
+                </Viewbox>
+                <Viewbox>
+                    <TextBlock Foreground="White" Text="{Binding CurrentReviewInfo.TodayReviewsCount,
+                        Source={x:Static business:SrsBusiness.Instance}}" FontWeight="SemiBold" />
+                </Viewbox>
+
+                <Viewbox Grid.Row="1">
+                    <TextBlock Foreground="#99FFFFFF" TextAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource LegendText}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentReviewInfo.TodayReviewsCount,
+                                        Source={x:Static business:SrsBusiness.Instance}}" Value="1">
+                                        <Setter Property="Text" Value="review today" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="Text" Value="reviews today" />
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Viewbox>
+            </Grid>
+        </Border>
+
+        <!-- Total item count -->
+        <Border Style="{StaticResource StatBox}">
+            <Border.ToolTip>
+                <StackPanel>
+                    <TextBlock>
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentReviewInfo.KanjiItemsCount,
+                                        Source={x:Static business:SrsBusiness.Instance}}" Value="1">
+                                        <Setter Property="Text" Value="1 kanji item" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="Text">
+                                    <Setter.Value>
+                                        <Binding Path="CurrentReviewInfo.KanjiItemsCount"
+                                            Source="{x:Static business:SrsBusiness.Instance}"
+                                            StringFormat="{}{0} kanji items"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBlock>
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentReviewInfo.VocabItemsCount,
+                                        Source={x:Static business:SrsBusiness.Instance}}" Value="1">
+                                        <Setter Property="Text" Value="1 vocab item" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="Text">
+                                    <Setter.Value>
+                                        <Binding Path="CurrentReviewInfo.VocabItemsCount"
+                                            Source="{x:Static business:SrsBusiness.Instance}"
+                                            StringFormat="{}{0} vocab items"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+            </Border.ToolTip>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Viewbox>
+                    <Viewbox.RenderTransform>
+                        <TranslateTransform X="-1" Y="-1" />
+                    </Viewbox.RenderTransform>
+                    <TextBlock Foreground="Black" Text="{Binding CurrentReviewInfo.TotalItemsCount,
+                        Source={x:Static business:SrsBusiness.Instance}}" FontWeight="SemiBold" />
+                </Viewbox>
+                <Viewbox>
+                    <TextBlock Foreground="White" Text="{Binding CurrentReviewInfo.TotalItemsCount,
+                        Source={x:Static business:SrsBusiness.Instance}}" FontWeight="SemiBold" />
+                </Viewbox>
+
+                <Viewbox Grid.Row="1">
+                    <TextBlock Foreground="#99FFFFFF">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource LegendText}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentReviewInfo.TotalItemsCount,
+                                        Source={x:Static business:SrsBusiness.Instance}}" Value="1">
+                                        <Setter Property="Text" Value="total item" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="Text" Value="total items" />
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Viewbox>
+            </Grid>
+        </Border>
+
+        <!-- Total review count -->
+        <Border Style="{StaticResource StatBox}">
+            <Border.ToolTip>
+                <StackPanel>
+                    <TextBlock>
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentReviewInfo.TotalSuccessCount,
+                                        Source={x:Static business:SrsBusiness.Instance}}" Value="1">
+                                        <Setter Property="Text" Value="1 review succeeded" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="Text">
+                                    <Setter.Value>
+                                        <Binding Path="CurrentReviewInfo.TotalSuccessCount"
+                                            Source="{x:Static business:SrsBusiness.Instance}"
+                                            StringFormat="{}{0} reviews succeeded"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBlock>
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentReviewInfo.TotalFailureCount,
+                                        Source={x:Static business:SrsBusiness.Instance}}" Value="1">
+                                        <Setter Property="Text" Value="1 review failed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="Text">
+                                    <Setter.Value>
+                                        <Binding Path="CurrentReviewInfo.TotalFailureCount"
+                                            Source="{x:Static business:SrsBusiness.Instance}"
+                                            StringFormat="{}{0} reviews failed"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+            </Border.ToolTip>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Viewbox>
+                    <Viewbox.RenderTransform>
+                        <TranslateTransform X="-1" Y="-1" />
+                    </Viewbox.RenderTransform>
+                    <TextBlock Foreground="Black" Text="{Binding CurrentReviewInfo.TotalReviewsCount,
+                        Source={x:Static business:SrsBusiness.Instance}}" FontWeight="SemiBold" />
+                </Viewbox>
+                <Viewbox>
+                    <TextBlock Foreground="White" Text="{Binding CurrentReviewInfo.TotalReviewsCount,
+                        Source={x:Static business:SrsBusiness.Instance}}" FontWeight="SemiBold" />
+                </Viewbox>
+
+                <Viewbox Grid.Row="1">
+                    <TextBlock Foreground="#99FFFFFF">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource LegendText}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentReviewInfo.TotalReviewsCount,
+                                        Source={x:Static business:SrsBusiness.Instance}}" Value="1">
+                                        <Setter Property="Text" Value="totalled review" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="Text" Value="totalled reviews" />
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Viewbox>
+            </Grid>
+        </Border>
+
+        <!-- Average success ratio -->
+        <Border Style="{StaticResource StatBox}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Viewbox>
+                    <Viewbox.RenderTransform>
+                        <TranslateTransform X="-1" Y="-1" />
+                    </Viewbox.RenderTransform>
+                    <TextBlock Foreground="Black" FontWeight="SemiBold"
+                        Text="{Binding CurrentReviewInfo.SuccessRate,
+                        Source={x:Static business:SrsBusiness.Instance},
+                        Converter={StaticResource PercentageToStringConverter}}" />
+                </Viewbox>
+                <Viewbox>
+                    <TextBlock Foreground="White" FontWeight="SemiBold"
+                        Text="{Binding CurrentReviewInfo.SuccessRate,
+                        Source={x:Static business:SrsBusiness.Instance},
+                        Converter={StaticResource PercentageToStringConverter}}" />
+                </Viewbox>
+
+                <Viewbox Grid.Row="1">
+                    <TextBlock Foreground="#99FFFFFF" Style="{StaticResource LegendText}" Text="average success" />
+                </Viewbox>
+            </Grid>
+        </Border>
+    </UniformGrid>
+</UserControl>

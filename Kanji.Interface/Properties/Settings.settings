@@ -1,0 +1,60 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Kanji.Interface.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="KunYomiReadingType" Type="Kanji.Interface.Models.KanaTypeEnum" Scope="User">
+      <Value Profile="(Default)">Hiragana</Value>
+    </Setting>
+    <Setting Name="OnYomiReadingType" Type="Kanji.Interface.Models.KanaTypeEnum" Scope="User">
+      <Value Profile="(Default)">Hiragana</Value>
+    </Setting>
+    <Setting Name="NanoriReadingType" Type="Kanji.Interface.Models.KanaTypeEnum" Scope="User">
+      <Value Profile="(Default)">Hiragana</Value>
+    </Setting>
+    <Setting Name="VocabPerPage" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="KanjiPerPage" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">40</Value>
+    </Setting>
+    <Setting Name="RadicalSetName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Default</Value>
+    </Setting>
+    <Setting Name="RadicalSortMode" Type="Kanji.Interface.Models.RadicalSortModeEnum" Scope="User">
+      <Value Profile="(Default)">Frequency</Value>
+    </Setting>
+    <Setting Name="SrsLevelSetName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Default</Value>
+    </Setting>
+    <Setting Name="LastSrsTagsValue" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SrsEntriesPerPage" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="StartPage" Type="Kanji.Interface.Models.StartPageEnum" Scope="User">
+      <Value Profile="(Default)">Home</Value>
+    </Setting>
+    <Setting Name="TrayShowNotifications" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="TrayCheckInterval" Type="System.TimeSpan" Scope="User">
+      <Value Profile="(Default)">01:00:00</Value>
+    </Setting>
+    <Setting Name="TrayNotificationCountThreshold" Type="System.Int64" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="UpdateCheckUri" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://www.houhou-srs.com/soft/update.xml</Value>
+    </Setting>
+    <Setting Name="LastUpdateDate" Type="System.DateTime" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UpdateCheckMinInterval" Type="System.TimeSpan" Scope="User">
+      <Value Profile="(Default)">24.00:00:00</Value>
+    </Setting>
+    <Setting Name="IsAutoUpdateCheckEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

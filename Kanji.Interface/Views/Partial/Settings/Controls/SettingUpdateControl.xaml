@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.SettingUpdateControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:business="clr-namespace:Kanji.Interface.Business"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="600"
+             DataContext="{x:Static business:VersionBusiness.Instance}">
+    <StackPanel Orientation="Horizontal" Height="50">
+        <Border CornerRadius="5" BorderThickness="1" BorderBrush="#88FFFFFF"
+            Padding="3" Background="#BB000000" Width="200">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Update check status:" FontSize="10" HorizontalAlignment="Center" Foreground="#AAFFFFFF" />
+                <TextBlock HorizontalAlignment="Center" Foreground="#AAFFFFFF" FontWeight="SemiBold" FontSize="16">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="Not checked yet" />
+                            <Setter Property="ToolTip" Value="If automatic update check is disabled, Houhou will not check for updates until you click the 'Check for updates' button.&#x0a;If automatic update check is enabled, be aware that there is a delay before updates are checked." />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CheckStatus}" Value="MostRecent">
+                                    <Setter Property="Text" Value="No updates" />
+                                    <Setter Property="ToolTip">
+                                        <Setter.Value>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <Binding Path="LastCheckDate" StringFormat="You are using the latest version of Houhou.&#x0a;(Last checked: {0})" />
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CheckStatus}" Value="UpdateAvailable">
+                                    <Setter Property="Text" Value="Update available!" />
+                                    <Setter Property="ToolTip">
+                                        <Setter.Value>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <Binding Path="LastCheckDate" StringFormat="There is an update available to download.&#x0a;Click the Update button on the right to update.&#x0a;(Last checked: {0})" />
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CheckStatus}" Value="Error">
+                                    <Setter Property="Text" Value="Unable to check" />
+                                    <Setter Property="ToolTip">
+                                        <Setter.Value>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <Binding Path="LastCheckDate"
+                                                        StringFormat="An error occured during the last check attempt ({0}).&#x0a;Check your internet connection." />
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CheckStatus}" Value="Checking">
+                                    <Setter Property="Text" Value="Checking..." />
+                                    <Setter Property="ToolTip">
+                                        <Setter.Value>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <Binding Path="LastCheckDate"
+                                                        StringFormat="Houhou is currently checking for updates. Please wait." />
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+        </Border>
+        <Button Margin="10 0 0 0" Width="150" Height="44" Content="Check for updates"
+            Command="{Binding CheckCommand}" ToolTip="Check for available Houhou updates.&#x0a;Requires an internet connection.">
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CheckStatus}" Value="UpdateAvailable">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CheckStatus}" Value="Checking">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button Margin="10 0 0 0" Width="150" Height="44"
+            Command="{Binding UpdateCommand}">
+            <Button.Content>
+                <Binding Path="LastUpdate.Name" Converter="{StaticResource StringFormatConverter}"
+                    ConverterParameter="Update to {0}" />
+            </Button.Content>
+            <Button.ToolTip>
+                <TextBlock>
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="Version: {0}&#x0a;Description: {1}">
+                            <MultiBinding.Bindings>
+                                <Binding Path="LastUpdate.Version" />
+                                <Binding Path="LastUpdate.Description" />
+                            </MultiBinding.Bindings>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </Button.ToolTip>
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CheckStatus}" Value="UpdateAvailable">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </Style>
+            </Button.Style>
+        </Button>
+    </StackPanel>
+</UserControl>

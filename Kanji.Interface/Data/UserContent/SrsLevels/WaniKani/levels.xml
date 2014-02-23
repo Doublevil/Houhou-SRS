@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<levels>
+  <group name="Apprentice" color="1A814D">
+    <level name="A1" delayh="4" /> <!-- 4h -->
+    <level name="A2" delayh="8" /> <!-- 8h -->
+    <level name="A3" delayd="1" /> <!-- 1d -->
+    <level name="A4" delayd="3" /> <!-- 3d -->
+  </group>
+  <group name="Guru" color="004E8E">
+    <level name="G1" delayd="7" /> <!-- 1w -->
+    <level name="G2" delayd="14" /> <!-- 2w -->
+  </group>
+  <group name="Master" color="5C1696">
+    <level name="M" delayd="30" /> <!-- 1m -->
+  </group>
+  <group name="Enlightened" color="890062">
+    <level name="E" delayd="120" /> <!-- 4m -->
+  </group>
+  <group name="Burned" color="1C1C1C">
+    <level name="★" /> <!-- Forever -->
+  </group>
+</levels>

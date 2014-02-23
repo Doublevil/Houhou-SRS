@@ -1,0 +1,68 @@
+﻿<controls:SrsEntryFilterControlBase x:Class="Kanji.Interface.Controls.SrsEntryReadingFilterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:controls="clr-namespace:Kanji.Interface.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="500">
+
+    <controls:SrsEntryFilterControlBase.Resources>
+        <ResourceDictionary>
+            <ControlTemplate TargetType="UserControl" x:Key="InlineTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Containing the reading:" Style="{StaticResource LegendText}"
+                        VerticalAlignment="Center" Margin="0 0 5 0" />
+
+                    <AdornerDecorator Grid.Column="1">
+                        <controls:CommandTextBox MaxLength="100" ToolTip="Enter the reading filter."
+                            Text="{Binding ReadingFilter, UpdateSourceTrigger=PropertyChanged}"
+                            ValidationCommand="{Binding ValidateCommand}">
+                            <controls:WatermarkService.Watermark>
+                                <TextBlock HorizontalAlignment="Center">Reading filter</TextBlock>
+                            </controls:WatermarkService.Watermark>
+                        </controls:CommandTextBox>
+                    </AdornerDecorator>
+                </Grid>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </controls:SrsEntryFilterControlBase.Resources>
+
+    <controls:SrsEntryFilterControlBase.Style>
+        <Style TargetType="{x:Type controls:SrsEntryFilterControlBase}">
+            <Style.Triggers>
+                <Trigger Property="IsInline" Value="True">
+                    <Setter Property="Template" Value="{StaticResource InlineTemplate}" />
+                </Trigger>
+            </Style.Triggers>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="UserControl">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Containing the reading:" Style="{StaticResource LegendText}" />
+
+                            <AdornerDecorator Grid.Row="1">
+                                <controls:CommandTextBox MaxLength="100" ToolTip="Enter the reading filter."
+                                    Text="{Binding ReadingFilter, UpdateSourceTrigger=PropertyChanged}"
+                                    ValidationCommand="{Binding ValidateCommand}">
+                                    <controls:WatermarkService.Watermark>
+                                        <TextBlock HorizontalAlignment="Center">Reading filter</TextBlock>
+                                    </controls:WatermarkService.Watermark>
+                                </controls:CommandTextBox>
+                            </AdornerDecorator>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </controls:SrsEntryFilterControlBase.Style>
+</controls:SrsEntryFilterControlBase>

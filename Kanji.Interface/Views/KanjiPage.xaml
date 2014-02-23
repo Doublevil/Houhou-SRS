@@ -1,0 +1,123 @@
+﻿<UserControl x:Class="Kanji.Interface.Views.KanjiPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+      xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WPF4"
+      xmlns:utilities="clr-namespace:Kanji.Interface.Utilities"
+      xmlns:controls="clr-namespace:Kanji.Interface.Controls"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="600">
+
+    <DockPanel>
+        <controls:NavigationBar DockPanel.Dock="Top" />
+        <Border Style="{StaticResource KanjiPageSeparator}" DockPanel.Dock="Top" />
+        <Border Style="{StaticResource KanjiPageBorder}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+            
+                <!-- Filter control panel -->
+                <controls:KanjiFilterControl DataContext="{Binding KanjiFilterVm}">
+                    <controls:KanjiFilterControl.Style>
+                        <Style TargetType="UserControl">
+                            <Style.Triggers>
+                                <!-- Collapse when the details panel is visible -->
+                                <DataTrigger Binding="{Binding
+                                    ElementName=KanjiDetailsControl,
+                                    Path=Visibility,
+                                    UpdateSourceTrigger=PropertyChanged}"
+                                    Value="Visible">
+                                    <DataTrigger.Setters>
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger.Setters>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </controls:KanjiFilterControl.Style>
+                </controls:KanjiFilterControl>
+
+                <!-- Kanji details panel -->
+                <controls:KanjiDetails x:Name="KanjiDetailsControl" DataContext="{Binding KanjiDetailsVm}">
+                    <controls:KanjiDetails.Style>
+                        <Style TargetType="UserControl">
+                            <Style.Triggers>
+                                <!-- Collapse when the view model is null -->
+                                <DataTrigger Binding="{Binding .}" Value="{x:Null}">
+                                    <DataTrigger.Setters>
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger.Setters>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </controls:KanjiDetails.Style>
+                </controls:KanjiDetails>
+
+                <!-- Right panel with action buttons & result list -->
+                <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="5 0 0 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <!-- Action buttons panel -->
+                    <StackPanel>
+                        <Button x:Name="CloseKanjiPageButton" Content="Close the kanji page"
+                                Command="{Binding ClearSelectedKanjiCommand}">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding KanjiDetailsVm}" Value="{x:Null}">
+                                            <DataTrigger.Setters>
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger.Setters>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="Margin" Value="0,0,0,5" />
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Content="Clear all filters"
+                            Command="{Binding ClearFilterCommand}" Margin="0,0,0,5">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding KanjiFilterVm.Radicals}" Value="{x:Null}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ElementName=CloseKanjiPageButton, Path=Visibility}"
+                                            Value="Visible">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <Button Content="Navigate back" Command="{Binding NavigateBackCommand}" Margin="0,0,0,5">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding CanNavigateBack}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <Separator />
+                    </StackPanel>
+                    <!-- Kanji list -->
+                    <controls:KanjiList Grid.Row="1" DataContext="{Binding KanjiListVm}" />
+                </Grid>
+            </Grid>
+        </Border>
+    </DockPanel>
+</UserControl>

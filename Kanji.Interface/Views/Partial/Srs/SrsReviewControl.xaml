@@ -1,0 +1,358 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.SrsReviewControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:Kanji.Interface.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600">
+    <UserControl.Style>
+        <Style TargetType="UserControl">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding .}" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Exit button -->
+        <Button Style="{StaticResource MiniActionButton}"
+                        Content="Close review session"
+                        ToolTip="Close this SRS review session. Some progress may be lost."
+                        Command="{Binding StopSessionCommand}" />
+
+        <Border Grid.Row="1">
+            <ProgressBar Style="{StaticResource SrsReviewProgressBar}"
+                         Value="{Binding AnsweredReviewsCount}"
+                         Maximum="{Binding TotalReviewsCount}" />
+        </Border>
+        
+        <!-- Item display -->
+        <Border Grid.Row="2">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentQuestion.ParentGroup.IsKanji}" Value="True">
+                            <Setter Property="Background" Value="#FF2070A9" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Background" Value="#FF8B00C9" />
+                </Style>
+            </Border.Style>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40*" />
+                    <ColumnDefinition Width="20*" />
+                    <ColumnDefinition Width="40*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="28*" />
+                    <RowDefinition Height="44*" />
+                    <RowDefinition Height="28*" />
+                </Grid.RowDefinitions>
+                
+                <!-- Progress indicator -->
+                <TextBlock Grid.ColumnSpan="3" Grid.RowSpan="3"
+                    Style="{StaticResource SrsReviewsCountIndicator}">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0}/{1}">
+                            <Binding Path="AnsweredReviewsCount" />
+                            <Binding Path="TotalReviewsCount" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                
+                <!-- Text representation of the item -->
+                <Viewbox Grid.Column="1" Grid.Row="1">
+                    <TextBox Style="{StaticResource LabelBox}"
+                        Text="{Binding CurrentQuestion.ParentGroup.Item, Mode=OneWay}"
+                        Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Viewbox>
+
+                <!-- Level up indicator -->
+                <Border Grid.ColumnSpan="3" Grid.RowSpan="3"
+                    Background="#DD333333" BorderThickness="1" BorderBrush="#FF000000"
+                    CornerRadius="2"
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Width="60" Height="30" Margin="0 0 5 5">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding PreviewNextLevel}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   FontSize="26" FontWeight="Bold" Padding="0 0 0 5">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Value="True">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{StaticResource ComparablesToBooleanConverter}"
+                                                          ConverterParameter="{x:Static converters:ComparablesToBooleanConversionEnum.Less}">
+                                                    <Binding Path="CurrentQuestion.ParentGroup.Reference.CurrentGrade" />
+                                                    <Binding Path="PreviewNextLevel.Value" />
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
+                                            <Setter Property="Text" Value="+" />
+                                            <Setter Property="Foreground" Value="#CC00CC00" />
+                                        </DataTrigger>
+                                        <DataTrigger Value="True">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{StaticResource ComparablesToBooleanConverter}"
+                                                          ConverterParameter="{x:Static converters:ComparablesToBooleanConversionEnum.Greater}">
+                                                    <Binding Path="CurrentQuestion.ParentGroup.Reference.CurrentGrade" />
+                                                    <Binding Path="PreviewNextLevel.Value" />
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
+                                            <Setter Property="Text" Value="-" />
+                                            <Setter Property="Foreground" Value="#CCFF6600" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="Text" Value="=" />
+                                    <Setter Property="Foreground" Value="#CC0066FF" />
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <Border Grid.Column="1" Background="{Binding PreviewNextLevel.ParentGroup.Color,
+                                Converter={StaticResource ColorToBrushConverter}}"
+                                Padding="5 2" BorderBrush="Black" BorderThickness="1" CornerRadius="3" Margin="0 2 5 2">
+                            <Grid>
+                                <TextBlock Foreground="Black" Text="{Binding PreviewNextLevel.Name}"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock.RenderTransform>
+                                        <TranslateTransform X="-1" Y="-1" />
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
+                                <TextBlock Foreground="White" Text="{Binding PreviewNextLevel.Name}"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Question textblock -->
+        <Border Grid.Row="3">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentQuestion.Question}" Value="Meaning">
+                            <Setter Property="Background" Value="#FFCCCCCC" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CurrentQuestion.Question}" Value="Reading">
+                            <Setter Property="Background" Value="#FF333333" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <TextBlock Grid.Row="2" FontSize="16" Margin="0 10 0 10" HorizontalAlignment="Center">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding CurrentQuestion.ParentGroup.IsKanji}" Value="True" />
+                                    <Condition Binding="{Binding CurrentQuestion.Question}" Value="Meaning" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Text" Value="Enter the kanji meaning." />
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding CurrentQuestion.ParentGroup.IsKanji}" Value="True" />
+                                    <Condition Binding="{Binding CurrentQuestion.Question}" Value="Reading" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Text" Value="Enter the kanji reading." />
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding CurrentQuestion.ParentGroup.IsKanji}" Value="False" />
+                                    <Condition Binding="{Binding CurrentQuestion.Question}" Value="Meaning" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Text" Value="Enter the vocab meaning." />
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding CurrentQuestion.ParentGroup.IsKanji}" Value="False" />
+                                    <Condition Binding="{Binding CurrentQuestion.Question}" Value="Reading" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Text" Value="Enter the vocab reading." />
+                            </MultiDataTrigger>
+                            <DataTrigger Binding="{Binding CurrentQuestion.Question}" Value="Meaning">
+                                <Setter Property="Foreground" Value="Black" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding CurrentQuestion.Question}" Value="Reading">
+                                <Setter Property="Foreground" Value="White" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Border>
+
+        <!-- Input textbox -->
+        <TextBox Grid.Row="4" Text="{Binding CurrentAnswer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20">
+            <TextBox.InputBindings>
+                <KeyBinding Command="{Binding SubmitCommand}" Key="Enter" />
+            </TextBox.InputBindings>
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ReviewState}" Value="Success">
+                            <Setter Property="Background" Value="#FFC0FFC0" />
+                            <Setter Property="IsReadOnly" Value="True" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ReviewState}" Value="Failure">
+                            <Setter Property="Background" Value="#FFFFC0C0" />
+                            <Setter Property="IsReadOnly" Value="True" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        
+        <!-- SRS item info (displayed only when the answer is submitted) -->
+        <Grid Grid.Row="5">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ReviewState}" Value="Input">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <!-- Correct answers -->
+            <Border Margin="0 5 0 0" Padding="0 0 0 5" BorderThickness="0 0 0 1" BorderBrush="Black">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Accepted answers:" Margin="5 0 8 0" FontSize="16" />
+                    <TextBlock Text="{Binding CurrentQuestion.AcceptedAnswers, Mode=OneWay}"
+                               Margin="0 0 5 0" FontSize="16" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+            
+            <!-- Meaning/reading notes -->
+            <Border Grid.Row="1" Margin="0 5 0 5">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentQuestion.Question}" Value="Meaning">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </Style>
+                </Border.Style>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Style="{StaticResource LegendText}" Text="Meaning notes:" />
+                    <TextBlock Text="{Binding CurrentQuestion.ParentGroup.Reference.MeaningNote, Mode=OneWay}" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="1" Margin="0 5 0 5">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentQuestion.Question}" Value="Reading">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </Style>
+                </Border.Style>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Style="{StaticResource LegendText}" Text="Reading notes:" />
+                    <TextBlock Text="{Binding CurrentQuestion.ParentGroup.Reference.ReadingNote, Mode=OneWay}" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+            
+            <!-- Action buttons -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button Content="Ignore answer"
+                        ToolTip="Use this button to ignore the answer you gave. The question will come back later."
+                        Command="{Binding IgnoreAnswerCommand}" Margin="5 0">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ReviewState}" Value="Ignore">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button Grid.Column="1" Command="{Binding AddAnswerCommand}" Margin="5 0">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ReviewState}" Value="Failure">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CurrentQuestion.Question}" Value="Meaning">
+                                    <Setter Property="Content" Value="Add to meanings" />
+                                    <Setter Property="ToolTip" Value="Mark your answer as correct and add the answer as a correct meaning." />
+                                </DataTrigger>
+                            </Style.Triggers>
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Setter Property="Content" Value="Add to readings" />
+                            <Setter Property="ToolTip" Value="Mark your answer as correct and add the answer as a correct reading." />
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button Grid.Column="2" Content="Edit this item"
+                        ToolTip="Open the item edition window. Does not change your answer or its effects."
+                        Command="{Binding EditSrsEntryCommand}" Margin="5 0">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ReviewState}" Value="Ignore">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+            </Grid>
+
+        </Grid>
+        
+    </Grid>
+</UserControl>

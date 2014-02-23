@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArrayOfChangelogEntry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ChangelogEntry>
+    <Version>1.0</Version>
+    <Title>Houhou is out!</Title>
+    <Description>At last, Houhou is released.</Description>
+  </ChangelogEntry>
+</ArrayOfChangelogEntry>

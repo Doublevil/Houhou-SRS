@@ -1,0 +1,22 @@
+﻿<Window x:Class="Kanji.Interface.TrayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:business="clr-namespace:Kanji.Interface.Business"
+        Title="Houhou SRS Tray" Visibility="Hidden" ShowInTaskbar="False">
+    <tb:TaskbarIcon x:Name="Tray" TrayLeftMouseUp="OnLeftMouseUp" TrayMouseDoubleClick="OnDoubleClick">
+        <tb:TaskbarIcon.ToolTipText>
+            <Binding Path="CurrentReviewInfo.AvailableReviewsCount"
+                Source="{x:Static business:SrsBusiness.Instance}"
+                StringFormat="Houhou SRS&#x0a;{0} review(s) available." />
+        </tb:TaskbarIcon.ToolTipText>
+        <tb:TaskbarIcon.ContextMenu>
+            <ContextMenu>
+                <MenuItem Click="OnOpenOrFocus" Header="Open Houhou" Command="{Binding OpenOrFocusCommand}" />
+                <MenuItem Click="OnOpenReviews" Header="Start reviewing" Command="{Binding OpenReviewsCommand}" />
+                <MenuItem Click="OnCheckReviews" Header="Check reviews" Command="{Binding CheckReviewsCommand}" />
+                <MenuItem Click="OnExit" Header="Exit" Command="{Binding ExitCommand}" />
+            </ContextMenu>
+        </tb:TaskbarIcon.ContextMenu>
+    </tb:TaskbarIcon>
+</Window>

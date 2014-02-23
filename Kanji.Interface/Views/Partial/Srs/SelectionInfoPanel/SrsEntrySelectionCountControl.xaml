@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.SrsEntrySelectionCountControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <Border BorderBrush="{StaticResource FadedBorderBrush}" BorderThickness="0 0 0 1"
+        Padding="0 0 0 5" Margin="0 0 0 5">
+        <Viewbox>
+            <TextBlock Foreground="{StaticResource LegendTextBrush}">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedItems.Count}" Value="0">
+                                <Setter Property="Text" Value="No items selected" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectedItems.Count}" Value="1">
+                                <Setter Property="Text" Value="1 item selected" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Text">
+                            <Setter.Value>
+                                <Binding Path="SelectedItems.Count" StringFormat="{}{0} items selected" />
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Viewbox>
+    </Border>
+</UserControl>

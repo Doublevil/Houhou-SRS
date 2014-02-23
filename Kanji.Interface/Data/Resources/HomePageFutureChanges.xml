@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArrayOfChangelogEntry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ChangelogEntry>
+    <Version>Soon</Version>
+    <Title>Better settings</Title>
+    <Description>The Settings page was rushed before the release. It will be improved and will include more settings.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>Soon</Version>
+    <Title>Startup time optimization</Title>
+    <Description>Houhou can be a bit slow to start. I'll be sure to check this soon.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>Soon</Version>
+    <Title>Database optimization</Title>
+    <Description>I'm not satisfied with the speed of vocab search. I'll check this out as soon as possible.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>Soon</Version>
+    <Title>Keyboard shortcuts</Title>
+    <Description>They should have been there already. There will be shortcuts to navigate to each tab, to start searching for a new Kanji, for vocab, SRS, etc.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>Soon</Version>
+    <Title>SRS items import/export</Title>
+    <Description>From the SRS page, you will be able to import batches of SRS items in the application, or export your current list.
+Both the import and export features will support multiple formats.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>Soon</Version>
+    <Title>Web synchronization</Title>
+    <Description>You will be able to synchronize your SRS items with an account on the website.
+This will make it easier to use Houhou on multiple devices.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>Soon?</Version>
+    <Title>Fill the blank in the SRS tab</Title>
+    <Description>There's nothing to cover the bottom of the SRS tab. Maybe I'll add a graph or something.
+I'm open to your ideas on this.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>Later</Version>
+    <Title>Radical set and SRS Level set editors</Title>
+    <Description>Right now, Radical sets and SRS Level sets have to be created and modified by hand in XML.
+In the future, you will be able to edit those easily and safely from the Settings tab.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>Later</Version>
+    <Title>Complete SRS filters</Title>
+    <Description>A more complex version of the SRS item filters in the SRS items browsing page is planned.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>Maybe later</Version>
+    <Title>Kanji drawing order</Title>
+    <Description>Maybe the application could display the Kanji drawing order from the Kanji details page. I need to investigate this to be sure this is possible with open resources.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>Maybe later</Version>
+    <Title>Kanji drawing filter</Title>
+    <Description>The ability to search for Kanji by drawing them would be a great feature but would probably require a lot of work.</Description>
+  </ChangelogEntry>
+</ArrayOfChangelogEntry>

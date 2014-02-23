@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.SrsEntryProgress"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:Kanji.Interface.Converters"
+             xmlns:controls="clr-namespace:Kanji.Interface.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="60" d:DesignWidth="200">
+
+    <Border BorderBrush="#AA000000" BorderThickness="1" CornerRadius="2" Padding="2" x:Name="ProgressContainer">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+        
+            <!-- Progress bar -->
+            <ProgressBar Style="{StaticResource SrsItemProgressBar}" VerticalAlignment="Center" />
+        
+            <!-- Level indicator -->
+            <Border Grid.Column="1" Background="{Binding LevelGroup.Color, Converter={StaticResource ColorToBrushConverter}}"
+                    Padding="5 0" BorderBrush="Black" BorderThickness="1" CornerRadius="3" Margin="5 0 0 0">
+                <Grid>
+                    <TextBlock Foreground="Black" Text="{Binding Level.Name, UpdateSourceTrigger=PropertyChanged}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform X="-1" Y="-1" />
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <TextBlock Foreground="White" Text="{Binding Level.Name, UpdateSourceTrigger=PropertyChanged}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
+            </Border>
+            <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+            
+                <TextBlock Style="{StaticResource LegendText}" Text="Next:" Margin="2 0 5 0" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource NextReviewDateLabel}"
+                         Text="{Binding NextAnswerDate, Mode=OneWay,
+                               Converter={StaticResource DateTimeToStringConverter},
+                               ConverterParameter={x:Static converters:DateTimeToStringConversionEnum.Relative}}"
+                         ToolTip="{Binding NextAnswerDate, Mode=OneWay,
+                                  Converter={StaticResource DateTimeToStringConverter},
+                                  ConverterParameter={x:Static converters:DateTimeToStringConversionEnum.Absolute}}" />
+
+                <Button Grid.Column="2" Style="{StaticResource MiniActionButton}"
+                        Content="Edit" VerticalContentAlignment="Center"
+                        Command="{Binding DataContext.EditSrsEntryCommand, RelativeSource={RelativeSource AncestorType=controls:KanjiDetails}}"
+                        ToolTip="Edit the SRS item"
+                        Margin="10 2 0 0"/>
+                
+                <!--<Button Grid.Column="2" Style="{StaticResource ImageActionButton}"
+                        Content="pack://application:,,,/Data/UI/EditIcon.png"
+                        Command="{Binding DataContext.EditSrsEntryCommand, RelativeSource={RelativeSource AncestorType=controls:KanjiDetails}}"
+                        ToolTip="Edit the SRS item"
+                        Margin="0 2 0 0"/>-->
+            </Grid>
+        
+        </Grid>
+    </Border>
+</UserControl>

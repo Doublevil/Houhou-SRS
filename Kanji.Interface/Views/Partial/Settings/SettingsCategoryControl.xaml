@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.SettingsCategoryControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:models="clr-namespace:Kanji.Interface.Models"
+             xmlns:controls="clr-namespace:Kanji.Interface.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="150">
+
+    <Border BorderBrush="{StaticResource FadedBorderBrush}" BorderThickness="1">
+        <UniformGrid Rows="1">
+            <UniformGrid.LayoutTransform>
+                <RotateTransform Angle="-90" />
+            </UniformGrid.LayoutTransform>
+        
+            <controls:SettingsCategoryTabControl Tag="{x:Static models:SettingsCategoryEnum.Srs}"
+                Background="{StaticResource SrsTabGradient}" />
+            <controls:SettingsCategoryTabControl Tag="{x:Static models:SettingsCategoryEnum.Kanji}"
+                Background="{StaticResource KanjiTabGradient}" />
+            <controls:SettingsCategoryTabControl Tag="{x:Static models:SettingsCategoryEnum.Vocab}"
+                Background="{StaticResource VocabTabGradient}" />
+            <controls:SettingsCategoryTabControl Tag="{x:Static models:SettingsCategoryEnum.Application}"
+                Background="{StaticResource HomeTabGradient}" />
+        </UniformGrid>
+    </Border>
+</UserControl>

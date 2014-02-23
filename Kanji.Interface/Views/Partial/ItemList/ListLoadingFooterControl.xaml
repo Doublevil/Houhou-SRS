@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.ListLoadingFooterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
+             xmlns:controls="clr-namespace:Kanji.Interface.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="60" d:DesignWidth="500">
+
+    <Grid>
+        <!-- "Load more" button grid -->
+        <Grid x:Name="LoadedPanel">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ElementName=LoadingPanel, Path=Visibility,
+                                    UpdateSourceTrigger=PropertyChanged}" Value="Collapsed" />
+                                <Condition Value="False">
+                                    <Condition.Binding>
+                                        <MultiBinding Converter="{StaticResource DataTriggerValueBindingConverter}" ConverterParameter="{x:Type s:Int32}">
+                                            <Binding Path="LoadedItemCount" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" />
+                                            <Binding Path="TotalItemCount" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" />
+                                        </MultiBinding>
+                                    </Condition.Binding>
+                                </Condition>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter Property="Visibility" Value="Visible" />
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </Style>
+            </Grid.Style>
+            <Button Style="{StaticResource BigActionButton}" HorizontalAlignment="Stretch"
+                Command="{Binding LoadMoreCommand}">
+                <Button.Resources>
+                    <s:String x:Key="ButtonStringFormat" xml:space="preserve">Load more </s:String>
+                </Button.Resources>
+                <Button.Content>
+                    <MultiBinding Converter="{StaticResource StringAppendConverter}">
+                        <Binding Source="{StaticResource ButtonStringFormat}" />
+                        <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}" />
+                    </MultiBinding>
+                </Button.Content>
+            </Button>
+        </Grid>
+
+        <!-- "Loading items" label panel -->
+        <StackPanel x:Name="LoadingPanel" Orientation="Horizontal">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Style.Triggers>
+                        <!--<DataTrigger Value="False">
+                            <DataTrigger.Binding>
+                                <MultiBinding Converter="{StaticResource DataTriggerValueBindingConverter}"
+                                    ConverterParameter="{x:Type s:Int32}">
+                                    <Binding Mode="OneWay" ElementName="KanjiListBox" Path="Items.Count" />
+                                    <Binding Mode="OneWay" Path="LoadedItems.Count"
+                                        UpdateSourceTrigger="PropertyChanged" />
+                                </MultiBinding>
+                            </DataTrigger.Binding>
+                            <DataTrigger.Setters>
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger.Setters>
+                        </DataTrigger>-->
+                        <DataTrigger Binding="{Binding IsLoading, Mode=OneWay}" Value="True">
+                            <DataTrigger.Setters>
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </Style>
+            </StackPanel.Style>
+            <controls:GifImage GifSource="/Data/UI/loading.gif" Width="24" Height="24" AutoStart="True" Stretch="Fill" />
+            <TextBox Style="{StaticResource LabelBox}" VerticalAlignment="Center" FontSize="18" Margin="5,0,0,0" Text="Loading items..." />
+        </StackPanel>
+    </Grid>
+</UserControl>

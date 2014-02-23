@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.SrsPageNavigationControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="500">
+
+    <UniformGrid Rows="1">
+        <Button Content="Add a kanji item" ToolTip="Add a new kanji SRS item to your list"
+            Margin="0 0 5 0" Command="{Binding AddKanjiItemCommand}" Style="{StaticResource ActionButton}" />
+        <Button Content="Add a vocab item" ToolTip="Add a new vocab SRS item to your list"
+            Margin="0 0 5 0" Command="{Binding AddVocabItemCommand}" Style="{StaticResource ActionButton}" />
+        <Button Content="Dashboard" ToolTip="Return to the dashboard"
+            Margin="0 0 5 0" Command="{Binding SwitchToDashboardCommand}">
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ControlMode}" Value="Dashboard">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button Content="Browse SRS items" ToolTip="Display the SRS item filter panel"
+            Grid.Column="1" Command="{Binding SwitchToSimpleFilterCommand}">
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ControlMode}" Value="SimpleFilter">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+    </UniformGrid>
+</UserControl>

@@ -1,0 +1,73 @@
+﻿<controls:SrsEntryFilterControlBase x:Class="Kanji.Interface.Controls.SrsEntryTypeFilterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:Kanji.Interface.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="500">
+
+    <controls:SrsEntryFilterControlBase.Style>
+        <Style TargetType="{x:Type controls:SrsEntryFilterControlBase}">
+            <Style.Triggers>
+                <Trigger Property="IsInline" Value="True">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <!-- Inline template -->
+                            <ControlTemplate TargetType="UserControl">
+                                <Grid VerticalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <CheckBox Content="Kanji items" HorizontalAlignment="Center"
+                                        IsChecked="{Binding IsKanjiItemEnabled}"
+                                        Command="{Binding FilterChangedCommand}"
+                                        ToolTip="Include kanji items" />
+                                    <CheckBox Grid.Column="1" Content="Vocab items"
+                                        HorizontalAlignment="Center"
+                                        IsChecked="{Binding IsVocabItemEnabled}"
+                                        Command="{Binding FilterChangedCommand}"
+                                        ToolTip="Include vocab items" />
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <!-- NON-Inline template -->
+                    <ControlTemplate TargetType="UserControl">
+                        <Grid VerticalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="Kanji items" Style="{StaticResource LegendText}"
+                                HorizontalAlignment="Center" Margin="0 0 0 5" />
+                            <TextBlock Grid.Column="1" Text="Vocab items" Style="{StaticResource LegendText}"
+                                HorizontalAlignment="Center" Margin="0 0 0 5" />
+                            
+                            <CheckBox Grid.Row="1" HorizontalAlignment="Center"
+                                IsChecked="{Binding IsKanjiItemEnabled}"
+                                Command="{Binding FilterChangedCommand}"
+                                ToolTip="Include kanji items" />
+                            <CheckBox Grid.Row="1" Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                IsChecked="{Binding IsVocabItemEnabled}"
+                                Command="{Binding FilterChangedCommand}"
+                                ToolTip="Include vocab items" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </controls:SrsEntryFilterControlBase.Style>
+</controls:SrsEntryFilterControlBase>

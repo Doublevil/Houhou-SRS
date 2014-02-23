@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.SrsEntryLevelFilterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:behaviors="clr-namespace:Kanji.Interface.Behaviors"
+             xmlns:cmodels="clr-namespace:Kanji.Common.Models;assembly=Kanji.Common"
+             xmlns:controls="clr-namespace:Kanji.Interface.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Text="Level must be" Style="{StaticResource LegendText}" VerticalAlignment="Center" />
+        <ComboBox Grid.Column="1" Margin="5 0" VerticalAlignment="Center" VerticalContentAlignment="Center"
+            FontSize="15" FontWeight="SemiBold"
+            ItemsSource="{Binding Source={StaticResource ComparisonOperatorEnum}}"
+            SelectedItem="{Binding ComparisonOperator, UpdateSourceTrigger=PropertyChanged}"
+            behaviors:SelectionChangedBehavior.Command="{Binding FilterChangedCommand}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}"
+                        VerticalAlignment="Center" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <controls:SrsLevelPicker Grid.Column="2" ToolTip="Pick an SRS level to filter."
+            DataContext="{Binding SrsLevelPickerVm}" HorizontalAlignment="Left" />
+    </Grid>
+</UserControl>

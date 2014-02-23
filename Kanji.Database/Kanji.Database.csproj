@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DE9C84B3-418E-40ED-B224-A07E8361494B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kanji.Database</RootNamespace>
+    <AssemblyName>Kanji.Database</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.88.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Data.SQLite.1.0.88.0\lib\net40\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.88.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Data.SQLite.1.0.88.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Business\SQLiteBulkInsert.cs" />
+    <Compile Include="Dao\Dao.cs" />
+    <Compile Include="Dao\DaoConnection.cs" />
+    <Compile Include="Dao\DaoConnectionEnum.cs" />
+    <Compile Include="Dao\GlobalDao.cs" />
+    <Compile Include="Dao\KanjiDao.cs" />
+    <Compile Include="Dao\DaoParameter.cs" />
+    <Compile Include="Dao\RadicalDao.cs" />
+    <Compile Include="Dao\SrsEntryDao.cs" />
+    <Compile Include="Dao\VocabDao.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\KanjiDatabase\Joins\KanjiRadicalJoinEntity.cs" />
+    <Compile Include="Entities\KanjiDatabase\Joins\KanjiVocabJoinEntity.cs" />
+    <Compile Include="Entities\KanjiDatabase\Joins\VocabCategoryVocabJoinEntity.cs" />
+    <Compile Include="Entities\KanjiDatabase\Joins\VocabMeaningVocabCategoryJoinEntity.cs" />
+    <Compile Include="Entities\KanjiDatabase\Joins\VocabVocabMeaningJoinEntity.cs" />
+    <Compile Include="Entities\KanjiDatabase\KanjiEntity.cs" />
+    <Compile Include="Entities\KanjiDatabase\KanjiMeaning.cs" />
+    <Compile Include="Entities\KanjiDatabase\RadicalEntity.cs" />
+    <Compile Include="Entities\UserDatabase\SrsEntry.cs" />
+    <Compile Include="Entities\KanjiDatabase\VocabCategory.cs" />
+    <Compile Include="Entities\KanjiDatabase\VocabEntity.cs" />
+    <Compile Include="Entities\KanjiDatabase\VocabMeaning.cs" />
+    <Compile Include="Entities\KanjiDatabase\VocabMeaningEntry.cs" />
+    <Compile Include="EntityBuilders\EntityBuilder.cs" />
+    <Compile Include="EntityBuilders\KanjiBuilder.cs" />
+    <Compile Include="EntityBuilders\KanjiMeaningBuilder.cs" />
+    <Compile Include="EntityBuilders\RadicalBuilder.cs" />
+    <Compile Include="EntityBuilders\SrsEntryBuilder.cs" />
+    <Compile Include="EntityBuilders\VocabBuilder.cs" />
+    <Compile Include="EntityBuilders\VocabCategoryBuilder.cs" />
+    <Compile Include="EntityBuilders\VocabMeaningBuilder.cs" />
+    <Compile Include="EntityBuilders\VocabMeaningEntryBuilder.cs" />
+    <Compile Include="Extensions\NameValueCollectionExtensions.cs" />
+    <Compile Include="Helpers\ConnectionStringHelper.cs" />
+    <Compile Include="Helpers\MultiValueFieldHelper.cs" />
+    <Compile Include="Helpers\SqlHelper.cs" />
+    <Compile Include="Models\FilterClauses\Concrete\SrsEntryFilterClauses.cs" />
+    <Compile Include="Models\FilterClauses\MultiFieldComparisonFilterClause.cs" />
+    <Compile Include="Models\FilterClauses\MultiFieldFilterClause.cs" />
+    <Compile Include="Models\FilterClauses\StringFieldSearchFilterClause.cs" />
+    <Compile Include="Models\FilterClauses\NullFieldFilterClause.cs" />
+    <Compile Include="Models\FilterClauses\SingleFieldFilterClause.cs" />
+    <Compile Include="Models\FilterClauses\SingleFieldComparisonFilterClause.cs" />
+    <Compile Include="Models\RadicalGroup.cs" />
+    <Compile Include="Models\FilterClause.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SQL\KanjiDatabaseCreate.sql" />
+    <Content Include="SQL\SrsDatabaseCreate.sql" />
+    <Content Include="x64\SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kanji.Common\Kanji.Common.csproj">
+      <Project>{52ef53c1-9ef6-471e-8afc-2874bf7c77f2}</Project>
+      <Name>Kanji.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
