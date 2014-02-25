@@ -21,8 +21,8 @@ namespace Kanji.Interface.Business
         #region Constants
 
         // Delay before the first update check once the instance is initialized.
-        //private static readonly TimeSpan BeforeFirstCheckDelay = TimeSpan.FromMinutes(5);
-        private static readonly TimeSpan BeforeFirstCheckDelay = TimeSpan.FromSeconds(10);
+        private static readonly TimeSpan BeforeFirstCheckDelay = TimeSpan.FromMinutes(2);
+        //private static readonly TimeSpan BeforeFirstCheckDelay = TimeSpan.FromSeconds(10);
 
         // Delay before another update check attempt is issued when an error occurs during a check.
         private static readonly TimeSpan CheckAttemptErrorDelay = TimeSpan.FromSeconds(5);

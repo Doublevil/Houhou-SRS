@@ -341,7 +341,10 @@
 		<col def="S0">ISDotNetInstallerArgsCommit</col>
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
-		<row><td>Kanji.Interface.Fichiers_de_contenu</td><td>{7B3D946A-DA2E-437E-B0AC-A28B039FADC5}</td><td>INSTALLDIR</td><td>2</td><td/><td>kanji.interface.fichiers_de_</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT</td><td>{D8770D58-1E36-441C-86EF-88286310E62F}</td><td>CommonAppDataFolder</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{3B246D5D-5242-4BA5-BDCA-CB9E879DE6CE}</td><td>HOUHOU_SRS2</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT2</td><td>{BB1A3F72-3F2C-4CE3-8BB8-27B7AFC166F2}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Kanji.Interface.Fichiers_de_contenu2</td><td>{DFC26B84-E955-4285-8F8D-6DAAA7A58600}</td><td>INSTALLDIR</td><td>2</td><td/><td>kanji.interface.fichiers_de_2</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Kanji.Interface.Sortie_principale</td><td>{773380C9-59F2-40F5-B110-3E0561264E19}</td><td>INSTALLDIR</td><td>2</td><td/><td>kanji.interface.sortie_princ</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
@@ -1052,6 +1055,7 @@
 	<table name="CreateFolder">
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
+		<row><td>CommonAppDataFolder</td><td>ISX_DEFAULTCOMPONENT</td></row>
 	</table>
 
 	<table name="CustomAction">
@@ -1145,6 +1149,7 @@
 		<row><td>GlobalAssemblyCache</td><td>TARGETDIR</td><td>.:Global~1|GlobalAssemblyCache</td><td/><td>0</td><td/></row>
 		<row><td>HOUHOU_SRS</td><td>DOUBLEVIL</td><td>HOUHOU~1|Houhou SRS</td><td/><td>0</td><td/></row>
 		<row><td>HOUHOU_SRS1</td><td>ProgramFilesFolder</td><td>HOUHOU~1|Houhou SRS</td><td/><td>0</td><td/></row>
+		<row><td>HOUHOU_SRS2</td><td>CommonAppDataFolder</td><td>HOUHOU~1|Houhou SRS</td><td/><td>0</td><td/></row>
 		<row><td>INSTALLDIR</td><td>HOUHOU_SRS1</td><td>.</td><td/><td>0</td><td/></row>
 		<row><td>ISCommonFilesFolder</td><td>CommonFilesFolder</td><td>Instal~1|InstallShield</td><td/><td>0</td><td/></row>
 		<row><td>ISMyCompanyDir</td><td>ProgramFilesFolder</td><td>MYCOMP~1|My Company Name</td><td/><td>0</td><td/></row>
@@ -1866,7 +1871,10 @@
 	<table name="FeatureComponents">
 		<col key="yes" def="s38">Feature_</col>
 		<col key="yes" def="s72">Component_</col>
-		<row><td>AlwaysInstall</td><td>Kanji.Interface.Fichiers_de_contenu</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT2</td></row>
+		<row><td>AlwaysInstall</td><td>Kanji.Interface.Fichiers_de_contenu2</td></row>
 		<row><td>AlwaysInstall</td><td>Kanji.Interface.Sortie_principale</td></row>
 	</table>
 
@@ -1882,8 +1890,10 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
-		<row><td>kanji.interface.fichiers_de_</td><td>Kanji.Interface.Fichiers_de_contenu</td><td>Kanji.Interface.Fichiers de contenu</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Kanji.Interface&gt;|ContentFiles</td><td>3</td><td/></row>
+		<row><td>kanji.interface.fichiers_de_2</td><td>Kanji.Interface.Fichiers_de_contenu2</td><td>Kanji.Interface.Fichiers de contenu</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Kanji.Interface&gt;|ContentFiles</td><td>3</td><td/></row>
 		<row><td>kanji.interface.sortie_princ</td><td>Kanji.Interface.Sortie_principale</td><td>Kanji.Interface.Sortie principale</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Kanji.Interface&gt;|Built</td><td>3</td><td/></row>
+		<row><td>kanjidatabase.sqlite</td><td>ISX_DEFAULTCOMPONENT1</td><td>KANJID~1.SQL|KanjiDatabase.sqlite</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\..\Kanji.Interface\Data\KanjiDatabase.sqlite</td><td>1</td><td/></row>
+		<row><td>kanjidatabase.sqlite2</td><td>ISX_DEFAULTCOMPONENT2</td><td>KANJID~1.SQL|KanjiDatabase.sqlite</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\..\Kanji.Interface\Data\KanjiDatabase.sqlite</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2027,7 +2037,10 @@
 		<col def="S0">FTPLocation</col>
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
-		<row><td>Kanji.Interface.Fichiers_de_contenu</td><td/><td/><td>_27131780_3C63_4939_BA86_7944D431DA82_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_7011E4E7_40A6_4F04_8364_588D50F391ED_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_44E9FF04_6027_4C90_AF4B_00B162831CEA_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT2</td><td/><td/><td>_9FB88D4C_16BD_484D_8350_77630D0863D3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Kanji.Interface.Fichiers_de_contenu2</td><td/><td/><td>_F5490F2E_89EB_4313_A468_1B487E655FC8_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Kanji.Interface.Sortie_principale</td><td/><td/><td>_A97DD83F_861D_4CB8_9B40_7F3CC25A0253_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
@@ -2613,6 +2626,7 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
+		<row><td>_C3B191AF_C253_4A30_A7DF_CDDB4ED2AB22_</td><td>Microsoft .NET Framework 4.5 Full.prq</td><td/><td>2</td><td/></row>
 	</table>
 
 	<table name="ISSetupType">
@@ -2646,7 +2660,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>1033</td><td>Doublevil</td><td>0</td><td/><td>-1994207056</td></row>
+		<row><td>COMPANY_NAME</td><td>1033</td><td>Doublevil</td><td>0</td><td/><td>-920462157</td></row>
 		<row><td>DN_AlwaysInstall</td><td>1033</td><td>Always Install</td><td>0</td><td/><td>-1994233680</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>1033</td><td>The color settings of your system are not adequate for running [ProductName].</td><td>0</td><td/><td>-1994233680</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_DOTNETVERSION45FULL</td><td>1033</td><td>Microsoft .NET Framework 4.5 Full package or greater needs to be installed for this installation to continue.</td><td>0</td><td/><td>-1994241808</td></row>
@@ -3459,7 +3473,7 @@
 		<row><td>IDS_PROGMSG_XML_UPDATE_FILE</td><td>1033</td><td>Updating XML file %s...</td><td>0</td><td/><td>-1994233680</td></row>
 		<row><td>IDS_SETUPEXE_EXPIRE_MSG</td><td>1033</td><td>This setup works until %s. The setup will now exit.</td><td>0</td><td/><td>-1994233680</td></row>
 		<row><td>IDS_SETUPEXE_LAUNCH_COND_E</td><td>1033</td><td>This setup was built with an evaluation version of InstallShield and can only be launched from setup.exe.</td><td>0</td><td/><td>-1994233680</td></row>
-		<row><td>IDS_SHORTCUT_DISPLAY_NAME1</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-1188900369</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME1</td><td>1033</td><td>HOUHOU~1|Houhou SRS</td><td>0</td><td/><td>-920470419</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO</td><td>1033</td><td>From the list of servers below, select the database server you would like to target.</td><td>0</td><td/><td>-1994233680</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_DB</td><td>1033</td><td>From the list of catalog names below, select the database catalog you would like to target.</td><td>0</td><td/><td>-1994233680</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_TEMPLATE</td><td>1033</td><td>[IS_SQLBROWSE_INTRO]</td><td>0</td><td/><td>-1994233680</td></row>
@@ -3749,8 +3763,8 @@
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>-1994233680</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>-1994233680</td></row>
 		<row><td>ID_STRING1</td><td>1033</td><td/><td>0</td><td/><td>-1994231632</td></row>
-		<row><td>ID_STRING2</td><td>1033</td><td>http://www.houhou-srs.com</td><td>0</td><td/><td>-1994223408</td></row>
-		<row><td>ID_STRING3</td><td>1033</td><td>Doublevil</td><td>0</td><td/><td>-1994207056</td></row>
+		<row><td>ID_STRING2</td><td>1033</td><td>http://www.Doublevil.com</td><td>0</td><td/><td>-920462157</td></row>
+		<row><td>ID_STRING3</td><td>1033</td><td>Doublevil</td><td>0</td><td/><td>-920462157</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-1188951537</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>-1994233680</td></row>
 	</table>
@@ -3992,7 +4006,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{6C4E8A73-4EF6-4C3E-92B1-455E0CAAE5C1}</td></row>
 		<row><td>ISUSSignature</td><td>{B1579B32-26B0-4583-B49E-8065481DA5C2}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewAppFiles,viewUI,viewBillboards,viewTextMessages,viewCustomActions,viewRelease,viewRealSetupDesign,viewProject,viewInstallScriptStd</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewAppFiles,viewUI,viewBillboards,viewTextMessages,viewCustomActions,viewRelease,viewRealSetupDesign,viewProject,viewInstallScriptStd,viewObjects,viewShortcuts,viewFeatureFiles,viewUpgradePaths,viewUpdateService,viewSetupTypes,viewVRoots,viewSupportFiles,viewSystemSearch,viewServices</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
@@ -4231,6 +4245,8 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="s72">Shortcut_</col>
 		<col def="s0">PropertyKey</col>
 		<col def="s0">PropVariantValue</col>
+		<row><td>ShortcutProperty1</td><td>_Built</td><td>{9F4C2855-9F79-4B39-A8D0-E1D42DE1D5F3}, 12</td><td>1</td></row>
+		<row><td>ShortcutProperty2</td><td>_Built1</td><td>{9F4C2855-9F79-4B39-A8D0-E1D42DE1D5F3}, 12</td><td>1</td></row>
 	</table>
 
 	<table name="ODBCAttribute">

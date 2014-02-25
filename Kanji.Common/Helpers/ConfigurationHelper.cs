@@ -11,9 +11,16 @@ namespace Kanji.Common.Helpers
         #region Constants
 
         /// <summary>
-        /// Stores the path to the root application data directory.
+        /// Stores the path to the root application data directory,
+        /// from the working directory.
         /// </summary>
         public static readonly string DataRootPath = "Data";
+
+        /// <summary>
+        /// Stores the path to the dictionary database from the working directory.
+        /// </summary>
+        public static readonly string DictionaryDatabaseFilePath = Path.Combine(
+            DataRootPath, "KanjiDatabase.sqlite");
 
         /// <summary>
         /// Stores the path to the user content replicator directory.
@@ -26,6 +33,21 @@ namespace Kanji.Common.Helpers
         /// </summary>
         public static readonly string DataUserContentDefaultDatabaseFilePath = Path.Combine(
             DataUserContentDirectoryPath, "SrsDatabase.sqlite");
+
+        /// <summary>
+        /// Stores the path to the common data directory.
+        /// Used to store the database, because trying to access a database in the installation directory
+        /// may not work, depending on the path (e.g. Program Files).
+        /// </summary>
+        public static readonly string CommonDataDirectoryPath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+            "Houhou SRS");
+
+        /// <summary>
+        /// Stores the path to the dictionary database file in the common data directory path.
+        /// </summary>
+        public static readonly string CommonDataDictionaryDatabaseFilePath = Path.Combine(
+            CommonDataDirectoryPath, "KanjiDatabase.sqlite");
 
         /// <summary>
         /// Stores the path to the user content root directory path.
@@ -75,11 +97,21 @@ namespace Kanji.Common.Helpers
             CreateDirectoryIfNotExist(UserContentDirectoryPath);
             CreateDirectoryIfNotExist(UserContentRadicalDirectoryPath);
             CreateDirectoryIfNotExist(UserContentSrsLevelDirectoryPath);
+            CreateDirectoryIfNotExist(CommonDataDirectoryPath);
 
-            // Make sure the initial files exist.
+            // Make sure the dictionary database exists in the common data directory.
+            if (!File.Exists(CommonDataDictionaryDatabaseFilePath))
+            {
+                File.Copy(DictionaryDatabaseFilePath, CommonDataDictionaryDatabaseFilePath);
+            }
+
+            // Set the DataDirectory to enable correct database path resolution.
+            AppDomain.CurrentDomain.SetData("DataDirectory", CommonDataDirectoryPath);
+
+            // Make sure the initial user config files exist.
             ReplicateInitialUserContent();
 
-            // Make sure the database file exists.
+            // Make sure the user database file exists.
             if (!File.Exists(UserContentSrsDatabaseFilePath))
             {
                 File.Copy(DataUserContentDefaultDatabaseFilePath,

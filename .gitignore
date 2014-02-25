@@ -13,3 +13,4 @@ Kanji.Interface/bin
 Kanji.Interface/Data/KanjiDatabase.sqlite
 NotifyIconWpf/obj
 NotifyIconWpf/bin
+*.suo
