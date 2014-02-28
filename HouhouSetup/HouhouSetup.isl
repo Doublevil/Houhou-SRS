@@ -342,7 +342,6 @@
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{D8770D58-1E36-441C-86EF-88286310E62F}</td><td>CommonAppDataFolder</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{3B246D5D-5242-4BA5-BDCA-CB9E879DE6CE}</td><td>HOUHOU_SRS2</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT2</td><td>{BB1A3F72-3F2C-4CE3-8BB8-27B7AFC166F2}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Kanji.Interface.Fichiers_de_contenu2</td><td>{DFC26B84-E955-4285-8F8D-6DAAA7A58600}</td><td>INSTALLDIR</td><td>2</td><td/><td>kanji.interface.fichiers_de_2</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Kanji.Interface.Sortie_principale</td><td>{773380C9-59F2-40F5-B110-3E0561264E19}</td><td>INSTALLDIR</td><td>2</td><td/><td>kanji.interface.sortie_princ</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -1056,6 +1055,7 @@
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
 		<row><td>CommonAppDataFolder</td><td>ISX_DEFAULTCOMPONENT</td></row>
+		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 	</table>
 
 	<table name="CustomAction">
@@ -1071,6 +1071,7 @@
 		<row><td>ISSelfRegisterCosting</td><td>1</td><td>ISSELFREG.DLL</td><td>ISSelfRegisterCosting</td><td/><td/></row>
 		<row><td>ISSelfRegisterFiles</td><td>3073</td><td>ISSELFREG.DLL</td><td>ISSelfRegisterFiles</td><td/><td/></row>
 		<row><td>ISSelfRegisterFinalize</td><td>1</td><td>ISSELFREG.DLL</td><td>ISSelfRegisterFinalize</td><td/><td/></row>
+		<row><td>ISSetAllUsers</td><td>257</td><td>SetAllUsers.dll</td><td>SetAllUsers</td><td/><td/></row>
 		<row><td>ISUnSelfRegisterFiles</td><td>3073</td><td>ISSELFREG.DLL</td><td>ISUnSelfRegisterFiles</td><td/><td/></row>
 		<row><td>LaunchProgramFileFromSetupCompleteSuccess</td><td>1</td><td>NewBinary19</td><td>LaunchProgram</td><td/><td/></row>
 		<row><td>SetARPINSTALLLOCATION</td><td>51</td><td>ARPINSTALLLOCATION</td><td>[INSTALLDIR]</td><td/><td/></row>
@@ -1149,7 +1150,6 @@
 		<row><td>GlobalAssemblyCache</td><td>TARGETDIR</td><td>.:Global~1|GlobalAssemblyCache</td><td/><td>0</td><td/></row>
 		<row><td>HOUHOU_SRS</td><td>DOUBLEVIL</td><td>HOUHOU~1|Houhou SRS</td><td/><td>0</td><td/></row>
 		<row><td>HOUHOU_SRS1</td><td>ProgramFilesFolder</td><td>HOUHOU~1|Houhou SRS</td><td/><td>0</td><td/></row>
-		<row><td>HOUHOU_SRS2</td><td>CommonAppDataFolder</td><td>HOUHOU~1|Houhou SRS</td><td/><td>0</td><td/></row>
 		<row><td>INSTALLDIR</td><td>HOUHOU_SRS1</td><td>.</td><td/><td>0</td><td/></row>
 		<row><td>ISCommonFilesFolder</td><td>CommonFilesFolder</td><td>Instal~1|InstallShield</td><td/><td>0</td><td/></row>
 		<row><td>ISMyCompanyDir</td><td>ProgramFilesFolder</td><td>MYCOMP~1|My Company Name</td><td/><td>0</td><td/></row>
@@ -1872,7 +1872,6 @@
 		<col key="yes" def="s38">Feature_</col>
 		<col key="yes" def="s72">Component_</col>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
-		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 		<row><td>AlwaysInstall</td><td>Kanji.Interface.Fichiers_de_contenu2</td></row>
 		<row><td>AlwaysInstall</td><td>Kanji.Interface.Sortie_principale</td></row>
@@ -1892,8 +1891,6 @@
 		<col def="S72">ISComponentSubFolder_</col>
 		<row><td>kanji.interface.fichiers_de_2</td><td>Kanji.Interface.Fichiers_de_contenu2</td><td>Kanji.Interface.Fichiers de contenu</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Kanji.Interface&gt;|ContentFiles</td><td>3</td><td/></row>
 		<row><td>kanji.interface.sortie_princ</td><td>Kanji.Interface.Sortie_principale</td><td>Kanji.Interface.Sortie principale</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Kanji.Interface&gt;|Built</td><td>3</td><td/></row>
-		<row><td>kanjidatabase.sqlite</td><td>ISX_DEFAULTCOMPONENT1</td><td>KANJID~1.SQL|KanjiDatabase.sqlite</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\..\Kanji.Interface\Data\KanjiDatabase.sqlite</td><td>1</td><td/></row>
-		<row><td>kanjidatabase.sqlite2</td><td>ISX_DEFAULTCOMPONENT2</td><td>KANJID~1.SQL|KanjiDatabase.sqlite</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\..\Kanji.Interface\Data\KanjiDatabase.sqlite</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2038,7 +2035,6 @@
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_7011E4E7_40A6_4F04_8364_588D50F391ED_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_44E9FF04_6027_4C90_AF4B_00B162831CEA_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT2</td><td/><td/><td>_9FB88D4C_16BD_484D_8350_77630D0863D3_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Kanji.Interface.Fichiers_de_contenu2</td><td/><td/><td>_F5490F2E_89EB_4313_A468_1B487E655FC8_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Kanji.Interface.Sortie_principale</td><td/><td/><td>_A97DD83F_861D_4CB8_9B40_7F3CC25A0253_FILTER</td><td/><td/><td/><td/></row>
@@ -3919,6 +3915,7 @@
 		<row><td>ISSelfRegisterCosting</td><td/><td>2201</td><td/><td/></row>
 		<row><td>ISSelfRegisterFiles</td><td/><td>5601</td><td/><td/></row>
 		<row><td>ISSelfRegisterFinalize</td><td/><td>6601</td><td/><td/></row>
+		<row><td>ISSetAllUsers</td><td>Not Installed</td><td>10</td><td/><td/></row>
 		<row><td>ISUnSelfRegisterFiles</td><td/><td>2202</td><td/><td/></row>
 		<row><td>InstallFiles</td><td/><td>4000</td><td>InstallFiles</td><td/></row>
 		<row><td>InstallFinalize</td><td/><td>6600</td><td>InstallFinalize</td><td/></row>
@@ -4006,7 +4003,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{6C4E8A73-4EF6-4C3E-92B1-455E0CAAE5C1}</td></row>
 		<row><td>ISUSSignature</td><td>{B1579B32-26B0-4583-B49E-8065481DA5C2}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewAppFiles,viewUI,viewBillboards,viewTextMessages,viewCustomActions,viewRelease,viewRealSetupDesign,viewProject,viewInstallScriptStd,viewObjects,viewShortcuts,viewFeatureFiles,viewUpgradePaths,viewUpdateService,viewSetupTypes,viewVRoots,viewSupportFiles,viewSystemSearch,viewServices</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewAppFiles,viewUI,viewBillboards,viewTextMessages,viewCustomActions,viewRelease,viewRealSetupDesign,viewProject,viewInstallScriptStd,viewObjects,viewShortcuts,viewFeatureFiles,viewUpgradePaths,viewUpdateService,viewSetupTypes,viewVRoots,viewSupportFiles,viewSystemSearch,viewServices,viewDesignPatches</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
@@ -4036,6 +4033,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>FileCost</td><td/><td>900</td><td>FileCost</td><td/></row>
 		<row><td>FindRelatedProducts</td><td/><td>430</td><td>FindRelatedProducts</td><td/></row>
 		<row><td>ISPreventDowngrade</td><td>ISFOUNDNEWERPRODUCTVERSION</td><td>450</td><td>ISPreventDowngrade</td><td/></row>
+		<row><td>ISSetAllUsers</td><td>Not Installed</td><td>10</td><td/><td/></row>
 		<row><td>InstallWelcome</td><td>Not Installed</td><td>1210</td><td>InstallWelcome</td><td/></row>
 		<row><td>IsolateComponents</td><td/><td>950</td><td>IsolateComponents</td><td/></row>
 		<row><td>LaunchConditions</td><td>Not Installed</td><td>410</td><td>LaunchConditions</td><td/></row>
@@ -4358,6 +4356,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>LAUNCHPROGRAMCOMPCODE</td><td>{773380C9-59F2-40F5-B110-3E0561264E19}</td><td/></row>
 		<row><td>LAUNCHPROGRAMFILEKEY</td><td>kanji.interface.sortie_princ</td><td/></row>
 		<row><td>LAUNCHREADME</td><td>1</td><td/></row>
+		<row><td>MSIFASTINSTALL</td><td>0</td><td/></row>
 		<row><td>Manufacturer</td><td>##COMPANY_NAME##</td><td/></row>
 		<row><td>PIDKEY</td><td/><td/></row>
 		<row><td>PIDTemplate</td><td>12345&lt;###-%%%%%%%&gt;@@@@@</td><td/></row>
@@ -4387,7 +4386,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]Kanji.Interface.Sortie principale</td><td/></row>
 		<row><td>ProductCode</td><td>{002A6FB6-5584-4B53-AF67-A6455359B6B7}</td><td/></row>
 		<row><td>ProductName</td><td>Houhou SRS</td><td/></row>
-		<row><td>ProductVersion</td><td>1.00.0000</td><td/></row>
+		<row><td>ProductVersion</td><td>1.0.1.0</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>

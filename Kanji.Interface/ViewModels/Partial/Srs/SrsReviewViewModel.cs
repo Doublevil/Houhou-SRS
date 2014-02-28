@@ -539,9 +539,16 @@ namespace Kanji.Interface.ViewModels
             if (newLevel != null)
             {
                 // Set the next answer date according to the delay of the new level.
-                group.Reference.NextAnswerDate =
-                    DateTime.UtcNow
-                    + newLevel.Delay.Value;
+                if (newLevel.Delay.HasValue)
+                {
+                    group.Reference.NextAnswerDate =
+                        DateTime.UtcNow
+                        + newLevel.Delay.Value;
+                }
+                else
+                {
+                    group.Reference.NextAnswerDate = null;
+                }
 
                 group.Reference.CurrentGrade = newLevel.Value;
             }

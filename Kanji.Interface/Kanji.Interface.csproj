@@ -730,9 +730,9 @@
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Data\KanjiDatabase.sqlite">
+    <Content Include="Data\KanjiDatabase.sqlite">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <Content Include="Data\UserContent\SrsDatabase.sqlite">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

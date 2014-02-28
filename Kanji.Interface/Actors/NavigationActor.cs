@@ -211,10 +211,13 @@ namespace Kanji.Interface.Actors
         /// </summary>
         private void DoOpenWindow()
         {
-            MainWindow = new MainWindow();
-            ActiveWindow = MainWindow;
-            MainWindow.Closed += OnMainWindowClosed;
-            MainWindow.Show();
+            DispatcherHelper.Invoke(() =>
+            {
+                MainWindow = new MainWindow();
+                ActiveWindow = MainWindow;
+                MainWindow.Closed += OnMainWindowClosed;
+                MainWindow.Show();
+            });
         }
 
         /// <summary>

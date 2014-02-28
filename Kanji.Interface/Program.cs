@@ -145,17 +145,21 @@ namespace Kanji.Interface
             #if DEBUG
             throw ex;
             #else
-            System.Windows.MessageBox.Show(NavigationActor.Instance.ActiveWindow,
-                string.Format("It appears that Houhou has been vanquished by an evil {0}.{1}"
-                + "Houhou will now shutdown. Sorry for the inconvenience.{1}"
-                + "Houhou's last words were: \"{2}\". Oh the pain it must have been.{1}"
-                + "In the future, you will be able to submit a report when this happens.",
-                    ex.GetType().Name,
-                    Environment.NewLine,
-                    ex.Message),
-                "Fatal error",
-                System.Windows.MessageBoxButton.OK,
-                System.Windows.MessageBoxImage.Error);
+
+            DispatcherHelper.Invoke(() =>
+            {
+                System.Windows.MessageBox.Show(
+                    string.Format("It appears that Houhou has been vanquished by an evil {0}.{1}"
+                    + "Houhou will now shutdown. Sorry for the inconvenience.{1}"
+                    + "Houhou's last words were: \"{2}\". Oh the pain it must have been.{1}"
+                    + "In the future, you will be able to submit a report when this happens.",
+                        ex.GetType().Name,
+                        Environment.NewLine,
+                        ex.Message),
+                    "Fatal error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
+            });
 
             Environment.Exit(1);
             #endif

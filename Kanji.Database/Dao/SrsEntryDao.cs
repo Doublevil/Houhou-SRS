@@ -9,6 +9,7 @@ using Kanji.Database.EntityBuilders;
 using Kanji.Database.Helpers;
 using Kanji.Database.Extensions;
 using Kanji.Database.Models;
+using Kanji.Common.Helpers;
 
 namespace Kanji.Database.Dao
 {
@@ -487,7 +488,7 @@ namespace Kanji.Database.Dao
 
                 // SuspensionDate
                 sqlQueryBuilder.Append(SqlHelper.Field_SrsEntry_SuspensionDate + "=");
-                if (entity.NextAnswerDate == null)
+                if (entity.SuspensionDate == null)
                 {
                     sqlQueryBuilder.Append("null");
                 }
@@ -512,10 +513,10 @@ namespace Kanji.Database.Dao
                     "@AssociatedKanji", entity.AssociatedKanji));
 
                 // MeaningNote
-                    sqlQueryBuilder.Append(SqlHelper.Field_SrsEntry_MeaningNote
-                        + "=@MeaningNote,");
-                    parameters.Add(new DaoParameter(
-                        "@MeaningNote", entity.MeaningNote));
+                sqlQueryBuilder.Append(SqlHelper.Field_SrsEntry_MeaningNote
+                    + "=@MeaningNote,");
+                parameters.Add(new DaoParameter(
+                    "@MeaningNote", entity.MeaningNote));
 
                 // ReadingNote
                 sqlQueryBuilder.Append(SqlHelper.Field_SrsEntry_ReadingNote
@@ -556,6 +557,11 @@ namespace Kanji.Database.Dao
 
                 // Execute the query.
                 result = connection.ExecuteNonQuery(finalQuery, parameters.ToArray()) == 1;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.GetLogger(this.GetType().Name).Error(
+                    "An error occured during SRS item update.", ex);
             }
             finally
             {
