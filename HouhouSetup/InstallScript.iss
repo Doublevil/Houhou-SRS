@@ -6,12 +6,15 @@ DefaultGroupName=Houhou SRS
 UninstallDisplayIcon={app}\Houhou.exe
 Compression=lzma2
 SolidCompression=yes
-OutputDir=userdocs:Inno Setup Examples Output
 
 [Files]
-Source: "MyProg.exe"; DestDir: "{app}"
-Source: "MyProg.chm"; DestDir: "{app}"
-Source: "Readme.txt"; DestDir: "{app}"; Flags: isreadme
+Source: "..\Kanji.Interface\bin\Release\Data\*"; DestDir: "{app}\Data"; Flags: recursesubdirs
+Source: "..\Kanji.Interface\bin\Release\*.dll"; DestDir: "{app}"
+Source: "..\Kanji.Interface\bin\Release\Houhou.exe"; DestDir: "{app}"; DestName: "Houhou SRS.exe"
+Source: "..\Kanji.Interface\bin\Release\Houhou.exe.config"; DestDir: "{app}"; DestName: "Houhou SRS.exe.config"
+Source: "..\Kanji.Interface\bin\Release\x64\*.dll"; DestDir: "{app}\x64";
+Source: "..\Kanji.Interface\bin\Release\x86\*.dll"; DestDir: "{app}\x86";
 
 [Icons]
-Name: "{group}\My Program"; Filename: "{app}\MyProg.exe"
+Name: "{group}\Houhou SRS"; Filename: "{app}\Houhou SRS.exe"
+Name: "{commondesktop}\Houhou SRS"; Filename: "{app}\Houhou SRS.exe"

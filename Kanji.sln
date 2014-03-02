@@ -18,8 +18,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kanji.Common", "Kanji.Commo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotifyIconWpf", "NotifyIconWpf\NotifyIconWpf.csproj", "{7AC63864-7638-41C4-969C-D3197EF2BED9}"
 EndProject
-Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "HouhouSetup", "HouhouSetup\HouhouSetup.isproj", "{DBC454BA-A976-4E1E-B125-D6ECD83D7CE0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -79,16 +77,6 @@ Global
 		{7AC63864-7638-41C4-969C-D3197EF2BED9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7AC63864-7638-41C4-969C-D3197EF2BED9}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{7AC63864-7638-41C4-969C-D3197EF2BED9}.SingleImage|Any CPU.Build.0 = Release|Any CPU
-		{DBC454BA-A976-4E1E-B125-D6ECD83D7CE0}.CD_ROM|Any CPU.ActiveCfg = CD_ROM
-		{DBC454BA-A976-4E1E-B125-D6ECD83D7CE0}.CD_ROM|Any CPU.Build.0 = CD_ROM
-		{DBC454BA-A976-4E1E-B125-D6ECD83D7CE0}.Debug|Any CPU.ActiveCfg = DVD-5
-		{DBC454BA-A976-4E1E-B125-D6ECD83D7CE0}.Debug|Any CPU.Build.0 = DVD-5
-		{DBC454BA-A976-4E1E-B125-D6ECD83D7CE0}.DVD-5|Any CPU.ActiveCfg = DVD-5
-		{DBC454BA-A976-4E1E-B125-D6ECD83D7CE0}.DVD-5|Any CPU.Build.0 = DVD-5
-		{DBC454BA-A976-4E1E-B125-D6ECD83D7CE0}.Release|Any CPU.ActiveCfg = SingleImage
-		{DBC454BA-A976-4E1E-B125-D6ECD83D7CE0}.Release|Any CPU.Build.0 = SingleImage
-		{DBC454BA-A976-4E1E-B125-D6ECD83D7CE0}.SingleImage|Any CPU.ActiveCfg = SingleImage
-		{DBC454BA-A976-4E1E-B125-D6ECD83D7CE0}.SingleImage|Any CPU.Build.0 = SingleImage
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
