@@ -376,10 +376,9 @@ namespace Kanji.Database.Dao
                 isFiltered = true;
 
                 // Then include the test.
-                sqlMeaningFilter += "EXISTS (SELECT * FROM " + SqlHelper.Table_KanjiMeaning
-                    + " km WHERE km." + SqlHelper.Field_KanjiMeaning_KanjiId
-                    + "=k." + SqlHelper.Field_Kanji_Id + " AND "
-                    + "km." + SqlHelper.Field_KanjiMeaning_Language + " IS NULL "
+                sqlMeaningFilter += "k." + SqlHelper.Field_Kanji_Id + " IN (SELECT km."
+                    + SqlHelper.Field_KanjiMeaning_KanjiId + " FROM " + SqlHelper.Table_KanjiMeaning
+                    + " km WHERE km." + SqlHelper.Field_KanjiMeaning_Language + " IS NULL "
                     + "AND km." + SqlHelper.Field_KanjiMeaning_Meaning + " "
                     + "LIKE @meaningFilter) ";
 

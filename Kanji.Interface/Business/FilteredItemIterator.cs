@@ -22,6 +22,16 @@ namespace Kanji.Interface.Business
 
         #region Locks
 
+        /// <summary>
+        /// Locks the iteration operations and the filter application operations,
+        /// so that conflicting operations cannot be executed at the same time.
+        /// </summary>
+        private object _loadingLock = new object();
+
+        #endregion
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -33,16 +43,6 @@ namespace Kanji.Interface.Business
         /// Gets the total number of items in the list.
         /// </summary>
         public int ItemCount { get; private set; }
-
-        #endregion
-
-        /// <summary>
-        /// Locks the iteration operations and the filter application operations,
-        /// so that conflicting operations cannot be executed at the same time.
-        /// </summary>
-        private object _loadingLock = new object();
-
-        #endregion
 
         #endregion
 
