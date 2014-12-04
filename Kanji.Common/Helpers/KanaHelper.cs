@@ -777,6 +777,10 @@ namespace Kanji.Common.Helpers
             romaji = romaji.Replace("TA", "タ");
             romaji = romaji.Replace("ta", "た");
             romaji = romaji.Replace("TE", "テ");
+            romaji = romaji.Replace("ti", "ち");
+            romaji = romaji.Replace("TI", "チ");
+            romaji = romaji.Replace("tu", "つ");
+            romaji = romaji.Replace("TU", "ツ");
             romaji = romaji.Replace("te", "て");
             romaji = romaji.Replace("TO", "ト");
             romaji = romaji.Replace("to", "と");
