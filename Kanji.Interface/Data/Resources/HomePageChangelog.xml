@@ -1,6 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ArrayOfChangelogEntry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ChangelogEntry>
+    <Version>1.1</Version>
+    <Title>User folder modification</Title>
+    <Description>New feature: you can now move your user folder wherever you want. For example, synchronize your SRS database by using a Dropbox folder.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.1</Version>
+    <Title>CSV import</Title>
+    <Description>New feature: import SRS items from a CSV file.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.0.1</Version>
+    <Title>Bugfix</Title>
+    <Description>A minor bugfix release.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
     <Version>1.0</Version>
     <Title>Houhou is out!</Title>
     <Description>At last, Houhou is released.</Description>

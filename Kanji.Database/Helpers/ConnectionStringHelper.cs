@@ -14,13 +14,14 @@ namespace Kanji.Database.Helpers
         //public static readonly string SrsDatabaseConnectionName = "SrsDatabase";
         public static string SrsDatabaseConnectionString;
 
-        static ConnectionStringHelper()
+
+        public static void SetSrsDatabasePath(string path)
         {
             // Alter the connection string to the user SRS content database.
             // I couldn't find better ways to do that. Connection strings wouldn't work because of dynamic parts.
             Kanji.Database.Helpers.ConnectionStringHelper.SrsDatabaseConnectionString =
                 string.Format("data source={0};UTF8Encoding=True;Journal Mode=WAL",
-                ConfigurationHelper.UserContentSrsDatabaseFilePath);
+                path);
         }
 
         /// <summary>

@@ -231,5 +231,17 @@ namespace Kanji.Interface.Properties {
                 this["IsAutoUpdateCheckEnabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("[userdir]")]
+        public string UserDirectoryPath {
+            get {
+                return ((string)(this["UserDirectoryPath"]));
+            }
+            set {
+                this["UserDirectoryPath"] = value;
+            }
+        }
     }
 }

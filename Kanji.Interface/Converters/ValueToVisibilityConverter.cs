@@ -12,7 +12,7 @@ namespace Kanji.Interface.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is bool)
+            if (value is bool && parameter == null)
             {
                 bool b = (bool)value;
                 return b ? Visibility.Visible : Visibility.Collapsed;

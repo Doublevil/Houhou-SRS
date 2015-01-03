@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Kanji.Database.Helpers;
 
-namespace Kanji.Common.Helpers
+namespace Kanji.Interface.Helpers
 {
     public static class ConfigurationHelper
     {
@@ -54,13 +55,13 @@ namespace Kanji.Common.Helpers
         /// </summary>
         #if DEBUG
 
-        public static readonly string UserContentDirectoryPath = Path.Combine(
+        public static string UserContentDirectoryPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             "Houhou (Debug)");
 
         #else
 
-        public static readonly string UserContentDirectoryPath = Path.Combine(
+        public static string UserContentDirectoryPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             "Houhou");
 
@@ -69,20 +70,17 @@ namespace Kanji.Common.Helpers
         /// <summary>
         /// Stores the path to the user RadicalSets root directory.
         /// </summary>
-        public static readonly string UserContentRadicalDirectoryPath = Path.Combine(
-            UserContentDirectoryPath, "Radicals");
+        public static string UserContentRadicalDirectoryPath;
 
         /// <summary>
         /// Stores the path to the user SRSLevelSets root directory.
         /// </summary>
-        public static readonly string UserContentSrsLevelDirectoryPath = Path.Combine(
-            UserContentDirectoryPath, "SrsLevels");
+        public static string UserContentSrsLevelDirectoryPath;
 
         /// <summary>
         /// Stores the path to the SRS Database file.
         /// </summary>
-        public static readonly string UserContentSrsDatabaseFilePath = Path.Combine(
-            UserContentDirectoryPath, "SrsDatabase.sqlite");
+        public static string UserContentSrsDatabaseFilePath;
 
         #endregion
 
@@ -93,6 +91,12 @@ namespace Kanji.Common.Helpers
         /// </summary>
         public static void InitializeConfiguration()
         {
+            // First of all, check the user directory path.
+            CheckUserDirectoryPath();
+
+            // Set the SRS database path.
+            ConnectionStringHelper.SetSrsDatabasePath(UserContentSrsDatabaseFilePath);
+
             // Make sure user content directories exist.
             CreateDirectoryIfNotExist(UserContentDirectoryPath);
             CreateDirectoryIfNotExist(UserContentRadicalDirectoryPath);
@@ -117,6 +121,35 @@ namespace Kanji.Common.Helpers
                 File.Copy(DataUserContentDefaultDatabaseFilePath,
                     UserContentSrsDatabaseFilePath);
             }
+        }
+
+        /// <summary>
+        /// If the user directory path is empty, uses the default value.
+        /// </summary>
+        private static void CheckUserDirectoryPath()
+        {
+            if (string.IsNullOrWhiteSpace(Properties.Settings.Default.UserDirectoryPath) || Properties.Settings.Default.UserDirectoryPath.StartsWith("["))
+            {
+                // If path is empty, or starts with "[": for some reason the path was not replaced during installation.
+                Properties.Settings.Default.UserDirectoryPath = UserContentDirectoryPath;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                try
+                {
+                    CreateDirectoryIfNotExist(Properties.Settings.Default.UserDirectoryPath);
+                    UserContentDirectoryPath = Properties.Settings.Default.UserDirectoryPath;
+                }
+                catch (Exception ex)
+                {
+                    // Cannot use this directory. Leave the default path.
+                }
+            }
+
+            UserContentRadicalDirectoryPath = Path.Combine(UserContentDirectoryPath, "Radicals");
+            UserContentSrsLevelDirectoryPath = Path.Combine(UserContentDirectoryPath, "SrsLevels");
+            UserContentSrsDatabaseFilePath = Path.Combine(UserContentDirectoryPath, "SrsDatabase.sqlite");
         }
 
         /// <summary>

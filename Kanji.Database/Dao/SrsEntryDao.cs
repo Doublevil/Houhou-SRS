@@ -271,6 +271,51 @@ namespace Kanji.Database.Dao
         }
 
         /// <summary>
+        /// Gets a similar item (same kanji reading and type) if found.
+        /// </summary>
+        /// <param name="entry">Reference entry.</param>
+        /// <returns>The first matching item if found. Null otherwise.</returns>
+        public SrsEntry GetSimilarItem(SrsEntry entry)
+        {
+            SrsEntry r = null;
+            DaoConnection connection = null;
+            try
+            {
+                connection = DaoConnection.Open(DaoConnectionEnum.SrsDatabase);
+
+                List<DaoParameter> parameters = new List<DaoParameter>();
+                string request = "SELECT * FROM " + SqlHelper.Table_SrsEntry + " se WHERE se.";
+                if (!string.IsNullOrEmpty(entry.AssociatedKanji))
+                {
+                    request += SqlHelper.Field_SrsEntry_AssociatedKanji;
+                    parameters.Add(new DaoParameter("@kr", entry.AssociatedKanji));
+                }
+                else
+                {
+                    request += SqlHelper.Field_SrsEntry_AssociatedVocab;
+                    parameters.Add(new DaoParameter("@kr", entry.AssociatedVocab));
+                }
+                request += "=@kr";
+
+                NameValueCollection result = connection.Query(request, parameters.ToArray()).FirstOrDefault();
+                if (result != null)
+                {
+                    SrsEntryBuilder builder = new SrsEntryBuilder();
+                    r = builder.BuildEntity(result, null);
+                }
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Dispose();
+                }
+            }
+
+            return r;
+        }
+
+        /// <summary>
         /// Inserts the given entity in the database.
         /// Overrides the ID property of the given entity.
         /// </summary>

@@ -103,29 +103,29 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Xceed.Wpf.AvalonDock, Version=2.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=2.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.1.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.3\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=2.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=2.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.1.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.3\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=2.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=2.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.1.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.3\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=2.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=2.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.1.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.3\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.DataGrid, Version=2.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+    <Reference Include="Xceed.Wpf.DataGrid, Version=2.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.1.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.3\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit, Version=2.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.1.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.3\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -150,7 +150,9 @@
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\ComparablesToBooleanConverter.cs" />
     <Compile Include="Converters\DateTimeToStringConverter.cs" />
+    <Compile Include="Converters\EnumBooleanConverter.cs" />
     <Compile Include="Converters\PercentageToStringConverter.cs" />
+    <Compile Include="Converters\SrsEntryImportResultConverter.cs" />
     <Compile Include="Converters\SrsEntryToStringConverter.cs" />
     <Compile Include="Converters\StringAppendConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
@@ -158,6 +160,7 @@
     <Compile Include="Extensions\SrsEntryExtensions.cs" />
     <Compile Include="Extensions\StartPageEnumExtensions.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
+    <Compile Include="Helpers\ConfigurationHelper.cs" />
     <Compile Include="Helpers\ResourceHelper.cs" />
     <Compile Include="Helpers\UriHelper.cs" />
     <Compile Include="Models\ChangelogEntry.cs" />
@@ -168,6 +171,15 @@
     <Compile Include="Models\FilteringSrsEntry.cs" />
     <Compile Include="Models\HelpCategory.cs" />
     <Compile Include="Models\HelpInfo.cs" />
+    <Compile Include="Models\Import\CsvImportNoTypeBehavior.cs" />
+    <Compile Include="Models\Import\ImportDuplicateAction.cs" />
+    <Compile Include="Models\Import\ImportResult.cs" />
+    <Compile Include="Models\Import\ImportSpreadTimingMode.cs" />
+    <Compile Include="ViewModels\Partial\Import\ImportDuplicateOptionsViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Import\ImportOverviewViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Import\ImportProgressViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Import\ImportTimingViewModel.cs" />
+    <Compile Include="Models\Import\ImportTimingMode.cs" />
     <Compile Include="Models\SettingsCategoryEnum.cs" />
     <Compile Include="Models\SrsEntryFilter.cs" />
     <Compile Include="Models\SrsItemPerLevel.cs" />
@@ -218,12 +230,19 @@
     <Compile Include="Program.cs" />
     <Compile Include="Utilities\FixedSizeStack.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Import\CSV\CsvImportColumnsStepViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Import\CSV\CsvImportFileStepViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Import\CSV\CsvImportViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Import\ImportModeViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Import\ImportStepViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Import\ImportViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingDoUpdateCheckViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingSrsLevelSetViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingTrayAutoStartViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingTrayDoNotifyViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingTrayIntervalViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingTrayNotifyThresholdViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Settings\Controls\SettingUserDirectoryViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Pages\ApplicationSettingsViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingRadicalSetViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingStartPageViewModel.cs" />
@@ -260,6 +279,9 @@
     <Compile Include="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ImportWindow.xaml.cs">
+      <DependentUpon>ImportWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Partial\Common\CollapsiblePanel.xaml.cs">
       <DependentUpon>CollapsiblePanel.xaml</DependentUpon>
     </Compile>
@@ -274,6 +296,21 @@
     </Compile>
     <Compile Include="Views\Partial\Home\HomeLinkControl.xaml.cs">
       <DependentUpon>HomeLinkControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Import\CSV\ImportCsvAfterLoad.xaml.cs">
+      <DependentUpon>ImportCsvAfterLoad.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Import\CSV\ImportCsvInitial.xaml.cs">
+      <DependentUpon>ImportCsvInitial.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Import\ImportOverview.xaml.cs">
+      <DependentUpon>ImportOverview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Import\ImportProgress.xaml.cs">
+      <DependentUpon>ImportProgress.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Import\ImportSelectionDialog.xaml.cs">
+      <DependentUpon>ImportSelectionDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\ItemList\ListInfoHeaderControl.xaml.cs">
       <DependentUpon>ListInfoHeaderControl.xaml</DependentUpon>
@@ -316,6 +353,9 @@
     </Compile>
     <Compile Include="Views\Partial\Settings\Controls\SettingUpdateControl.xaml.cs">
       <DependentUpon>SettingUpdateControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Settings\Controls\SettingUserDirectory.xaml.cs">
+      <DependentUpon>SettingUserDirectory.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\Settings\Pages\ApplicationSettingsControl.xaml.cs">
       <DependentUpon>ApplicationSettingsControl.xaml</DependentUpon>
@@ -466,6 +506,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ImportWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Partial\Common\CollapsiblePanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -483,6 +527,26 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Partial\Home\HomeLinkControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Import\CSV\ImportCsvAfterLoad.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Import\CSV\ImportCsvInitial.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Import\ImportOverview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Import\ImportProgress.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Import\ImportSelectionDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -539,6 +603,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\Settings\Controls\SettingUpdateControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Settings\Controls\SettingUserDirectory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -709,6 +777,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Data\UI\CsvIcon.png" />
+    <Resource Include="Data\UI\WaniKaniIcon.png" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

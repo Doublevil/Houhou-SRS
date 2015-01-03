@@ -28,6 +28,8 @@
     <converters:StringAppendConverter x:Key="StringAppendConverter" />
     <converters:BooleanInverterConverter x:Key="BooleanInverterConverter" />
     <converters:StringFormatConverter x:Key="StringFormatConverter" />
+    <converters:EnumBooleanConverter x:Key="EnumBooleanConverter" />
+    <converters:SrsEntryImportResultConverter x:Key="SrsEntryImportResultConverter" />
 
     <!-- ObjectDataProviders -->
     <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="KanjiFilterModeEnum">
@@ -38,6 +40,11 @@
     <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="ComparisonOperatorEnum">
         <ObjectDataProvider.MethodParameters>
             <x:Type TypeName="cmodels:ComparisonOperatorEnum" />
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="CsvImportNoTypeBehaviorEnum">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="models:CsvImportNoTypeBehavior" />
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
     

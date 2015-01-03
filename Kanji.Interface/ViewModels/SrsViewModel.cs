@@ -105,6 +105,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public RelayCommand AddVocabItemCommand { get; private set; }
 
+        /// <summary>
+        /// Gets the command used to import SRS items.
+        /// </summary>
+        public RelayCommand ImportCommand { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -130,6 +135,7 @@ namespace Kanji.Interface.ViewModels
             SwitchToSimpleFilterCommand = new RelayCommand(OnSwitchToSimpleFilter);
             AddKanjiItemCommand = new RelayCommand(OnAddKanjiItem);
             AddVocabItemCommand = new RelayCommand(OnAddVocabItem);
+            ImportCommand = new RelayCommand(OnImport);
         }
 
         #endregion
@@ -229,6 +235,16 @@ namespace Kanji.Interface.ViewModels
         private void OnAddVocabItem()
         {
             AddSrsItem(false);
+        }
+
+        /// <summary>
+        /// Command callback
+        /// Opens the import window.
+        /// </summary>
+        private void OnImport()
+        {
+            ImportWindow wnd = new ImportWindow();
+            wnd.Show();
         }
 
         #endregion

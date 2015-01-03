@@ -46,6 +46,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public SettingTrayNotifyThresholdViewModel SrsTrayThresholdVm { get; private set; }
 
+        /// <summary>
+        /// Gets the User Directory view model.
+        /// </summary>
+        public SettingUserDirectoryViewModel UserDirectoryVm { get; private set; }
+
         #endregion
 
         #region Constructor
@@ -66,6 +71,7 @@ namespace Kanji.Interface.ViewModels
             SrsTrayDoNotifyVm = new SettingTrayDoNotifyViewModel();
             SrsTrayThresholdVm = new SettingTrayNotifyThresholdViewModel();
             DoUpdateCheckVm = new SettingDoUpdateCheckViewModel();
+            UserDirectoryVm = new SettingUserDirectoryViewModel();
 
             return new SettingControlViewModel[]
             {
@@ -74,7 +80,8 @@ namespace Kanji.Interface.ViewModels
                 SrsTrayIntervalVm,
                 SrsTrayDoNotifyVm,
                 SrsTrayThresholdVm,
-                DoUpdateCheckVm
+                DoUpdateCheckVm,
+                UserDirectoryVm
             };
         }
 

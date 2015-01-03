@@ -22,15 +22,13 @@
   </ChangelogEntry>
   <ChangelogEntry>
     <Version>Soon</Version>
-    <Title>SRS items import/export</Title>
-    <Description>From the SRS page, you will be able to import batches of SRS items in the application, or export your current list.
-Both the import and export features will support multiple formats.</Description>
+    <Title>More SRS items import options and export</Title>
+    <Description>SRS item import will soon include WaniKani as an import source. An export feature to CSV is also planned.</Description>
   </ChangelogEntry>
   <ChangelogEntry>
-    <Version>Soon</Version>
+    <Version>Maybe later</Version>
     <Title>Web synchronization</Title>
-    <Description>You will be able to synchronize your SRS items with an account on the website.
-This will make it easier to use Houhou on multiple devices.</Description>
+    <Description>Synchronize your SRS items with an account on the website.</Description>
   </ChangelogEntry>
   <ChangelogEntry>
     <Version>Soon?</Version>

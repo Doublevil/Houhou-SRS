@@ -11,6 +11,8 @@
             Margin="0 0 5 0" Command="{Binding AddKanjiItemCommand}" Style="{StaticResource ActionButton}" />
         <Button Content="Add a vocab item" ToolTip="Add a new vocab SRS item to your list"
             Margin="0 0 5 0" Command="{Binding AddVocabItemCommand}" Style="{StaticResource ActionButton}" />
+        <Button Content="Import SRS items" ToolTip="Import SRS items from external sources (Anki, WaniKani, etc)"
+            Margin="0 0 5 0" Command="{Binding ImportCommand}" Style="{StaticResource ActionButton}" />
         <Button Content="Dashboard" ToolTip="Return to the dashboard"
             Margin="0 0 5 0" Command="{Binding SwitchToDashboardCommand}">
             <Button.Style>

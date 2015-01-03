@@ -5,10 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:Kanji.Interface.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="600">
+             d:DesignHeight="800" d:DesignWidth="600">
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -48,6 +49,19 @@
                 <controls:SettingSrsTrayThresholdControl DataContext="{Binding SrsTrayThresholdVm}" />
             </StackPanel>
         </GroupBox>
-        
+
+        <GroupBox Grid.Row="3" Margin="0 20 0 0" BorderBrush="#666666">
+            <GroupBox.Header>
+                <TextBlock Text="Configuration path" Style="{StaticResource SettingCategoryTitle}" />
+            </GroupBox.Header>
+            <StackPanel Margin="6 5 6 10">
+                <TextBlock Margin="0 0 0 15" TextWrapping="Wrap" Style="{StaticResource LegendText}">
+                    The "User Directory" stores your SRS items and your radicals and SRS sets.<LineBreak />
+                    Please do not change this setting unless you know what you are doing.
+                </TextBlock>
+                <controls:SettingUserDirectory DataContext="{Binding UserDirectoryVm}" />
+            </StackPanel>
+        </GroupBox>
+
     </Grid>
 </UserControl>
