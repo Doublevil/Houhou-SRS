@@ -1,0 +1,204 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.ImportCsvAfterLoad"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:behaviors="clr-namespace:Kanji.Interface.Behaviors"
+             xmlns:models="clr-namespace:Kanji.Interface.Models"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="1200" d:DesignWidth="600">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="ComboBox" x:Key="FieldComboBox">
+                
+            </Style>
+            <Style TargetType="ComboBox" BasedOn="{StaticResource FieldComboBox}" x:Key="RequiredFieldComboBox">
+                <Setter Property="BorderBrush" Value="#FFFF0000" />
+            </Style>
+            <Style TargetType="StackPanel" x:Key="FieldStackPanel">
+                <Setter Property="Margin" Value="5" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel>
+                <GroupBox BorderBrush="#666666" Padding="5">
+                    <GroupBox.Header>
+                        <TextBlock Text="Field configuration" Style="{StaticResource SettingCategoryTitle}" />
+                    </GroupBox.Header>
+                    <StackPanel>
+                        <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0 0 0 3">
+                            Please configure how fields are arranged in your CSV document.<LineBreak />
+                            Only fields with a * symbol are required.
+                        </TextBlock>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                        
+                            <StackPanel Style="{StaticResource FieldStackPanel}">
+                                <TextBlock Style="{StaticResource LegendText}">
+                                    * Kanji reading
+                                </TextBlock>
+                                <ComboBox Style="{StaticResource RequiredFieldComboBox}" ItemsSource="{Binding RequiredColumns}" SelectedIndex="{Binding KanjiReadingColumn, Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Style="{StaticResource FieldStackPanel}">
+                                <TextBlock Style="{StaticResource LegendText}">
+                                    * Accepted readings
+                                </TextBlock>
+                                <ComboBox Style="{StaticResource RequiredFieldComboBox}" ItemsSource="{Binding RequiredColumns}" SelectedIndex="{Binding AcceptedReadingsColumn, Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Style="{StaticResource FieldStackPanel}">
+                                <TextBlock Style="{StaticResource LegendText}">
+                                    * Accepted meanings
+                                </TextBlock>
+                                <ComboBox Style="{StaticResource RequiredFieldComboBox}" ItemsSource="{Binding RequiredColumns}" SelectedIndex="{Binding AcceptedMeaningsColumn, Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Grid.Column="1" Style="{StaticResource FieldStackPanel}">
+                                <TextBlock Style="{StaticResource LegendText}" ToolTip="Expected values are 'K' for a kanji or 'V' for a vocab item.">
+                                    Item type [?]
+                                </TextBlock>
+                                <ComboBox Style="{StaticResource FieldComboBox}" ItemsSource="{Binding OptionalColumns}" SelectedIndex="{Binding ItemTypeColumn, Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="2" Grid.Column="0" Style="{StaticResource FieldStackPanel}">
+                                <TextBlock Style="{StaticResource LegendText}">
+                                    Meaning notes
+                                </TextBlock>
+                                <ComboBox Style="{StaticResource FieldComboBox}" ItemsSource="{Binding OptionalColumns}" SelectedIndex="{Binding MeaningNotesColumn, Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource FieldStackPanel}">
+                                <TextBlock Style="{StaticResource LegendText}">
+                                    Reading notes
+                                </TextBlock>
+                                <ComboBox Style="{StaticResource FieldComboBox}" ItemsSource="{Binding OptionalColumns}" SelectedIndex="{Binding ReadingNotesColumn, Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="3" Grid.Column="0" Style="{StaticResource FieldStackPanel}">
+                                <TextBlock Style="{StaticResource LegendText}">
+                                    Tags
+                                </TextBlock>
+                                <ComboBox Style="{StaticResource FieldComboBox}" ItemsSource="{Binding OptionalColumns}" SelectedIndex="{Binding TagsColumn, Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="3" Grid.Column="1" Style="{StaticResource FieldStackPanel}">
+                                <TextBlock Style="{StaticResource LegendText}" ToolTip="Order number of the SRS level to set for the item. Starts at 0. Default is 0.">
+                                    Start SRS level [?]
+                                </TextBlock>
+                                <ComboBox Style="{StaticResource FieldComboBox}" ItemsSource="{Binding OptionalColumns}" SelectedIndex="{Binding StartLevelColumn, Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="4" Grid.Column="0" Style="{StaticResource FieldStackPanel}">
+                                <TextBlock Style="{StaticResource LegendText}" ToolTip="Expected format is 'yyyy-MM-dd H:mm:ss'.&#x0a;Example: '2014-12-24 13:37:00'.&#x0a;Date is local.">
+                                    Next review date [?]
+                                </TextBlock>
+                                <ComboBox Style="{StaticResource FieldComboBox}" ItemsSource="{Binding OptionalColumns}" SelectedIndex="{Binding NextReviewDateColumn, Mode=TwoWay}" />
+                            </StackPanel>
+                        </Grid>
+                    
+                        <Separator Margin="8" />
+                        
+                        <TextBlock Style="{StaticResource LegendText}">
+                            When "Item type" is not specified...
+                        </TextBlock>
+                        <ComboBox x:Name="NoTypeComboBox"
+                            ItemsSource="{Binding Source={StaticResource CsvImportNoTypeBehaviorEnum}}"
+                            SelectedItem="{Binding NoTypeBehavior, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox BorderBrush="#666666" Padding="5" Margin="0 10 0 0" DataContext="{Binding ParentMode.DuplicateOptions}">
+                    <GroupBox.Header>
+                        <TextBlock Text="Duplicate behavior" Style="{StaticResource SettingCategoryTitle}" />
+                    </GroupBox.Header>
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap" Margin="0 0 0 8">
+                            When an already existing item has the same kanji reading and item type...
+                        </TextBlock>
+
+                        <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap" Margin="0 0 0 0">
+                            About the imported item...
+                        </TextBlock>
+                        <RadioButton x:Name="DuplicateNewImport" GroupName="DuplicateNewBehavior" Content="Import the new item" IsChecked="{Binding DuplicateNewItemAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Import}" />
+                        <RadioButton GroupName="DuplicateNewBehavior" Content="Ignore the new item" IsChecked="{Binding DuplicateNewItemAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Ignore}" />
+                        <Separator Margin="5 12 5 8" />
+                        <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap" Margin="0 0 0 0">
+                            About the existing item...
+                        </TextBlock>
+                        <StackPanel IsEnabled="{Binding ElementName=DuplicateNewImport, Path=IsChecked}">
+                            <RadioButton GroupName="DuplicateOldBehavior" Content="Ignore the existing item" IsChecked="{Binding DuplicateExistingItemAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Ignore}" />
+                            <RadioButton GroupName="DuplicateOldBehavior" Content="Remove the existing item" IsChecked="{Binding DuplicateExistingItemAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Delete}" />
+                            <RadioButton GroupName="DuplicateOldBehavior" Content="Disable the existing item" IsChecked="{Binding DuplicateExistingItemAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Disable}" />
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox BorderBrush="#666666" Padding="5" Margin="0 10 0 0">
+                    <GroupBox.Header>
+                        <TextBlock Text="Timing" Style="{StaticResource SettingCategoryTitle}" />
+                    </GroupBox.Header>
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap" Margin="0 0 0 8">
+                            To avoid a situation where all of your items come up in reviews at the same time, you may
+                            want to spread them over time.
+                        </TextBlock>
+
+                        <RadioButton GroupName="Timing" Content="Use the SRS level timing" IsChecked="{Binding Timing.TimingMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=UseSrsLevel}" />
+                        <RadioButton GroupName="Timing" Content="Start all reviews immediately" IsChecked="{Binding Timing.TimingMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Immediate}" />
+                        <RadioButton x:Name="SpreadTimingRadio" GroupName="Timing" Content="Spread reviews over time" IsChecked="{Binding Timing.TimingMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Spread}" />
+
+                        <Border Margin="15 5 0 0" BorderThickness="2 0 0 0" BorderBrush="#666666" Padding="5 0 0 0">
+                            <StackPanel IsEnabled="{Binding ElementName=SpreadTimingRadio, Mode=OneWay, Path=IsChecked}">
+                                <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                                    <xctk:IntegerUpDown Value="{Binding Timing.SpreadAmountPerDay}" Width="60" Minimum="1" Maximum="99999" />
+                                    <TextBlock Style="{StaticResource LegendText}" Margin="5 0 0 0">
+                                        new items per day
+                                    </TextBlock>
+                                </StackPanel>
+                                <RadioButton GroupName="SpreadMode" Content="In random order" IsChecked="{Binding Timing.SpreadMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Random}" />
+                                <RadioButton GroupName="SpreadMode" Content="In import source order" IsChecked="{Binding Timing.SpreadMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=ListOrder}" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+        
+        <Separator Grid.Row="1" VerticalAlignment="Top" />
+        <Grid Grid.Row="1" Margin="0 5 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource ActionButton}" Content="Back" Width="100" Command="{Binding ParentMode.PreviousStepCommand}" />
+            <Button Grid.Column="2" Style="{StaticResource ActionButton}" Content="Next" Width="100" Command="{Binding ParentMode.NextStepCommand}" />
+        </Grid>
+    </Grid>
+</UserControl>

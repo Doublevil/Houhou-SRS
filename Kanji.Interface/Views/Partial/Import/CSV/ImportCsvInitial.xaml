@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.ImportCsvInitial"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:behaviors="clr-namespace:Kanji.Interface.Behaviors"
+             mc:Ignorable="d" 
+             d:DesignHeight="430" d:DesignWidth="690">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" /> <!-- Navigation buttons -->
+        </Grid.RowDefinitions>
+
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- Head text -->
+                <TextBox FontSize="14" TextWrapping="Wrap" Style="{StaticResource ErrorLabel}" Text="{Binding ErrorMessage, Mode=OneWay}" />
+
+                <!-- File path -->
+                <StackPanel >
+                    <TextBlock Text="CSV file path" Style="{StaticResource LegendText}" VerticalAlignment="Center" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding FilePath, Mode=TwoWay}" />
+                        <Button Grid.Column="1" Style="{StaticResource ActionButton}" Content="Browse..." Width="80" Margin="0 0 0 0" Command="{Binding BrowseCommand}" />
+                    </Grid>
+                </StackPanel>
+        
+                <!-- Header parameter -->
+                <GroupBox BorderBrush="#666666" Padding="5" Margin="0 5 0 0">
+                    <GroupBox.Header>
+                        <TextBlock Text="CSV parsing configuration" Style="{StaticResource SettingCategoryTitle}" />
+                    </GroupBox.Header>
+                    <StackPanel>
+                        <CheckBox Margin="0 10 0 0" Content="First line is a header" IsChecked="{Binding CsvHasHeader}"
+                            ToolTip="Check to specify that the first row of the CSV file is a Header row, i.e. specifies the name of the columns." />
+                        <StackPanel Margin="0 10 0 0">
+                            <TextBlock Text="CSV column separator" Style="{StaticResource LegendText}" VerticalAlignment="Center" />
+                            <TextBox Width="30" MaxLength="1" Text="{Binding CsvSeparator}" HorizontalAlignment="Left" />
+                        </StackPanel>
+                        <StackPanel Margin="0 10 0 0">
+                            <TextBlock Text="CSV quote character" Style="{StaticResource LegendText}" VerticalAlignment="Center" />
+                            <TextBox Width="30" MaxLength="1" Text="{Binding CsvQuote}" HorizontalAlignment="Left" />
+                        </StackPanel>
+                        <StackPanel Margin="0 10 0 0">
+                            <TextBlock Text="File encoding [?]" Style="{StaticResource LegendText}" VerticalAlignment="Center"
+                                       ToolTip="Please try to change this if you get strange characters at the overview step." />
+                            <StackPanel Orientation="Horizontal">
+                                <ComboBox ItemsSource="{Binding Encodings, Mode=OneWay}" SelectedIndex="{Binding SelectedEncodingIndex, Mode=TwoWay}"
+                                          behaviors:SelectionChangedBehavior.Command="{Binding EncodingChangedCommand}" />
+                                <TextBox Margin="10 0 0 0" Text="{Binding SelectedEncoding, Mode=TwoWay}" Width="100">
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding SelectedEncodingIndex}" Value="0">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                            <Setter Property="Visibility" Value="Hidden" />
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource ActionButton}" Content="Back" Width="100" Command="{Binding ParentMode.PreviousStepCommand}" />
+            <Button Grid.Column="2" Style="{StaticResource ActionButton}" Content="Next" Width="100" Command="{Binding ParentMode.NextStepCommand}" />
+        </Grid>
+        
+    </Grid>
+</UserControl>

@@ -1,0 +1,35 @@
+﻿<Window x:Class="Kanji.Interface.Views.ImportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Kanji.Interface.ViewModels"
+        xmlns:controls="clr-namespace:Kanji.Interface.Controls"
+        Title="SRS Item Import"
+        Width="700" Height="440">
+    <Window.Style>
+        <Style TargetType="Window">
+            <Setter Property="Background" Value="#E4FBD0" />
+        </Style>
+    </Window.Style>
+    
+    <Border Margin="5">
+        <ContentControl Content="{Binding ActiveVm}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type vm:ImportViewModel}">
+                    <controls:ImportSelectionDialog />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:CsvImportFileStepViewModel}">
+                    <controls:ImportCsvInitial />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:CsvImportColumnsStepViewModel}">
+                    <controls:ImportCsvAfterLoad />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:ImportOverviewViewModel}">
+                    <controls:ImportOverview />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:ImportProgressViewModel}">
+                    <controls:ImportProgress />
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
+    </Border>
+</Window>

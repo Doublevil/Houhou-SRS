@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.SettingUserDirectory"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel>
+        <StackPanel Visibility="{Binding IsEditMode, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter=False}">
+            <TextBlock Style="{StaticResource LegendText}" Text="User directory path" />
+            <TextBlock Text="{Binding UserDirectoryPath,Mode=OneWay}" />
+            <Button Style="{StaticResource MiniActionButton}" Content="Modify" Width="100" Margin="0 5 0 0" HorizontalAlignment="Left" Command="{Binding EnterEditModeCommand}" />
+        </StackPanel>
+        <StackPanel Visibility="{Binding IsEditMode, Converter={StaticResource ValueToVisibilityConverter}}">
+            <TextBox FontSize="14" TextWrapping="Wrap" Style="{StaticResource ErrorLabel}" Text="{Binding ErrorMessage, Mode=OneWay}" />
+            <TextBlock Style="{StaticResource LegendText}" Text="User directory path" />
+            <TextBox Text="{Binding UserDirectoryPath,Mode=TwoWay}" />
+            <Button Style="{StaticResource MiniActionButton}" Content="Save this path" Width="100" Margin="0 5 0 0" HorizontalAlignment="Left" Command="{Binding SetDirectoryCommand}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>
