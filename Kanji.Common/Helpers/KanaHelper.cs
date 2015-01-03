@@ -597,9 +597,9 @@ namespace Kanji.Common.Helpers
             romaji = doubleVowelRegex.Replace(romaji, "$1ー");
 
             // Replace the double consonants.
-            Regex doubleKatakanaConsonnantRegex = new Regex("([BCDFGHJKLMPQRSTVWX])\\1", options);
+            Regex doubleKatakanaConsonnantRegex = new Regex("([BCDFGHJKLMPQRSTVWXZ])\\1", options);
             romaji = doubleKatakanaConsonnantRegex.Replace(romaji, "ッ$1");
-            Regex doubleHiraganaConsonnantRegex = new Regex("([bcdfghjklmpqrstvwx])\\1", options);
+            Regex doubleHiraganaConsonnantRegex = new Regex("([bcdfghjklmpqrstvwxz])\\1", options);
             romaji = doubleHiraganaConsonnantRegex.Replace(romaji, "っ$1");
 
             // Then, replace - by ー.
