@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:Kanji.Interface.Converters"
+             xmlns:behaviors="clr-namespace:Kanji.Interface.Behaviors"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="600">
+             d:DesignHeight="300" d:DesignWidth="600"
+             behaviors:InputBindingsBehavior.TakesInputBindingPrecedence="True">
     <UserControl.Style>
         <Style TargetType="UserControl">
             <Style.Triggers>
@@ -15,7 +17,13 @@
             </Style.Triggers>
         </Style>
     </UserControl.Style>
-    
+
+    <UserControl.InputBindings>
+        <KeyBinding Key="Back" Command="{Binding IgnoreAnswerShortcutCommand}" />
+        <KeyBinding Key="OemPlus" Command="{Binding AddAnswerShortcutCommand}" />
+        <KeyBinding Key="Add" Command="{Binding AddAnswerShortcutCommand}" />
+    </UserControl.InputBindings>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -213,7 +221,7 @@
         <!-- Input textbox -->
         <TextBox Grid.Row="4" Text="{Binding CurrentAnswer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20">
             <TextBox.InputBindings>
-                <KeyBinding Command="{Binding SubmitCommand}" Key="Enter" />
+                <KeyBinding Key="Enter" Command="{Binding SubmitCommand}" />
             </TextBox.InputBindings>
             <TextBox.Style>
                 <Style TargetType="TextBox">

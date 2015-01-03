@@ -236,33 +236,44 @@ namespace Kanji.Interface.ViewModels
         #region Commands
 
         /// <summary>
-        /// Gets or sets the command used to submit the answer.
+        /// Gets the command used to submit the answer.
         /// </summary>
-        public RelayCommand SubmitCommand { get; set; }
+        public RelayCommand SubmitCommand { get; private set; }
 
         /// <summary>
-        /// Gets or sets the command used to add the current answer
+        /// Gets the command used to add the current answer
         /// as an accepted meaning or reading of the underlying entry.
         /// </summary>
-        public RelayCommand AddAnswerCommand { get; set; }
+        public RelayCommand AddAnswerCommand { get; private set; }
 
         /// <summary>
-        /// Gets or sets the command used to push the last question
+        /// Gets the command used to push the last question
         /// answered back to the pool as if it was never answered.
         /// </summary>
-        public RelayCommand IgnoreAnswerCommand { get; set; }
+        public RelayCommand IgnoreAnswerCommand { get; private set; }
 
         /// <summary>
-        /// Gets or sets the command used to edit the SRS entry
+        /// Gets the command used to edit the SRS entry
         /// referred by the last question answered.
         /// </summary>
-        public RelayCommand EditSrsEntryCommand { get; set; }
+        public RelayCommand EditSrsEntryCommand { get; private set; }
 
         /// <summary>
-        /// Gets or sets the command used to close the current
+        /// Gets the command used to close the current
         /// review session.
         /// </summary>
-        public RelayCommand StopSessionCommand { get; set; }
+        public RelayCommand StopSessionCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command that uses a shorcut to ignore the currently submitted answer.
+        /// </summary>
+        public RelayCommand IgnoreAnswerShortcutCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command that uses a shortcut to add the currently submitted answer to the
+        /// list of accepted answers.
+        /// </summary>
+        public RelayCommand AddAnswerShortcutCommand { get; private set; }
 
         #endregion
 
@@ -283,6 +294,8 @@ namespace Kanji.Interface.ViewModels
             IgnoreAnswerCommand = new RelayCommand(OnIgnoreAnswer);
             EditSrsEntryCommand = new RelayCommand(OnEditSrsEntry);
             StopSessionCommand = new RelayCommand(OnStopSession);
+            IgnoreAnswerShortcutCommand = new RelayCommand(OnIgnoreAnswerShortcut);
+            AddAnswerShortcutCommand = new RelayCommand(OnAddAnswerShortcut);
         }
 
         #endregion
@@ -682,7 +695,7 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         private void OnAddAnswer()
         {
-            if (CurrentQuestion != null)
+            if (CurrentQuestion != null && ReviewState == SrsReviewStateEnum.Failure)
             {
                 if (CurrentQuestion.Question == SrsQuestionEnum.Meaning)
                 {
@@ -702,6 +715,18 @@ namespace Kanji.Interface.ViewModels
 
         /// <summary>
         /// Command callback.
+        /// Calls the AddAnswer command if shortcuts are enabled.
+        /// </summary>
+        private void OnAddAnswerShortcut()
+        {
+            if (Properties.Settings.Default.IsIgnoreAnswerShortcutEnabled)
+            {
+                OnAddAnswer();
+            }
+        }
+
+        /// <summary>
+        /// Command callback.
         /// Ignores the last answer and goes to the next question.
         /// </summary>
         private void OnIgnoreAnswer()
@@ -711,6 +736,18 @@ namespace Kanji.Interface.ViewModels
             {
                 ReviewState = SrsReviewStateEnum.Ignore;
                 ToNextQuestion();
+            }
+        }
+
+        /// <summary>
+        /// Command callback.
+        /// Calls the IgnoreAnswer command if shortcuts are enabled.
+        /// </summary>
+        private void OnIgnoreAnswerShortcut()
+        {
+            if (Properties.Settings.Default.IsIgnoreAnswerShortcutEnabled)
+            {
+                OnIgnoreAnswer();
             }
         }
 

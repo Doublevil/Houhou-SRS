@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.SettingIgnoreAnswerShortcut"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="800">
+    <StackPanel>
+        <CheckBox IsChecked="{Binding IsIgnoreAnswerShortcutEnabled, Mode=TwoWay}" Content="Enable ignore shortcuts during reviews" />
+        <StackPanel Margin="20 0 0 0">
+            <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap">
+                When this option is checked, the following shortcuts become available after validating your answer to a question during reviews:<LineBreak />
+                • [Backspace] to ignore your answer;<LineBreak />
+                • [+] to add your answer to the list of accepted meanings or readings (when failed).
+            </TextBlock>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

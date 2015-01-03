@@ -15,6 +15,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public SettingSrsLevelSetViewModel SrsLevelSetVm { get; private set; }
 
+        /// <summary>
+        /// Gets the view model for the ignore answer shortcut setting.
+        /// </summary>
+        public SettingIgnoreAnswerShortcutViewModel IgnoreAnswerShortcutVm { get; private set; }
+
         #endregion
 
         #region Methods
@@ -24,10 +29,12 @@ namespace Kanji.Interface.ViewModels
         protected override SettingControlViewModel[] InitializeSettingViewModels()
         {
             SrsLevelSetVm = new SettingSrsLevelSetViewModel();
+            IgnoreAnswerShortcutVm = new SettingIgnoreAnswerShortcutViewModel();
 
             return new SettingControlViewModel[]
             {
-                SrsLevelSetVm
+                SrsLevelSetVm,
+                IgnoreAnswerShortcutVm
             };
         }
 

@@ -7,11 +7,22 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-        <controls:SettingSrsLevelSetControl DataContext="{Binding SrsLevelSetVm}" />
-    </Grid>
+    <StackPanel>
+        <GroupBox BorderBrush="#666666">
+            <GroupBox.Header>
+                <TextBlock Text="SRS level configuration" Style="{StaticResource SettingCategoryTitle}" />
+            </GroupBox.Header>
+            <StackPanel Margin="6 10">
+                <controls:SettingSrsLevelSetControl DataContext="{Binding SrsLevelSetVm}" />
+            </StackPanel>
+        </GroupBox>
+        <GroupBox BorderBrush="#666666" Margin="0 20 0 0">
+            <GroupBox.Header>
+                <TextBlock Text="Reviews" Style="{StaticResource SettingCategoryTitle}" />
+            </GroupBox.Header>
+            <StackPanel Margin="6 10">
+                <controls:SettingIgnoreAnswerShortcut DataContext="{Binding IgnoreAnswerShortcutVm}" />
+            </StackPanel>
+        </GroupBox>
+    </StackPanel>
 </UserControl>

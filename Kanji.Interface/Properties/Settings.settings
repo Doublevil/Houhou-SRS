@@ -59,5 +59,8 @@
     <Setting Name="UserDirectoryPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">[userdir]</Value>
     </Setting>
+    <Setting Name="IsIgnoreAnswerShortcutEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
