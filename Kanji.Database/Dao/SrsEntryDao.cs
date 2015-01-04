@@ -24,6 +24,8 @@ namespace Kanji.Database.Dao
         private static readonly string SqlKey_Grade = "Grade";
         private static readonly string SqlKey_ItemCount = "ItemCount";
 
+        private static readonly int BulkBatchCount = 50;
+
         #endregion
 
         #region Methods
@@ -678,28 +680,38 @@ namespace Kanji.Database.Dao
             {
                 connection = DaoConnection.Open(DaoConnectionEnum.SrsDatabase);
 
-                List<DaoParameter> parameters = new List<DaoParameter>();
-                string inStatement = string.Empty;
-                foreach (SrsEntry entry in entities)
+                int i = 0;
+                result = 0;
+                while (i < entities.Count())
                 {
-                    string paramName = "@p" + entry.ID;
-                    inStatement += paramName + ",";
-                    parameters.Add(new DaoParameter(paramName, entry.ID));
+                    List<DaoParameter> parameters = new List<DaoParameter>();
+                    string inStatement = string.Empty;
+                    int nMax = Math.Min(entities.Count(), i + BulkBatchCount);
+
+                    for (int n = i; n < nMax; n++)
+                    {
+                        SrsEntry entry = entities.ElementAt(n);
+                        string paramName = "@p" + entry.ID;
+                        inStatement += paramName + ",";
+                        parameters.Add(new DaoParameter(paramName, entry.ID));
+                    }
+                    inStatement = inStatement.TrimEnd(new char[] { ',' });
+
+                    // Add the "value" parameter.
+                    parameters.Add(new DaoParameter("@Value", value));
+
+                    // Add the "LastUpdateDate" parameter.
+                    parameters.Add(new DaoParameter("@LastUpdateDate", DateTime.UtcNow.Ticks));
+
+                    // Execute the query.
+                    result += connection.ExecuteNonQuery("UPDATE " + SqlHelper.Table_SrsEntry
+                        + " SET " + fieldName + "=@Value, " + SqlHelper.Field_SrsEntry_LastUpdateDate
+                        + "=@LastUpdateDate " + "WHERE " + SqlHelper.Field_SrsEntry_Id
+                        + " IN (" + inStatement + ")",
+                        parameters.ToArray());
+
+                    i = nMax;
                 }
-                inStatement = inStatement.TrimEnd(new char[] { ',' });
-
-                // Add the "value" parameter.
-                parameters.Add(new DaoParameter("@Value", value));
-
-                // Add the "LastUpdateDate" parameter.
-                parameters.Add(new DaoParameter("@LastUpdateDate", DateTime.UtcNow.Ticks));
-
-                // Execute the query.
-                result = connection.ExecuteNonQuery("UPDATE " + SqlHelper.Table_SrsEntry
-                    + " SET " + fieldName + "=@Value, " + SqlHelper.Field_SrsEntry_LastUpdateDate
-                    + "=@LastUpdateDate " + "WHERE " + SqlHelper.Field_SrsEntry_Id
-                    + " IN (" + inStatement + ")",
-                    parameters.ToArray());
             }
             finally
             {
@@ -734,37 +746,47 @@ namespace Kanji.Database.Dao
             {
                 connection = DaoConnection.Open(DaoConnectionEnum.SrsDatabase);
 
-                List<DaoParameter> parameters = new List<DaoParameter>();
-                string inStatement = string.Empty;
-                foreach (SrsEntry entry in entities)
+                int i = 0;
+                result = 0;
+                while (i < entities.Count())
                 {
-                    string paramName = "@p" + entry.ID;
-                    inStatement += paramName + ",";
-                    parameters.Add(new DaoParameter(paramName, entry.ID));
+                    List<DaoParameter> parameters = new List<DaoParameter>();
+                    string inStatement = string.Empty;
+                    int nMax = Math.Min(entities.Count(), i + BulkBatchCount);
+
+                    for (int n = i; n < nMax; n++)
+                    {
+                        SrsEntry entry = entities.ElementAt(n);
+                        string paramName = "@p" + entry.ID;
+                        inStatement += paramName + ",";
+                        parameters.Add(new DaoParameter(paramName, entry.ID));
+                    }
+                    inStatement = inStatement.TrimEnd(new char[] { ',' });
+
+                    // Add the "value" parameter.
+                    parameters.Add(new DaoParameter("@Value", value));
+
+                    // Add the "date" parameter.
+                    long? nextReviewDate = null;
+                    if (delay.HasValue)
+                    {
+                        nextReviewDate = (DateTime.UtcNow + delay.Value).Ticks;
+                    }
+                    parameters.Add(new DaoParameter("@Date", nextReviewDate));
+
+                    // Add the "LastUpdateDate" parameter.
+                    parameters.Add(new DaoParameter("@LastUpdateDate", DateTime.UtcNow.Ticks));
+
+                    // Execute the query.
+                    result += connection.ExecuteNonQuery("UPDATE " + SqlHelper.Table_SrsEntry
+                        + " SET " + SqlHelper.Field_SrsEntry_CurrentGrade + "=@Value,"
+                        + SqlHelper.Field_SrsEntry_NextAnswerDate + "=@Date, "
+                        + SqlHelper.Field_SrsEntry_LastUpdateDate + "=@LastUpdateDate "
+                        + "WHERE " + SqlHelper.Field_SrsEntry_Id + " IN (" + inStatement + ")",
+                        parameters.ToArray());
+
+                    i = nMax;
                 }
-                inStatement = inStatement.TrimEnd(new char[] { ',' });
-
-                // Add the "value" parameter.
-                parameters.Add(new DaoParameter("@Value", value));
-
-                // Add the "date" parameter.
-                long? nextReviewDate = null;
-                if (delay.HasValue)
-                {
-                    nextReviewDate = (DateTime.UtcNow + delay.Value).Ticks;
-                }
-                parameters.Add(new DaoParameter("@Date", nextReviewDate));
-
-                // Add the "LastUpdateDate" parameter.
-                parameters.Add(new DaoParameter("@LastUpdateDate", DateTime.UtcNow.Ticks));
-
-                // Execute the query.
-                result = connection.ExecuteNonQuery("UPDATE " + SqlHelper.Table_SrsEntry
-                    + " SET " + SqlHelper.Field_SrsEntry_CurrentGrade + "=@Value,"
-                    + SqlHelper.Field_SrsEntry_NextAnswerDate + "=@Date, "
-                    + SqlHelper.Field_SrsEntry_LastUpdateDate + "=@LastUpdateDate "
-                    + "WHERE " + SqlHelper.Field_SrsEntry_Id + " IN (" + inStatement + ")",
-                    parameters.ToArray());
             }
             finally
             {
@@ -795,25 +817,34 @@ namespace Kanji.Database.Dao
             {
                 connection = DaoConnection.Open(DaoConnectionEnum.SrsDatabase);
 
-                List<DaoParameter> parameters = new List<DaoParameter>();
-                string inStatement = string.Empty;
-                foreach (SrsEntry entry in entities.Where(e => e.SuspensionDate == null))
+                int i = 0;
+                result = 0;
+                while (i < entities.Count())
                 {
-                    string paramName = "@p" + entry.ID;
-                    inStatement += paramName + ",";
-                    parameters.Add(new DaoParameter(paramName, entry.ID));
+                    List<DaoParameter> parameters = new List<DaoParameter>();
+                    string inStatement = string.Empty;
+                    int nMax = Math.Min(entities.Count(), i + BulkBatchCount);
+
+                    for (int n = i; n < nMax; n++)
+                    {
+                        SrsEntry entry = entities.ElementAt(n);
+                        string paramName = "@p" + entry.ID;
+                        inStatement += paramName + ",";
+                        parameters.Add(new DaoParameter(paramName, entry.ID));
+                    }
+                    inStatement = inStatement.TrimEnd(new char[] { ',' });
+
+                    // Add the "now" parameter.
+                    parameters.Add(new DaoParameter("@Now", DateTime.UtcNow.Ticks));
+
+                    // Execute the query.
+                    result += connection.ExecuteNonQuery("UPDATE " + SqlHelper.Table_SrsEntry
+                        + " SET " + SqlHelper.Field_SrsEntry_SuspensionDate + "=@Now, "
+                        + SqlHelper.Field_SrsEntry_LastUpdateDate + "=@Now "
+                        + "WHERE " + SqlHelper.Field_SrsEntry_Id + " IN (" + inStatement + ")",
+                        parameters.ToArray());
+                    i = nMax;
                 }
-                inStatement = inStatement.TrimEnd(new char[] { ',' });
-
-                // Add the "now" parameter.
-                parameters.Add(new DaoParameter("@Now", DateTime.UtcNow.Ticks));
-
-                // Execute the query.
-                result = connection.ExecuteNonQuery("UPDATE " + SqlHelper.Table_SrsEntry
-                    + " SET " + SqlHelper.Field_SrsEntry_SuspensionDate + "=@Now, "
-                    + SqlHelper.Field_SrsEntry_LastUpdateDate + "=@Now "
-                    + "WHERE " + SqlHelper.Field_SrsEntry_Id + " IN (" + inStatement + ")",
-                    parameters.ToArray());
             }
             finally
             {
@@ -845,28 +876,43 @@ namespace Kanji.Database.Dao
             {
                 connection = DaoConnection.Open(DaoConnectionEnum.SrsDatabase);
 
-                List<DaoParameter> parameters = new List<DaoParameter>();
-                string inStatement = string.Empty;
-                foreach (SrsEntry entry in entities.Where(e => e.SuspensionDate != null))
+                int i = 0;
+                result = 0;
+                while (i < entities.Count())
                 {
-                    string paramName = "@p" + entry.ID;
-                    inStatement += paramName + ",";
-                    parameters.Add(new DaoParameter(paramName, entry.ID));
+                    List<DaoParameter> parameters = new List<DaoParameter>();
+                    string inStatement = string.Empty;
+
+                    int nMax = Math.Min(entities.Count(), i + BulkBatchCount);
+
+                    for (int n = i; n < nMax; n++)
+                    {
+                        SrsEntry entry = entities.ElementAt(n);
+                        if (entry.SuspensionDate == null)
+                        {
+                            continue;
+                        }
+                        string paramName = "@p" + entry.ID;
+                        inStatement += paramName + ",";
+                        parameters.Add(new DaoParameter(paramName, entry.ID));
+                    }
+                    inStatement = inStatement.TrimEnd(new char[] { ',' });
+
+                    // Add the "now" parameter.
+                    parameters.Add(new DaoParameter("@Now", DateTime.UtcNow.Ticks));
+
+                    // Execute the query.
+                    result += connection.ExecuteNonQuery("UPDATE " + SqlHelper.Table_SrsEntry
+                        + " SET " + SqlHelper.Field_SrsEntry_LastUpdateDate + "=@Now, "
+                        + SqlHelper.Field_SrsEntry_NextAnswerDate + "=@Now +"
+                        + SqlHelper.Field_SrsEntry_NextAnswerDate + "-"
+                        + SqlHelper.Field_SrsEntry_SuspensionDate + ","
+                        + SqlHelper.Field_SrsEntry_SuspensionDate + "=NULL "
+                        + "WHERE " + SqlHelper.Field_SrsEntry_Id + " IN (" + inStatement + ")",
+                        parameters.ToArray());
+
+                    i = nMax;
                 }
-                inStatement = inStatement.TrimEnd(new char[] { ',' });
-
-                // Add the "now" parameter.
-                parameters.Add(new DaoParameter("@Now", DateTime.UtcNow.Ticks));
-
-                // Execute the query.
-                result = connection.ExecuteNonQuery("UPDATE " + SqlHelper.Table_SrsEntry
-                    + " SET " + SqlHelper.Field_SrsEntry_LastUpdateDate + "=@Now, "
-                    + SqlHelper.Field_SrsEntry_NextAnswerDate + "=@Now +"
-                    + SqlHelper.Field_SrsEntry_NextAnswerDate + "-"
-                    + SqlHelper.Field_SrsEntry_SuspensionDate + ","
-                    + SqlHelper.Field_SrsEntry_SuspensionDate + "=NULL "
-                    + "WHERE " + SqlHelper.Field_SrsEntry_Id + " IN (" + inStatement + ")",
-                    parameters.ToArray());
             }
             finally
             {
@@ -897,20 +943,30 @@ namespace Kanji.Database.Dao
             {
                 connection = DaoConnection.Open(DaoConnectionEnum.SrsDatabase);
 
-                List<DaoParameter> parameters = new List<DaoParameter>();
-                string inStatement = string.Empty;
-                foreach (SrsEntry entry in entities)
+                int i = 0;
+                result = 0;
+                while (i < entities.Count())
                 {
-                    string paramName = "@p" + entry.ID;
-                    inStatement += paramName + ",";
-                    parameters.Add(new DaoParameter(paramName, entry.ID));
-                }
-                inStatement = inStatement.TrimEnd(new char[]{','});
+                    List<DaoParameter> parameters = new List<DaoParameter>();
+                    string inStatement = string.Empty;
 
-                // Execute the query.
-                result = connection.ExecuteNonQuery("DELETE FROM " + SqlHelper.Table_SrsEntry
-                    + " WHERE " + SqlHelper.Field_SrsEntry_Id + " IN (" + inStatement + ")",
-                    parameters.ToArray());
+                    int nMax = Math.Min(entities.Count(), i + BulkBatchCount);
+
+                    for (int n = i; n < nMax; n++)
+                    {
+                        SrsEntry entry = entities.ElementAt(n);
+                        string paramName = "@p" + entry.ID;
+                        inStatement += paramName + ",";
+                        parameters.Add(new DaoParameter(paramName, entry.ID));
+                    }
+                    inStatement = inStatement.TrimEnd(new char[] { ',' });
+
+                    // Execute the query.
+                    result += connection.ExecuteNonQuery("DELETE FROM " + SqlHelper.Table_SrsEntry
+                        + " WHERE " + SqlHelper.Field_SrsEntry_Id + " IN (" + inStatement + ")",
+                        parameters.ToArray());
+                    i = nMax;
+                }
             }
             finally
             {
