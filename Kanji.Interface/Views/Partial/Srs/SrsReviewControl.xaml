@@ -227,11 +227,11 @@
                 <Style TargetType="TextBox">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding ReviewState}" Value="Success">
-                            <Setter Property="Background" Value="#FFC0FFC0" />
+                            <Setter Property="Background" Value="#FF38BF38" />
                             <Setter Property="IsReadOnly" Value="True" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ReviewState}" Value="Failure">
-                            <Setter Property="Background" Value="#FFFFC0C0" />
+                            <Setter Property="Background" Value="#FFD82626" />
                             <Setter Property="IsReadOnly" Value="True" />
                         </DataTrigger>
                     </Style.Triggers>
@@ -239,7 +239,7 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        
+
         <!-- SRS item info (displayed only when the answer is submitted) -->
         <Grid Grid.Row="5">
             <Grid.Style>
