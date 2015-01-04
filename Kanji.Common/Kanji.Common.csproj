@@ -51,6 +51,7 @@
     <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Helpers\ParsingHelper.cs" />
     <Compile Include="Helpers\StringDistanceHelper.cs" />
+    <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Models\BinaryOperatorEnum.cs" />
     <Compile Include="Models\ComparisonOperatorEnum.cs" />
     <Compile Include="Models\ReviewInfo.cs" />

@@ -453,6 +453,8 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         private bool IsAnswerCorrect()
         {
+            CurrentAnswer = CurrentAnswer.Trim();
+
             if (CurrentQuestion.Question == SrsQuestionEnum.Meaning)
             {
                 // Look for an exact meaning answer.
@@ -464,10 +466,21 @@ namespace Kanji.Interface.ViewModels
                 // algorithm to approximate the answer.
                 if (!isExactAnswer)
                 {
-                    string answer = CurrentQuestionGroup.Reference.Meanings
-                        .Split(MultiValueFieldHelper.ValueSeparator)
-                        .Where(s => StringDistanceHelper.DoDistributedLevenshteinDistance(
-                            CurrentAnswer.ToLower(), s.ToLower(), MeaningDistanceLenience))
+                    // Compute all evaluation strings.
+                    List<string> evaluations = new List<string>();
+                    foreach (string meaning in CurrentQuestionGroup.Reference.Meanings.Split(MultiValueFieldHelper.ValueSeparator))
+                    {
+                        evaluations.Add(meaning);
+                        string formattedMeaning = StringHelper.RemoveParenthesisExpressions(meaning);
+                        if (formattedMeaning != meaning)
+                        {
+                            evaluations.Add(formattedMeaning);
+                        }
+                    }
+
+                    // See if the answer at least approximately matches one of the evaluation strings.
+                    string answer = evaluations.Where(s => StringDistanceHelper.DoDistributedLevenshteinDistance(
+                        CurrentAnswer.ToLower(), s.ToLower(), MeaningDistanceLenience))
                         .FirstOrDefault();
 
                     if (answer != null)
