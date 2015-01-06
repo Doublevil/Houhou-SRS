@@ -46,19 +46,24 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <TextBlock Text="Containing the reading:" Style="{StaticResource LegendText}" />
 
-                            <AdornerDecorator Grid.Row="1">
-                                <controls:CommandTextBox MaxLength="100" ToolTip="Enter the reading filter."
-                                    Text="{Binding ReadingFilter, UpdateSourceTrigger=PropertyChanged}"
-                                    ValidationCommand="{Binding ValidateCommand}">
-                                    <controls:WatermarkService.Watermark>
-                                        <TextBlock HorizontalAlignment="Center">Reading filter</TextBlock>
-                                    </controls:WatermarkService.Watermark>
-                                </controls:CommandTextBox>
-                            </AdornerDecorator>
+                            <StackPanel Grid.Row="1">
+                                <AdornerDecorator>
+                                    <controls:CommandTextBox MaxLength="100" ToolTip="Enter the reading filter."
+                                        Text="{Binding ReadingFilter, UpdateSourceTrigger=PropertyChanged}"
+                                        ValidationCommand="{Binding ValidateCommand}">
+                                        <controls:WatermarkService.Watermark>
+                                            <TextBlock HorizontalAlignment="Center">Reading filter</TextBlock>
+                                        </controls:WatermarkService.Watermark>
+                                    </controls:CommandTextBox>
+                                </AdornerDecorator>
+
+                                <CheckBox Content="Exact match" ToolTip="When checked, matches only items with this exact expression.&#x0a;When unchecked, matches any value containing this expression."
+                                          IsChecked="{Binding IsExactMatch}" Command="{Binding ValidateCommand}" HorizontalAlignment="Center" />
+                            </StackPanel>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>

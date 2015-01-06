@@ -14,6 +14,8 @@ namespace Kanji.Interface.ViewModels
 
         private string _meaningFilter;
 
+        private bool _isExactMatch;
+
         #endregion
 
         #region Properties
@@ -29,6 +31,22 @@ namespace Kanji.Interface.ViewModels
                 if (_meaningFilter != value)
                 {
                     _meaningFilter = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the value indicating if the filter should match exactly the string or any value containing the string.
+        /// </summary>
+        public bool IsExactMatch
+        {
+            get { return _isExactMatch; }
+            set
+            {
+                if (_isExactMatch != value)
+                {
+                    _isExactMatch = value;
                     RaisePropertyChanged();
                 }
             }
@@ -65,7 +83,8 @@ namespace Kanji.Interface.ViewModels
                 return new SrsEntryFilterMeaningClause()
                 {
                     IsInclude = true,
-                    Value = MeaningFilter
+                    Value = MeaningFilter,
+                    IsMultiValueExactMatch = IsExactMatch
                 };
             }
 

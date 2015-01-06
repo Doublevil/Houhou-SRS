@@ -14,6 +14,8 @@ namespace Kanji.Interface.ViewModels
 
         private string _tagFilter;
 
+        private bool _isExactMatch;
+
         #endregion
 
         #region Properties
@@ -29,6 +31,22 @@ namespace Kanji.Interface.ViewModels
                 if (_tagFilter != value)
                 {
                     _tagFilter = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the value indicating if the filter should match exactly the string or any value containing the string.
+        /// </summary>
+        public bool IsExactMatch
+        {
+            get { return _isExactMatch; }
+            set
+            {
+                if (_isExactMatch != value)
+                {
+                    _isExactMatch = value;
                     RaisePropertyChanged();
                 }
             }
@@ -56,6 +74,7 @@ namespace Kanji.Interface.ViewModels
         public override void ClearFilter()
         {
             TagFilter = string.Empty;
+            IsExactMatch = false;
         }
 
         public override FilterClause GetFilterClause()
@@ -65,7 +84,8 @@ namespace Kanji.Interface.ViewModels
                 return new SrsEntryFilterTagsClause()
                 {
                     IsInclude = true,
-                    Value = TagFilter
+                    Value = TagFilter,
+                    IsMultiValueExactMatch = IsExactMatch
                 };
             }
 

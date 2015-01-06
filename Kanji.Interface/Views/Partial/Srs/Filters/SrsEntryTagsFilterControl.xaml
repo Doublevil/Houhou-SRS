@@ -15,6 +15,10 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <TextBlock Text="Containing the tag:" Style="{StaticResource LegendText}"
                         VerticalAlignment="Center" Margin="0 0 5 0" />
 
@@ -27,6 +31,16 @@
                             </controls:WatermarkService.Watermark>
                         </controls:CommandTextBox>
                     </AdornerDecorator>
+                    
+                    <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <RadioButton HorizontalAlignment="Center" GroupName="FilterType" Content="Match exact text" ToolTip="Match this exact expression." IsChecked="{Binding IsExactMatch}" />
+                        <RadioButton Grid.Column="1" HorizontalAlignment="Center" GroupName="FilterType" Content="Match containing text" ToolTip="Match any value containing this expression."
+                                     IsChecked="{Binding IsExactMatch, Converter={StaticResource BooleanInverterConverter}}" />
+                    </Grid>
                 </Grid>
             </ControlTemplate>
         </ResourceDictionary>
@@ -45,19 +59,23 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <TextBlock Text="Containing the tag:" Style="{StaticResource LegendText}" />
 
-                            <AdornerDecorator Grid.Row="1">
-                                <controls:CommandTextBox MaxLength="100" ToolTip="Enter the tag filter."
+                            <StackPanel Grid.Row="1">
+                                <AdornerDecorator>
+                                    <controls:CommandTextBox MaxLength="100" ToolTip="Enter the tag filter."
                                     Text="{Binding TagFilter, UpdateSourceTrigger=PropertyChanged}"
                                     ValidationCommand="{Binding ValidateCommand}">
-                                    <controls:WatermarkService.Watermark>
-                                        <TextBlock HorizontalAlignment="Center">Tag filter</TextBlock>
-                                    </controls:WatermarkService.Watermark>
-                                </controls:CommandTextBox>
-                            </AdornerDecorator>
+                                        <controls:WatermarkService.Watermark>
+                                            <TextBlock HorizontalAlignment="Center">Tag filter</TextBlock>
+                                        </controls:WatermarkService.Watermark>
+                                    </controls:CommandTextBox>
+                                </AdornerDecorator>
+                                <CheckBox Content="Exact match" ToolTip="When checked, matches only items with this exact tag expression.&#x0a;When unchecked, matches any value containing this tag expression."
+                                          IsChecked="{Binding IsExactMatch}" Command="{Binding ValidateCommand}" HorizontalAlignment="Center" />
+                            </StackPanel>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
