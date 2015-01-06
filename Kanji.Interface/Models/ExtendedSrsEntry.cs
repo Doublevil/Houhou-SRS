@@ -17,6 +17,7 @@ namespace Kanji.Interface.Models
 
         private SrsLevelGroup _levelGroup;
         private SrsLevel _level;
+        private double _completionPercentage;
 
         #endregion
 
@@ -256,6 +257,22 @@ namespace Kanji.Interface.Models
         }
 
         /// <summary>
+        /// Gets a value between 0 and 1 indicating the progress in SRS leveling.
+        /// </summary>
+        public double CompletionPercentage
+        {
+            get { return _completionPercentage; }
+            set
+            {
+                if (_completionPercentage != value)
+                {
+                    _completionPercentage = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets the next review date, taking in account the suspension date
         /// to always provide the next review date as if the SRS entry was to be
         /// resumed now.
@@ -374,6 +391,8 @@ namespace Kanji.Interface.Models
             Level = SrsLevelStore.Instance.GetLevelByValue(
                 Reference.CurrentGrade);
             LevelGroup = Level.ParentGroup;
+
+            CompletionPercentage = Math.Max(0, Math.Min(1, (double)Level.Value / (double)(SrsLevelStore.Instance.GetLevelCount() - 1)));
         }
 
         public void LoadFromKanji(KanjiEntity k)

@@ -1022,7 +1022,7 @@
         <Setter Property="MaxLength" Value="60" />
     </Style>
     
-    <Style TargetType="ProgressBar" x:Key="SrsItemProgressBar">
+    <!--<Style TargetType="ProgressBar" x:Key="SrsItemProgressBar">
         <Setter Property="Value" Value="{Binding SuccessPercentage, Mode=OneWay}" />
         <Setter Property="Minimum" Value="0" />
         <Setter Property="Maximum" Value="1" />
@@ -1035,11 +1035,11 @@
                             <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
                                 <GradientStop Color="#BB7C7C7C" />
                                 <GradientStop Color="#BBAAAAAA" Offset="0.15" />
-                                <!--<GradientStop Color="#FF7C7C7C" Offset="0.85" />-->
+                                --><!--<GradientStop Color="#FF7C7C7C" Offset="0.85" />--><!--
                             </LinearGradientBrush>
                         </Border.Background>
                         <Grid>
-                            <!-- Default template -->
+                            --><!-- Default template --><!--
                             <Grid>
                                 <Grid.Style>
                                     <Style TargetType="Grid">
@@ -1145,7 +1145,7 @@
                                            FontWeight="SemiBold" Foreground="White" />
                             </Grid>
                             
-                            <!-- "No success" template -->
+                            --><!-- "No success" template --><!--
                             <Grid>
                                 <Grid.Style>
                                     <Style TargetType="Grid">
@@ -1165,10 +1165,128 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>-->
+
+    <Style TargetType="ProgressBar" x:Key="SrsItemProgressBar">
+        <Setter Property="Value" Value="{Binding CompletionPercentage, Mode=OneWay}" />
+        <Setter Property="Minimum" Value="0" />
+        <Setter Property="Maximum" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Border BorderBrush="#FF777777" BorderThickness="1" Padding="0" CornerRadius="2"
+                            Height="20">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                                <GradientStop Color="#BB7C7C7C" />
+                                <GradientStop Color="#BBAAAAAA" Offset="0.15" />
+                                <!--<GradientStop Color="#FF7C7C7C" Offset="0.85" />-->
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Grid>
+                            <!-- Default template -->
+                            <Grid>
+                                <Grid.ToolTip>
+                                    <Border>
+                                        <StackPanel>
+                                            <TextBlock>
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ReviewCount}" Value="0">
+                                                                <Setter Property="Text" Value="Never reviewed." />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ReviewCount}" Value="1">
+                                                                <Setter Property="Text" Value="Reviewed 1 time." />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                        <Setter Property="Text">
+                                                            <Setter.Value>
+                                                                <Binding Path="ReviewCount"
+                                                                    StringFormat="{}Reviewed {0} times." />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                            <TextBlock>
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding SuccessCount}" Value="0">
+                                                                <Setter Property="Text" Value="Never succeeded." />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding SuccessCount}" Value="1">
+                                                                <Setter Property="Text" Value="Succeeded 1 time." />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                        <Setter Property="Text">
+                                                            <Setter.Value>
+                                                                <Binding Path="SuccessCount"
+                                                                    StringFormat="{}Succeeded {0} times." />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                            <TextBlock>
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding FailureCount}" Value="0">
+                                                                <Setter Property="Text" Value="Never failed." />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding FailureCount}" Value="1">
+                                                                <Setter Property="Text" Value="Failed 1 time." />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                        <Setter Property="Text">
+                                                            <Setter.Value>
+                                                                <Binding Path="FailureCount"
+                                                                    StringFormat="{}Failed {0} times." />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid.ToolTip>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Border x:Name="PART_Track" CornerRadius="2"
+                                        BorderThickness="0" BorderBrush="#333333">
+                                    <Rectangle x:Name="PART_Indicator" HorizontalAlignment="Left"
+                                               RadiusX="2" RadiusY="2">
+                                        <Rectangle.Fill>
+                                            <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                                                <GradientStop Color="#FF26A861"/>
+                                                <GradientStop Color="#FF0D5D31" Offset="0.95"/>
+                                            </LinearGradientBrush>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Border>
+                                <TextBlock Text="{Binding CompletionPercentage,
+                                    Converter={StaticResource PercentageToStringConverter}}"
+                                           FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           FontWeight="SemiBold" Foreground="Black">
+                                    <TextBlock.RenderTransform>
+                                        <TranslateTransform X="-1" Y="-1" />
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
+                                <TextBlock Text="{Binding CompletionPercentage,
+                                    Converter={StaticResource PercentageToStringConverter}}"
+                                           FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           FontWeight="SemiBold" Foreground="White" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
-    
-    
     <!-- SRS Page -->
     <Style TargetType="TextBlock" x:Key="SrsStatText">
         <Setter Property="FontSize" Value="14" />

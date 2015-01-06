@@ -63,7 +63,7 @@ namespace Kanji.Interface.Business
         }
 
         /// <summary>
-        /// Gets the radicals from the set currently loaded.
+        /// Gets the elements from the set currently loaded.
         /// </summary>
         public T CurrentSet
         {
@@ -80,7 +80,7 @@ namespace Kanji.Interface.Business
         }
 
         /// <summary>
-        /// Gets or sets a value indicating if radicals are loaded.
+        /// Gets or sets a value indicating if the set is loaded.
         /// </summary>
         public bool IsLoaded
         {

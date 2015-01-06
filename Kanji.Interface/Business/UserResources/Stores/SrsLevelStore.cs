@@ -90,6 +90,14 @@ namespace Kanji.Interface.Business
                 .FirstOrDefault();
         }
 
+        /// <summary>
+        /// Gets the number of total levels.
+        /// </summary>
+        public int GetLevelCount()
+        {
+            return (int)CurrentSet.Sum(lg => lg.Levels.Count());
+        }
+
         #endregion
     }
 }

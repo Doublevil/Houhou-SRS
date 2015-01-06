@@ -1,6 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ArrayOfChangelogEntry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ChangelogEntry>
+    <Version>1.1.1</Version>
+    <Title>New ignore shortcuts setting</Title>
+    <Description>Added an SRS setting to enable some new shortcuts during reviews to ignore a submitted answer.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.1.1</Version>
+    <Title>Small SRS items browsing improvements</Title>
+    <Description>SRS item browsing now has slightly improved filters and performs better.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.1.1</Version>
+    <Title>Minor additions and fixes</Title>
+    <Description>• During reviews, meaning questions now handle meanings with parenthesis expressions (e.g. "master (of a house)" will accept "master").
+• Changed the SRS progress display on items to display the progression through your SRS levels.
+• Changed the background color of the answer box after validating your answer during reviews to be more flashy.
+• Typing "zz" in kana fields will now input the small tsu (っ).
+• Fixed bulk SRS item edition with too many items.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
     <Version>1.1</Version>
     <Title>User folder modification</Title>
     <Description>New feature: you can now move your user folder wherever you want. For example, synchronize your SRS database by using a Dropbox folder.</Description>
