@@ -17,6 +17,8 @@
 • Changed the SRS progress display on items to display the progression through your SRS levels.
 • Changed the background color of the answer box after validating your answer during reviews to be more flashy.
 • Typing "zz" in kana fields will now input the small tsu (っ).
+• Typing "n'" in kana fields will now input a ん.
+• Typing ca/ci/cu/ce/co in kana fields will now input か/き/く/け/こ.
 • Fixed bulk SRS item edition with too many items.</Description>
   </ChangelogEntry>
   <ChangelogEntry>
