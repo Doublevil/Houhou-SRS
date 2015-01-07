@@ -764,6 +764,16 @@ namespace Kanji.Common.Helpers
             romaji = romaji.Replace("ke", "け");
             romaji = romaji.Replace("KO", "コ");
             romaji = romaji.Replace("ko", "こ");
+            romaji = romaji.Replace("CA", "カ");
+            romaji = romaji.Replace("ca", "か");
+            romaji = romaji.Replace("CI", "キ");
+            romaji = romaji.Replace("ci", "き");
+            romaji = romaji.Replace("CU", "ク");
+            romaji = romaji.Replace("cu", "く");
+            romaji = romaji.Replace("CE", "ケ");
+            romaji = romaji.Replace("ce", "け");
+            romaji = romaji.Replace("CO", "コ");
+            romaji = romaji.Replace("co", "こ");
             romaji = romaji.Replace("SA", "サ");
             romaji = romaji.Replace("sa", "さ");
             romaji = romaji.Replace("SI", "シ");
@@ -945,7 +955,9 @@ namespace Kanji.Common.Helpers
             romaji = romaji.Replace("XN", "ン");
             romaji = romaji.Replace("xn", "ん");
             romaji = romaji.Replace("NN", "ン");
+            romaji = romaji.Replace("N'", "ン");
             romaji = romaji.Replace("nn", "ん");
+            romaji = romaji.Replace("n'", "ん");
 
             // Then, replace 1 letter characters:
             romaji = romaji.Replace("A", "ア");
