@@ -92,21 +92,26 @@ namespace Kanji.Interface.ViewModels
         #region Commands
 
         /// <summary>
-        /// Gets or sets the command used to show/hide details.
+        /// Gets the command used to show/hide details.
         /// </summary>
-        public RelayCommand ToggleDetailsCommand { get; set; }
+        public RelayCommand ToggleDetailsCommand { get; private set; }
 
         /// <summary>
-        /// Gets or sets the command used to open the SRS entry edition window
+        /// Gets the command used to open the SRS entry edition window
         /// to add the kanji to the SRS.
         /// </summary>
-        public RelayCommand AddToSrsCommand { get; set; }
+        public RelayCommand AddToSrsCommand { get; private set; }
 
         /// <summary>
-        /// Gets or sets the command used to open the SRS entry edition window
+        /// Gets the command used to open the SRS entry edition window
         /// to edit the entry related to the kanji handled by this ViewModel.
         /// </summary>
-        public RelayCommand EditSrsEntryCommand { get; set; }
+        public RelayCommand EditSrsEntryCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command used to filter the vocab of the kanji represented in this view model by the given reading.
+        /// </summary>
+        public RelayCommand<string> FilterReadingCommand { get; private set; }
 
         #endregion
 
@@ -147,6 +152,7 @@ namespace Kanji.Interface.ViewModels
             ToggleDetailsCommand = new RelayCommand(OnToggleDetails);
             AddToSrsCommand = new RelayCommand(OnAddToSrs);
             EditSrsEntryCommand = new RelayCommand(OnEditSrsEntry);
+            FilterReadingCommand = new RelayCommand<string>(OnFilterReading);
         }
 
         #endregion
@@ -220,6 +226,16 @@ namespace Kanji.Interface.ViewModels
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Called when the FilterReadingCommand is fired.
+        /// Filters the vocab of the kanji by the specified reading.
+        /// </summary>
+        /// <param name="reading">Reading to use as a filter.</param>
+        private void OnFilterReading(string reading)
+        {
+            VocabFilterVm.ReadingFilter = reading.Replace("ー", string.Empty).Replace(".", string.Empty);
         }
 
         #endregion

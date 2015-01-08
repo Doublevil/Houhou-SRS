@@ -181,6 +181,15 @@ namespace Kanji.Interface.Controls
             base.OnMouseUp(e);
         }
 
+        protected override void OnTextChanged(TextChangedEventArgs e)
+        {
+            if (!IsFocused)
+            {
+                ValidateInput();
+            }
+            base.OnTextChanged(e);
+        }
+
         #endregion
 
         #endregion

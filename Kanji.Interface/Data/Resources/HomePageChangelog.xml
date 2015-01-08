@@ -14,6 +14,7 @@
     <Version>1.1.1</Version>
     <Title>Minor additions and fixes</Title>
     <Description>• During reviews, meaning questions now handle meanings with parenthesis expressions (e.g. "master (of a house)" will accept "master").
+• Clicking a reading on a kanji page will now filter vocab using the clicked reading.
 • Changed the SRS progress display on items to display the progression through your SRS levels.
 • Changed the background color of the answer box after validating your answer during reviews to be more flashy.
 • Typing "zz" in kana fields will now input the small tsu (っ).

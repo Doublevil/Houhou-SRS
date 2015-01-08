@@ -247,6 +247,13 @@
                                 <Border BorderBrush="#CC000000" BorderThickness="1"
                                         Background="{TemplateBinding Background}"
                                         Padding="2" Margin="0 2 5 0">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                            <i:InvokeCommandAction Command="{Binding DataContext.FilterReadingCommand,
+                                                        RelativeSource={RelativeSource AncestorType={x:Type controls:KanjiDetails}}}"
+                                                        CommandParameter="{Binding HiraganaReading}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                     <TextBox Style="{StaticResource ReadingLabel}"
                                              Text="{Binding ModifiedReading}" />
                                 </Border>
