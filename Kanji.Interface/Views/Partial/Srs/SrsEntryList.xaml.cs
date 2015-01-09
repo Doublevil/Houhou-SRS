@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Kanji.Interface.ViewModels;
+using Kanji.Interface.Models;
 
 namespace Kanji.Interface.Controls
 {
@@ -20,6 +22,15 @@ namespace Kanji.Interface.Controls
         public SrsEntryList()
         {
             InitializeComponent();
+            SrsList.SelectionChanged += SrsList_SelectionChanged;
+        }
+
+        void SrsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            e.Handled = true;
+            SrsEntryListViewModel vm = (SrsEntryListViewModel)DataContext;
+            vm.SetSelection(SrsList.SelectedItems);
+            vm.RefreshSelection();
         }
     }
 }

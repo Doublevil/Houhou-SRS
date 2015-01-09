@@ -65,6 +65,8 @@ namespace Kanji.Interface.ViewModels
 
         private long _bulkEditResultCount;
 
+        public System.Windows.Controls.DataGrid _dataGrid;
+
         #endregion
 
         #region Properties
@@ -345,18 +347,20 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         private void UnselectAll()
         {
+            _isSetSelectionAllowed = false;
             foreach (FilteringSrsEntry item in LoadedItems)
             {
                 item.IsSelected = false;
             }
 
             RefreshSelection();
+            _isSetSelectionAllowed = true;
         }
 
         /// <summary>
         /// Refreshes the selection information.
         /// </summary>
-        private void RefreshSelection()
+        public void RefreshSelection()
         {
             SelectedItems = LoadedItems.Where(i => i.IsSelected).ToList();
             ComputeSelectionStats();
@@ -417,6 +421,30 @@ namespace Kanji.Interface.ViewModels
                     ReapplyFilter();
                 }
             }
+        }
+
+        private bool _isSetSelectionAllowed = true;
+
+        /// <summary>
+        /// Sets the selection to match the given list.
+        /// </summary>
+        /// <param name="selection">Selected items.</param>
+        public void SetSelection(System.Collections.IList selection)
+        {
+            if (_isSetSelectionAllowed)
+            {
+                foreach (FilteringSrsEntry entry in LoadedItems)
+                {
+                    entry.IsSelected = selection.Contains(entry);
+                }
+                RefreshSelection();
+            }
+        }
+
+        public void SetItemSelected(FilteringSrsEntry item, bool isSelected)
+        {
+            item.IsSelected = isSelected;
+            //RefreshSelection();
         }
 
         #region Override
@@ -598,12 +626,14 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         private void OnSelectAll()
         {
+            _isSetSelectionAllowed = false;
             foreach (FilteringSrsEntry item in LoadedItems)
             {
                 item.IsSelected = true;
             }
 
             RefreshSelection();
+            _isSetSelectionAllowed = true;
         }
 
         /// <summary>

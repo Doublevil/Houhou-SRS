@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:Kanji.Interface.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="300">
 
     <StackPanel>
         <GroupBox BorderBrush="#666666">
@@ -22,6 +22,15 @@
             </GroupBox.Header>
             <StackPanel Margin="6 10">
                 <controls:SettingIgnoreAnswerShortcut DataContext="{Binding IgnoreAnswerShortcutVm}" />
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox BorderBrush="#666666" Margin="0 20 0 0">
+            <GroupBox.Header>
+                <TextBlock Text="SRS items browsing" Style="{StaticResource SettingCategoryTitle}" />
+            </GroupBox.Header>
+            <StackPanel Margin="6 10">
+                <controls:SettingSrsEntriesPerPageControl DataContext="{Binding EntriesPerPageVm}" />
             </StackPanel>
         </GroupBox>
     </StackPanel>

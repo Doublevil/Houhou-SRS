@@ -20,6 +20,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public SettingIgnoreAnswerShortcutViewModel IgnoreAnswerShortcutVm { get; private set; }
 
+        /// <summary>
+        /// Gets the view model for the number of SRS entries per page on the browsing control.
+        /// </summary>
+        public SettingSrsEntriesPerPageViewModel EntriesPerPageVm { get; private set; }
+
         #endregion
 
         #region Methods
@@ -30,11 +35,13 @@ namespace Kanji.Interface.ViewModels
         {
             SrsLevelSetVm = new SettingSrsLevelSetViewModel();
             IgnoreAnswerShortcutVm = new SettingIgnoreAnswerShortcutViewModel();
+            EntriesPerPageVm = new SettingSrsEntriesPerPageViewModel();
 
             return new SettingControlViewModel[]
             {
                 SrsLevelSetVm,
-                IgnoreAnswerShortcutVm
+                IgnoreAnswerShortcutVm,
+                EntriesPerPageVm
             };
         }
 

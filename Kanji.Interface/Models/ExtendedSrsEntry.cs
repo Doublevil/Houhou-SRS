@@ -353,6 +353,17 @@ namespace Kanji.Interface.Models
             }
         }
 
+        /// <summary>
+        /// Gets the string representation of the item.
+        /// </summary>
+        public string Representation
+        {
+            get
+            {
+                return IsKanji ? AssociatedKanji : AssociatedVocab;
+            }
+        }
+
         #endregion
 
         #region Constructors

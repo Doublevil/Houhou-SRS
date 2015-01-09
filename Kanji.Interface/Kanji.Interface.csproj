@@ -239,6 +239,7 @@
     <Compile Include="ViewModels\Partial\Import\ImportViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingDoUpdateCheckViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingIgnoreAnswerShortcutViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Settings\Controls\SettingSrsEntriesPerPageViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingSrsLevelSetViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingTrayAutoStartViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingTrayDoNotifyViewModel.cs" />
@@ -340,6 +341,9 @@
     </Compile>
     <Compile Include="Views\Partial\Settings\Controls\SettingRadicalSetControl.xaml.cs">
       <DependentUpon>SettingRadicalSetControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Settings\Controls\SettingSrsEntriesPerPageControl.xaml.cs">
+      <DependentUpon>SettingSrsEntriesPerPageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\Settings\Controls\SettingSrsLevelSetControl.xaml.cs">
       <DependentUpon>SettingSrsLevelSetControl.xaml</DependentUpon>
@@ -588,6 +592,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\Settings\Controls\SettingRadicalSetControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Settings\Controls\SettingSrsEntriesPerPageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
