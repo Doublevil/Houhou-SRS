@@ -160,7 +160,7 @@
                     <DataGrid.RowStyle>
                         <Style TargetType="DataGridRow">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsKanji}">
+                                <DataTrigger Binding="{Binding IsKanji}" Value="True">
                                     <Setter Property="Background" Value="#881784F8" />
                                 </DataTrigger>
                             </Style.Triggers>
