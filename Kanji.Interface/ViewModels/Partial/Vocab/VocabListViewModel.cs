@@ -258,7 +258,18 @@ namespace Kanji.Interface.ViewModels
         /// <param name="vocab">Vocab to copy.</param>
         private void OnVocabCopy(ExtendedVocab vocab)
         {
-            System.Windows.Clipboard.SetText(vocab.DbVocab.KanjiWriting);
+            // This code is totally awful but if we don't do that, we'll run into an issue for some users.
+            // Thank you Robert Wagner (http://stackoverflow.com/questions/68666/clipbrd-e-cant-open-error-when-setting-the-clipboard-from-net).
+            for (int i = 0; i < 10; i++)
+            {
+                try
+                {
+                    System.Windows.Clipboard.SetText(vocab.DbVocab.KanjiWriting);
+                    return;
+                }
+                catch { }
+                System.Threading.Thread.Sleep(10);
+            } 
         }
 
         #endregion
