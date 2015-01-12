@@ -20,6 +20,12 @@ namespace Kanji.Interface.Converters
             if (value is VocabEntity)
             {
                 VocabEntity vocab = (VocabEntity)value;
+
+                if (vocab.Categories.Where(c => c.ShortName == "oK" || c.ShortName == "ok" || c.ShortName == "arch").Any())
+                {
+                    return new SolidColorBrush(Color.FromArgb(255, 96, 96, 96));
+                }
+
                 Color destColor = vocab.IsCommon ? Color.FromArgb(255, 239, 255, 222) : Colors.Transparent;
                 return new SolidColorBrush(destColor);
             }

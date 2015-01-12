@@ -25,6 +25,17 @@ namespace Kanji.Interface.Models
         public VocabEntity DbVocab { get; set; }
 
         /// <summary>
+        /// Gets a boolean indicating if the vocab uses an obsolete kanji or kana reading.
+        /// </summary>
+        public bool IsObsolete
+        {
+            get
+            {
+                return DbVocab.Categories.Where(c => c.ShortName == "oK" || c.ShortName == "ok").Any();
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the SRS entry associated with this vocab.
         /// </summary>
         public ExtendedSrsEntry SrsEntry

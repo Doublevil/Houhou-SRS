@@ -874,6 +874,29 @@
                                                         <Setter Property="Background" Value="#DDDDDD" />
                                                     </MultiDataTrigger.Setters>
                                                 </MultiDataTrigger>
+                                                <!-- When IsObsolete and unselected -->
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding IsObsolete}" Value="True" />
+                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Self},
+                                                            Path=IsMouseOver}" Value="False" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                        <Setter Property="Background" Value="#BBBBBB" />
+                                                        <Setter Property="Opacity" Value="0.6" />
+                                                    </MultiDataTrigger.Setters>
+                                                </MultiDataTrigger>
+                                                <!-- When IsObsolete and selected -->
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding IsObsolete}" Value="True" />
+                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Self},
+                                                            Path=IsMouseOver}" Value="True" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                        <Setter Property="Background" Value="#AAAAAA" />
+                                                    </MultiDataTrigger.Setters>
+                                                </MultiDataTrigger>
                                             </Style.Triggers>
                                         </Style>
                                     </Border.Style>
