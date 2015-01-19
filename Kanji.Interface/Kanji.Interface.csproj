@@ -160,6 +160,7 @@
     <Compile Include="Converters\ValueToVisibilityConverter.cs" />
     <Compile Include="Extensions\SrsEntryExtensions.cs" />
     <Compile Include="Extensions\StartPageEnumExtensions.cs" />
+    <Compile Include="Helpers\ClipboardHelper.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\ConfigurationHelper.cs" />
     <Compile Include="Helpers\ResourceHelper.cs" />
