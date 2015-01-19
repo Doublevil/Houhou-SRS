@@ -21,7 +21,7 @@ namespace Kanji.Interface.Extensions
             string meaningString = string.Empty;
             foreach (KanjiMeaning km in k.Meanings)
             {
-                meaningString += km.Meaning + MultiValueFieldHelper.ValueSeparator;
+                meaningString += MultiValueFieldHelper.ReplaceSeparator(km.Meaning) + MultiValueFieldHelper.ValueSeparator;
             }
             meaningString = meaningString.Trim(
                 new char[] { MultiValueFieldHelper.ValueSeparator });
@@ -52,7 +52,7 @@ namespace Kanji.Interface.Extensions
             foreach (VocabMeaningEntry vme in v.Meanings
                 .SelectMany(m => m.MeaningEntries))
             {
-                meaningString += vme.Meaning + MultiValueFieldHelper.ValueSeparator;
+                meaningString += MultiValueFieldHelper.ReplaceSeparator(vme.Meaning) + MultiValueFieldHelper.ValueSeparator;
             }
             meaningString = meaningString.Trim(
                 new char[] { MultiValueFieldHelper.ValueSeparator });

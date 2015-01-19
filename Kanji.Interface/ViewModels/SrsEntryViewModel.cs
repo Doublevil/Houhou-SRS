@@ -370,7 +370,7 @@ namespace Kanji.Interface.ViewModels
         {
             SrsEntryOperationEnum operationType = (SrsEntryOperationEnum)e.Argument;
 
-            // Acquire the send object. Thus, only one send opeartion can occur
+            // Acquire the send object. Thus, only one send operation can occur
             // at any given time.
             lock (_sendLock)
             {

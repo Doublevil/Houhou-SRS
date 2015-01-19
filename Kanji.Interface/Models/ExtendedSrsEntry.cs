@@ -401,9 +401,25 @@ namespace Kanji.Interface.Models
         {
             Level = SrsLevelStore.Instance.GetLevelByValue(
                 Reference.CurrentGrade);
-            LevelGroup = Level.ParentGroup;
 
-            CompletionPercentage = Math.Max(0, Math.Min(1, (double)Level.Value / (double)(SrsLevelStore.Instance.GetLevelCount() - 1)));
+            if (Level != null)
+            {
+                LevelGroup = Level.ParentGroup;
+            }
+
+            int levelCount = SrsLevelStore.Instance.GetLevelCount();
+            if (levelCount < 1)
+            {
+                CompletionPercentage = 0;
+            }
+            else if (levelCount == 1)
+            {
+                CompletionPercentage = 1;
+            }
+            else
+            {
+                CompletionPercentage = Math.Max(0, Math.Min(1, (double)Level.Value / (double)(levelCount - 1)));
+            }
         }
 
         public void LoadFromKanji(KanjiEntity k)

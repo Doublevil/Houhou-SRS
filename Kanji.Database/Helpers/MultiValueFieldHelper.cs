@@ -8,6 +8,7 @@ namespace Kanji.Database.Helpers
     public class MultiValueFieldHelper
     {
         public static readonly char ValueSeparator = ',';
+        public static readonly char ReplacedSeparator = '‚'; // ALT+0130 character. Not a real comma but looks like it.
 
         /// <summary>
         /// Removes empty entries and trims trailing and leading white spaces
@@ -45,6 +46,16 @@ namespace Kanji.Database.Helpers
         {
             return multiValueField.Replace(ValueSeparator.ToString(),
                 ValueSeparator + " ");
+        }
+
+        /// <summary>
+        /// Replaces the separator with a similar character in the given string, and returns the result.
+        /// </summary>
+        /// <param name="value">String to escape.</param>
+        /// <returns>String without any separator in it.</returns>
+        public static string ReplaceSeparator(string value)
+        {
+            return value.Replace(ValueSeparator, ReplacedSeparator);
         }
     }
 }
