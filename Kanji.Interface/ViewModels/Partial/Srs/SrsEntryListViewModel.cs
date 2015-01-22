@@ -12,6 +12,8 @@ using Kanji.Interface.Extensions;
 using Kanji.Database.Dao;
 using System.ComponentModel;
 using Kanji.Interface.Actors;
+using Kanji.Common.Helpers;
+using Kanji.Common.Utility;
 
 namespace Kanji.Interface.ViewModels
 {
@@ -300,6 +302,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public RelayCommand BulkDeleteCommand { get; set; }
 
+        /// <summary>
+        /// Gets or sets the command used to export all selected items.
+        /// </summary>
+        public RelayCommand ExportCommand { get; set; }
+
         #endregion
 
         #region Constructors
@@ -336,6 +343,7 @@ namespace Kanji.Interface.ViewModels
             BulkSuspendCommand = new RelayCommand(OnBulkSuspend);
             BulkResumeCommand = new RelayCommand(OnBulkResume);
             BulkDeleteCommand = new RelayCommand(OnBulkDelete);
+            ExportCommand = new RelayCommand(OnExport);
         }
 
         #endregion
@@ -808,6 +816,81 @@ namespace Kanji.Interface.ViewModels
             {
                 BulkEdit(BulkEditTaskEnum.Delete,
                     SelectedItems.Select(i => i.Reference).ToArray());
+            }
+        }
+
+        /// <summary>
+        /// Command callback. Exports the whole selection.
+        /// </summary>
+        private void OnExport()
+        {
+            // Create SaveFileDialog 
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+
+            // Set dialog parameters
+            dlg.FileName = "HouhouExport.csv";
+            dlg.Filter = "CSV document|*.csv";
+
+            // Show SaveFileDialog and get its result
+            Nullable<bool> result = dlg.ShowDialog();
+            if (result == true)
+            {
+                // We have a result. Use it.
+                try
+                {
+                    using (CsvFileWriter csv = new CsvFileWriter(dlg.FileName))
+                    {
+                        csv.Delimiter = ';';
+                        
+                        List<string> fields = new List<string>(12);
+                        fields.Add("Item type");
+                        fields.Add("Kanji reading");
+                        fields.Add("Accepted readings");
+                        fields.Add("Accepted meanings");
+                        fields.Add("Tags");
+                        fields.Add("Meaning notes");
+                        fields.Add("Reading notes");
+                        fields.Add("SRS level");
+                        fields.Add("Next review date");
+                        fields.Add("SRS success count");
+                        fields.Add("SRS failure count");
+                        fields.Add("Suspension date");
+                        csv.WriteRow(fields);
+
+                        foreach (FilteringSrsEntry entry in SelectedItems)
+                        {
+                            fields[0] = entry.IsKanji ? "k" : "v";
+                            fields[1] = entry.Representation;
+                            fields[2] = entry.Readings;
+                            fields[3] = entry.Meanings;
+                            fields[4] = entry.Tags;
+                            fields[5] = entry.MeaningNote;
+                            fields[6] = entry.ReadingNote;
+                            fields[7] = entry.CurrentGrade.ToString();
+                            fields[8] = entry.NextAnswerDate.HasValue ? entry.NextAnswerDate.Value.ToString("yyyy-MM-dd H:mm:ss") : string.Empty;
+                            fields[9] = entry.SuccessCount.ToString();
+                            fields[10] = entry.FailureCount.ToString();
+                            fields[11] = entry.SuspensionDate.HasValue ? entry.SuspensionDate.Value.ToString("yyyy-MM-dd H:mm:ss") : string.Empty;
+
+                            csv.WriteRow(fields);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // A bit of logging.
+                    LogHelper.GetLogger("Export").Error("An exception occured during an export operation.", ex);
+
+                    // And show a dialog with the error.
+                    System.Windows.MessageBox.Show(
+                        string.Format("An error occured during the export: \"{0}\".{1}{1}{2}",
+                        ex.GetType().Name,
+                        Environment.NewLine,
+                        ex.Message),
+                        "Export error",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Error);
+                }
             }
         }
 

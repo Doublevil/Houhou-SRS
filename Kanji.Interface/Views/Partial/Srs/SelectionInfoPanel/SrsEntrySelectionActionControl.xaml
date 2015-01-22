@@ -68,6 +68,8 @@
                         Margin="0 0 0 5" Command="{Binding BulkResumeCommand}" Height="Auto" MinHeight="20" />
                     <Button Style="{StaticResource ActionButton}" Content="Delete all selected items"
                         Margin="0 0 0 5" Command="{Binding BulkDeleteCommand}" Height="Auto" MinHeight="20" />
+                    <Button Style="{StaticResource ActionButton}" Content="Export all selected items"
+                        Margin="0 0 0 5" Command="{Binding ExportCommand}" Height="Auto" MinHeight="20" />
                 </UniformGrid>
             </ScrollViewer>
 
