@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:Kanji.Interface.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="600">
 
     <StackPanel>
         <GroupBox BorderBrush="#666666">
@@ -21,7 +21,8 @@
                 <TextBlock Text="Reviews" Style="{StaticResource SettingCategoryTitle}" />
             </GroupBox.Header>
             <StackPanel Margin="6 10">
-                <controls:SettingIgnoreAnswerShortcut DataContext="{Binding IgnoreAnswerShortcutVm}" />
+                <controls:SettingAutoSkipControl DataContext="{Binding AutoSkipVm}" />
+                <controls:SettingIgnoreAnswerShortcut DataContext="{Binding IgnoreAnswerShortcutVm}" Margin="0 10 0 0" />
             </StackPanel>
         </GroupBox>
 

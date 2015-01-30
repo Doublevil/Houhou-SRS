@@ -691,6 +691,11 @@ namespace Kanji.Interface.ViewModels
                     if (ReviewState == SrsReviewStateEnum.Input)
                     {
                         SubmitAnswer();
+                        if (ReviewState == SrsReviewStateEnum.Success
+                            && Kanji.Interface.Properties.Settings.Default.AutoSkipReviews)
+                        {
+                            ToNextQuestion();
+                        }
                     }
                     else if (_canSubmit)
                     {

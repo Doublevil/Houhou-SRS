@@ -68,5 +68,8 @@
     <Setting Name="WkTags" Type="System.String" Scope="User">
       <Value Profile="(Default)">WaniKani,WK%level%</Value>
     </Setting>
+    <Setting Name="AutoSkipReviews" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

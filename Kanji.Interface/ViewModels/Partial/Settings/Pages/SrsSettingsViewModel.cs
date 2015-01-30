@@ -25,6 +25,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public SettingSrsEntriesPerPageViewModel EntriesPerPageVm { get; private set; }
 
+        /// <summary>
+        /// Gets the view model for the auto skip option control.
+        /// </summary>
+        public SettingAutoSkipViewModel AutoSkipVm { get; private set; }
+
         #endregion
 
         #region Methods
@@ -36,12 +41,14 @@ namespace Kanji.Interface.ViewModels
             SrsLevelSetVm = new SettingSrsLevelSetViewModel();
             IgnoreAnswerShortcutVm = new SettingIgnoreAnswerShortcutViewModel();
             EntriesPerPageVm = new SettingSrsEntriesPerPageViewModel();
+            AutoSkipVm = new SettingAutoSkipViewModel();
 
             return new SettingControlViewModel[]
             {
                 SrsLevelSetVm,
                 IgnoreAnswerShortcutVm,
-                EntriesPerPageVm
+                EntriesPerPageVm,
+                AutoSkipVm
             };
         }
 
