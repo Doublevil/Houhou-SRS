@@ -160,11 +160,16 @@
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
     </Style>
-    
-    <Style TargetType="TextBox" BasedOn="{StaticResource LabelBox}" x:Key="ErrorLabel">
+
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource LabelBox}" x:Key="ErrorLabel">
         <Setter Property="Foreground" Value="DarkRed" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontWeight" Value="Bold" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
     
     <!-- KANJI READING COMPONENTS -->

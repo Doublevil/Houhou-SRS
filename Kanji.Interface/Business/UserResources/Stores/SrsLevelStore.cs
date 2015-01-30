@@ -98,6 +98,37 @@ namespace Kanji.Interface.Business
             return (int)CurrentSet.Sum(lg => lg.Levels.Count());
         }
 
+        /// <summary>
+        /// Gets a review date matching the given level using the delay and the DateTime.Now value.
+        /// Will return null if the level doesn't exist or is final.
+        /// </summary>
+        /// <param name="levelIndex">Index of the level to use as a reference.</param>
+        public DateTime? GetNextReviewDate(int levelIndex)
+        {
+            SrsLevel level = GetLevelByValue(levelIndex);
+            if (level != null && level.Delay.HasValue)
+            {
+                return DateTime.Now + level.Delay.Value;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets a boolean value indicating if the level referred by the given index is final
+        /// (i.e. won't schedule a review date upon reaching it).
+        /// </summary>
+        public bool IsFinalLevel(int levelIndex, bool defaultValue)
+        {
+            SrsLevel level = GetLevelByValue(levelIndex);
+            if (level == null)
+            {
+                return defaultValue;
+            }
+
+            return !level.Delay.HasValue;
+        }
+
         #endregion
     }
 }

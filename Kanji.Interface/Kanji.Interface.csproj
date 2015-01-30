@@ -81,6 +81,10 @@
       <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.Speech\11.0.0.0__31bf3856ad364e35\Microsoft.Speech.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -177,6 +181,9 @@
     <Compile Include="Models\Import\ImportDuplicateAction.cs" />
     <Compile Include="Models\Import\ImportResult.cs" />
     <Compile Include="Models\Import\ImportSpreadTimingMode.cs" />
+    <Compile Include="Models\Import\WkImportMode.cs" />
+    <Compile Include="Models\Import\WkImportResult.cs" />
+    <Compile Include="Models\Import\WkItem.cs" />
     <Compile Include="ViewModels\Partial\Import\ImportDuplicateOptionsViewModel.cs" />
     <Compile Include="ViewModels\Partial\Import\ImportOverviewViewModel.cs" />
     <Compile Include="ViewModels\Partial\Import\ImportProgressViewModel.cs" />
@@ -238,6 +245,9 @@
     <Compile Include="ViewModels\Partial\Import\ImportModeViewModel.cs" />
     <Compile Include="ViewModels\Partial\Import\ImportStepViewModel.cs" />
     <Compile Include="ViewModels\Partial\Import\ImportViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Import\WaniKani\WkImportRequestViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Import\WaniKani\WkImportSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Import\WaniKani\WkImportViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingDoUpdateCheckViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingIgnoreAnswerShortcutViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingSrsEntriesPerPageViewModel.cs" />
@@ -301,6 +311,12 @@
     <Compile Include="Views\Partial\Home\HomeLinkControl.xaml.cs">
       <DependentUpon>HomeLinkControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Partial\Import\Controls\ImportDuplicateBehaviorControl.xaml.cs">
+      <DependentUpon>ImportDuplicateBehaviorControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Import\Controls\ImportTimingControl.xaml.cs">
+      <DependentUpon>ImportTimingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Partial\Import\CSV\ImportCsvAfterLoad.xaml.cs">
       <DependentUpon>ImportCsvAfterLoad.xaml</DependentUpon>
     </Compile>
@@ -315,6 +331,12 @@
     </Compile>
     <Compile Include="Views\Partial\Import\ImportSelectionDialog.xaml.cs">
       <DependentUpon>ImportSelectionDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Import\WK\ImportWkInitial.xaml.cs">
+      <DependentUpon>ImportWkInitial.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Import\WK\ImportWkRequestView.xaml.cs">
+      <DependentUpon>ImportWkRequestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\ItemList\ListInfoHeaderControl.xaml.cs">
       <DependentUpon>ListInfoHeaderControl.xaml</DependentUpon>
@@ -540,6 +562,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Partial\Import\Controls\ImportDuplicateBehaviorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Import\Controls\ImportTimingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Partial\Import\CSV\ImportCsvAfterLoad.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -557,6 +587,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\Import\ImportSelectionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Import\WK\ImportWkInitial.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Import\WK\ImportWkRequestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

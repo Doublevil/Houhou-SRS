@@ -6,6 +6,7 @@
              xmlns:behaviors="clr-namespace:Kanji.Interface.Behaviors"
              xmlns:models="clr-namespace:Kanji.Interface.Models"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:controls="clr-namespace:Kanji.Interface.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="1200" d:DesignWidth="600">
 
@@ -133,60 +134,9 @@
                     </StackPanel>
                 </GroupBox>
 
-                <GroupBox BorderBrush="#666666" Padding="5" Margin="0 10 0 0" DataContext="{Binding ParentMode.DuplicateOptions}">
-                    <GroupBox.Header>
-                        <TextBlock Text="Duplicate behavior" Style="{StaticResource SettingCategoryTitle}" />
-                    </GroupBox.Header>
-                    <StackPanel>
-                        <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap" Margin="0 0 0 8">
-                            When an already existing item has the same kanji reading and item type...
-                        </TextBlock>
-
-                        <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap" Margin="0 0 0 0">
-                            About the imported item...
-                        </TextBlock>
-                        <RadioButton x:Name="DuplicateNewImport" GroupName="DuplicateNewBehavior" Content="Import the new item" IsChecked="{Binding DuplicateNewItemAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Import}" />
-                        <RadioButton GroupName="DuplicateNewBehavior" Content="Ignore the new item" IsChecked="{Binding DuplicateNewItemAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Ignore}" />
-                        <Separator Margin="5 12 5 8" />
-                        <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap" Margin="0 0 0 0">
-                            About the existing item...
-                        </TextBlock>
-                        <StackPanel IsEnabled="{Binding ElementName=DuplicateNewImport, Path=IsChecked}">
-                            <RadioButton GroupName="DuplicateOldBehavior" Content="Ignore the existing item" IsChecked="{Binding DuplicateExistingItemAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Ignore}" />
-                            <RadioButton GroupName="DuplicateOldBehavior" Content="Remove the existing item" IsChecked="{Binding DuplicateExistingItemAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Delete}" />
-                            <RadioButton GroupName="DuplicateOldBehavior" Content="Disable the existing item" IsChecked="{Binding DuplicateExistingItemAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Disable}" />
-                        </StackPanel>
-                    </StackPanel>
-                </GroupBox>
-
-                <GroupBox BorderBrush="#666666" Padding="5" Margin="0 10 0 0">
-                    <GroupBox.Header>
-                        <TextBlock Text="Timing" Style="{StaticResource SettingCategoryTitle}" />
-                    </GroupBox.Header>
-                    <StackPanel>
-                        <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap" Margin="0 0 0 8">
-                            To avoid a situation where all of your items come up in reviews at the same time, you may
-                            want to spread them over time.
-                        </TextBlock>
-
-                        <RadioButton GroupName="Timing" Content="Use the SRS level timing" IsChecked="{Binding Timing.TimingMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=UseSrsLevel}" />
-                        <RadioButton GroupName="Timing" Content="Start all reviews immediately" IsChecked="{Binding Timing.TimingMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Immediate}" />
-                        <RadioButton x:Name="SpreadTimingRadio" GroupName="Timing" Content="Spread reviews over time" IsChecked="{Binding Timing.TimingMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Spread}" />
-
-                        <Border Margin="15 5 0 0" BorderThickness="2 0 0 0" BorderBrush="#666666" Padding="5 0 0 0">
-                            <StackPanel IsEnabled="{Binding ElementName=SpreadTimingRadio, Mode=OneWay, Path=IsChecked}">
-                                <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
-                                    <xctk:IntegerUpDown Value="{Binding Timing.SpreadAmountPerDay}" Width="60" Minimum="1" Maximum="99999" />
-                                    <TextBlock Style="{StaticResource LegendText}" Margin="5 0 0 0">
-                                        new items per day
-                                    </TextBlock>
-                                </StackPanel>
-                                <RadioButton GroupName="SpreadMode" Content="In random order" IsChecked="{Binding Timing.SpreadMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Random}" />
-                                <RadioButton GroupName="SpreadMode" Content="In import source order" IsChecked="{Binding Timing.SpreadMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=ListOrder}" />
-                            </StackPanel>
-                        </Border>
-                    </StackPanel>
-                </GroupBox>
+                <controls:ImportDuplicateBehaviorControl Margin="0 10 0 0" />
+                <controls:ImportTimingControl Margin="0 10 0 0" />
+                
             </StackPanel>
         </ScrollViewer>
         

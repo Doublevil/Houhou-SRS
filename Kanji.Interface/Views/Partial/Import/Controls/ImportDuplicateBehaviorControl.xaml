@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.ImportDuplicateBehaviorControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <GroupBox BorderBrush="#666666" Padding="5" DataContext="{Binding ParentMode.DuplicateOptions}">
+        <GroupBox.Header>
+            <TextBlock Text="Duplicate case behavior" Style="{StaticResource SettingCategoryTitle}" />
+        </GroupBox.Header>
+        <StackPanel>
+            <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap" Margin="0 0 0 8">
+                                When an already existing item has the same kanji reading and item type...
+            </TextBlock>
+
+            <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap" Margin="0 0 0 0">
+                                About the imported item...
+            </TextBlock>
+            <RadioButton x:Name="DuplicateNewImport" GroupName="DuplicateNewBehavior" Content="Import the new item" IsChecked="{Binding DuplicateNewItemAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Import}" />
+            <RadioButton GroupName="DuplicateNewBehavior" Content="Ignore the new item" IsChecked="{Binding DuplicateNewItemAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Ignore}" />
+            <Separator Margin="5 12 5 8" />
+            <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap" Margin="0 0 0 0">
+                                About the existing item...
+            </TextBlock>
+            <StackPanel IsEnabled="{Binding ElementName=DuplicateNewImport, Path=IsChecked}">
+                <RadioButton GroupName="DuplicateOldBehavior" Content="Ignore the existing item" IsChecked="{Binding DuplicateExistingItemAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Ignore}" />
+                <RadioButton GroupName="DuplicateOldBehavior" Content="Remove the existing item" IsChecked="{Binding DuplicateExistingItemAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Delete}" />
+                <RadioButton GroupName="DuplicateOldBehavior" Content="Disable the existing item" IsChecked="{Binding DuplicateExistingItemAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Disable}" />
+            </StackPanel>
+        </StackPanel>
+    </GroupBox>
+</UserControl>

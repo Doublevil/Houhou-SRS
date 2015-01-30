@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
 using Kanji.Database.Entities;
+using Kanji.Interface.Models;
+using Kanji.Interface.Business;
 
 namespace Kanji.Interface.ViewModels
 {
@@ -16,6 +18,7 @@ namespace Kanji.Interface.ViewModels
         protected ImportStepViewModel _currentStep;
         protected List<SrsEntry> _newEntries;
         protected string _importLog;
+        protected Random _random;
 
         #endregion
 
@@ -78,6 +81,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public ImportDuplicateOptionsViewModel DuplicateOptions { get; private set; }
 
+        /// <summary>
+        /// Gets the SRS timing options for the imported items.
+        /// </summary>
+        public ImportTimingViewModel Timing { get; private set; }
+
         #endregion
 
         #region Commands
@@ -120,9 +128,11 @@ namespace Kanji.Interface.ViewModels
 
         public ImportModeViewModel()
         {
+            _random = new Random();
             NextStepCommand = new RelayCommand(NextStep);
             PreviousStepCommand = new RelayCommand(PreviousStep);
             DuplicateOptions = new ImportDuplicateOptionsViewModel();
+            Timing = new ImportTimingViewModel();
         }
 
         #endregion
@@ -135,6 +145,54 @@ namespace Kanji.Interface.ViewModels
         protected void Initialize()
         {
             _currentStep = _steps[0];
+        }
+
+        /// <summary>
+        /// Applies the correct timing to the items, according to the configuration.
+        /// </summary>
+        public void ApplyTiming()
+        {
+            // Timing is applied only to entries that do not already have a next answer date
+            // and that are not in a final SRS level.
+            List<SrsEntry> eligibleEntries = NewEntries.Where(e => !e.NextAnswerDate.HasValue
+                && !SrsLevelStore.Instance.IsFinalLevel(e.CurrentGrade, false)).ToList();
+
+            if (Timing.TimingMode == ImportTimingMode.Spread)
+            {
+                int i = 0;
+                TimeSpan delay = TimeSpan.Zero;
+                while (eligibleEntries.Any())
+                {
+                    // Pick an item and remove it.
+                    int nextIndex = Timing.SpreadMode == ImportSpreadTimingMode.ListOrder ? 0 : _random.Next(eligibleEntries.Count);
+                    SrsEntry next = eligibleEntries[nextIndex];
+                    eligibleEntries.RemoveAt(nextIndex);
+
+                    // Apply spread
+                    next.NextAnswerDate = DateTime.Now + delay;
+
+                    // Increment i and add a day to the delay if i reaches the spread value.
+                    if (++i >= Timing.SpreadAmountPerDay)
+                    {
+                        i = 0;
+                        delay += TimeSpan.FromHours(24);
+                    }
+                }
+            }
+            else if (Timing.TimingMode == ImportTimingMode.Immediate)
+            {
+                foreach (SrsEntry entry in eligibleEntries)
+                {
+                    entry.NextAnswerDate = DateTime.Now;
+                }
+            }
+            else if (Timing.TimingMode == ImportTimingMode.UseSrsLevel)
+            {
+                foreach (SrsEntry entry in eligibleEntries)
+                {
+                    entry.NextAnswerDate = SrsLevelStore.Instance.GetNextReviewDate(entry.CurrentGrade);
+                }
+            }
         }
 
         /// <summary>
@@ -165,7 +223,15 @@ namespace Kanji.Interface.ViewModels
 
             if (GetStepIndex() > 0)
             {
-                CurrentStep = _steps[GetStepIndex() - 1];
+                while (GetStepIndex() > 0)
+                {
+                    CurrentStep = _steps[GetStepIndex() - 1];
+                    if (!CurrentStep.SkipOnPrevious)
+                    {
+                        break;
+                    }
+                }
+                
                 CurrentStep.OnEnterStep();
             }
             else if (Cancel != null)

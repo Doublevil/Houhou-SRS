@@ -29,6 +29,12 @@
                 <DataTemplate DataType="{x:Type vm:ImportProgressViewModel}">
                     <controls:ImportProgress />
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:WkImportSettingsViewModel}">
+                    <controls:ImportWkInitial />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:WkImportRequestViewModel}">
+                    <controls:ImportWkRequestView />
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
     </Border>

@@ -28,10 +28,7 @@ namespace Kanji.Interface.ViewModels
         private List<string> _optionalColumns;
 
         private CsvImportNoTypeBehavior _noTypeBehavior;
-
-        private ImportTimingViewModel _timing;
-
-        private Random _random;
+        private CsvImportViewModel _parent;
 
         #endregion
 
@@ -229,22 +226,6 @@ namespace Kanji.Interface.ViewModels
             }
         }
 
-        /// <summary>
-        /// Gets or sets the SRS timing options for the imported items.
-        /// </summary>
-        public ImportTimingViewModel Timing
-        {
-            get { return _timing; }
-            set
-            {
-                if (_timing != value)
-                {
-                    _timing = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
         #endregion
 
         #region Constructors
@@ -252,9 +233,8 @@ namespace Kanji.Interface.ViewModels
         public CsvImportColumnsStepViewModel(ImportModeViewModel parentMode)
             : base(parentMode)
         {
+            _parent = (CsvImportViewModel)parentMode;
             NoTypeBehavior = CsvImportNoTypeBehavior.Auto;
-            Timing = new ImportTimingViewModel();
-            _random = new Random();
         }
 
         #endregion
@@ -266,10 +246,8 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public override void OnEnterStep()
         {
-            CsvImportViewModel parent = (CsvImportViewModel)ParentMode;
-
             // Take required columns as stored in parent.
-            RequiredColumns = parent.CsvColumns;
+            RequiredColumns = _parent.CsvColumns;
 
             // Then create the optional columns list using an empty string + the required columns.
             List<string> optionalColumns = new List<string>(RequiredColumns.Count + 1) { string.Empty };
@@ -286,14 +264,13 @@ namespace Kanji.Interface.ViewModels
         public override bool OnNextStep()
         {
             // Initialize fields
-            CsvImportViewModel parent = (CsvImportViewModel)ParentMode;
-            parent.NewEntries = new List<SrsEntry>();
+            _parent.NewEntries = new List<SrsEntry>();
             StringBuilder log = new StringBuilder();
-            log.AppendLine(string.Format("Starting import with {0} line(s).", parent.CsvLines.Count));
+            log.AppendLine(string.Format("Starting import with {0} line(s).", _parent.CsvLines.Count));
             int i = 0;
 
             // Browse CSV lines!
-            foreach (List<string> row in parent.CsvLines)
+            foreach (List<string> row in _parent.CsvLines)
             {
                 log.AppendFormat("l{0}: ", ++i);
                 // Attempt to read the entry.
@@ -303,22 +280,19 @@ namespace Kanji.Interface.ViewModels
                 // Add the entry to the parent's list if not null.
                 if (entry != null)
                 {
-                    parent.NewEntries.Add(entry);
+                    _parent.NewEntries.Add(entry);
                 }
             }
 
             // All items have been added.
-            // Apply next review timing adjustments if in Spread mode.
-            if (_timing.TimingMode == ImportTimingMode.Spread)
-            {
-                ApplySpread();
-            }
+            // Apply the timing preferences for items that do not have a review date.
+            _parent.ApplyTiming();
 
             // Pray for the plural
-            log.AppendLine(string.Format("Finished with {0} new entries.", parent.NewEntries.Count));
+            log.AppendLine(string.Format("Finished with {0} new entries.", _parent.NewEntries.Count));
 
             // Set the import log. We're good.
-            parent.ImportLog = log.ToString();
+            _parent.ImportLog = log.ToString();
             return true;
         }
 
@@ -382,7 +356,7 @@ namespace Kanji.Interface.ViewModels
                 entry.ReadingNote = ReadReadingNotes(row);
                 entry.Tags = ReadTags(row);
                 entry.CurrentGrade = ReadStartLevel(row);
-                entry.NextAnswerDate = ReadNextReviewDate(row) ?? GetNextReviewDate(entry.CurrentGrade);
+                entry.NextAnswerDate = ReadNextReviewDate(row);
 
                 log.Append("OK.");
                 return entry;
@@ -393,63 +367,6 @@ namespace Kanji.Interface.ViewModels
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Gets the appropriate next review date for an item read with the given SRS level.
-        /// Takes in account the ViewModel parameters to establish the next review date.
-        /// This value is applied when the next answer date is not specified.
-        /// It can be modified by the ApplySpread method later on.
-        /// </summary>
-        /// <param name="srsLevel">SRS level of the item</param>
-        private DateTime GetNextReviewDate(int srsLevel)
-        {
-            // Note: If applicable, Spread mode will be applied later due to the possibility that the Random option is active.
-
-            if (_timing.TimingMode == ImportTimingMode.UseSrsLevel)
-            {
-                SrsLevel level = SrsLevelStore.Instance.GetLevelByValue(srsLevel);
-                if (level != null)
-                {
-                    return DateTime.Now + (level.Delay ?? TimeSpan.Zero);
-                }
-            }
-
-            return DateTime.Now;
-        }
-
-        /// <summary>
-        /// Applies the "spread" timing effect to the next review dates of the items if the configuration is set to use it.
-        /// </summary>
-        private void ApplySpread()
-        {
-            if (_timing.TimingMode == ImportTimingMode.Spread)
-            {
-                List<SrsEntry> entries = new List<SrsEntry>(ParentMode.NewEntries);
-
-                int i = 0;
-                TimeSpan delay = TimeSpan.Zero;
-                while (entries.Any())
-                {
-                    // Pick an item and remove it.
-                    int nextIndex = _timing.SpreadMode == ImportSpreadTimingMode.ListOrder ? 0 : _random.Next(entries.Count);
-                    SrsEntry next = entries[nextIndex];
-                    entries.RemoveAt(nextIndex);
-
-                    // Apply spread
-                    if (next.NextAnswerDate.HasValue)
-                    {
-                        next.NextAnswerDate += delay;
-                    }
-
-                    // Increment i and add a day to the delay if i reaches the spread value.
-                    if (++i >= _timing.SpreadAmountPerDay)
-                    {
-                        i = 0;
-                        delay += TimeSpan.FromHours(24);
-                    }
-                }
-            }
         }
 
         /// <summary>

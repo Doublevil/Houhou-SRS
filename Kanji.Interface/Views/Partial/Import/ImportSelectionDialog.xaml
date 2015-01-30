@@ -94,9 +94,11 @@
                         <StackPanel Style="{StaticResource ImportStackPanel}">
                             <TextBlock Style="{StaticResource ImportChoiceText}">
                         Import items from your WaniKani account.<LineBreak />
-                        This option is coming soon.
+                        WaniKani is a kanji learning web application made by Tofugu.
                             </TextBlock>
-                            <Button Style="{StaticResource ImportChoiceButton}" Content="(Coming soon)" IsEnabled="False" />
+                            <Button Style="{StaticResource ImportChoiceButton}" Content="Select this option"
+                                    Command="{Binding SelectImportCommand}"
+                                    CommandParameter="{Binding WkImportVm}" />
                         </StackPanel>
                     </Grid>
                 </Border>

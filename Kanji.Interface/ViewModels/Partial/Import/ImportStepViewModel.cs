@@ -15,6 +15,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public ImportModeViewModel ParentMode { get; private set; }
 
+        /// <summary>
+        /// Gets a value indicating whether the step should be skipped when going back from an ulterior step.
+        /// </summary>
+        public bool SkipOnPrevious { get; set; }
+
         #endregion
 
         #region Constructors

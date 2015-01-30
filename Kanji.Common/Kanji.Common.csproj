@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Extensions\XElementExtensions.cs" />
     <Compile Include="Helpers\CopyHelper.cs" />
+    <Compile Include="Helpers\DateTimeHelper.cs" />
     <Compile Include="Helpers\InstanceHelper.cs" />
     <Compile Include="Helpers\KanaHelper.cs" />
     <Compile Include="Helpers\LogHelper.cs" />

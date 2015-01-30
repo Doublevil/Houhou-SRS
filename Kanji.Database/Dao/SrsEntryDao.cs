@@ -387,7 +387,7 @@ namespace Kanji.Database.Dao
                 {
                     sqlQueryStart.Append(SqlHelper.Field_SrsEntry_SuspensionDate + ",");
                     sqlQueryEnd.Append("@SuspensionDate,");
-                    parameters.Add(new DaoParameter("@SuspensionDate", entity.SuspensionDate));
+                    parameters.Add(new DaoParameter("@SuspensionDate", entity.SuspensionDate.Value.ToUniversalTime().Ticks));
                 }
 
                 // AssociatedVocab

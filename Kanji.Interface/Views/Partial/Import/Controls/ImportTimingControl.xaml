@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.ImportTimingControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <GroupBox BorderBrush="#666666" Padding="5" Margin="0 10 0 0" DataContext="{Binding ParentMode.Timing}">
+        <GroupBox.Header>
+            <TextBlock Text="Timing" Style="{StaticResource SettingCategoryTitle}" />
+        </GroupBox.Header>
+        <StackPanel>
+            <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap" Margin="0 0 0 8">
+                To avoid a situation where all of your items come up in reviews at the same time, you may want to spread them over time.<LineBreak />
+                This setting is only used if and when an item does not have another usable review date.
+            </TextBlock>
+
+            <RadioButton GroupName="Timing" Content="Use the SRS level timing" IsChecked="{Binding TimingMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=UseSrsLevel}" />
+            <RadioButton GroupName="Timing" Content="Start all reviews immediately" IsChecked="{Binding TimingMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Immediate}" />
+            <RadioButton x:Name="SpreadTimingRadio" GroupName="Timing" Content="Spread reviews over time" IsChecked="{Binding TimingMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Spread}" />
+
+            <Border Margin="15 5 0 0" BorderThickness="2 0 0 0" BorderBrush="#666666" Padding="5 0 0 0">
+                <StackPanel IsEnabled="{Binding ElementName=SpreadTimingRadio, Mode=OneWay, Path=IsChecked}">
+                    <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                        <xctk:IntegerUpDown Value="{Binding SpreadAmountPerDay}" Width="60" Minimum="1" Maximum="99999" />
+                        <TextBlock Style="{StaticResource LegendText}" Margin="5 0 0 0">
+                                            new items per day
+                        </TextBlock>
+                    </StackPanel>
+                    <RadioButton GroupName="SpreadMode" Content="In random order" IsChecked="{Binding SpreadMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Random}" />
+                    <RadioButton GroupName="SpreadMode" Content="In import source order" IsChecked="{Binding SpreadMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=ListOrder}" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </GroupBox>
+</UserControl>

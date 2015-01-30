@@ -255,5 +255,29 @@ namespace Kanji.Interface.Properties {
                 this["IsIgnoreAnswerShortcutEnabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string WkApiKey {
+            get {
+                return ((string)(this["WkApiKey"]));
+            }
+            set {
+                this["WkApiKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("WaniKani,WK%level%")]
+        public string WkTags {
+            get {
+                return ((string)(this["WkTags"]));
+            }
+            set {
+                this["WkTags"] = value;
+            }
+        }
     }
 }

@@ -62,5 +62,11 @@
     <Setting Name="IsIgnoreAnswerShortcutEnabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="WkApiKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="WkTags" Type="System.String" Scope="User">
+      <Value Profile="(Default)">WaniKani,WK%level%</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

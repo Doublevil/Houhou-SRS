@@ -49,6 +49,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public CsvImportViewModel CsvImportVm { get; private set; }
 
+        /// <summary>
+        /// Gets the WaniKani import view model.
+        /// </summary>
+        public WkImportViewModel WkImportVm { get; private set; }
+
         #endregion
 
         #region Events
@@ -70,9 +75,11 @@ namespace Kanji.Interface.ViewModels
             SelectImportCommand = new RelayCommand<ImportModeViewModel>(OnSelectImport);
 
             CsvImportVm = new CsvImportViewModel();
+            WkImportVm = new WkImportViewModel();
             _importModes = new ImportModeViewModel[]
             {
-                CsvImportVm
+                CsvImportVm,
+                WkImportVm
             };
 
             foreach (ImportModeViewModel vm in _importModes)
