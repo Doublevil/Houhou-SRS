@@ -1054,7 +1054,7 @@
 
     <Style TargetType="TextBox" x:Key="SrsVocabInput">
         <Setter Property="FontSize" Value="18" />
-        <Setter Property="MaxLength" Value="60" />
+        <Setter Property="MaxLength" Value="999" />
     </Style>
     
     <!--<Style TargetType="ProgressBar" x:Key="SrsItemProgressBar">
