@@ -604,6 +604,7 @@ namespace Kanji.Common.Helpers
 
             // Then, replace - by ー.
             romaji = romaji.Replace('-', 'ー');
+            romaji = romaji.Replace('_', 'ー');
 
             // Then, replace 4 letter characters:
             romaji = romaji.Replace("XTSU", "ッ");
