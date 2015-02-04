@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:Kanji.Interface.Controls"
         xmlns:converters="clr-namespace:Kanji.Interface.Converters"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="SRS item edition" Height="500" Width="500">
     <Window.Style>
         <Style TargetType="Window">
@@ -138,9 +139,13 @@
                     <Grid DockPanel.Dock="Left">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
                         
                         <TextBlock Margin="0 0 5 0">
                             <TextBlock.Style>
@@ -162,24 +167,51 @@
                                  ToolTip="{Binding Entry.NextActiveReviewDate,
                             Converter={StaticResource DateTimeToStringConverter},
                             ConverterParameter={x:Static converters:DateTimeToStringConversionEnum.Absolute},
-                            Mode=OneWay}" />
-                        <Button Grid.Column="2" Command="{Binding ToggleSuspendCommand}" Margin="10 0 0 0">
+                            Mode=OneWay}"
+                                 Visibility="{Binding IsEditingDate, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter=False}" />
+
+                        <xctk:DateTimePicker Grid.Column="1" Value="{Binding Entry.NextAnswerDate}" Format="Custom" FormatString="yyyy-MM-dd H:mm:ss"
+                            TextAlignment="Left" Visibility="{Binding IsEditingDate, Converter={StaticResource ValueToVisibilityConverter}}"  />
+                        
+                        <Button Grid.Column="2" Command="{Binding ToggleDateEditCommand}" Margin="10 0 0 0" Width="70" HorizontalAlignment="Right">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Entry.SuspensionDate}" Value="{x:Null}">
-                                            <Setter Property="Content" Value="Suspend" />
-                                            <Setter Property="ToolTip" Value="Suspends the item. The item will not appear in reviews until you resume it." />
+                                        <DataTrigger Binding="{Binding IsEditingDate}" Value="True">
+                                            <Setter Property="Content" Value="Confirm" />
+                                            <Setter Property="ToolTip" Value="Confirm the review date." />
                                         </DataTrigger>
                                     </Style.Triggers>
-                                    <Setter Property="Content" Value="Resume" />
-                                    <Setter Property="ToolTip" Value="Resumes the SRS progression." />
+                                    <Setter Property="Content" Value="Edit" />
+                                    <Setter Property="ToolTip" Value="Edit the next review date manually." />
                                 </Style>
                             </Button.Style>
                         </Button>
+                        
+                        <UniformGrid Columns="3" Grid.Row="1" Grid.ColumnSpan="3" Margin="0 3 0 0">
+                            <Button Style="{StaticResource MiniActionButton}" Command="{Binding DateToNowCommand}"
+                                Content="Reset date" ToolTip="Set the next review date to now." />
+                            <Button Style="{StaticResource MiniActionButton}" Command="{Binding DateToNeverCommand}"
+                                Content="Never review" ToolTip="Set the next review date to never." Margin="5 0" />
+                            <Button Command="{Binding ToggleSuspendCommand}">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Entry.SuspensionDate}" Value="{x:Null}">
+                                                <Setter Property="Content" Value="Suspend" />
+                                                <Setter Property="ToolTip" Value="Suspends the item. The item will not appear in reviews until you resume it." />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                        <Setter Property="Content" Value="Resume" />
+                                        <Setter Property="ToolTip" Value="Resumes the SRS progression." />
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </UniformGrid>
+                        
                     </Grid>
                 </Grid>
-                <ProgressBar Grid.Column="1" Grid.Row="1" Style="{StaticResource SrsItemProgressBar}" DataContext="{Binding Entry}" Margin="0 5 0 0" />
+                <!--<ProgressBar Grid.Column="1" Grid.Row="1" Style="{StaticResource SrsItemProgressBar}" DataContext="{Binding Entry}" Margin="0 5 0 0" />-->
                 
                 <!-- Entry level -->
                 <controls:SrsLevelPicker Grid.ColumnSpan="2" Grid.Row="2" Margin="0 3 0 0" DataContext="{Binding SrsLevelPickerVm}" />

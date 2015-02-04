@@ -57,6 +57,10 @@ namespace Kanji.Interface.ViewModels
 
         private string _associatedVocabString;
 
+        private bool _isEditingDate;
+
+        private bool _isFirstSrsLevelSelect;
+
         /// <summary>
         /// Lock object used to prevent multiple send operations to occur
         /// at the same time.
@@ -205,6 +209,22 @@ namespace Kanji.Interface.ViewModels
             get { return Entry.Reference.ID <= 0; }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating if the next review date is being edited.
+        /// </summary>
+        public bool IsEditingDate
+        {
+            get { return _isEditingDate; }
+            set
+            {
+                if (_isEditingDate != value)
+                {
+                    _isEditingDate = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         #endregion
 
         #region Events
@@ -257,6 +277,21 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public RelayCommand DeleteCommand { get; set; }
 
+        /// <summary>
+        /// Gets the command used to toggle next review date edition.
+        /// </summary>
+        public RelayCommand ToggleDateEditCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command used to set the next review date to Now.
+        /// </summary>
+        public RelayCommand DateToNowCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command used to set the next review date to Never.
+        /// </summary>
+        public RelayCommand DateToNeverCommand { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -299,12 +334,16 @@ namespace Kanji.Interface.ViewModels
             ApplyAssociatedVocabCommand = new RelayCommand(OnApplyAssociatedVocab);
             ToggleSuspendCommand = new RelayCommand(OnToggleSuspend);
             DeleteCommand = new RelayCommand(OnDelete);
+            ToggleDateEditCommand = new RelayCommand(OnToggleDateEdit);
+            DateToNowCommand = new RelayCommand(OnDateToNow);
+            DateToNeverCommand = new RelayCommand(OnDateToNever);
 
             // Get the associated kanji or vocab.
             GetAssociatedKanji();
             GetAssociatedVocab();
 
             // Initialize the VM.
+            _isFirstSrsLevelSelect = true;
             SrsLevelPickerVm = new SrsLevelPickerViewModel();
             SrsLevelPickerVm.SrsLevelSelected += OnSrsLevelSelected;
             SrsLevelPickerVm.Initialize(_entry.CurrentGrade);
@@ -643,6 +682,33 @@ namespace Kanji.Interface.ViewModels
             }
         }
 
+        /// <summary>
+        /// Command callback.
+        /// Called to toggle next review date edit.
+        /// </summary>
+        private void OnToggleDateEdit()
+        {
+            IsEditingDate = !IsEditingDate;
+        }
+
+        /// <summary>
+        /// Command callback.
+        /// Called to set the next review date to Now.
+        /// </summary>
+        private void OnDateToNow()
+        {
+            Entry.NextAnswerDate = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Command callback.
+        /// Called to set the next review date to Never.
+        /// </summary>
+        private void OnDateToNever()
+        {
+            Entry.NextAnswerDate = null;
+        }
+
         #endregion
 
         #region Event callbacks
@@ -657,11 +723,13 @@ namespace Kanji.Interface.ViewModels
             {
                 Entry.CurrentGrade = (short)e.SelectedLevel.Value;
 
-                if (e.SelectedLevel.Value == _originalLevelValue
+                if ((e.SelectedLevel.Value == _originalLevelValue
                     && _originalNextReviewDate.HasValue)
+                    || (_isFirstSrsLevelSelect && !IsNew))
                 {
                     // Reset the original Next Answer Date.
-                    Entry.NextAnswerDate = _originalNextReviewDate.Value;
+                    Entry.NextAnswerDate = _originalNextReviewDate;
+                    _isFirstSrsLevelSelect = false;
                 }
                 else
                 {
