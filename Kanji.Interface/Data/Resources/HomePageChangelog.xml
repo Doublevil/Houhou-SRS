@@ -1,6 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ArrayOfChangelogEntry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ChangelogEntry>
+    <Version>1.1.2</Version>
+    <Title>Export feature</Title>
+    <Description>You can now export any selection of SRS items in the Item Browsing part of the SRS tab.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.1.2</Version>
+    <Title>WaniKani import feature</Title>
+    <Description>You can now import your items from WaniKani in the import menu.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.1.2</Version>
+    <Title>Next review date editing</Title>
+    <Description>You can now edit the next review date of any item individually in its edition window.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.1.2</Version>
+    <Title>Auto-skip option</Title>
+    <Description>A new option under Settings > SRS allows you to automatically skip to the next question upon entering a correct answer.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.1.2</Version>
+    <Title>Minor additions and fixes</Title>
+    <Description>• Vocab with an outdated reading now appear on a semi-transparent gray background.
+• The 60 character limit on the kanji writing field for vocab SRS items has been lifted.
+• Typing "_" in kana fields will now input a "ー".
+• Fixed SRS item modification during reviews causing spaces to appear between their meanings.
+• Fixed Houhou crashing when using items above the maximal SRS level.
+• Fixed a crash occuring for some users when using the "Copy" button in vocab lists.
+• Fixed a selection bug occuring when navigating through kanji by clicking characters in a vocab list.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
     <Version>1.1.1</Version>
     <Title>New ignore shortcuts setting</Title>
     <Description>Added an SRS setting to enable some new shortcuts during reviews to ignore a submitted answer.</Description>

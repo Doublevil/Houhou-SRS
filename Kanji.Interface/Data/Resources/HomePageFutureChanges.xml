@@ -21,11 +21,6 @@
     <Description>They should have been there already. There will be shortcuts to navigate to each tab, to start searching for a new Kanji, for vocab, SRS, etc.</Description>
   </ChangelogEntry>
   <ChangelogEntry>
-    <Version>Soon</Version>
-    <Title>More SRS items import options and export</Title>
-    <Description>SRS item import will soon include WaniKani as an import source. An export feature to CSV is also planned.</Description>
-  </ChangelogEntry>
-  <ChangelogEntry>
     <Version>Maybe later</Version>
     <Title>Web synchronization</Title>
     <Description>Synchronize your SRS items with an account on the website.</Description>
