@@ -96,6 +96,8 @@ namespace Kanji.Interface.ViewModels
         /// <param name="newSelection">New selection.</param>
         public void Navigate(KanjiFilter newFilter, KanjiEntity newSelection)
         {
+            SelectedIndex = -1;
+            SelectedKanji = null;
             SetFilter(newFilter);
             _navigationSelection = newSelection;
         }
@@ -109,6 +111,18 @@ namespace Kanji.Interface.ViewModels
             _filter = value;
             _itemList.SetFilter(value);
             ReapplyFilter();
+
+            foreach (ExtendedKanji item in _loadedItems)
+            {
+                if (_navigationSelection != null
+                    && item.DbKanji.ID == _navigationSelection.ID)
+                {
+                    SelectedKanji = item;
+                    SelectedIndex = _loadedItems.IndexOf(item);
+                    //SelectedIndex = _loadedItemsCount - 1;
+                    _navigationSelection = null;
+                }
+            }
         }
 
         #region Override
@@ -138,15 +152,6 @@ namespace Kanji.Interface.ViewModels
         protected override ExtendedKanji ProcessItem(KanjiEntity item)
         {
             ExtendedKanji kanji = new ExtendedKanji(item);
-
-            if (_navigationSelection != null
-                && item.ID == _navigationSelection.ID)
-            {
-                SelectedKanji = kanji;
-                SelectedIndex = _loadedItemsCount - 1;
-                _navigationSelection = null;
-            }
-
             return kanji;
         }
 

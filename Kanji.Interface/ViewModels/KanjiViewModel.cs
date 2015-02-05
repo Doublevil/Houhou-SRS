@@ -115,7 +115,7 @@ namespace Kanji.Interface.ViewModels
         {
             if (KanjiDetailsVm != null)
             {
-                // Unsubscribe the event.
+                // Temporarily unsubscribe the event.
                 KanjiDetailsVm.KanjiNavigated -= OnKanjiNavigated;
             }
 
@@ -136,6 +136,8 @@ namespace Kanji.Interface.ViewModels
             // Do not use the SetKanjiDetailsVm method as to not dispose
             // the previous value.
             KanjiDetailsVm = new KanjiDetailsViewModel(new ExtendedKanji(character.Kanji));
+
+            // Re-subscribe the event.
             KanjiDetailsVm.KanjiNavigated += OnKanjiNavigated;
         }
 
