@@ -255,6 +255,7 @@
     <Compile Include="ViewModels\Partial\Import\WaniKani\WkImportViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingAudioUriViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingAutoSkipViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Settings\Controls\SettingCollapseMeaningLimitViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingDoUpdateCheckViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingIgnoreAnswerShortcutViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingSrsEntriesPerPageViewModel.cs" />
@@ -369,6 +370,9 @@
     </Compile>
     <Compile Include="Views\Partial\Settings\Controls\SettingAutoSkipControl.xaml.cs">
       <DependentUpon>SettingAutoSkipControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Settings\Controls\SettingCollapseMeaningLimitControl.xaml.cs">
+      <DependentUpon>SettingCollapseMeaningLimitControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\Settings\Controls\SettingDoUpdateCheckControl.xaml.cs">
       <DependentUpon>SettingDoUpdateCheckControl.xaml</DependentUpon>
@@ -644,6 +648,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\Settings\Controls\SettingAutoSkipControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Settings\Controls\SettingCollapseMeaningLimitControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

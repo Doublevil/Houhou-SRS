@@ -8,6 +8,6 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
         <TextBlock Style="{StaticResource LegendText}" Text="Number of items per page when browsing SRS items" />
-        <xctk:IntegerUpDown Value="{Binding EntriesPerPage, Mode=TwoWay}" Width="80" HorizontalAlignment="Left" />
+        <xctk:IntegerUpDown Value="{Binding EntriesPerPage, Mode=TwoWay}" Width="80" Minimum="1" Maximum="99999" HorizontalAlignment="Left" />
     </StackPanel>
 </UserControl>

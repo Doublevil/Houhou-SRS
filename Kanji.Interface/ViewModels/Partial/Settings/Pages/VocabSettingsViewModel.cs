@@ -20,6 +20,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public SettingVocabPerPageViewModel VocabPerPageVm { get; private set; }
 
+        /// <summary>
+        /// Gets the collapse meaning limit view model.
+        /// </summary>
+        public SettingCollapseMeaningLimitViewModel CollapseMeaningLimitVm { get; private set; }
+
         #endregion
 
         #region Methods
@@ -30,11 +35,13 @@ namespace Kanji.Interface.ViewModels
         {
             AudioUriVm = new SettingAudioUriViewModel();
             VocabPerPageVm = new SettingVocabPerPageViewModel();
+            CollapseMeaningLimitVm = new SettingCollapseMeaningLimitViewModel();
 
             return new SettingControlViewModel[]
             {
                 AudioUriVm,
-                VocabPerPageVm
+                VocabPerPageVm,
+                CollapseMeaningLimitVm
             };
         }
 
