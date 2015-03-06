@@ -49,6 +49,18 @@ namespace Kanji.Database.Helpers
         }
 
         /// <summary>
+        /// Given a multi value field value, returns the same value without
+        /// the elements that are present multiple times.
+        /// </summary>
+        /// <param name="input">Target value.</param>
+        /// <returns>Formatted value.</returns>
+        public static string Distinct(string input)
+        {
+            string[] values = Trim(input).Split(ValueSeparator);
+            return values.Distinct().Aggregate((a, b) => a + ValueSeparator + b);
+        }
+
+        /// <summary>
         /// Replaces the separator with a similar character in the given string, and returns the result.
         /// </summary>
         /// <param name="value">String to escape.</param>

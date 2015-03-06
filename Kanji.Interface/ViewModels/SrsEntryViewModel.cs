@@ -13,6 +13,7 @@ using Kanji.Interface.Business;
 using Kanji.Interface.Internationalization;
 using Kanji.Interface.Models;
 using Kanji.Interface.Utilities;
+using Kanji.Database.Helpers;
 
 namespace Kanji.Interface.ViewModels
 {
@@ -574,7 +575,30 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         private void DoGetAssociatedVocab(object sender, DoWorkEventArgs e)
         {
-            AssociatedVocab = _vocabDao.GetFirstMatchingVocab(AssociatedVocabString);
+            IEnumerable<VocabEntity> results = _vocabDao.GetMatchingVocab(AssociatedVocabString);
+            if (results.Any())
+            {
+                VocabEntity entity = new VocabEntity();
+                StringBuilder meanings = new StringBuilder();
+                StringBuilder readings = new StringBuilder();
+                foreach (VocabEntity result in results)
+                {
+                    foreach (VocabMeaning meaning in result.Meanings)
+                    {
+                        meanings.Append(MultiValueFieldHelper.ReplaceSeparator(meaning.Meaning)
+                            .Replace(';', MultiValueFieldHelper.ValueSeparator)
+                            + MultiValueFieldHelper.ValueSeparator);
+                    }
+                    readings.Append(result.KanaWriting + MultiValueFieldHelper.ValueSeparator);
+                }
+                entity.Meanings.Add(new VocabMeaning() { Meaning = MultiValueFieldHelper.Expand(MultiValueFieldHelper.Distinct(meanings.ToString())) });
+                entity.KanaWriting = MultiValueFieldHelper.Expand(MultiValueFieldHelper.Distinct(readings.ToString()));
+                AssociatedVocab = entity;
+            }
+            else
+            {
+                AssociatedVocab = null;
+            }
         }
 
         /// <summary>
@@ -644,7 +668,8 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         private void OnApplyAssociatedVocab()
         {
-            Entry.LoadFromVocab(AssociatedVocab);
+            Entry.Meanings = AssociatedVocab.Meanings.First().Meaning;
+            Entry.Readings = AssociatedVocab.KanaWriting;
         }
 
         /// <summary>

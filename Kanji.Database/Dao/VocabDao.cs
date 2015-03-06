@@ -42,10 +42,8 @@ namespace Kanji.Database.Dao
         /// </summary>
         /// <param name="reading">Reading to match.</param>
         /// <returns>First matching vocab, or null if not found.</returns>
-        public VocabEntity GetFirstMatchingVocab(string reading)
+        public IEnumerable<VocabEntity> GetMatchingVocab(string reading)
         {
-            VocabEntity result = null;
-
             DaoConnection connection = null;
             try
             {
@@ -58,9 +56,29 @@ namespace Kanji.Database.Dao
 
                 if (vocabs.Any())
                 {
-                    result = new VocabBuilder()
-                        .BuildEntity(vocabs.First(), null);
-                    IncludeMeanings(connection, result);
+                    VocabBuilder builder = new VocabBuilder();
+                    foreach (NameValueCollection nvcVocab in vocabs)
+                    {
+                        VocabEntity result = builder.BuildEntity(nvcVocab, null);
+                        IncludeMeanings(connection, result);
+                        yield return result;
+                    }
+                }
+                else
+                {
+                    vocabs = connection.Query(
+                          "SELECT v.* FROM " + SqlHelper.Table_Vocab + " v "
+                        + "WHERE v." + SqlHelper.Field_Vocab_KanaWriting + "=@v "
+                        + "ORDER BY v." + SqlHelper.Field_Vocab_IsCommon + " DESC",
+                        new DaoParameter("@v", reading));
+
+                    VocabBuilder builder = new VocabBuilder();
+                    foreach (NameValueCollection nvcVocab in vocabs)
+                    {
+                        VocabEntity result = builder.BuildEntity(nvcVocab, null);
+                        IncludeMeanings(connection, result);
+                        yield return result;
+                    }
                 }
             }
             finally
@@ -70,8 +88,6 @@ namespace Kanji.Database.Dao
                     connection.Dispose();
                 }
             }
-
-            return result;
         }
 
         /// <summary>
