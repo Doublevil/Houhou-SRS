@@ -18,6 +18,8 @@ namespace Kanji.Database.EntityBuilders
             vocab.IsCommon = row.ReadBool(GetField(prefix, SqlHelper.Field_Vocab_IsCommon)) ?? false;
             vocab.KanaWriting = row.Get(GetField(prefix, SqlHelper.Field_Vocab_KanaWriting));
             vocab.KanjiWriting = row.Get(GetField(prefix, SqlHelper.Field_Vocab_KanjiWriting));
+            vocab.FrequencyRank = row.ReadInt(GetField(prefix, SqlHelper.Field_Vocab_FrequencyRank));
+            vocab.Furigana = row.Get(GetField(prefix, SqlHelper.Field_Vocab_Furigana));
             return vocab;
         }
     }

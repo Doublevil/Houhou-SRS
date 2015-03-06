@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kanji.Interface.Models
 {
-    enum SettingsCategoryEnum
+    public enum SettingsCategoryEnum
     {
         [Description("Application")]
         Application = 0,

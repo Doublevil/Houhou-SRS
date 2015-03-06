@@ -16,5 +16,7 @@ namespace Kanji.DatabaseMaker
         public static readonly string KanjiDic2Path = Path.Combine(ResourcesBasePath, "kanjidic2.xml");
         public static readonly string KradFilePath = Path.Combine(ResourcesBasePath, "kradfile");
         public static readonly string KradFile2Path = Path.Combine(ResourcesBasePath, "kradfile2");
+        public static readonly string TopVocabularyFrequencyPath = Path.Combine(ResourcesBasePath, "TopVocabularyFrequency.txt");
+        public static readonly string JmDictFuriganaPath = Path.Combine(ResourcesBasePath, "JmdictFurigana.txt");
     }
 }

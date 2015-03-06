@@ -91,9 +91,14 @@ namespace Kanji.Interface.Views
         private void OnFinishedEditing(object sender, SrsEntryEditedEventArgs e)
         {
             Result = e.SrsEntry;
-            e.SrsEntry.Meanings = MultiValueFieldHelper.Trim(e.SrsEntry.Meanings);
-            e.SrsEntry.Readings = MultiValueFieldHelper.Trim(e.SrsEntry.Readings);
-            e.SrsEntry.Tags = MultiValueFieldHelper.Trim(e.SrsEntry.Tags);
+
+            if (e.SrsEntry != null)
+            {
+                e.SrsEntry.Meanings = MultiValueFieldHelper.Trim(e.SrsEntry.Meanings);
+                e.SrsEntry.Readings = MultiValueFieldHelper.Trim(e.SrsEntry.Readings);
+                e.SrsEntry.Tags = MultiValueFieldHelper.Trim(e.SrsEntry.Tags);
+            }
+
             IsSaved = e.IsSaved;
             DispatcherHelper.InvokeAsync(this.Close);
         }

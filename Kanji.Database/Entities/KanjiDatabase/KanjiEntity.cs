@@ -35,6 +35,7 @@ namespace Kanji.Database.Entities
             return new Dictionary<string, DbType>()
             {
                 { SqlHelper.Field_Kanji_Character, DbType.String },
+                { SqlHelper.Field_Kanji_StrokeCount, DbType.Int16 },
                 { SqlHelper.Field_Kanji_Grade, DbType.Int16 },
                 { SqlHelper.Field_Kanji_MostUsedRank, DbType.Int32 },
                 { SqlHelper.Field_Kanji_JlptLevel, DbType.Int16 },
@@ -48,7 +49,7 @@ namespace Kanji.Database.Entities
         {
             return new object[]
             {
-                Character, Grade, MostUsedRank, JlptLevel, KunYomi,
+                Character, StrokeCount, Grade, MostUsedRank, JlptLevel, KunYomi,
                 Nanori, OnYomi
             };
         }

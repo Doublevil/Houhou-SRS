@@ -10,7 +10,10 @@ namespace Kanji.Interface.ViewModels
     {
         #region Properties
 
-
+        /// <summary>
+        /// Gets the audio URI view model.
+        /// </summary>
+        public SettingAudioUriViewModel AudioUriVm { get; private set; }
 
         #endregion
 
@@ -20,9 +23,11 @@ namespace Kanji.Interface.ViewModels
 
         protected override SettingControlViewModel[] InitializeSettingViewModels()
         {
+            AudioUriVm = new SettingAudioUriViewModel();
+
             return new SettingControlViewModel[]
             {
-                
+                AudioUriVm
             };
         }
 

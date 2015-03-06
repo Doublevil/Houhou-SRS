@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Kanji.Database.Helpers;
+using Kanji.Common.Helpers;
 
 namespace Kanji.Interface.Helpers
 {
@@ -35,6 +36,19 @@ namespace Kanji.Interface.Helpers
         public static readonly string DataUserContentDefaultDatabaseFilePath = Path.Combine(
             DataUserContentDirectoryPath, "SrsDatabase.sqlite");
 
+        #if DEBUG
+
+        /// <summary>
+        /// Stores the path to the common data directory.
+        /// Used to store the database, because trying to access a database in the installation directory
+        /// may not work, depending on the path (e.g. Program Files).
+        /// </summary>
+        public static readonly string CommonDataDirectoryPath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+            "Houhou SRS", "Debug");
+
+        #else
+
         /// <summary>
         /// Stores the path to the common data directory.
         /// Used to store the database, because trying to access a database in the installation directory
@@ -43,6 +57,8 @@ namespace Kanji.Interface.Helpers
         public static readonly string CommonDataDirectoryPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
             "Houhou SRS");
+
+        #endif
 
         /// <summary>
         /// Stores the path to the dictionary database file in the common data directory path.
@@ -104,10 +120,7 @@ namespace Kanji.Interface.Helpers
             CreateDirectoryIfNotExist(CommonDataDirectoryPath);
 
             // Make sure the dictionary database exists in the common data directory.
-            if (!File.Exists(CommonDataDictionaryDatabaseFilePath))
-            {
-                File.Copy(DictionaryDatabaseFilePath, CommonDataDictionaryDatabaseFilePath);
-            }
+            FileHelper.CopyIfDifferent(DictionaryDatabaseFilePath, CommonDataDictionaryDatabaseFilePath);
 
             // Set the DataDirectory to enable correct database path resolution.
             AppDomain.CurrentDomain.SetData("DataDirectory", CommonDataDirectoryPath);

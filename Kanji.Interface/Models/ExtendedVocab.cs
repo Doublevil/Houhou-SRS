@@ -9,11 +9,12 @@ using Kanji.Interface.Utilities;
 
 namespace Kanji.Interface.Models
 {
-    class ExtendedVocab : NotifyPropertyChanged
+    public class ExtendedVocab : NotifyPropertyChanged
     {
         #region Fields
 
         private ExtendedSrsEntry _srsEntry;
+        private VocabAudioState _audioState;
 
         #endregion
 
@@ -31,7 +32,35 @@ namespace Kanji.Interface.Models
         {
             get
             {
-                return DbVocab.Categories.Where(c => c.ShortName == "oK" || c.ShortName == "ok").Any();
+                return DbVocab.Categories.Any(c => c.ShortName == "oK" || c.ShortName == "ok");
+            }
+        }
+
+        /// <summary>
+        /// Gets a boolean indicating if the vocab has too much meanings and has to be adjoined an
+        /// Expand button.
+        /// </summary>
+        public bool NeedsExpanding
+        {
+            get
+            {
+                return DbVocab.Meanings.Count > Properties.Settings.Default.CollapseMeaningsLimit;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the current state of the audio.
+        /// </summary>
+        public VocabAudioState AudioState
+        {
+            get { return _audioState; }
+            set
+            {
+                if (_audioState != value)
+                {
+                    _audioState = value;
+                    RaisePropertyChanged();
+                }
             }
         }
 

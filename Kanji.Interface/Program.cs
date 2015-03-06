@@ -13,6 +13,7 @@ using Kanji.Interface.Business;
 using Kanji.Interface.Helpers;
 using Kanji.Interface.Models;
 using Kanji.Interface.Utilities;
+using System.Diagnostics;
 
 namespace Kanji.Interface
 {
@@ -148,17 +149,39 @@ namespace Kanji.Interface
 
             DispatcherHelper.Invoke(() =>
             {
-                System.Windows.MessageBox.Show(
+                if (System.Windows.MessageBox.Show(
                     string.Format("It appears that Houhou has been vanquished by an evil {0}.{1}"
                     + "Houhou will now shutdown. Sorry for the inconvenience.{1}"
-                    + "Houhou's last words were: \"{2}\". Oh the pain it must have been.{1}"
-                    + "In the future, you will be able to submit a report when this happens.",
+                    + "Houhou's last words were: \"{2}\". Oh the pain it must have been.{1}{1}"
+                    + "Please send me a mail report along with your log file if you think I should fix the issue.{1}"
+                    + "Do you want to open the log?",
                         ex.GetType().Name,
                         Environment.NewLine,
                         ex.Message),
                     "Fatal error",
-                    System.Windows.MessageBoxButton.OK,
-                    System.Windows.MessageBoxImage.Error);
+                    System.Windows.MessageBoxButton.YesNoCancel,
+                    System.Windows.MessageBoxImage.Error) == System.Windows.MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        Process.Start(LogHelper.GetLogFilePath());
+                    }
+                    catch (Exception ex2)
+                    {
+                        LogHelper.GetLogger("Main").Fatal("Failed to open the log after fatal exception. Double fatal shock.", ex2);
+
+                        System.Windows.MessageBox.Show(
+                            string.Format("Okay, so... the log file failed to open.{0}"
+                            + "Um... I'm sorry. Now that's embarrassing...{0}"
+                            + "Hey, listen, the log file should be there:{0}"
+                            + "\"C:/Users/<YourUserName>/AppData/Local/Houhou SRS/Logs\"{0}"
+                            + "If you still cannot get it, well just contact me without a log.{0}",
+                                Environment.NewLine),
+                            "Double fatal error shock",
+                            System.Windows.MessageBoxButton.OK,
+                            System.Windows.MessageBoxImage.Error);
+                    }
+                }
             });
 
             Environment.Exit(1);

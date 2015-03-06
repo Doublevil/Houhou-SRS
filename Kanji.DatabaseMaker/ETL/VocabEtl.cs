@@ -10,6 +10,7 @@ using Kanji.Database.Business;
 using Kanji.Database.Dao;
 using Kanji.Database.Entities;
 using Kanji.Database.Entities.Joins;
+using System.IO;
 
 namespace Kanji.DatabaseMaker
 {
@@ -66,6 +67,7 @@ namespace Kanji.DatabaseMaker
         private Dictionary<string, string> _cultureDictionary;
         private Dictionary<string, VocabCategory> _categoryDictionary;
         private Dictionary<string, KanjiEntity> _kanjiDictionary;
+        private Dictionary<string, int> _topFrequencyWords;
 
         #endregion
 
@@ -115,6 +117,10 @@ namespace Kanji.DatabaseMaker
         {
             _log.Info("Starting vocab ETL.");
 
+            _log.Info("Getting top frequency words...");
+            GetTopFrequencyWords();
+            _log.InfoFormat("Read {0} top frequency words.", _topFrequencyWords.Count);
+
             // Read the dictionary and browse each resulting vocab.
             List<VocabEntity> vocabList = new List<VocabEntity>(BatchSize);
             foreach (VocabEntity vocab in ReadJmDict())
@@ -134,14 +140,79 @@ namespace Kanji.DatabaseMaker
                     // If the vocab list size exceeds the batch size, write all to the database.
                     if (vocabList.Count >= BatchSize)
                     {
-                        InsertData(vocabList);
+                        Commit(vocabList);
                         vocabList.Clear();
                     }
                 }
             }
 
             // Flush the remaining data.
+            Commit(vocabList);
+        }
+
+        private void Commit(List<VocabEntity> vocabList)
+        {
+            AttachFurigana(vocabList);
             InsertData(vocabList);
+        }
+
+        private void AttachFurigana(List<VocabEntity> vocabList)
+        {
+            DateTime before = DateTime.Now;
+            Dictionary<string, List<VocabEntity>> dic = new Dictionary<string, List<VocabEntity>>();
+            foreach (VocabEntity entity in vocabList)
+            {
+                string vocabString = entity.KanjiWriting + "|" + entity.KanaWriting;
+                if (dic.ContainsKey(vocabString))
+                {
+                    dic[vocabString].Add(entity);
+                }
+                else
+                {
+                    dic.Add(vocabString, new List<VocabEntity>() { entity });
+                }
+            }
+
+            using (StreamReader reader = new StreamReader(PathHelper.JmDictFuriganaPath))
+            {
+                string line = string.Empty;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (string.IsNullOrWhiteSpace(line))
+                    {
+                        continue;
+                    }
+
+                    string[] split = line.Split('|');
+                    string vocabString = split[0] + "|" + split[1];
+                    if (dic.ContainsKey(vocabString))
+                    {
+                        foreach (VocabEntity match in dic[vocabString])
+                        {
+                            match.Furigana = split[2];
+                        }
+                    }
+                }
+            }
+            TimeSpan duration = DateTime.Now - before;
+            _log.InfoFormat("Attaching furigana took {0}ms.", (long)duration.TotalMilliseconds);
+        }
+
+        /// <summary>
+        /// Reads the most used words and puts the result in the decicated field.
+        /// </summary>
+        private void GetTopFrequencyWords()
+        {
+            // For now, info is taken from http://en.wiktionary.org/wiki/Wiktionary:Frequency_lists/Japanese
+            string[] words = File.ReadAllLines(PathHelper.TopVocabularyFrequencyPath);
+            _topFrequencyWords = new Dictionary<string, int>();
+            for (int i = 0; i < words.Count(); i++)
+            {
+                if (!_topFrequencyWords.ContainsKey(words[i]))
+                {
+                    _topFrequencyWords.Add(words[i], _topFrequencyWords.Count + 1);
+                }
+            }
         }
 
         /// <summary>
@@ -183,25 +254,6 @@ namespace Kanji.DatabaseMaker
                 }
                 _log.InfoFormat("Inserted {0} vocab meaning entities", vocabMeaningCount);
                 VocabMeaningCount += vocabMeaningCount;
-
-                // Insert meaning entries.
-                VocabMeaningEntry[] newMeaningEntries = newMeanings
-                        .SelectMany(vm => vm.MeaningEntries)
-                        .Distinct()
-                        .Where(vme => vme.ID <= 0)
-                        .ToArray();
-                int vocabMeaningEntryCount = 0;
-                using (SQLiteBulkInsert<VocabMeaningEntry> vocabMeaningEntryInsert
-                    = new SQLiteBulkInsert<VocabMeaningEntry>(int.MaxValue))
-                {
-                    foreach (VocabMeaningEntry vocabMeaningEntry in newMeaningEntries)
-                    {
-                        vocabMeaningEntry.ID = vocabMeaningEntryInsert.Insert(vocabMeaningEntry);
-                        vocabMeaningEntryCount++;
-                    }
-                }
-                _log.InfoFormat("Inserted {0} vocab meaning entry entities", vocabMeaningEntryCount);
-                VocabMeaningEntryCount += vocabMeaningEntryCount;
 
                 // Insert kanji-vocab join entities.
                 int kanjiVocabCount = 0;
@@ -419,7 +471,15 @@ namespace Kanji.DatabaseMaker
             // Create a new vocab with the associated writing.
             VocabEntity vocab = new VocabEntity();
             vocab.KanjiWriting = xkanjiElement.Element(XmlNode_KanjiReading).Value;
-            vocab.IsCommon = IsCommonWord(xkanjiElement, XmlNode_KanjiVocabReference);
+            if (_topFrequencyWords.ContainsKey(vocab.KanjiWriting))
+            {
+                vocab.FrequencyRank = _topFrequencyWords[vocab.KanjiWriting];
+                vocab.IsCommon = true;
+            }
+            else
+            {
+                vocab.IsCommon = IsCommonWord(xkanjiElement, XmlNode_KanjiVocabReference);
+            }
             
             // For each kanji info node
             foreach (XElement xkanjiInf in xkanjiElement.Elements(XmlNode_KanjiInfo))
@@ -510,6 +570,7 @@ namespace Kanji.DatabaseMaker
                     {
                         KanjiWriting = target.KanjiWriting, // Assign the old kanji reading,
                         IsCommon = target.IsCommon || isCommon, // combined common flag,
+                        FrequencyRank = target.FrequencyRank, // same frequency rank,
                         KanaWriting = kanaReading, // new kana reading,
                         Categories = target.Categories.Concat(categories).ToArray() // combined categories.
                     };
@@ -585,9 +646,13 @@ namespace Kanji.DatabaseMaker
                 string value = xmeaningEntry.Value;
 
                 // Build a meaning entry and add it to the meaning.
-                meaning.MeaningEntries.Add(
-                    new VocabMeaningEntry() { Language = language, Meaning = value, VocabMeaning = meaning });
+                // Only take english meanings (for now?).
+                if (language == null)
+                {
+                    meaning.Meaning += value + " ; ";
+                }
             }
+            meaning.Meaning = meaning.Meaning.TrimEnd(new char[] { ';', ' ' });
 
             // Value the targets.
             foreach (VocabEntity target in targets)

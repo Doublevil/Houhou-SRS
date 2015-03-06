@@ -115,6 +115,7 @@ namespace Kanji.Interface.ViewModels
         public SettingsViewModel()
             : base(NavigationPageEnum.Settings)
         {
+            NavigationActor.Instance.SettingsVm = this;
             CategorySelectionCommand = new RelayCommand<SettingsCategoryEnum>(OnCategorySelection);
             SaveSettingsCommand = new RelayCommand(OnSaveSettings);
             ToggleSrsAppCommand = new RelayCommand(OnToggleSrsApp);
@@ -130,7 +131,7 @@ namespace Kanji.Interface.ViewModels
         /// current category.
         /// </summary>
         /// <param name="targetCategory">Category to attain.</param>
-        private void Navigate(SettingsCategoryEnum targetCategory, bool force = false)
+        public void Navigate(SettingsCategoryEnum targetCategory, bool force = false)
         {
             if (CurrentCategory != targetCategory || force)
             {

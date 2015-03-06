@@ -7,6 +7,7 @@
                     xmlns:controls="clr-namespace:Kanji.Interface.Controls"
                     xmlns:actors="clr-namespace:Kanji.Interface.Actors"
                     xmlns:business="clr-namespace:Kanji.Interface.Business"
+                    xmlns:utility="clr-namespace:Kanji.Interface.Utilities"
                     xmlns:cmodels="clr-namespace:Kanji.Common.Models;assembly=Kanji.Common">
     <converters:KanjiToStringConverter x:Key="KanjiToStringConverter" />
     <converters:KanjiToColorConverter x:Key="KanjiToColorConverter" />
@@ -47,7 +48,7 @@
             <x:Type TypeName="models:CsvImportNoTypeBehavior" />
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
-    
+
     <!-- Colors -->
     <Color x:Key="KanjiTabGradientStart">#1888FF</Color>
     <Color x:Key="KanjiTabGradientEnd">#094488</Color>
@@ -83,7 +84,7 @@
     <SolidColorBrush x:Key="KanjiTabFadeBrush" Color="{StaticResource KanjiTabFade}" />
     <SolidColorBrush x:Key="VocabTabFadeBrush" Color="{StaticResource VocabTabFade}" />
     <SolidColorBrush x:Key="SettingsTabFadeBrush" Color="{StaticResource SettingsTabFade}" />
-    
+
     <!-- TEMPLATES -->
     <ControlTemplate x:Key="PaddinglessListbox" TargetType="{x:Type ListBox}">
         <!-- The paddingless listbox is a listbox that does not have any padding.
@@ -106,7 +107,7 @@
     </ControlTemplate>
 
     <!-- STYLES -->
-    
+
     <!-- PAGE ROOTS -->
     <Style TargetType="Border" x:Key="PageBorder">
         <Setter Property="Padding" Value="10" />
@@ -171,7 +172,7 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    
+
     <!-- KANJI READING COMPONENTS -->
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource LabelBox}" x:Key="ReadingLabelTitle">
         <Setter Property="FontSize" Value="14" />
@@ -193,7 +194,7 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    
+
     <Style TargetType="TextBox" BasedOn="{StaticResource LabelBox}" x:Key="VocabReadingLabel">
         <Setter Property="FontSize" Value="16" />
         <Setter Property="HorizontalAlignment" Value="Left" />
@@ -216,9 +217,9 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource ReadingLabel}" x:Key="OnYomiLabel">
-        
+
     </Style>
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource ReadingLabel}" x:Key="KunYomiLabel">
         <Setter Property="BorderThickness" Value="0,0,0,1" />
@@ -226,7 +227,7 @@
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource ReadingLabel}" x:Key="NanoriLabel">
 
     </Style>
-    
+
     <Style TargetType="ListBox" x:Key="KanjiReadingListbox">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
@@ -262,7 +263,7 @@
                                     <TextBox Style="{StaticResource ReadingLabel}"
                                              Text="{Binding ModifiedReading}" />
                                 </Border>
-                                
+
                                 <!-- Triggers -->
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
@@ -276,11 +277,11 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="ListBox" BasedOn="{StaticResource KanjiReadingListbox}" x:Key="KanjiKunYomiReadingListbox">
         <Setter Property="BorderThickness" Value="0 0 0 1" />
     </Style>
-    
+
     <!-- ACTION BUTTONS -->
     <Style TargetType="{x:Type Button}" x:Key="ActionButton">
         <Setter Property="Background">
@@ -326,7 +327,7 @@
                             </Viewbox>
                         </Grid>
                     </Border>
-                    
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background">
@@ -361,14 +362,14 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        
+
         <Setter Property="FontSize" Value="8" />
         <Setter Property="Foreground" Value="#33FFFFFF" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Height" Value="25" />
     </Style>
-    
+
     <Style TargetType="Button" BasedOn="{StaticResource ActionButton}" x:Key="BigActionButton">
         <Setter Property="Height" Value="Auto" />
     </Style>
@@ -388,6 +389,13 @@
     </Style>
 
     <Style TargetType="Button" BasedOn="{StaticResource ActionButton}" x:Key="MiniActionButton">
+        
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="#22000000" />
+            </Trigger>
+        </Style.Triggers>
+        
         <Setter Property="Height" Value="20" />
         <Setter Property="Background">
             <Setter.Value>
@@ -484,7 +492,7 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
-    
+
     <Style TargetType="{x:Type TextBox}" x:Key="KanjiTitle" BasedOn="{StaticResource LabelBox}">
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="BorderBrush" Value="Black" />
@@ -537,7 +545,7 @@
         <Setter Property="Padding" Value="6" />
         <Setter Property="Margin" Value="2" />
     </Style>
-    
+
     <ControlTemplate TargetType="ListBoxItem" x:Key="RadicalInListTextTemplate">
         <Border Style="{StaticResource RadicalInListBorder}" Background="{TemplateBinding Background}">
             <Grid>
@@ -563,7 +571,7 @@
             </Grid>
         </Border>
     </ControlTemplate>
-    
+
     <ControlTemplate TargetType="ListBoxItem" x:Key="RadicalInListImageTemplate">
         <Border Style="{StaticResource RadicalInListBorder}" Background="{TemplateBinding Background}">
             <Grid>
@@ -571,7 +579,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                
+
                 <!-- Radical image -->
                 <Image Source="{Binding Reference.ImageUri}" Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" />
 
@@ -581,7 +589,7 @@
             </Grid>
         </Border>
     </ControlTemplate>
-    
+
     <Style TargetType="{x:Type ListBoxItem}" x:Key="RadicalInList">
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Background" Value="#86469B" />
@@ -630,7 +638,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                        
+
                             <!-- Kanji character -->
                             <TextBlock Grid.RowSpan="2" Text="{Binding DbKanji.Character, Mode=OneWay}">
                                 <TextBlock.Style>
@@ -641,7 +649,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                        
+
                             <!-- Kanji meaning label -->
                             <TextBlock Grid.Column="1" Text="{Binding DbKanji,
                                 Mode=OneWay, Converter={StaticResource KanjiToStringConverter},
@@ -653,7 +661,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                        
+
                             <!-- Kanji most used rank label -->
                             <TextBlock Grid.Column="1" Grid.Row="1">
                                 <TextBlock.Style>
@@ -705,7 +713,7 @@
         </Setter>
         <Setter Property="ItemContainerStyle" Value="{StaticResource RadicalInList}" />
     </Style>
-    
+
     <Style TargetType="{x:Type ListBox}" x:Key="KanjiList">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
@@ -720,9 +728,9 @@
         </Setter>
         <Setter Property="ItemContainerStyle" Value="{StaticResource KanjiInList}" />
     </Style>
-    
+
     <!-- Vocab -->
-    
+
     <Style TargetType="RichTextBox" x:Key="VocabMeaningRichTextBox">
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -732,7 +740,7 @@
         <Setter Property="Background" Value="{x:Null}" />
         <Setter Property="Margin" Value="0" />
     </Style>
-    
+
     <Style TargetType="Paragraph">
         <Setter Property="Margin" Value="0" />
     </Style>
@@ -752,7 +760,8 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Padding" Value="3,5" />
+        <Setter Property="Padding" Value="4 0 4 0" />
+        <Setter Property="Margin" Value="0 0 4 0" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
@@ -807,14 +816,65 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="FontSize" Value="16" />
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="FontSize" Value="28" />
-            </Trigger>
-        </Style.Triggers>
+        <Setter Property="FontSize" Value="26" />
+        <Setter Property="FontFamily" Value="Meiryo" />
     </Style>
-    
+
+    <!-- Vocab writing part listbox -->
+    <Style TargetType="ListBox" x:Key="VocabWritingPartListbox">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}">
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Padding" Value="3,0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="18" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <ListBox Grid.Row="1" Style="{StaticResource VocabKanjiWritingListbox}"
+                                             ItemsSource="{Binding Characters, Mode=OneWay}" x:Name="KWListbox" />
+                                    <Viewbox MaxWidth="{Binding ElementName=KWListbox, Path=ActualWidth}">
+                                        <TextBox Style="{StaticResource LabelBox}" Text="{Binding Furigana, Mode=OneWay}"
+                                                 HorizontalContentAlignment="Center" Padding="0" Margin="0" />
+                                    </Viewbox>
+
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="Meiryo" />
+    </Style>
+
+    <!-- VOCAB -->
     <Style TargetType="ListBox" x:Key="VocabList">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
@@ -831,7 +891,34 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
-                                <Border BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <!--<Border BorderThickness="0,0,0,1" Height="70" VerticalAlignment="Center">-->
+                                <Border BorderThickness="0,0,0,1" VerticalAlignment="Center">
+                                    <!--<Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="Transparent" Offset="0"/>
+                                            <GradientStop Color="#3F91EF5E" Offset="0.5"/>
+                                            <GradientStop Color="Transparent" Offset="1"/>
+                                            <GradientStop Color="#3F91EF5E" Offset="0.85"/>
+                                            <GradientStop Color="#3F91EF5E" Offset="0.15"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>-->
+                                    <Border.BorderBrush>
+                                        <!--<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <LinearGradientBrush.RelativeTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                                    <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                                    <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </LinearGradientBrush.RelativeTransform>
+                                            <GradientStop Color="#00000000" Offset="0.007"/>
+                                            <GradientStop Color="Transparent" Offset="1"/>
+                                            <GradientStop Color="#FF878787" Offset="0.85"/>
+                                            <GradientStop Color="#FF878787" Offset="0.15"/>
+                                        </LinearGradientBrush>-->
+                                        #FF878787
+                                    </Border.BorderBrush>
                                     <Border.Style>
                                         <Style TargetType="Border">
                                             <Style.Triggers>
@@ -843,7 +930,19 @@
                                                             Path=IsMouseOver}" Value="False" />
                                                     </MultiDataTrigger.Conditions>
                                                     <MultiDataTrigger.Setters>
-                                                        <Setter Property="Background" Value="#CFEFBE" />
+                                                        <Setter Property="Background" >
+                                                            <Setter.Value>
+                                                                <!--<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                                    <GradientStop Color="Transparent" Offset="0"/>
+                                                                    <GradientStop Color="#3F91EF5E" Offset="0.5"/>
+                                                                    <GradientStop Color="Transparent" Offset="1"/>
+                                                                    <GradientStop Color="#3F91EF5E" Offset="0.85"/>
+                                                                    <GradientStop Color="#3F91EF5E" Offset="0.15"/>
+                                                                </LinearGradientBrush>-->
+                                                                #3F91EF5E
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <!--<Setter Property="Background" Value="#CFEFBE" />-->
                                                     </MultiDataTrigger.Setters>
                                                 </MultiDataTrigger>
                                                 <!-- When IsCommon and selected -->
@@ -907,112 +1006,239 @@
                                     </Border.Style>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="150" />
-                                            <ColumnDefinition Width="250" />
+                                            <ColumnDefinition Width="350" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
 
-                                        <!-- Kanji writing -->
-                                        <Border BorderBrush="#66000000" BorderThickness="0,0,1,0">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <!--<StackPanel Orientation="Horizontal">
+                                                <TextBox Style="{StaticResource LabelBox}" Foreground="#555555" FontSize="12"
+                                                    Margin="0 0 10 0"
+		                                            Text="{Binding DbVocab.KanjiWriting, Mode=OneWay}" />
+                                                <TextBox Style="{StaticResource LabelBox}" Foreground="#555555" FontSize="12"
+                                                    Margin="0 0 0 0"
+		                                            Text="{Binding DbVocab.KanaWriting, Mode=OneWay}" />
+                                            </StackPanel>-->
+                                            
+                                            <StackPanel>
+
+                                                <TextBlock>
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding DbVocab.FrequencyRank}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                            <Setter Property="Text">
+                                                                <Setter.Value>
+                                                                    <Binding Path="DbVocab.FrequencyRank" Converter="{StaticResource IntegerToOrdinalStringConverter}"
+                                                                             StringFormat="{}{0} most used word" />
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                            <Setter Property="FontSize" Value="10" />
+                                                            <Setter Property="Foreground" Value="#555555" />
+                                                            <Setter Property="Margin" Value="0 0 0 2" />
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
                                                 
-                                                <ListBox Style="{StaticResource VocabKanjiWritingListbox}"
-                                                    ItemsSource="{Binding DbVocab, Mode=OneWay,
-                                                            Converter={StaticResource KanjiWritingToCharactersConverter},
-                                                            IsAsync=True}" />
-                                                <Button Grid.Column="1"
-                                                        Content="Copy" HorizontalAlignment="Right" FontSize="10"
-                                                        ToolTip="Copy the kanji writing to the clipboard."
-                                                        Command="{Binding DataContext.VocabCopyCommand,
-                                                        RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
-                                                        CommandParameter="{Binding .}">
-                                                    <Button.Style>
-                                                        <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding DbVocab.KanjiWriting}" Value="{x:Null}">
-                                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding DbVocab.KanjiWriting}" Value="">
-                                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                                </DataTrigger>
-                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter Property="Opacity" Value="1" />
-                                                                    <Setter Property="BorderBrush" Value="#99042880" />
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                            <Setter Property="Opacity" Value="0.35" />
-                                                            <Setter Property="BorderBrush" Value="Transparent" />
+                                                
+
+                                                <controls:BindableRichTextBox x:Name="MeaningRtb"
+							                        Margin="0 0 0 5" Padding="0 0 0 0">
+                                                    <controls:BindableRichTextBox.Style>
+                                                        <Style TargetType="controls:BindableRichTextBox" BasedOn="{StaticResource VocabMeaningRichTextBox}">
+                                                            <Setter Property="Document" Value="{Binding DbVocab, Mode=OneTime, IsAsync=False, Converter={StaticResource VocabMeaningsToStringConverter}}" />
                                                         </Style>
-                                                    </Button.Style>
-                                                    <Button.LayoutTransform>
-                                                        <RotateTransform Angle="-90" />
-                                                    </Button.LayoutTransform>
-                                                </Button> 
-                                            </Grid>
-                                        </Border>
+                                                    </controls:BindableRichTextBox.Style>
+                                                </controls:BindableRichTextBox>
 
-                                        <!-- Kana writing -->
-                                        <Border Grid.Column="1" Grid.Row="0"
-                                                BorderBrush="#66000000" BorderThickness="0,0,1,0" Padding="3,5">
-                                            <TextBox Style="{StaticResource VocabReadingLabel}"
-                                                 Text="{Binding DbVocab.KanaWriting, Mode=OneWay}" />
-                                        </Border>
-
-                                        <!-- Meanings -->
-                                        <controls:BindableRichTextBox Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource VocabMeaningRichTextBox}"
-                                                                      Document="{Binding DbVocab, Mode=OneWay, IsAsync=True, Converter={StaticResource VocabMeaningsToStringConverter}}"
-                                                                      Padding="3,5" />
-
-                                        <!-- Notes -->
-                                        <Border Grid.Row="1" Grid.ColumnSpan="2"
-                                                Padding="3" BorderBrush="#66000000" BorderThickness="0,1,1,0">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="3*" />
-                                                    <ColumnDefinition Width="2*" />
-                                                </Grid.ColumnDefinitions>
-
-                                                <TextBox Style="{StaticResource VocabCategoriesLabel}"
-                                                     Text="{Binding DbVocab.Categories, Mode=OneWay,
-                                                    Converter={StaticResource VocabCategoriesToStringConverter}}" />
-
-                                                <Button Grid.Column="1" Content="Add to my list" Width="120" HorizontalAlignment="Right"
-                                                        Command="{Binding DataContext.AddToSrsCommand,
-                                                                  RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
-                                                        CommandParameter="{Binding .}">
-                                                    <Button.Style>
-                                                        <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding SrsEntry}" Value="{x:Null}">
-                                                                    <Setter Property="Visibility" Value="Visible" />
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                        </Style>
-                                                    </Button.Style>
+                                                <Button x:Name="ExpandButton" Content="Show more meanings" Width="140" HorizontalAlignment="Left"
+                                                    Style="{StaticResource MiniActionButton}"
+                                                    Visibility="{Binding NeedsExpanding, Converter={StaticResource ValueToVisibilityConverter}}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Click">
+                                                            <utility:SetPropertyAction TargetObject="{Binding ElementName=MeaningRtb}" PropertyName="Document"
+                                                                PropertyValue="{Binding DbVocab, Mode=OneTime, IsAsync=False, Converter={StaticResource VocabMeaningsToStringConverter}, ConverterParameter=Full}" />
+                                                            <utility:SetPropertyAction PropertyName="Visibility" PropertyValue="{x:Static Visibility.Collapsed}" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
                                                 </Button>
+                                            </StackPanel>
+                                            
+                                                
+                                            <Button Grid.Row="1" Content="Add" Margin="0 0 0 5" Width="70" HorizontalAlignment="Left"
+				                                Command="{Binding DataContext.AddToSrsCommand,
+						                            RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+				                                CommandParameter="{Binding .}">
+                                                <Button.Style>
+                                                    <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding SrsEntry}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
 
-                                                <controls:SrsVocabEntryProgress Grid.Column="1" DataContext="{Binding SrsEntry, IsAsync=True}">
-                                                    <controls:SrsVocabEntryProgress.Style>
-                                                        <Style TargetType="controls:SrsVocabEntryProgress">
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding .}" Value="{x:Null}">
-                                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </controls:SrsVocabEntryProgress.Style>
-                                                </controls:SrsVocabEntryProgress>
+                                            <controls:SrsVocabEntryProgress Grid.Row="1" DataContext="{Binding SrsEntry, IsAsync=True}">
+                                                <controls:SrsVocabEntryProgress.Style>
+                                                    <Style TargetType="controls:SrsVocabEntryProgress">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding .}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </controls:SrsVocabEntryProgress.Style>
+                                            </controls:SrsVocabEntryProgress>
+                                            <!--<Button Grid.Column="1" Content="Add to my list" Width="120" HorizontalAlignment="Left"
+				                                Command="{Binding DataContext.AddToSrsCommand,
+						                            RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+				                                CommandParameter="{Binding .}">
+                                                <Button.Style>
+                                                    <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding SrsEntry}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+
+                                            <controls:SrsVocabEntryProgress Grid.Column="1" DataContext="{Binding SrsEntry, IsAsync=True}">
+                                                <controls:SrsVocabEntryProgress.Style>
+                                                    <Style TargetType="controls:SrsVocabEntryProgress">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding .}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </controls:SrsVocabEntryProgress.Style>
+                                            </controls:SrsVocabEntryProgress>-->
+                                        </Grid>
+                                        
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+
+
+                                            <Button Grid.Column="0"
+				                                HorizontalAlignment="Left" FontSize="10"
+				                                ToolTip="Attempt to retrieve and play the audio for this word."
+				                                Command="{Binding DataContext.PlayAudioCommand,
+				                                    RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+				                                CommandParameter="{Binding .}">
+                                                <Button.Style>
+                                                    <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Opacity" Value="1" />
+                                                                <Setter Property="BorderBrush" Value="#99042880" />
+                                                            </Trigger>
+                                                            <DataTrigger Binding="{Binding AudioState}" Value="Loading">
+                                                                <Setter Property="Content" Value="(Loading)" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding AudioState}" Value="Playing">
+                                                                <Setter Property="Content" Value="(Playing)" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding AudioState}" Value="Failed">
+                                                                <Setter Property="Content" Value="(Failed)" />
+                                                                <Setter Property="BorderBrush" Value="DarkRed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding AudioState}" Value="Unavailable">
+                                                                <Setter Property="Content" Value="(No audio)" />
+                                                                <Setter Property="BorderBrush" Value="DarkRed" />
+                                                            </DataTrigger>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding IsBusy, Source={x:Static business:AudioBusiness.Instance}}" Value="False" />
+                                                                    <Condition Binding="{Binding AudioState}" Value="Unknown" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="IsEnabled" Value="True" />
+                                                            </MultiDataTrigger>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding IsBusy, Source={x:Static business:AudioBusiness.Instance}}" Value="False" />
+                                                                    <Condition Binding="{Binding AudioState}" Value="Playable" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="IsEnabled" Value="True" />
+                                                            </MultiDataTrigger>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding IsBusy, Source={x:Static business:AudioBusiness.Instance}}" Value="False" />
+                                                                    <Condition Binding="{Binding AudioState}" Value="Failed" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="IsEnabled" Value="True" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                        <Setter Property="Opacity" Value="0.35" />
+                                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                                        <Setter Property="Content" Value="Listen" />
+                                                        <Setter Property="IsEnabled" Value="False" />
+                                                    </Style>
+                                                </Button.Style>
+                                                <Button.LayoutTransform>
+                                                    <RotateTransform Angle="-90" />
+                                                </Button.LayoutTransform>
+                                            </Button>
+
+
+
+                                            <Grid Grid.Column="1">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <ListBox Grid.Row="1" Style="{StaticResource VocabWritingPartListbox}"
+			                                        ItemsSource="{Binding DbVocab, Mode=OneWay,
+					                                    Converter={StaticResource KanjiWritingToCharactersConverter},
+					                                    IsAsync=True}" />
                                             </Grid>
-                                        </Border>
+                                            <Button Grid.Column="2"
+				                                Content="Copy" HorizontalAlignment="Right" FontSize="10"
+				                                ToolTip="Copy the kanji writing to the clipboard."
+				                                Command="{Binding DataContext.KanjiCopyCommand,
+				                                RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+				                                CommandParameter="{Binding .}">
+                                                <Button.Style>
+                                                    <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding DbVocab.KanjiWriting}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding DbVocab.KanjiWriting}" Value="">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Opacity" Value="1" />
+                                                                <Setter Property="BorderBrush" Value="#99042880" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                        <Setter Property="Opacity" Value="0.35" />
+                                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                                    </Style>
+                                                </Button.Style>
+                                                <Button.LayoutTransform>
+                                                    <RotateTransform Angle="-90" />
+                                                </Button.LayoutTransform>
+                                            </Button>
+                                        </Grid>
                                     </Grid>
                                 </Border>
                             </ControlTemplate>
@@ -1024,7 +1250,7 @@
     </Style>
 
     <!-- SRS ENTRY WINDOW -->
-    
+
     <Style TargetType="TextBlock" x:Key="LegendText">
         <Setter Property="Foreground" Value="{StaticResource LegendTextBrush}" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -1033,14 +1259,14 @@
     <Style TargetType="TextBlock" x:Key="SettingText">
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    
+
     <Style TargetType="TextBlock" x:Key="SettingCategoryTitle">
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Padding" Value="5 0" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Foreground" Value="#464646" />
     </Style>
-    
+
     <Style TargetType="TextBox" BasedOn="{StaticResource LabelBox}" x:Key="NextReviewDateLabel">
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontWeight" Value="SemiBold" />
@@ -1056,7 +1282,7 @@
         <Setter Property="FontSize" Value="18" />
         <Setter Property="MaxLength" Value="999" />
     </Style>
-    
+
     <!--<Style TargetType="ProgressBar" x:Key="SrsItemProgressBar">
         <Setter Property="Value" Value="{Binding SuccessPercentage, Mode=OneWay}" />
         <Setter Property="Minimum" Value="0" />
@@ -1070,11 +1296,15 @@
                             <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
                                 <GradientStop Color="#BB7C7C7C" />
                                 <GradientStop Color="#BBAAAAAA" Offset="0.15" />
-                                --><!--<GradientStop Color="#FF7C7C7C" Offset="0.85" />--><!--
+                                -->
+    <!--<GradientStop Color="#FF7C7C7C" Offset="0.85" />-->
+    <!--
                             </LinearGradientBrush>
                         </Border.Background>
                         <Grid>
-                            --><!-- Default template --><!--
+                            -->
+    <!-- Default template -->
+    <!--
                             <Grid>
                                 <Grid.Style>
                                     <Style TargetType="Grid">
@@ -1180,7 +1410,9 @@
                                            FontWeight="SemiBold" Foreground="White" />
                             </Grid>
                             
-                            --><!-- "No success" template --><!--
+                            -->
+    <!-- "No success" template -->
+    <!--
                             <Grid>
                                 <Grid.Style>
                                     <Style TargetType="Grid">
@@ -1393,7 +1625,7 @@
                                     <RowDefinition Height="9*" />
                                     <RowDefinition Height="4*" />
                                 </Grid.RowDefinitions>
-                            
+
                                 <Viewbox>
                                     <Viewbox.RenderTransform>
                                         <TranslateTransform X="-2" Y="-2" />
@@ -1416,7 +1648,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="ListBox" x:Key="ItemsPerLevelGroupListbox">
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="ItemsSource">
@@ -1437,7 +1669,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
     </Style>
-    
+
     <!-- SRS REVIEW -->
 
     <Style TargetType="ProgressBar" x:Key="SrsReviewProgressBar">
@@ -1476,7 +1708,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="TextBlock" x:Key="SrsReviewsCountIndicator">
         <Setter Property="FontSize" Value="11" />
         <Setter Property="Foreground" Value="White" />
@@ -1484,9 +1716,9 @@
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="Margin" Value="0 0 5 0" />
     </Style>
-    
+
     <!-- SETTINGS -->
-    
+
     <Style TargetType="ListBox" x:Key="SettingUserResourceListBox">
         <Setter Property="Height" Value="150" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
@@ -1590,21 +1822,21 @@
     </Style>
 
     <!-- NAVIGATION PANEL -->
-    
+
     <Style TargetType="Grid" x:Key="NavigationPanel">
         <Setter Property="Height" Value="60" />
     </Style>
-    
+
     <Style TargetType="Grid" x:Key="NavigationPanelToolbar">
-        
+
     </Style>
 
     <Style TargetType="Button" x:Key="NavigationPanelPreviousButton">
-        
+
     </Style>
 
     <Style TargetType="Button" x:Key="NavigationPanelNextButton">
-        
+
     </Style>
 
     <Style TargetType="Grid" x:Key="NavigationPanelTab">
@@ -1615,7 +1847,7 @@
         <GradientStop Color="{StaticResource KanjiTabGradientStart}" Offset="1" />
         <GradientStop Color="{StaticResource KanjiTabGradientEnd}" />
     </LinearGradientBrush>
-    
+
     <Style TargetType="Grid" BasedOn="{StaticResource NavigationPanelTab}" x:Key="NavigationPanelKanjiTab">
         <Style.Triggers>
             <DataTrigger Binding="{Binding Source={x:Static actors:NavigationActor.Instance}, Path=CurrentPage}"
@@ -1682,7 +1914,7 @@
         </Style.Triggers>
         <Setter Property="Background" Value="{StaticResource SettingsTabGradient}" />
     </Style>
-    
+
     <LinearGradientBrush x:Key="HomeTabGradient" StartPoint="1,1" EndPoint="1,0">
         <GradientStop Color="{StaticResource HomeTabGradientStart}" Offset="1" />
         <GradientStop Color="{StaticResource HomeTabGradientEnd}" />
@@ -1715,7 +1947,7 @@
     </Style>
 
     <ScaleTransform x:Key="NavigationPanelTabTitleScaleTransform" ScaleX="0.7" ScaleY="1.2" />
-    
+
     <Style TargetType="Label" x:Key="NavigationPanelTabTitle">
         <Setter Property="Margin" Value="0 0 0 7" />
         <Setter Property="FontSize" Value="24" />
@@ -1763,7 +1995,7 @@
     <Style TargetType="Button" x:Key="NavigationPanelButton">
         <Setter Property="Opacity" Value="0" />
     </Style>
-    
+
     <!--<Style TargetType="controls:OutlinedTextBlock" x:Key="NavigationPanelTabTitle">
         <Setter Property="Fill" Value="White" />
         <Setter Property="Stroke" Value="Black" />
@@ -1860,5 +2092,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>

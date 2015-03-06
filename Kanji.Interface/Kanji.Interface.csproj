@@ -140,6 +140,7 @@
     <Compile Include="Actors\NavigationActor.cs" />
     <Compile Include="Actors\PipeActor.cs" />
     <Compile Include="Behaviors\InputBindingsBehavior.cs" />
+    <Compile Include="Business\AudioBusiness.cs" />
     <Compile Include="Business\AutostartBusiness.cs" />
     <Compile Include="Business\FilteredSrsEntryIterator.cs" />
     <Compile Include="Business\SrsBusiness.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Models\ExtendedSrsEntry.cs" />
     <Compile Include="Models\FilteringRadicalAvailabilityEnum.cs" />
     <Compile Include="Models\FilteringSrsEntry.cs" />
+    <Compile Include="Models\FuriganaPart.cs" />
     <Compile Include="Models\HelpCategory.cs" />
     <Compile Include="Models\HelpInfo.cs" />
     <Compile Include="Models\Import\CsvImportNoTypeBehavior.cs" />
@@ -184,6 +186,9 @@
     <Compile Include="Models\Import\WkImportMode.cs" />
     <Compile Include="Models\Import\WkImportResult.cs" />
     <Compile Include="Models\Import\WkItem.cs" />
+    <Compile Include="Models\VocabAudioState.cs" />
+    <Compile Include="Models\VocabWritingPart.cs" />
+    <Compile Include="Utilities\SetPropertyAction.cs" />
     <Compile Include="ViewModels\Partial\Import\ImportDuplicateOptionsViewModel.cs" />
     <Compile Include="ViewModels\Partial\Import\ImportOverviewViewModel.cs" />
     <Compile Include="ViewModels\Partial\Import\ImportProgressViewModel.cs" />
@@ -248,6 +253,7 @@
     <Compile Include="ViewModels\Partial\Import\WaniKani\WkImportRequestViewModel.cs" />
     <Compile Include="ViewModels\Partial\Import\WaniKani\WkImportSettingsViewModel.cs" />
     <Compile Include="ViewModels\Partial\Import\WaniKani\WkImportViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Settings\Controls\SettingAudioUriViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingAutoSkipViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingDoUpdateCheckViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingIgnoreAnswerShortcutViewModel.cs" />
@@ -356,6 +362,9 @@
     </Compile>
     <Compile Include="Views\Partial\Common\SrsEntryProgress.xaml.cs">
       <DependentUpon>SrsEntryProgress.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Settings\Controls\SettingAudioUriControl.xaml.cs">
+      <DependentUpon>SettingAudioUriControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\Settings\Controls\SettingAutoSkipControl.xaml.cs">
       <DependentUpon>SettingAutoSkipControl.xaml</DependentUpon>
@@ -623,6 +632,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\Common\SrsEntryProgress.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Settings\Controls\SettingAudioUriControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

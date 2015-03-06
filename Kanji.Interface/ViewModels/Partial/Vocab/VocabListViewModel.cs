@@ -89,7 +89,17 @@ namespace Kanji.Interface.ViewModels
         /// <summary>
         /// Command used to copy a kanji writing to the clipboard.
         /// </summary>
-        public RelayCommand<ExtendedVocab> VocabCopyCommand { get; set; }
+        public RelayCommand<ExtendedVocab> KanjiCopyCommand { get; set; }
+
+        /// <summary>
+        /// Command used to copy a kana writing to the clipboard.
+        /// </summary>
+        public RelayCommand<ExtendedVocab> KanaCopyCommand { get; set; }
+
+        /// <summary>
+        /// Command used to play vocab audio.
+        /// </summary>
+        public RelayCommand<ExtendedVocab> PlayAudioCommand { get; set; }
 
         #endregion
 
@@ -113,7 +123,7 @@ namespace Kanji.Interface.ViewModels
 
         public VocabListViewModel() : this(new VocabFilter())
         {
-
+            
         }
 
         public VocabListViewModel(VocabFilter filter)
@@ -122,7 +132,9 @@ namespace Kanji.Interface.ViewModels
             KanjiNavigationCommand = new RelayCommand<KanjiWritingCharacter>(OnKanjiNavigation);
             AddToSrsCommand = new RelayCommand<ExtendedVocab>(OnAddToSrs);
             EditSrsEntryCommand = new RelayCommand<ExtendedVocab>(OnEditSrsEntry);
-            VocabCopyCommand = new RelayCommand<ExtendedVocab>(OnVocabCopy);
+            KanjiCopyCommand = new RelayCommand<ExtendedVocab>(OnKanjiCopy);
+            KanaCopyCommand = new RelayCommand<ExtendedVocab>(OnKanaCopy);
+            PlayAudioCommand = new RelayCommand<ExtendedVocab>(OnPlayAudio);
         }
 
         #endregion
@@ -256,9 +268,29 @@ namespace Kanji.Interface.ViewModels
         /// Called to copy the kanji writing of the vocab to the clipboard.
         /// </summary>
         /// <param name="vocab">Vocab to copy.</param>
-        private void OnVocabCopy(ExtendedVocab vocab)
+        private void OnKanjiCopy(ExtendedVocab vocab)
         {
             ClipboardHelper.SetText(vocab.DbVocab.KanjiWriting);
+        }
+
+        /// <summary>
+        /// Command callback.
+        /// Called to copy the kana writing of the vocab to the clipboard.
+        /// </summary>
+        /// <param name="vocab">Vocab to copy.</param>
+        private void OnKanaCopy(ExtendedVocab vocab)
+        {
+            ClipboardHelper.SetText(vocab.DbVocab.KanaWriting);
+        }
+
+        /// <summary>
+        /// Command callback.
+        /// Called to play the audio of the given vocab.
+        /// </summary>
+        /// <param name="vocab">Vocab to play.</param>
+        private void OnPlayAudio(ExtendedVocab vocab)
+        {
+            AudioBusiness.PlayVocabAudio(vocab);
         }
 
         #endregion

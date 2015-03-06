@@ -291,5 +291,29 @@ namespace Kanji.Interface.Properties {
                 this["AutoSkipReviews"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public int CollapseMeaningsLimit {
+            get {
+                return ((int)(this["CollapseMeaningsLimit"]));
+            }
+            set {
+                this["CollapseMeaningsLimit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AudioUri {
+            get {
+                return ((string)(this["AudioUri"]));
+            }
+            set {
+                this["AudioUri"] = value;
+            }
+        }
     }
 }

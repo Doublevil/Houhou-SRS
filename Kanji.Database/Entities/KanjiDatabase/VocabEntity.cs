@@ -19,6 +19,8 @@ namespace Kanji.Database.Entities
         public string KanjiWriting { get; set; }
         public string KanaWriting { get; set; }
         public bool IsCommon { get; set; }
+        public Nullable<int> FrequencyRank { get; set; }
+        public string Furigana { get; set; }
     
         public ICollection<VocabMeaning> Meanings { get; set; }
         public ICollection<KanjiEntity> Kanji { get; set; }
@@ -36,7 +38,9 @@ namespace Kanji.Database.Entities
             {
                 { SqlHelper.Field_Vocab_IsCommon, DbType.Boolean },
                 { SqlHelper.Field_Vocab_KanaWriting, DbType.String },
-                { SqlHelper.Field_Vocab_KanjiWriting, DbType.String }
+                { SqlHelper.Field_Vocab_KanjiWriting, DbType.String },
+                { SqlHelper.Field_Vocab_FrequencyRank, DbType.Int16 },
+                { SqlHelper.Field_Vocab_Furigana, DbType.String }
             };
         }
 
@@ -44,7 +48,7 @@ namespace Kanji.Database.Entities
         {
             return new object[]
             {
-                IsCommon, KanaWriting, KanjiWriting
+                IsCommon, KanaWriting, KanjiWriting, FrequencyRank, Furigana
             };
         }
 

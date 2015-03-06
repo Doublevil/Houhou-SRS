@@ -4,10 +4,16 @@
         xmlns:controls="clr-namespace:Kanji.Interface.Controls"
         xmlns:converters="clr-namespace:Kanji.Interface.Converters"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        Title="SRS item edition" Height="500" Width="500">
+        Height="500" Width="500">
     <Window.Style>
         <Style TargetType="Window">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsNew}" Value="True">
+                    <Setter Property="Title" Value="SRS item creation" />
+                </DataTrigger>
+            </Style.Triggers>
             <Setter Property="Background" Value="#E4FBD0" />
+            <Setter Property="Title" Value="SRS item edition" />
         </Style>
     </Window.Style>
     

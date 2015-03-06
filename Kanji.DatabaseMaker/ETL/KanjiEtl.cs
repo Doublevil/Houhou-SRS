@@ -232,12 +232,14 @@ namespace Kanji.DatabaseMaker
                             string language = xlanguage != null ? xlanguage.Value.ToLower() : null;
                             string meaning = xmeaning.Value;
 
-                            // Build a meaning.
-                            KanjiMeaning kanjiMeaning = new KanjiMeaning()
-                                { Kanji = kanji, Language = language, Meaning = meaning };
+                            if (xlanguage == null || language.ToLower() == "en")
+                            {
+                                // Build a meaning.
+                                KanjiMeaning kanjiMeaning = new KanjiMeaning() { Kanji = kanji, Language = language, Meaning = meaning };
 
-                            // Add the meaning to the kanji.
-                            kanji.Meanings.Add(kanjiMeaning);
+                                // Add the meaning to the kanji.
+                                kanji.Meanings.Add(kanjiMeaning);
+                            }
                         }
                     }
                 }

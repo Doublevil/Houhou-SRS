@@ -65,6 +65,12 @@ namespace Kanji.Interface.Actors
         public SrsViewModel SrsVm { get; set; }
 
         /// <summary>
+        /// Gets or sets the reference to the Settings view model
+        /// to enable settings page navigation.
+        /// </summary>
+        public SettingsViewModel SettingsVm { get; set; }
+
+        /// <summary>
         /// Gets or sets a reference to the main window.
         /// </summary>
         public MainWindow MainWindow { get; private set; }
@@ -136,6 +142,21 @@ namespace Kanji.Interface.Actors
                 RequireMainWindow();
                 CurrentPage = NavigationPageEnum.Kanji;
                 KanjiVm.Navigate(character);
+            }
+        }
+
+        /// <summary>
+        /// Navigates to the settings page, and performs an intra-navigation
+        /// to the specified settings page.
+        /// </summary>
+        /// <param name="page">Page to navigate to.</param>
+        public void NavigateToSettings(SettingsCategoryEnum page)
+        {
+            lock (_mainWindowLock)
+            {
+                RequireMainWindow();
+                CurrentPage = NavigationPageEnum.Settings;
+                SettingsVm.Navigate(page);
             }
         }
 

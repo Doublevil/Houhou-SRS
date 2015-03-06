@@ -6,25 +6,18 @@
              xmlns:converters="clr-namespace:Kanji.Interface.Converters"
              xmlns:controls="clr-namespace:Kanji.Interface.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="60" d:DesignWidth="300">
+             d:DesignHeight="30" d:DesignWidth="300">
 
-    <Border BorderBrush="#AA000000" BorderThickness="1" CornerRadius="2" Padding="2" x:Name="ProgressContainer">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <!-- Progress bar -->
-            <ProgressBar Style="{StaticResource SrsItemProgressBar}" VerticalAlignment="Center" />
-
+    <Border x:Name="ProgressContainer" Height="30">
+        <StackPanel Orientation="Horizontal">
             <!-- Level indicator -->
-            <Border Grid.Column="1" Background="{Binding LevelGroup.Color, Converter={StaticResource ColorToBrushConverter}}"
-                    Padding="5 0" BorderBrush="Black" BorderThickness="1" CornerRadius="3" Margin="5 0 0 0">
+            <Border Background="{Binding LevelGroup.Color, Converter={StaticResource ColorToBrushConverter}}" Height="20"
+                Padding="5 0" BorderBrush="Black" BorderThickness="1 1 0 1" CornerRadius="3 0 0 3" Margin="5 0 0 0" x:Name="SrsLevelIndicator">
+                <Border.ToolTip>
+                    <ToolTip Content="{Binding NextAnswerDate, Mode=OneWay, Converter={StaticResource DateTimeToStringConverter},
+                        ConverterParameter={x:Static converters:DateTimeToStringConversionEnum.Relative}}"
+                        ContentStringFormat="{}Next review: {0}." />
+                </Border.ToolTip>
                 <Grid>
                     <TextBlock Foreground="Black" Text="{Binding Level.Name}"
                                HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -33,40 +26,20 @@
                         </TextBlock.RenderTransform>
                     </TextBlock>
                     <TextBlock Foreground="White" Text="{Binding Level.Name}"
-                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>
             </Border>
-            <Grid Grid.Row="1" Grid.ColumnSpan="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
 
-                <TextBlock Style="{StaticResource LegendText}" Text="Next:" Margin="2 0 2 0" VerticalAlignment="Center" />
-                <TextBox Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource NextReviewDateLabel}"
-                         Text="{Binding NextAnswerDate, Mode=OneWay,
-                               Converter={StaticResource DateTimeToStringConverter},
-                               ConverterParameter={x:Static converters:DateTimeToStringConversionEnum.Relative}}"
-                         ToolTip="{Binding NextAnswerDate, Mode=OneWay,
-                                  Converter={StaticResource DateTimeToStringConverter},
-                                  ConverterParameter={x:Static converters:DateTimeToStringConversionEnum.Absolute}}" />
+            <Button Grid.Column="2" Style="{StaticResource MiniActionButton}"
+                Content="Edit" VerticalContentAlignment="Center" Width="60" Height="{Binding ElementName=SrsLevelIndicator, Path=ActualHeight}"
+                Command="{Binding DataContext.EditSrsEntryCommand, RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+                CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                ToolTip="Edit the SRS item" Margin="0 0 0 0" BorderThickness="0 1 1 1" BorderBrush="Black">
+                <Button.RenderTransform>
+                    <TranslateTransform X="-1" Y="0" />
+                </Button.RenderTransform>
+            </Button>
 
-                <!--<Button Grid.Column="2" Style="{StaticResource ImageActionButton}"
-                        Content="pack://application:,,,/Data/UI/EditIcon.png"
-                        Command="{Binding DataContext.EditSrsEntryCommand, RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
-                        CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
-                        ToolTip="Edit the SRS item"
-                        Margin="0 2 0 0"/>-->
-
-                <Button Grid.Column="2" Style="{StaticResource MiniActionButton}"
-                        Content="Edit" VerticalContentAlignment="Center"
-                        Command="{Binding DataContext.EditSrsEntryCommand, RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
-                        CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
-                        ToolTip="Edit the SRS item"
-                        Margin="10 2 0 0"/>
-            </Grid>
-
-        </Grid>
+        </StackPanel>
     </Border>
 </UserControl>

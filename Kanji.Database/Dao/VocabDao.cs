@@ -285,10 +285,7 @@ namespace Kanji.Database.Dao
                     + "=v." + SqlHelper.Field_Vocab_Id + ") "
                     + "JOIN " + SqlHelper.Table_VocabMeaning + " vm ON (vm."
                     + SqlHelper.Field_VocabMeaning_Id + "=vvm."
-                    + SqlHelper.Field_Vocab_VocabMeaning_VocabMeaningId + ") "
-                    + "JOIN " + SqlHelper.Table_VocabMeaningEntry + " vme ON (vme."
-                    + SqlHelper.Field_VocabMeaningEntry_VocabMeaningId + "=vm."
-                    + SqlHelper.Field_VocabMeaning_Id + ") ";
+                    + SqlHelper.Field_Vocab_VocabMeaning_VocabMeaningId + ") ";
                 // Ouch... it looks kinda like an obfuscated string... Sorry.
                 // Basically, you just join the vocab to its meaning entries.
 
@@ -297,8 +294,7 @@ namespace Kanji.Database.Dao
                 sqlMeaningFilter = isFiltered ? "AND " : "WHERE ";
                 isFiltered = true;
 
-                sqlMeaningFilter += "vme." + SqlHelper.Field_VocabMeaningEntry_Language
-                    + " IS NULL AND vme." + SqlHelper.Field_VocabMeaningEntry_Meaning
+                sqlMeaningFilter += "vm." + SqlHelper.Field_VocabMeaning_Meaning
                     + " LIKE @meaning ";
 
                 parameters.Add(new DaoParameter("@meaning", "%" + meaningFilter + "%"));
@@ -377,7 +373,6 @@ namespace Kanji.Database.Dao
             {
                 VocabMeaning meaning = meaningBuilder.BuildEntity(nvcMeaning, null);
                 IncludeMeaningCategories(connection, meaning);
-                IncludeMeaningEntries(connection, meaning);
                 vocab.Meanings.Add(meaning);
             }
         }
@@ -400,26 +395,6 @@ namespace Kanji.Database.Dao
             {
                 VocabCategory category = categoryBuilder.BuildEntity(nvcCategory, null);
                 meaning.Categories.Add(category);
-            }
-        }
-
-        /// <summary>
-        /// Includes the meaning entries of the given meaning in the entity.
-        /// </summary>
-        private void IncludeMeaningEntries(DaoConnection connection, VocabMeaning meaning)
-        {
-            IEnumerable<NameValueCollection> entries = connection.Query(
-                  "SELECT * FROM " + SqlHelper.Table_VocabMeaningEntry + " vme "
-                + "WHERE vme." + SqlHelper.Field_VocabMeaningEntry_VocabMeaningId + "=@mid "
-                + "AND vme." + SqlHelper.Field_VocabMeaningEntry_Language + " IS NULL",
-                new DaoParameter("@mid", meaning.ID));
-
-            VocabMeaningEntryBuilder entryBuilder = new VocabMeaningEntryBuilder();
-            foreach (NameValueCollection nvcEntry in entries)
-            {
-                VocabMeaningEntry entry = entryBuilder.BuildEntity(nvcEntry, null);
-                entry.VocabMeaning = meaning;
-                meaning.MeaningEntries.Add(entry);
             }
         }
 

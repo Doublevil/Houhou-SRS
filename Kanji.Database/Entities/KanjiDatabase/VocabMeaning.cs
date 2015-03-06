@@ -11,14 +11,13 @@ namespace Kanji.Database.Entities
         {
             this.Categories = new HashSet<VocabCategory>();
             this.VocabEntity = new HashSet<VocabEntity>();
-            this.MeaningEntries = new HashSet<VocabMeaningEntry>();
         }
     
         public long ID { get; set; }
     
         public ICollection<VocabCategory> Categories { get; set; }
         public ICollection<VocabEntity> VocabEntity { get; set; }
-        public ICollection<VocabMeaningEntry> MeaningEntries { get; set; }
+        public string Meaning { get; set; }
 
         public override string GetTableName()
         {
@@ -29,7 +28,7 @@ namespace Kanji.Database.Entities
         {
             return new Dictionary<string, DbType>()
             {
-                
+                { SqlHelper.Field_VocabMeaning_Meaning, DbType.String }
             };
         }
 
@@ -37,7 +36,7 @@ namespace Kanji.Database.Entities
         {
             return new object[]
             {
-                
+                Meaning
             };
         }
 

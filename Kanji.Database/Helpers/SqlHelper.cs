@@ -17,7 +17,6 @@ namespace Kanji.Database.Helpers
         public static readonly string Table_Vocab = "VocabSet";
         public static readonly string Table_VocabCategory = "VocabCategorySet";
         public static readonly string Table_VocabMeaning = "VocabMeaningSet";
-        public static readonly string Table_VocabMeaningEntry = "VocabMeaningEntrySet";
 
         public static readonly string Table_SrsEntry = "SrsEntrySet";
 
@@ -73,6 +72,8 @@ namespace Kanji.Database.Helpers
         public static readonly string Field_Vocab_KanjiWriting = "KanjiWriting";
         public static readonly string Field_Vocab_KanaWriting = "KanaWriting";
         public static readonly string Field_Vocab_IsCommon = "IsCommon";
+        public static readonly string Field_Vocab_FrequencyRank = "FrequencyRank";
+        public static readonly string Field_Vocab_Furigana = "Furigana";
 
         #endregion
 
@@ -87,15 +88,7 @@ namespace Kanji.Database.Helpers
         #region VocabMeaning table
 
         public static readonly string Field_VocabMeaning_Id = "ID";
-
-        #endregion
-
-        #region VocabMeaningEntry table
-
-        public static readonly string Field_VocabMeaningEntry_Id = "ID";
-        public static readonly string Field_VocabMeaningEntry_Language = "Language";
-        public static readonly string Field_VocabMeaningEntry_Meaning = "Meaning";
-        public static readonly string Field_VocabMeaningEntry_VocabMeaningId = "VocabMeaning_ID";
+        public static readonly string Field_VocabMeaning_Meaning = "Meaning";
 
         #endregion
 

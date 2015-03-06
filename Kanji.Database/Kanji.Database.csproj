@@ -88,7 +88,6 @@
     <Compile Include="Entities\KanjiDatabase\VocabCategory.cs" />
     <Compile Include="Entities\KanjiDatabase\VocabEntity.cs" />
     <Compile Include="Entities\KanjiDatabase\VocabMeaning.cs" />
-    <Compile Include="Entities\KanjiDatabase\VocabMeaningEntry.cs" />
     <Compile Include="EntityBuilders\EntityBuilder.cs" />
     <Compile Include="EntityBuilders\KanjiBuilder.cs" />
     <Compile Include="EntityBuilders\KanjiMeaningBuilder.cs" />
@@ -97,7 +96,6 @@
     <Compile Include="EntityBuilders\VocabBuilder.cs" />
     <Compile Include="EntityBuilders\VocabCategoryBuilder.cs" />
     <Compile Include="EntityBuilders\VocabMeaningBuilder.cs" />
-    <Compile Include="EntityBuilders\VocabMeaningEntryBuilder.cs" />
     <Compile Include="Extensions\NameValueCollectionExtensions.cs" />
     <Compile Include="Helpers\ConnectionStringHelper.cs" />
     <Compile Include="Helpers\MultiValueFieldHelper.cs" />

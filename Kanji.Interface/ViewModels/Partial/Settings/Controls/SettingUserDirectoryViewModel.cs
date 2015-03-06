@@ -130,7 +130,7 @@ namespace Kanji.Interface.ViewModels
             // Try to copy everything from the current user folder to the new one.
             try
             {
-                CopyHelper.CopyAllContent(Properties.Settings.Default.UserDirectoryPath, _userDirectoryPath);
+                FileHelper.CopyAllContent(Properties.Settings.Default.UserDirectoryPath, _userDirectoryPath);
             }
             catch (Exception ex)
             {

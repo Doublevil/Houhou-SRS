@@ -15,7 +15,8 @@ namespace Kanji.Database.EntityBuilders
         {
             return new VocabMeaning()
             {
-                ID = row.ReadLong(GetField(prefix, SqlHelper.Field_VocabMeaning_Id)).Value
+                ID = row.ReadLong(GetField(prefix, SqlHelper.Field_VocabMeaning_Id)).Value,
+                Meaning = row.ReadString(GetField(prefix, SqlHelper.Field_VocabMeaning_Meaning))
             };
         }
     }

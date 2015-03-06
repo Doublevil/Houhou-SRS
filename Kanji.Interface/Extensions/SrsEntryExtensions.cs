@@ -49,13 +49,15 @@ namespace Kanji.Interface.Extensions
         {
             // Compute the meaning string.
             string meaningString = string.Empty;
-            foreach (VocabMeaningEntry vme in v.Meanings
-                .SelectMany(m => m.MeaningEntries))
+            foreach (VocabMeaning vm in v.Meanings)
             {
-                meaningString += MultiValueFieldHelper.ReplaceSeparator(vme.Meaning) + MultiValueFieldHelper.ValueSeparator;
+                meaningString += MultiValueFieldHelper.ReplaceSeparator(vm.Meaning)
+                    .Replace(" ;", MultiValueFieldHelper.ValueSeparator.ToString())
+                    + MultiValueFieldHelper.ValueSeparator;
             }
             meaningString = meaningString.Trim(
                 new char[] { MultiValueFieldHelper.ValueSeparator });
+            meaningString = MultiValueFieldHelper.Trim(meaningString);
             meaningString = MultiValueFieldHelper.Expand(meaningString);
 
             // Set values.

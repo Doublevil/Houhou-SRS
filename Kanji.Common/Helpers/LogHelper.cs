@@ -8,6 +8,11 @@ namespace Kanji.Common.Helpers
 {
     public static class LogHelper
     {
+        public static string GetLogFilePath()
+        {
+            return ((log4net.Appender.RollingFileAppender)log4net.LogManager.GetRepository().GetAppenders()[0]).File;
+        }
+
         public static void InitializeLoggingSystem()
         {
             log4net.Config.XmlConfigurator.Configure();

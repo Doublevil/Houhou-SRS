@@ -28,6 +28,12 @@ namespace Kanji.Interface.Converters
                     FlowDocument doc = DispatcherHelper.Invoke<FlowDocument>(() => { return new FlowDocument(); });
                     bool onlyOne = meanings.Count() == 1;
                     int count = 0;
+                    int maxCount = Kanji.Interface.Properties.Settings.Default.CollapseMeaningsLimit;
+                    if (meanings.Count() > maxCount)
+                    {
+                        maxCount--;
+                    }
+
                     foreach (VocabMeaning meaning in meanings)
                     {
                         Paragraph meaningParagraph = DispatcherHelper.Invoke<Paragraph>(() => { return new Paragraph(); });
@@ -56,27 +62,16 @@ namespace Kanji.Interface.Converters
                             });
                         }
 
-                        // Take the meaning entries.
-                        IEnumerable<VocabMeaningEntry> eligibleEntries = meaning.MeaningEntries;
-                            //.Where(e => string.IsNullOrEmpty(e.Language));
-                        string runText = string.Empty;
-                        foreach (VocabMeaningEntry entry in eligibleEntries)
-                        {
-                            // Append each meaning entry.
-                            runText += entry.Meaning;
-
-                            // Separate entries with a semicolumn.
-                            if (entry != eligibleEntries.Last())
-                            {
-                                runText += " ; ";
-                            }
-                        }
-
                         DispatcherHelper.Invoke(() =>
                         {
-                            meaningParagraph.Inlines.Add(new Run(runText));
+                            meaningParagraph.Inlines.Add(new Run(meaning.Meaning));
                             doc.Blocks.Add(meaningParagraph);
                         });
+
+                        if (parameter == null && count >= maxCount)
+                        {
+                            break;
+                        }
                     }
 
                     return doc;
@@ -91,60 +86,6 @@ namespace Kanji.Interface.Converters
                 throw new ArgumentException("The value must be a vocab entity.");
             }
         }
-
-        //public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        //{
-        //    if (value is IEnumerable<VocabMeaning>)
-        //    {
-        //        VocabCategoriesToStringConverter categoriesConverter = new VocabCategoriesToStringConverter();
-        //        IEnumerable<VocabMeaning> meanings = (IEnumerable<VocabMeaning>)value;
-
-        //        StringBuilder outputBuilder = new StringBuilder();
-        //        bool onlyOne = meanings.Count() == 1;
-        //        int count = 0;
-        //        foreach (VocabMeaning meaning in meanings)
-        //        {
-        //            if (!onlyOne)
-        //            {
-        //                outputBuilder.Append(++count).Append(". ");
-        //            }
-
-        //            // Append the categories string.
-        //            string categoriesString = (string)categoriesConverter.Convert(
-        //                meaning.Categories, typeof(string), null, culture);
-        //            if (!string.IsNullOrEmpty(categoriesString))
-        //            {
-        //                outputBuilder.AppendFormat("[{0}] ", categoriesString.ToLower());
-        //            }
-
-        //            // Take the meaning entries.
-        //            VocabMeaningEntry[] eligibleEntries = meaning.MeaningEntries
-        //                .Where(e => /*string.IsNullOrEmpty(e.Language) || */e.Language == "en").ToArray();
-        //            foreach (VocabMeaningEntry entry in eligibleEntries)
-        //            {
-        //                // Append each meaning entry.
-        //                outputBuilder.Append(entry.Meaning);
-
-        //                // Separate entries with a semicolumn.
-        //                if (entry != eligibleEntries.Last())
-        //                {
-        //                    outputBuilder.Append(" ; ");
-        //                }
-        //            }
-
-        //            if (meaning != meanings.Last())
-        //            {
-        //                outputBuilder.Append(Environment.NewLine);
-        //            }
-        //        }
-
-        //        return outputBuilder.ToString();
-        //    }
-        //    else
-        //    {
-        //        throw new ArgumentException("The value must be a collection of vocab meanings.");
-        //    }
-        //}
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
