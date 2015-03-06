@@ -264,6 +264,7 @@
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingTrayIntervalViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingTrayNotifyThresholdViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingUserDirectoryViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Settings\Controls\SettingVocabPerPageViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Pages\ApplicationSettingsViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingRadicalSetViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingStartPageViewModel.cs" />
@@ -401,6 +402,9 @@
     </Compile>
     <Compile Include="Views\Partial\Settings\Controls\SettingUserDirectory.xaml.cs">
       <DependentUpon>SettingUserDirectory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Settings\Controls\SettingVocabPerPageControl.xaml.cs">
+      <DependentUpon>SettingVocabPerPageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\Settings\Pages\ApplicationSettingsControl.xaml.cs">
       <DependentUpon>ApplicationSettingsControl.xaml</DependentUpon>
@@ -684,6 +688,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\Settings\Controls\SettingUserDirectory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Settings\Controls\SettingVocabPerPageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

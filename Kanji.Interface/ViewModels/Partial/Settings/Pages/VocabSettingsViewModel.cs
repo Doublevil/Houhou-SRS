@@ -15,6 +15,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public SettingAudioUriViewModel AudioUriVm { get; private set; }
 
+        /// <summary>
+        /// Gets the vocab per page view model.
+        /// </summary>
+        public SettingVocabPerPageViewModel VocabPerPageVm { get; private set; }
+
         #endregion
 
         #region Methods
@@ -24,10 +29,12 @@ namespace Kanji.Interface.ViewModels
         protected override SettingControlViewModel[] InitializeSettingViewModels()
         {
             AudioUriVm = new SettingAudioUriViewModel();
+            VocabPerPageVm = new SettingVocabPerPageViewModel();
 
             return new SettingControlViewModel[]
             {
-                AudioUriVm
+                AudioUriVm,
+                VocabPerPageVm
             };
         }
 

@@ -15,5 +15,13 @@
                 <controls:SettingAudioUriControl DataContext="{Binding AudioUriVm}" />
             </StackPanel>
         </GroupBox>
+        <GroupBox BorderBrush="#666666" Margin="0 20 0 0">
+            <GroupBox.Header>
+                <TextBlock Text="Vocab list" Style="{StaticResource SettingCategoryTitle}" />
+            </GroupBox.Header>
+            <StackPanel Margin="6 10">
+                <controls:SettingVocabPerPageControl DataContext="{Binding VocabPerPageVm}" />
+            </StackPanel>
+        </GroupBox>
     </StackPanel>
 </UserControl>
