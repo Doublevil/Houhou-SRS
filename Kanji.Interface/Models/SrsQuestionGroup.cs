@@ -25,14 +25,9 @@ namespace Kanji.Interface.Models
         public bool IsWrong { get; set; }
 
         /// <summary>
-        /// Gets or sets a reference to the meaning question.
+        /// Gets or sets the questions of this group.
         /// </summary>
-        public SrsQuestion MeaningQuestion { get; set; }
-
-        /// <summary>
-        /// Gets or sets a reference to the reading question.
-        /// </summary>
-        public SrsQuestion ReadingQuestion { get; set; }
+        public List<SrsQuestion> Questions { get; set; }
 
         /// <summary>
         /// Gets the string representation of the SRS Item.
@@ -71,17 +66,25 @@ namespace Kanji.Interface.Models
         public SrsQuestionGroup(SrsEntry reference)
         {
             Reference = reference;
-            MeaningQuestion = new SrsQuestion()
-            {
-                Question = SrsQuestionEnum.Meaning,
-                ParentGroup = this
-            };
 
-            ReadingQuestion = new SrsQuestion()
+            Questions = new List<SrsQuestion>();
+            if (!string.IsNullOrWhiteSpace(reference.Meanings))
             {
-                Question = SrsQuestionEnum.Reading,
-                ParentGroup = this
-            };
+                Questions.Add(new SrsQuestion()
+                {
+                    Question = SrsQuestionEnum.Meaning,
+                    ParentGroup = this
+                });
+            }
+
+            if (!string.IsNullOrWhiteSpace(reference.Readings))
+            {
+                Questions.Add(new SrsQuestion()
+                {
+                    Question = SrsQuestionEnum.Reading,
+                    ParentGroup = this
+                });
+            }
         }
 
         #endregion
@@ -93,15 +96,7 @@ namespace Kanji.Interface.Models
         /// </summary>
         public IEnumerable<SrsQuestion> GetUnansweredQuestions()
         {
-            if (!MeaningQuestion.IsAnswered)
-            {
-                yield return MeaningQuestion;
-            }
-
-            if (!ReadingQuestion.IsAnswered)
-            {
-                yield return ReadingQuestion;
-            }
+            return Questions.Where(q => !q.IsAnswered);
         }
 
         #endregion

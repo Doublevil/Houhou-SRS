@@ -365,18 +365,10 @@ namespace Kanji.Interface.ViewModels
             string errorMessage = string.Empty;
             bool error = false;
 
-            // Meanings cannot be null.
-            if (string.IsNullOrWhiteSpace(_entry.Meanings))
+            // Meanings AND readings cannot be null.
+            if (string.IsNullOrWhiteSpace(_entry.Meanings) && string.IsNullOrWhiteSpace(_entry.Readings))
             {
-                errorMessage += R.SrsItem_MeaningsValidationError;
-                error = true;
-            }
-
-            // Readings cannot be null.
-            if (string.IsNullOrWhiteSpace(_entry.Readings))
-            {
-                errorMessage += error ? Environment.NewLine : string.Empty;
-                errorMessage += R.SrsItem_ReadingsValidationError;
+                errorMessage += "The item must have at least one meaning or reading.";
                 error = true;
             }
 

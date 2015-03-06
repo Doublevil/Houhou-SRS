@@ -359,13 +359,13 @@ namespace Kanji.Database.Dao
                 sqlQueryStart.Append(SqlHelper.Field_SrsEntry_Meanings + ",");
                 sqlQueryEnd.Append("@Meanings,");
                 parameters.Add(new DaoParameter("@Meanings",
-                    MultiValueFieldHelper.Trim(entity.Meanings)));
+                    MultiValueFieldHelper.Trim(entity.Meanings ?? string.Empty)));
 
                 // Readings
                 sqlQueryStart.Append(SqlHelper.Field_SrsEntry_Readings + ",");
                 sqlQueryEnd.Append("@Readings,");
                 parameters.Add(new DaoParameter("@Readings",
-                    MultiValueFieldHelper.Trim(entity.Readings)));
+                    MultiValueFieldHelper.Trim(entity.Readings ?? string.Empty)));
 
                 // CurrentGrade
                 sqlQueryStart.Append(SqlHelper.Field_SrsEntry_CurrentGrade + ",");
@@ -514,12 +514,12 @@ namespace Kanji.Database.Dao
                 // Meanings
                 sqlQueryBuilder.Append(SqlHelper.Field_SrsEntry_Meanings + "=@Meanings,");
                 parameters.Add(new DaoParameter("@Meanings",
-                    MultiValueFieldHelper.Trim(entity.Meanings)));
+                    MultiValueFieldHelper.Trim(entity.Meanings ?? string.Empty)));
 
                 // Readings
                 sqlQueryBuilder.Append(SqlHelper.Field_SrsEntry_Readings + "=@Readings,");
                 parameters.Add(new DaoParameter("@Readings",
-                    MultiValueFieldHelper.Trim(entity.Readings)));
+                    MultiValueFieldHelper.Trim(entity.Readings ?? string.Empty)));
 
                 // CurrentGrade
                 sqlQueryBuilder.Append(SqlHelper.Field_SrsEntry_CurrentGrade + "=@CurrentGrade,");
