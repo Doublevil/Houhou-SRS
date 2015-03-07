@@ -200,6 +200,7 @@ namespace Kanji.Interface.Business
             {
                 // Audio is available. Play it!
                 _playingVocab.State = VocabAudioState.Playing;
+                _player.Volume = Math.Min(1, Math.Max(0, Properties.Settings.Default.AudioVolume / 100f));
                 _player.Play();
             }
         }

@@ -21,6 +21,11 @@ namespace Kanji.Interface.ViewModels
         public SettingReviewPlayAudio ReviewPlayAudioVm { get; private set; }
 
         /// <summary>
+        /// Gets the audio volume view model.
+        /// </summary>
+        public SettingAudioVolumeViewModel AudioVolumeVm { get; private set; }
+
+        /// <summary>
         /// Gets the vocab per page view model.
         /// </summary>
         public SettingVocabPerPageViewModel VocabPerPageVm { get; private set; }
@@ -40,6 +45,7 @@ namespace Kanji.Interface.ViewModels
         {
             AudioUriVm = new SettingAudioUriViewModel();
             ReviewPlayAudioVm = new SettingReviewPlayAudio();
+            AudioVolumeVm = new SettingAudioVolumeViewModel();
             VocabPerPageVm = new SettingVocabPerPageViewModel();
             CollapseMeaningLimitVm = new SettingCollapseMeaningLimitViewModel();
 
@@ -47,6 +53,7 @@ namespace Kanji.Interface.ViewModels
             {
                 AudioUriVm,
                 ReviewPlayAudioVm,
+                AudioVolumeVm,
                 VocabPerPageVm,
                 CollapseMeaningLimitVm
             };

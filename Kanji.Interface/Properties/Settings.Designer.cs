@@ -327,5 +327,17 @@ namespace Kanji.Interface.Properties {
                 this["ReviewPlayAudio"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public float AudioVolume {
+            get {
+                return ((float)(this["AudioVolume"]));
+            }
+            set {
+                this["AudioVolume"] = value;
+            }
+        }
     }
 }
