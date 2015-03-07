@@ -1225,34 +1225,63 @@
 					                                        Converter={StaticResource KanjiWritingToCharactersConverter},
 					                                        IsAsync=True}" />
                                                 </Grid>
-                                                <Button Grid.Column="2"
-				                                    Content="Copy" HorizontalAlignment="Right" FontSize="10"
+                                                <Grid Grid.Column="2">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*" />
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
+                                                    <Button 
+				                                    Content="Kanji" HorizontalAlignment="Right" FontSize="6"
 				                                    ToolTip="Copy the kanji writing to the clipboard."
 				                                    Command="{Binding DataContext.KanjiCopyCommand,
 				                                    RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
 				                                    CommandParameter="{Binding .}">
-                                                    <Button.Style>
-                                                        <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding DbVocab.KanjiWriting}" Value="{x:Null}">
-                                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding DbVocab.KanjiWriting}" Value="">
-                                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                                </DataTrigger>
-                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter Property="Opacity" Value="1" />
-                                                                    <Setter Property="BorderBrush" Value="#99042880" />
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                            <Setter Property="Opacity" Value="0.35" />
-                                                            <Setter Property="BorderBrush" Value="Transparent" />
-                                                        </Style>
-                                                    </Button.Style>
-                                                    <Button.LayoutTransform>
-                                                        <RotateTransform Angle="-90" />
-                                                    </Button.LayoutTransform>
-                                                </Button>
+                                                        <Button.Style>
+                                                            <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding DbVocab.KanjiWriting}" Value="{x:Null}">
+                                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding DbVocab.KanjiWriting}" Value="">
+                                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                                    </DataTrigger>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Opacity" Value="1" />
+                                                                        <Setter Property="BorderBrush" Value="#99042880" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                                <Setter Property="Opacity" Value="0.15" />
+                                                                <Setter Property="BorderBrush" Value="Transparent" />
+                                                            </Style>
+                                                        </Button.Style>
+                                                        <Button.LayoutTransform>
+                                                            <RotateTransform Angle="-90" />
+                                                        </Button.LayoutTransform>
+                                                    </Button>
+                                                    <Button Grid.Row="1"
+				                                    Content="Kana" HorizontalAlignment="Right" FontSize="6"
+				                                    ToolTip="Copy the kana writing to the clipboard."
+				                                    Command="{Binding DataContext.KanaCopyCommand,
+				                                    RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+				                                    CommandParameter="{Binding .}">
+                                                        <Button.Style>
+                                                            <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Opacity" Value="1" />
+                                                                        <Setter Property="BorderBrush" Value="#99042880" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                                <Setter Property="Opacity" Value="0.15" />
+                                                                <Setter Property="BorderBrush" Value="Transparent" />
+                                                            </Style>
+                                                        </Button.Style>
+                                                        <Button.LayoutTransform>
+                                                            <RotateTransform Angle="-90" />
+                                                        </Button.LayoutTransform>
+                                                    </Button>
+                                                </Grid>
+                                                
                                             </Grid>
                                         </Border>
                                     </Grid>
