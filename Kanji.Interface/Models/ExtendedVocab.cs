@@ -80,6 +80,14 @@ namespace Kanji.Interface.Models
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating if the entry has undetermined furigana (i.e. has kanji but no furigana).
+        /// </summary>
+        public bool HasUndeterminedFurigana
+        {
+            get { return string.IsNullOrEmpty(DbVocab.Furigana) && !string.IsNullOrEmpty(DbVocab.KanjiWriting); }
+        }
+
         #endregion
 
         #region Constructors

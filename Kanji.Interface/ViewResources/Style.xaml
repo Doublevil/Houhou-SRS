@@ -910,10 +910,26 @@
 
                                     <ListBox Grid.Row="1" Style="{StaticResource VocabKanjiWritingListbox}"
                                              ItemsSource="{Binding Characters, Mode=OneWay}" x:Name="KWListbox" />
-                                    <Viewbox MaxWidth="{Binding ElementName=KWListbox, Path=ActualWidth}">
-                                        <TextBox Style="{StaticResource LabelBox}" Text="{Binding Furigana, Mode=OneWay}"
-                                                 HorizontalContentAlignment="Center" Padding="0" Margin="0" />
-                                    </Viewbox>
+                                    <Border>
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding DataContext.HasUndeterminedFurigana, RelativeSource={RelativeSource AncestorType=ListBox}}" Value="True">
+                                                        <Setter Property="BorderThickness" Value="0 0 0 1" />
+                                                        <Setter Property="BorderBrush" Value="#22000000" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <Viewbox MaxWidth="{Binding ElementName=KWListbox, Path=ActualWidth}">
+                                            <TextBox Text="{Binding Furigana, Mode=OneWay}" HorizontalContentAlignment="Center"
+                                                Padding="0" Margin="0">
+                                                <TextBox.Style>
+                                                    <Style TargetType="TextBox" BasedOn="{StaticResource LabelBox}" />
+                                                </TextBox.Style>
+                                            </TextBox>
+                                        </Viewbox>
+                                    </Border>
 
                                 </Grid>
                             </ControlTemplate>
@@ -1180,63 +1196,65 @@
                                             </controls:SrsVocabEntryProgress>-->
                                         </Grid>
                                         
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
+                                        <Border Padding="0 3 0 0">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
                                             
-                                            <!-- Audio button -->
-                                            <Button Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource VocabAudioButton}"
-				                                DataContext="{Binding Audio}">
-                                                <Button.LayoutTransform>
-                                                    <RotateTransform Angle="-90" />
-                                                </Button.LayoutTransform>
-                                            </Button>
+                                                <!-- Audio button -->
+                                                <Button Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource VocabAudioButton}"
+				                                    DataContext="{Binding Audio}">
+                                                    <Button.LayoutTransform>
+                                                        <RotateTransform Angle="-90" />
+                                                    </Button.LayoutTransform>
+                                                </Button>
 
 
 
-                                            <Grid Grid.Column="1">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="*" />
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="*" />
-                                                </Grid.RowDefinitions>
-                                                <ListBox Grid.Row="1" Style="{StaticResource VocabWritingPartListbox}"
-			                                        ItemsSource="{Binding DbVocab, Mode=OneWay,
-					                                    Converter={StaticResource KanjiWritingToCharactersConverter},
-					                                    IsAsync=True}" />
+                                                <Grid Grid.Column="1">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
+                                                    <ListBox Grid.Row="1" Style="{StaticResource VocabWritingPartListbox}"
+			                                            ItemsSource="{Binding DbVocab, Mode=OneWay,
+					                                        Converter={StaticResource KanjiWritingToCharactersConverter},
+					                                        IsAsync=True}" />
+                                                </Grid>
+                                                <Button Grid.Column="2"
+				                                    Content="Copy" HorizontalAlignment="Right" FontSize="10"
+				                                    ToolTip="Copy the kanji writing to the clipboard."
+				                                    Command="{Binding DataContext.KanjiCopyCommand,
+				                                    RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+				                                    CommandParameter="{Binding .}">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding DbVocab.KanjiWriting}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding DbVocab.KanjiWriting}" Value="">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Opacity" Value="1" />
+                                                                    <Setter Property="BorderBrush" Value="#99042880" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                            <Setter Property="Opacity" Value="0.35" />
+                                                            <Setter Property="BorderBrush" Value="Transparent" />
+                                                        </Style>
+                                                    </Button.Style>
+                                                    <Button.LayoutTransform>
+                                                        <RotateTransform Angle="-90" />
+                                                    </Button.LayoutTransform>
+                                                </Button>
                                             </Grid>
-                                            <Button Grid.Column="2"
-				                                Content="Copy" HorizontalAlignment="Right" FontSize="10"
-				                                ToolTip="Copy the kanji writing to the clipboard."
-				                                Command="{Binding DataContext.KanjiCopyCommand,
-				                                RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
-				                                CommandParameter="{Binding .}">
-                                                <Button.Style>
-                                                    <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding DbVocab.KanjiWriting}" Value="{x:Null}">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding DbVocab.KanjiWriting}" Value="">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                            </DataTrigger>
-                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter Property="Opacity" Value="1" />
-                                                                <Setter Property="BorderBrush" Value="#99042880" />
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                        <Setter Property="Opacity" Value="0.35" />
-                                                        <Setter Property="BorderBrush" Value="Transparent" />
-                                                    </Style>
-                                                </Button.Style>
-                                                <Button.LayoutTransform>
-                                                    <RotateTransform Angle="-90" />
-                                                </Button.LayoutTransform>
-                                            </Button>
-                                        </Grid>
+                                        </Border>
                                     </Grid>
                                 </Border>
                             </ControlTemplate>
