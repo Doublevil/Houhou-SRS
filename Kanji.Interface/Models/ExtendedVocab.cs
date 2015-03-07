@@ -14,7 +14,7 @@ namespace Kanji.Interface.Models
         #region Fields
 
         private ExtendedSrsEntry _srsEntry;
-        private VocabAudioState _audioState;
+        private VocabAudio _audio;
 
         #endregion
 
@@ -51,14 +51,14 @@ namespace Kanji.Interface.Models
         /// <summary>
         /// Gets or sets the current state of the audio.
         /// </summary>
-        public VocabAudioState AudioState
+        public VocabAudio Audio
         {
-            get { return _audioState; }
+            get { return _audio; }
             set
             {
-                if (_audioState != value)
+                if (_audio != value)
                 {
-                    _audioState = value;
+                    _audio = value;
                     RaisePropertyChanged();
                 }
             }
@@ -78,6 +78,23 @@ namespace Kanji.Interface.Models
                     RaisePropertyChanged();
                 }
             }
+        }
+
+        #endregion
+
+        #region Constructors
+
+        public ExtendedVocab(VocabEntity dbVocab)
+            : this(dbVocab, null)
+        {
+            
+        }
+
+        public ExtendedVocab(VocabEntity dbVocab, ExtendedSrsEntry srsEntry)
+        {
+            DbVocab = dbVocab;
+            Audio = new VocabAudio(dbVocab);
+            SrsEntry = srsEntry;
         }
 
         #endregion

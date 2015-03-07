@@ -345,6 +345,14 @@ namespace Kanji.Interface.ViewModels
             // Other operations will be executed when we move on to another question.
             ReviewState = success ? SrsReviewStateEnum.Success : SrsReviewStateEnum.Failure;
 
+            // Play audio if auto play enabled.
+            if (CurrentQuestion.Question == SrsQuestionEnum.Reading
+                && CurrentQuestionGroup.IsVocab
+                && Properties.Settings.Default.ReviewPlayAudio)
+            {
+                AudioBusiness.PlayVocabAudio(CurrentQuestionGroup.Audio);
+            }
+
             // If we have a failure: trigger the timer.
             if (ReviewState == SrsReviewStateEnum.Failure)
             {

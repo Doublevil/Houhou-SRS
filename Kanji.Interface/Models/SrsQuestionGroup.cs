@@ -5,11 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Kanji.Database.Entities;
 using Kanji.Database.Helpers;
+using Kanji.Interface.Utilities;
 
 namespace Kanji.Interface.Models
 {
-    class SrsQuestionGroup
+    class SrsQuestionGroup : NotifyPropertyChanged
     {
+        #region Fields
+
+        private VocabAudio _audio;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -55,6 +62,22 @@ namespace Kanji.Interface.Models
             get { return !string.IsNullOrEmpty(Reference.AssociatedVocab); }
         }
 
+        /// <summary>
+        /// Gets or sets the audio component used to play the vocab when relevant.
+        /// </summary>
+        public VocabAudio Audio
+        {
+            get { return _audio; }
+            set
+            {
+                if (_audio != value)
+                {
+                    _audio = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -85,6 +108,8 @@ namespace Kanji.Interface.Models
                     ParentGroup = this
                 });
             }
+
+            Audio = new VocabAudio(Reference);
         }
 
         #endregion

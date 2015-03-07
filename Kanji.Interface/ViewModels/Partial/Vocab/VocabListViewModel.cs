@@ -169,14 +169,8 @@ namespace Kanji.Interface.ViewModels
         protected override ExtendedVocab ProcessItem(VocabEntity item)
         {
             // Create an extended vocab with the vocab.
-            return new ExtendedVocab()
-            {
-                DbVocab = item,
-
-                SrsEntry = item.SrsEntries.Any() ?
-                    new ExtendedSrsEntry(item.SrsEntries.First())
-                    : null
-            };
+            return new ExtendedVocab(item, item.SrsEntries.Any() ?
+                    new ExtendedSrsEntry(item.SrsEntries.First()) : null);
         }
 
         #endregion
@@ -290,7 +284,7 @@ namespace Kanji.Interface.ViewModels
         /// <param name="vocab">Vocab to play.</param>
         private void OnPlayAudio(ExtendedVocab vocab)
         {
-            AudioBusiness.PlayVocabAudio(vocab);
+            AudioBusiness.PlayVocabAudio(vocab.Audio);
         }
 
         #endregion

@@ -16,6 +16,11 @@ namespace Kanji.Interface.ViewModels
         public SettingAudioUriViewModel AudioUriVm { get; private set; }
 
         /// <summary>
+        /// Gets the review play audio view model.
+        /// </summary>
+        public SettingReviewPlayAudio ReviewPlayAudioVm { get; private set; }
+
+        /// <summary>
         /// Gets the vocab per page view model.
         /// </summary>
         public SettingVocabPerPageViewModel VocabPerPageVm { get; private set; }
@@ -34,12 +39,14 @@ namespace Kanji.Interface.ViewModels
         protected override SettingControlViewModel[] InitializeSettingViewModels()
         {
             AudioUriVm = new SettingAudioUriViewModel();
+            ReviewPlayAudioVm = new SettingReviewPlayAudio();
             VocabPerPageVm = new SettingVocabPerPageViewModel();
             CollapseMeaningLimitVm = new SettingCollapseMeaningLimitViewModel();
 
             return new SettingControlViewModel[]
             {
                 AudioUriVm,
+                ReviewPlayAudioVm,
                 VocabPerPageVm,
                 CollapseMeaningLimitVm
             };

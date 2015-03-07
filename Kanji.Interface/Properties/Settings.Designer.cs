@@ -315,5 +315,17 @@ namespace Kanji.Interface.Properties {
                 this["AudioUri"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ReviewPlayAudio {
+            get {
+                return ((bool)(this["ReviewPlayAudio"]));
+            }
+            set {
+                this["ReviewPlayAudio"] = value;
+            }
+        }
     }
 }

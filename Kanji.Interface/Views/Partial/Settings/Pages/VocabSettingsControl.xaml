@@ -13,6 +13,7 @@
             </GroupBox.Header>
             <StackPanel Margin="6 10">
                 <controls:SettingAudioUriControl DataContext="{Binding AudioUriVm}" />
+                <controls:SettingReviewPlayAudioControl DataContext="{Binding ReviewPlayAudioVm}" Margin="0 0 0 0" />
             </StackPanel>
         </GroupBox>
         <GroupBox BorderBrush="#666666" Margin="0 20 0 0">

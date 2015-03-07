@@ -1,4 +1,5 @@
-﻿using Kanji.Common.Helpers;
+﻿using GalaSoft.MvvmLight.Command;
+using Kanji.Common.Helpers;
 using Kanji.Database.Entities;
 using Kanji.Interface.Actors;
 using Kanji.Interface.Helpers;
@@ -43,7 +44,7 @@ namespace Kanji.Interface.Business
         #region Fields
 
         private MediaPlayer _player;
-        private ExtendedVocab _playingVocab;
+        private VocabAudio _playingVocab;
         private bool _isBusy;
 
         #endregion
@@ -68,6 +69,15 @@ namespace Kanji.Interface.Business
 
         #endregion
 
+        #region Commands
+
+        /// <summary>
+        /// Gets the command used to play vocab audio.
+        /// </summary>
+        public RelayCommand<VocabAudio> PlayVocabAudioCommand { get; private set; }
+
+        #endregion
+
         #region Constructor
 
         public AudioBusiness()
@@ -76,6 +86,8 @@ namespace Kanji.Interface.Business
             _player.MediaEnded += OnMediaEnded;
             _player.MediaOpened += OnMediaOpened;
             _player.MediaFailed += OnMediaFailed;
+
+            PlayVocabAudioCommand = new RelayCommand<VocabAudio>(PlayVocabAudio);
         }
 
         #endregion
@@ -86,7 +98,7 @@ namespace Kanji.Interface.Business
         /// Plays the vocab audio for the given vocab.
         /// </summary>
         /// <param name="vocab">Vocab to play.</param>
-        public static void PlayVocabAudio(ExtendedVocab vocab)
+        public static void PlayVocabAudio(VocabAudio vocab)
         {
             if (!Instance.IsBusy && Instance.CheckUriSetting())
             {
@@ -95,9 +107,9 @@ namespace Kanji.Interface.Business
             }
         }
 
-        private void AsyncPlayVocabAudio(ExtendedVocab vocab)
+        private void AsyncPlayVocabAudio(VocabAudio vocab)
         {
-            if (vocab.AudioState == VocabAudioState.Unavailable)
+            if (vocab.State == VocabAudioState.Unavailable)
             {
                 // Audio has already been found to be unavailable.
                 // Do not play.
@@ -106,7 +118,7 @@ namespace Kanji.Interface.Business
             }
 
             // Switch the state to loading.
-            vocab.AudioState = VocabAudioState.Loading;
+            vocab.State = VocabAudioState.Loading;
 
             try
             {
@@ -114,7 +126,7 @@ namespace Kanji.Interface.Business
                 if (_playingVocab != null)
                 {
                     // Switch it to playable state and stop.
-                    _playingVocab.AudioState = VocabAudioState.Playable;
+                    _playingVocab.State = VocabAudioState.Playable;
                     _player.Stop();
 
                     // Note: this should not happen, but it's there just in case.
@@ -128,7 +140,7 @@ namespace Kanji.Interface.Business
             {
                 // Lots of things could go wrong. Let's just log the error and give up with a Failed state.
                 LogHelper.GetLogger("AudioBusiness").Error("Could not open the audio.", ex);
-                vocab.AudioState = VocabAudioState.Failed;
+                vocab.State = VocabAudioState.Failed;
                 IsBusy = false;
             }
         }
@@ -165,11 +177,11 @@ namespace Kanji.Interface.Business
         /// </summary>
         /// <param name="vocab">Vocab to use to build the URI.</param>
         /// <returns>URI built from the setting using the vocab.</returns>
-        private Uri GetUri(ExtendedVocab vocab)
+        private Uri GetUri(VocabAudio vocab)
         {
             return new Uri(Kanji.Interface.Properties.Settings.Default.AudioUri
-                .Replace("%kana%", vocab.DbVocab.KanaWriting)
-                .Replace("%kanji%", vocab.DbVocab.KanjiWriting));
+                .Replace("%kana%", vocab.KanaReading)
+                .Replace("%kanji%", vocab.KanjiReading));
         }
 
         /// <summary>
@@ -180,14 +192,14 @@ namespace Kanji.Interface.Business
             if (_player.NaturalDuration.TimeSpan.Ticks == UnavailableDurationTicks)
             {
                 // Probably unavailable (or we're having terrible, terrible luck)
-                _playingVocab.AudioState = VocabAudioState.Unavailable;
+                _playingVocab.State = VocabAudioState.Unavailable;
                 _playingVocab = null;
                 IsBusy = false;
             }
             else
             {
                 // Audio is available. Play it!
-                _playingVocab.AudioState = VocabAudioState.Playing;
+                _playingVocab.State = VocabAudioState.Playing;
                 _player.Play();
             }
         }
@@ -197,7 +209,7 @@ namespace Kanji.Interface.Business
         /// </summary>
         private void OnMediaFailed(object sender, ExceptionEventArgs e)
         {
-            _playingVocab.AudioState = VocabAudioState.Failed;
+            _playingVocab.State = VocabAudioState.Failed;
             _playingVocab = null;
             IsBusy = false;
         }
@@ -207,7 +219,7 @@ namespace Kanji.Interface.Business
         /// </summary>
         private void OnMediaEnded(object sender, EventArgs e)
         {
-            _playingVocab.AudioState = VocabAudioState.Playable;
+            _playingVocab.State = VocabAudioState.Playable;
             _playingVocab = null;
             IsBusy = false;
         }

@@ -484,6 +484,58 @@
         <Setter Property="Padding" Value="5,4" />
     </Style>
 
+    <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}" x:Key="VocabAudioButton">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding State}" Value="Loading">
+                <Setter Property="Content" Value="(Loading)" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding State}" Value="Playing">
+                <Setter Property="Content" Value="(Playing)" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding State}" Value="Failed">
+                <Setter Property="Content" Value="(Failed)" />
+                <Setter Property="BorderBrush" Value="DarkRed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding State}" Value="Unavailable">
+                <Setter Property="Content" Value="(No audio)" />
+                <Setter Property="BorderBrush" Value="DarkRed" />
+            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsBusy, Source={x:Static business:AudioBusiness.Instance}}" Value="False" />
+                    <Condition Binding="{Binding State}" Value="Unknown" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="IsEnabled" Value="True" />
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsBusy, Source={x:Static business:AudioBusiness.Instance}}" Value="False" />
+                    <Condition Binding="{Binding State}" Value="Playable" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="IsEnabled" Value="True" />
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsBusy, Source={x:Static business:AudioBusiness.Instance}}" Value="False" />
+                    <Condition Binding="{Binding State}" Value="Failed" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="IsEnabled" Value="True" />
+            </MultiDataTrigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1" />
+                <Setter Property="BorderBrush" Value="#99042880" />
+            </Trigger>
+        </Style.Triggers>
+        <Setter Property="Content" Value="Listen" />
+        <Setter Property="IsEnabled" Value="False" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="ToolTip" Value="Attempt to retrieve and play the audio for this word." />
+        <Setter Property="Opacity" Value="0.35" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Command" Value="{Binding PlayVocabAudioCommand, Source={x:Static business:AudioBusiness.Instance}}" />
+        <Setter Property="CommandParameter" Value="{Binding .}" />
+    </Style>
+
     <Style TargetType="{x:Type TextBox}" x:Key="KanjiMeaningLabel" BasedOn="{StaticResource LabelBox}">
         <Setter Property="BorderThickness" Value="0 0 0 1" />
         <Setter Property="BorderBrush" Value="Black" />
@@ -1134,64 +1186,10 @@
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-
-
-
-                                            <Button Grid.Column="0"
-				                                HorizontalAlignment="Left" FontSize="10"
-				                                ToolTip="Attempt to retrieve and play the audio for this word."
-				                                Command="{Binding DataContext.PlayAudioCommand,
-				                                    RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
-				                                CommandParameter="{Binding .}">
-                                                <Button.Style>
-                                                    <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
-                                                        <Style.Triggers>
-                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter Property="Opacity" Value="1" />
-                                                                <Setter Property="BorderBrush" Value="#99042880" />
-                                                            </Trigger>
-                                                            <DataTrigger Binding="{Binding AudioState}" Value="Loading">
-                                                                <Setter Property="Content" Value="(Loading)" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AudioState}" Value="Playing">
-                                                                <Setter Property="Content" Value="(Playing)" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AudioState}" Value="Failed">
-                                                                <Setter Property="Content" Value="(Failed)" />
-                                                                <Setter Property="BorderBrush" Value="DarkRed" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding AudioState}" Value="Unavailable">
-                                                                <Setter Property="Content" Value="(No audio)" />
-                                                                <Setter Property="BorderBrush" Value="DarkRed" />
-                                                            </DataTrigger>
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding IsBusy, Source={x:Static business:AudioBusiness.Instance}}" Value="False" />
-                                                                    <Condition Binding="{Binding AudioState}" Value="Unknown" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter Property="IsEnabled" Value="True" />
-                                                            </MultiDataTrigger>
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding IsBusy, Source={x:Static business:AudioBusiness.Instance}}" Value="False" />
-                                                                    <Condition Binding="{Binding AudioState}" Value="Playable" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter Property="IsEnabled" Value="True" />
-                                                            </MultiDataTrigger>
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding IsBusy, Source={x:Static business:AudioBusiness.Instance}}" Value="False" />
-                                                                    <Condition Binding="{Binding AudioState}" Value="Failed" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter Property="IsEnabled" Value="True" />
-                                                            </MultiDataTrigger>
-                                                        </Style.Triggers>
-                                                        <Setter Property="Opacity" Value="0.35" />
-                                                        <Setter Property="BorderBrush" Value="Transparent" />
-                                                        <Setter Property="Content" Value="Listen" />
-                                                        <Setter Property="IsEnabled" Value="False" />
-                                                    </Style>
-                                                </Button.Style>
+                                            
+                                            <!-- Audio button -->
+                                            <Button Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource VocabAudioButton}"
+				                                DataContext="{Binding Audio}">
                                                 <Button.LayoutTransform>
                                                     <RotateTransform Angle="-90" />
                                                 </Button.LayoutTransform>
