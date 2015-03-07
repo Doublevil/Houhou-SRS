@@ -1094,28 +1094,49 @@
                                             
                                             <StackPanel>
 
-                                                <TextBlock>
-                                                    <TextBlock.Style>
-                                                        <Style TargetType="TextBlock">
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding DbVocab.FrequencyRank}" Value="{x:Null}">
-                                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                            <Setter Property="Text">
-                                                                <Setter.Value>
-                                                                    <Binding Path="DbVocab.FrequencyRank" Converter="{StaticResource IntegerToOrdinalStringConverter}"
-                                                                             StringFormat="{}{0} most used word" />
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                            <Setter Property="FontSize" Value="10" />
-                                                            <Setter Property="Foreground" Value="#555555" />
-                                                            <Setter Property="Margin" Value="0 0 0 2" />
-                                                        </Style>
-                                                    </TextBlock.Style>
-                                                </TextBlock>
-                                                
-                                                
+                                                <StackPanel Orientation="Horizontal" Margin="0 2 0 2">
+                                                    <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
+                                                        HorizontalAlignment="Left" Padding="5 0 5 0" Background="#403F955F">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding DbVocab.FrequencyRank}" Value="{x:Null}">
+                                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <TextBlock>
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="Text">
+                                                                        <Setter.Value>
+                                                                            <Binding Path="DbVocab.FrequencyRank" Converter="{StaticResource IntegerToOrdinalStringConverter}"
+                                                                                StringFormat="{}{0} most used word" />
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Setter Property="FontSize" Value="10" />
+                                                                    <Setter Property="Foreground" Value="#555555" />
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
+                                                    </Border>
+
+                                                    <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
+                                                        HorizontalAlignment="Left" Padding="5 0 5 0">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding DbVocab.Categories.Count}" Value="0">
+                                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <TextBlock Text="{Binding DbVocab.Categories, Converter={StaticResource VocabCategoriesToStringConverter}}" FontSize="10" />
+                                                    </Border>
+                                                </StackPanel>
+
 
                                                 <controls:BindableRichTextBox x:Name="MeaningRtb"
 							                        Margin="0 0 0 5" Padding="0 0 0 0">
@@ -1127,7 +1148,7 @@
                                                 </controls:BindableRichTextBox>
 
                                                 <Button x:Name="ExpandButton" Content="Show more meanings" Width="140" HorizontalAlignment="Left"
-                                                    Style="{StaticResource MiniActionButton}"
+                                                    Style="{StaticResource MiniActionButton}" Margin="5 0 0 3"
                                                     Visibility="{Binding NeedsExpanding, Converter={StaticResource ValueToVisibilityConverter}}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="Click">

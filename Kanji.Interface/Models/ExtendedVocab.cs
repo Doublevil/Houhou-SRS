@@ -36,6 +36,14 @@ namespace Kanji.Interface.Models
             }
         }
 
+        public string VocabCategoriesString
+        {
+            get
+            {
+                return DbVocab.Categories.Any() ? DbVocab.Categories.Select(c => c.Label).Aggregate((a, b) => a + ',' + b) : string.Empty;
+            }
+        }
+
         /// <summary>
         /// Gets a boolean indicating if the vocab has too much meanings and has to be adjoined an
         /// Expand button.
