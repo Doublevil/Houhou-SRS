@@ -7,11 +7,25 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <StackPanel>
 
-        <controls:SettingRadicalSetControl DataContext="{Binding RadicalSetVm}" />
-    </Grid>
+        <GroupBox BorderBrush="#666666">
+            <GroupBox.Header>
+                <TextBlock Text="Radical configuration" Style="{StaticResource SettingCategoryTitle}" />
+            </GroupBox.Header>
+            <StackPanel Margin="6 10">
+                <controls:SettingRadicalSetControl DataContext="{Binding RadicalSetVm}" />
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox BorderBrush="#666666" Margin="0 20 0 0">
+            <GroupBox.Header>
+                <TextBlock Text="Kanji list" Style="{StaticResource SettingCategoryTitle}" />
+            </GroupBox.Header>
+            <StackPanel Margin="6 10">
+                <controls:SettingKanjiPerPageControl DataContext="{Binding KanjiPerPageVm}" />
+            </StackPanel>
+        </GroupBox>
+
+    </StackPanel>
 </UserControl>

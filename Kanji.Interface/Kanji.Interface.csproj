@@ -262,6 +262,7 @@
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingCollapseMeaningLimitViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingDoUpdateCheckViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingIgnoreAnswerShortcutViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Settings\Controls\SettingKanjiPerPageViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingSrsEntriesPerPageViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingSrsLevelSetViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingReviewPlayAudio.cs" />
@@ -388,6 +389,9 @@
     </Compile>
     <Compile Include="Views\Partial\Settings\Controls\SettingIgnoreAnswerShortcut.xaml.cs">
       <DependentUpon>SettingIgnoreAnswerShortcut.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Settings\Controls\SettingKanjiPerPageControl.xaml.cs">
+      <DependentUpon>SettingKanjiPerPageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\Settings\Controls\SettingRadicalSetControl.xaml.cs">
       <DependentUpon>SettingRadicalSetControl.xaml</DependentUpon>
@@ -679,6 +683,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\Settings\Controls\SettingIgnoreAnswerShortcut.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Settings\Controls\SettingKanjiPerPageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

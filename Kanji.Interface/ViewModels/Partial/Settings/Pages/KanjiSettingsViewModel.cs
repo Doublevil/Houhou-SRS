@@ -15,6 +15,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public SettingRadicalSetViewModel RadicalSetVm { get; private set; }
 
+        /// <summary>
+        /// Gets the kanji per page view model.
+        /// </summary>
+        public SettingKanjiPerPageViewModel KanjiPerPageVm { get; private set; }
+
         #endregion
 
         #region Methods
@@ -24,10 +29,12 @@ namespace Kanji.Interface.ViewModels
         protected override SettingControlViewModel[] InitializeSettingViewModels()
         {
             RadicalSetVm = new SettingRadicalSetViewModel();
+            KanjiPerPageVm = new SettingKanjiPerPageViewModel();
 
             return new SettingControlViewModel[]
             {
-                RadicalSetVm
+                RadicalSetVm,
+                KanjiPerPageVm
             };
         }
 
