@@ -77,6 +77,9 @@ namespace Kanji.Interface.Business
         // Stores the last review count retrieved by a check.
         private long _lastCheckReviewsCount;
 
+        // Stores the type of the last notification issued to select an action when clicking the bubble.
+        private TrayNotificationEnum _lastNotification;
+
         #endregion
 
         #region Properties
@@ -93,6 +96,9 @@ namespace Kanji.Interface.Business
         private TrayBusiness(TrayWindow window)
         {
             _window = window;
+
+            // Subscribe to the main window close event to show notification if needed.
+            NavigationActor.Instance.MainWindowClose += OnMainWindowClosed;
 
             // Assign icon.
             Tray.Icon = IdleIcon;
@@ -127,7 +133,7 @@ namespace Kanji.Interface.Business
                 && _lastCheckReviewsCount >
                 Properties.Settings.Default.TrayNotificationCountThreshold)
             {
-                ShowNotification();
+                ShowReviewNotification();
             }
 
             if (_lastCheckReviewsCount > 0)
@@ -156,7 +162,7 @@ namespace Kanji.Interface.Business
         /// <summary>
         /// Shows the review alert.
         /// </summary>
-        private void ShowNotification()
+        private void ShowReviewNotification()
         {
             string notificationMessage = string.Empty;
             if (_lastCheckReviewsCount == 1)
@@ -175,7 +181,20 @@ namespace Kanji.Interface.Business
                 notificationMessage = "There are no reviews for now.";
             }
 
-            Tray.ShowBalloonTip("Houhou", notificationMessage, BalloonIcon.Info);
+            ShowNotification(TrayNotificationEnum.ReviewNotification, "Houhou", notificationMessage, BalloonIcon.Info);
+        }
+
+        /// <summary>
+        /// Shows a balloon tip.
+        /// </summary>
+        /// <param name="notificationType">Notification type.</param>
+        /// <param name="title">Title to show in the balloon tip.</param>
+        /// <param name="message">Message to show in the balloon tip.</param>
+        /// <param name="icon">Icon to show in the balloon tip.</param>
+        private void ShowNotification(TrayNotificationEnum notificationType, string title, string message, BalloonIcon icon)
+        {
+            _lastNotification = notificationType;
+            Tray.ShowBalloonTip(title, message, icon);
         }
 
         /// <summary>
@@ -265,7 +284,15 @@ namespace Kanji.Interface.Business
         private void OnTrayNotificationClicked(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
-            StartReviewing();
+
+            if (_lastNotification == TrayNotificationEnum.ReviewNotification)
+            {
+                StartReviewing();
+            }
+            else if (_lastNotification == TrayNotificationEnum.ExitNotification)
+            {
+                ExitApplication();
+            }
         }
 
         /// <summary>
@@ -276,6 +303,20 @@ namespace Kanji.Interface.Business
         {
             e.Handled = true;
             OpenOrFocusMainWindow();
+        }
+
+        /// <summary>
+        /// Event handler triggered when the main window of Houhou is closed.
+        /// Issues a notification if the settings approve of that.
+        /// </summary>
+        private void OnMainWindowClosed()
+        {
+            if (Properties.Settings.Default.WindowCloseAction == WindowCloseActionEnum.Warn)
+            {
+                ShowNotification(TrayNotificationEnum.ExitNotification, "Houhou",
+                    string.Format("Houhou is still running in the background.{0}Click this bubble to shut it down.", Environment.NewLine),
+                    BalloonIcon.Info);
+            }
         }
 
         #endregion

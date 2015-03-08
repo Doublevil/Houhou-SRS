@@ -31,6 +31,7 @@
             </GroupBox.Header>
             <StackPanel Margin="6 10">
                 <controls:SettingStartPageControl DataContext="{Binding StartPageVm}" />
+                <controls:SettingWindowCloseActionControl DataContext="{Binding WindowCloseActionVm}" Margin="0 10 0 0" />
             </StackPanel>
         </GroupBox>
 

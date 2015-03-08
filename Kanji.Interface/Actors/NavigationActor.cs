@@ -34,6 +34,13 @@ namespace Kanji.Interface.Actors
 
         #endregion
 
+        #region Events
+
+        public delegate void MainWindowCloseHandler();
+        public event MainWindowCloseHandler MainWindowClose;
+
+        #endregion
+
         #region Property
 
         /// <summary>
@@ -209,6 +216,22 @@ namespace Kanji.Interface.Actors
                         MainWindow.Activate();
                     });
                 }
+            }
+        }
+
+        /// <summary>
+        /// Sends the main window close event.
+        /// </summary>
+        public void SendMainWindowCloseEvent()
+        {
+            if (MainWindowClose != null)
+            {
+                MainWindowClose();
+            }
+
+            if (Properties.Settings.Default.WindowCloseAction == WindowCloseActionEnum.Exit)
+            {
+                Program.Shutdown();
             }
         }
 

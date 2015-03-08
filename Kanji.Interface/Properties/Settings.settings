@@ -83,5 +83,8 @@
     <Setting Name="AudioVolume" Type="System.Single" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
+    <Setting Name="WindowCloseAction" Type="Kanji.Interface.Models.WindowCloseActionEnum" Scope="User">
+      <Value Profile="(Default)">Warn</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

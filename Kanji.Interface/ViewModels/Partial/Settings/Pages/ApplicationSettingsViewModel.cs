@@ -51,6 +51,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public SettingUserDirectoryViewModel UserDirectoryVm { get; private set; }
 
+        /// <summary>
+        /// Gets the window close action view model.
+        /// </summary>
+        public SettingWindowCloseActionViewModel WindowCloseActionVm { get; private set; }
+
         #endregion
 
         #region Constructor
@@ -72,6 +77,7 @@ namespace Kanji.Interface.ViewModels
             SrsTrayThresholdVm = new SettingTrayNotifyThresholdViewModel();
             DoUpdateCheckVm = new SettingDoUpdateCheckViewModel();
             UserDirectoryVm = new SettingUserDirectoryViewModel();
+            WindowCloseActionVm = new SettingWindowCloseActionViewModel();
 
             return new SettingControlViewModel[]
             {
@@ -81,7 +87,8 @@ namespace Kanji.Interface.ViewModels
                 SrsTrayDoNotifyVm,
                 SrsTrayThresholdVm,
                 DoUpdateCheckVm,
-                UserDirectoryVm
+                UserDirectoryVm,
+                WindowCloseActionVm
             };
         }
 

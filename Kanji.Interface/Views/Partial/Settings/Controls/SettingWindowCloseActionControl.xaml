@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.SettingWindowCloseActionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel>
+        <TextBlock Style="{StaticResource LegendText}" Margin="0 0 0 4">
+            Action when closing Houhou's main window
+        </TextBlock>
+        <RadioButton Content="Keep running in tray and show a notification" Margin="0 0 0 4" IsChecked="{Binding CloseAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Warn}" />
+        <RadioButton Content="Keep running in tray without the notification" Margin="0 0 0 4" IsChecked="{Binding CloseAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=None}" />
+        <RadioButton Content="Completely shutdown Houhou" IsChecked="{Binding CloseAction, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Exit}" />
+    </StackPanel>
+</UserControl>

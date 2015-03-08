@@ -339,5 +339,17 @@ namespace Kanji.Interface.Properties {
                 this["AudioVolume"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Warn")]
+        public global::Kanji.Interface.Models.WindowCloseActionEnum WindowCloseAction {
+            get {
+                return ((global::Kanji.Interface.Models.WindowCloseActionEnum)(this["WindowCloseAction"]));
+            }
+            set {
+                this["WindowCloseAction"] = value;
+            }
+        }
     }
 }

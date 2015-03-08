@@ -186,9 +186,11 @@
     <Compile Include="Models\Import\WkImportMode.cs" />
     <Compile Include="Models\Import\WkImportResult.cs" />
     <Compile Include="Models\Import\WkItem.cs" />
+    <Compile Include="Models\TrayNotificationEnum.cs" />
     <Compile Include="Models\VocabAudio.cs" />
     <Compile Include="Models\VocabAudioState.cs" />
     <Compile Include="Models\VocabWritingPart.cs" />
+    <Compile Include="Models\WindowCloseActionEnum.cs" />
     <Compile Include="Utilities\SetPropertyAction.cs" />
     <Compile Include="ViewModels\Partial\Import\ImportDuplicateOptionsViewModel.cs" />
     <Compile Include="ViewModels\Partial\Import\ImportOverviewViewModel.cs" />
@@ -269,6 +271,7 @@
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingTrayNotifyThresholdViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingUserDirectoryViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingVocabPerPageViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Settings\Controls\SettingWindowCloseActionViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Pages\ApplicationSettingsViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingRadicalSetViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingStartPageViewModel.cs" />
@@ -418,6 +421,9 @@
     </Compile>
     <Compile Include="Views\Partial\Settings\Controls\SettingVocabPerPageControl.xaml.cs">
       <DependentUpon>SettingVocabPerPageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Settings\Controls\SettingWindowCloseActionControl.xaml.cs">
+      <DependentUpon>SettingWindowCloseActionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\Settings\Pages\ApplicationSettingsControl.xaml.cs">
       <DependentUpon>ApplicationSettingsControl.xaml</DependentUpon>
@@ -717,6 +723,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\Settings\Controls\SettingVocabPerPageControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Settings\Controls\SettingWindowCloseActionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
