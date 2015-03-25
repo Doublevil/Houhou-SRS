@@ -23,6 +23,7 @@ namespace Kanji.Database.EntityBuilders
             kanji.Nanori = row.Get(GetField(prefix, SqlHelper.Field_Kanji_Nanori));
             kanji.OnYomi = row.Get(GetField(prefix, SqlHelper.Field_Kanji_OnYomi));
             kanji.StrokeCount = row.ReadShort(GetField(prefix, SqlHelper.Field_Kanji_StrokeCount));
+            kanji.UnicodeValue = row.ReadInt(GetField(prefix, SqlHelper.Field_Kanji_UnicodeValue));
 
             return kanji;
         }

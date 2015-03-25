@@ -17,6 +17,10 @@ namespace Kanji.Interface.Converters
                 bool b = (bool)value;
                 return b ? Visibility.Visible : Visibility.Collapsed;
             }
+            else if (value is string && parameter == null)
+            {
+                return string.IsNullOrWhiteSpace(value.ToString()) ? Visibility.Collapsed : Visibility.Visible;
+            }
             else if (parameter != null)
             {
                 if (value == null)
@@ -30,7 +34,7 @@ namespace Kanji.Interface.Converters
             }
 
             // The parameter is null. Test the equality with the null value.
-            return (value == null) ? Visibility.Visible : Visibility.Collapsed;
+            return (value != null) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using Kanji.Common.Helpers;
+using Kanji.Common.Extensions;
 using Kanji.Database.Business;
 using Kanji.Database.Entities;
 using Kanji.Database.Entities.Joins;
 using Kanji.Database.Helpers;
+using System.IO;
 
 namespace Kanji.DatabaseMaker
 {
@@ -27,12 +29,16 @@ namespace Kanji.DatabaseMaker
         private static readonly string XmlNode_ReadingMeaningGroup = "rmgroup";
         private static readonly string XmlNode_Reading = "reading";
         private static readonly string XmlNode_Meaning = "meaning";
+        private static readonly string XmlNode_CodePoint = "codepoint";
+        private static readonly string XmlNode_CodePointValue = "cp_value";
 
         private static readonly string XmlAttribute_ReadingType = "r_type";
         private static readonly string XmlAttribute_MeaningLanguage = "m_lang";
+        private static readonly string XmlAttribute_CodePointType = "cp_type";
 
         private static readonly string XmlAttributeValue_KunYomiReading = "ja_kun";
         private static readonly string XmlAttributeValue_OnYomiReading = "ja_on";
+        private static readonly string XmlAttributeValue_CodePointUnicode = "ucs";
 
         private static readonly int KanjiMaxCommit = 500;
 
@@ -41,6 +47,8 @@ namespace Kanji.DatabaseMaker
         #region Fields
 
         private RadicalDictionary _radicalDictionary;
+        private Dictionary<string, short> _jlptDictionary;
+        private Dictionary<string, int> _frequencyRankDictionary;
         private log4net.ILog _log;
 
         #endregion
@@ -71,11 +79,62 @@ namespace Kanji.DatabaseMaker
         {
             _radicalDictionary = radicalDictionary;
             _log = log4net.LogManager.GetLogger(this.GetType());
+            CreateJlptDictionary();
+            CreateFrequencyRankDictionary();
         }
 
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Reads the JLPT kanji list file and fills a dictionary that will be used
+        /// to look up the info during the execution of the ETL.
+        /// </summary>
+        private void CreateJlptDictionary()
+        {
+            _jlptDictionary = new Dictionary<string, short>();
+            foreach (string line in File.ReadLines(PathHelper.JlptKanjiListPath))
+            {
+                string[] split = line.Split('|');
+                if (split.Count() != 2)
+                {
+                    continue;
+                }
+
+                if (!_jlptDictionary.ContainsKey(split[1]))
+                {
+                    short? value = ParsingHelper.ParseShort(split[0]);
+                    if (value.HasValue)
+                    {
+                        _jlptDictionary.Add(split[1], value.Value);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reads the kanji frequency file and fills a dictionary that will be used to look up the info
+        /// during the execution of the ETL.
+        /// </summary>
+        private void CreateFrequencyRankDictionary()
+        {
+            _frequencyRankDictionary = new Dictionary<string, int>();
+            int i = 1;
+            foreach (string line in File.ReadLines(PathHelper.KanjiUsagePath))
+            {
+                string[] split = line.Split('|');
+                if (split.Count() != 2)
+                {
+                    continue;
+                }
+
+                if (!_frequencyRankDictionary.ContainsKey(split[0]))
+                {
+                    _frequencyRankDictionary.Add(split[0], i++);
+                }
+            }
+        }
 
         /// <summary>
         /// Reads kanji and stores them in the database.
@@ -174,20 +233,53 @@ namespace Kanji.DatabaseMaker
                 // Read the kanji character.
                 kanji.Character = xkanji.Element(XmlNode_Literal).Value;
 
+                // In the code point node...
+                XElement xcodePoint = xkanji.Element(XmlNode_CodePoint);
+                if (xcodePoint != null)
+                {
+                    // Try to read the unicode character value.
+                    XElement xunicode = xcodePoint.Elements(XmlNode_CodePointValue)
+                        .Where(x => x.ReadAttributeString(XmlAttribute_CodePointType) == XmlAttributeValue_CodePointUnicode)
+                        .FirstOrDefault();
+
+                    if (xunicode != null)
+                    {
+                        string unicodeValueString = xunicode.Value;
+                        int intValue = 0;
+                        if (int.TryParse(unicodeValueString, System.Globalization.NumberStyles.HexNumber, ParsingHelper.DefaultCulture, out intValue))
+                        {
+                            kanji.UnicodeValue = intValue;
+                        }
+                    }
+                }
+
                 // In the misc node...
                 XElement xmisc = xkanji.Element(XmlNode_Misc);
                 if (xmisc != null)
                 {
                     // Try to read the grade, stroke count, frequency and JLPT level.
+                    // Update: JLPT level is unreliable in this file. Now using the JLPTKanjiList.
                     XElement xgrade = xmisc.Element(XmlNode_Grade);
                     XElement xstrokeCount = xmisc.Element(XmlNode_StrokeCount);
-                    XElement xfrequency = xmisc.Element(XmlNode_Frequency);
-                    XElement xjlpt = xmisc.Element(XmlNode_JlptLevel);
+                    //XElement xfrequency = xmisc.Element(XmlNode_Frequency);
+                    //XElement xjlpt = xmisc.Element(XmlNode_JlptLevel);
 
                     if (xgrade != null) kanji.Grade = ParsingHelper.ParseShort(xgrade.Value);
                     if (xstrokeCount != null) kanji.StrokeCount = ParsingHelper.ParseShort(xstrokeCount.Value);
-                    if (xfrequency != null) kanji.MostUsedRank = ParsingHelper.ParseInt(xfrequency.Value);
-                    if (xjlpt != null) kanji.JlptLevel = ParsingHelper.ParseShort(xjlpt.Value);
+                    //if (xfrequency != null) kanji.MostUsedRank = ParsingHelper.ParseInt(xfrequency.Value);
+                    //if (xjlpt != null) kanji.JlptLevel = ParsingHelper.ParseShort(xjlpt.Value);
+                }
+
+                // Find the JLPT level using the dictionary.
+                if (_jlptDictionary.ContainsKey(kanji.Character))
+                {
+                    kanji.JlptLevel = _jlptDictionary[kanji.Character];
+                }
+
+                // Find the frequency rank using the dictionary.
+                if (_frequencyRankDictionary.ContainsKey(kanji.Character))
+                {
+                    kanji.MostUsedRank = _frequencyRankDictionary[kanji.Character];
                 }
 
                 // In the reading/meaning node...

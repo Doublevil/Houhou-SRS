@@ -47,6 +47,7 @@ namespace Kanji.Database.Helpers
         public static readonly string Field_Kanji_OnYomi = "OnYomi";
         public static readonly string Field_Kanji_KunYomi = "KunYomi";
         public static readonly string Field_Kanji_Nanori = "Nanori";
+        public static readonly string Field_Kanji_UnicodeValue = "UnicodeValue";
 
         #endregion
 
@@ -74,6 +75,7 @@ namespace Kanji.Database.Helpers
         public static readonly string Field_Vocab_IsCommon = "IsCommon";
         public static readonly string Field_Vocab_FrequencyRank = "FrequencyRank";
         public static readonly string Field_Vocab_Furigana = "Furigana";
+        public static readonly string Field_Vocab_JlptLevel = "JlptLevel";
 
         #endregion
 

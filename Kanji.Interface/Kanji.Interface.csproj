@@ -85,6 +85,30 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SharpVectors.Converters">
+      <HintPath>..\packages\SharpVectors.1.0\lib\net20\SharpVectors.Converters.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Core">
+      <HintPath>..\packages\SharpVectors.1.0\lib\net20\SharpVectors.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Css">
+      <HintPath>..\packages\SharpVectors.1.0\lib\net20\SharpVectors.Css.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Dom">
+      <HintPath>..\packages\SharpVectors.1.0\lib\net20\SharpVectors.Dom.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Model">
+      <HintPath>..\packages\SharpVectors.1.0\lib\net20\SharpVectors.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Rendering.Gdi">
+      <HintPath>..\packages\SharpVectors.1.0\lib\net20\SharpVectors.Rendering.Gdi.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Rendering.Wpf">
+      <HintPath>..\packages\SharpVectors.1.0\lib\net20\SharpVectors.Rendering.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Runtime">
+      <HintPath>..\packages\SharpVectors.1.0\lib\net20\SharpVectors.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -157,12 +181,17 @@
     <Compile Include="Converters\ComparablesToBooleanConverter.cs" />
     <Compile Include="Converters\DateTimeToStringConverter.cs" />
     <Compile Include="Converters\EnumBooleanConverter.cs" />
+    <Compile Include="Converters\IsFirstItemInContainerConverter.cs" />
+    <Compile Include="Converters\JlptLevelToBrushConverter.cs" />
+    <Compile Include="Converters\KanjiToReadingListConverter.cs" />
     <Compile Include="Converters\PercentageToStringConverter.cs" />
     <Compile Include="Converters\SrsEntryImportResultConverter.cs" />
     <Compile Include="Converters\SrsEntryToStringConverter.cs" />
     <Compile Include="Converters\StringAppendConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Converters\ValueToVisibilityConverter.cs" />
+    <Compile Include="Converters\VocabFrequencyToBrushConverter.cs" />
+    <Compile Include="Converters\VocabFrequencyToStringConverter.cs" />
     <Compile Include="Extensions\SrsEntryExtensions.cs" />
     <Compile Include="Extensions\StartPageEnumExtensions.cs" />
     <Compile Include="Helpers\ClipboardHelper.cs" />
@@ -170,6 +199,7 @@
     <Compile Include="Helpers\ConfigurationHelper.cs" />
     <Compile Include="Helpers\ResourceHelper.cs" />
     <Compile Include="Helpers\UriHelper.cs" />
+    <Compile Include="Helpers\VocabCommonnessHelper.cs" />
     <Compile Include="Models\ChangelogEntry.cs" />
     <Compile Include="Models\EventArgs\SrsEntryEditedEventArgs.cs" />
     <Compile Include="Models\EventArgs\SrsLevelSelectedEventArgs.cs" />
@@ -186,9 +216,11 @@
     <Compile Include="Models\Import\WkImportMode.cs" />
     <Compile Include="Models\Import\WkImportResult.cs" />
     <Compile Include="Models\Import\WkItem.cs" />
+    <Compile Include="Models\KanjiReadingLabel.cs" />
     <Compile Include="Models\TrayNotificationEnum.cs" />
     <Compile Include="Models\VocabAudio.cs" />
     <Compile Include="Models\VocabAudioState.cs" />
+    <Compile Include="Models\VocabCommonnessEnum.cs" />
     <Compile Include="Models\VocabWritingPart.cs" />
     <Compile Include="Models\WindowCloseActionEnum.cs" />
     <Compile Include="Utilities\SetPropertyAction.cs" />
@@ -907,6 +939,9 @@
     </Compile>
     <Resource Include="Data\UI\CsvIcon.png" />
     <Resource Include="Data\UI\WaniKaniIcon.png" />
+    <None Include="Data\25731_frames.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

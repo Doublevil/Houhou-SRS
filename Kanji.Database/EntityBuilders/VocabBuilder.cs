@@ -20,6 +20,7 @@ namespace Kanji.Database.EntityBuilders
             vocab.KanjiWriting = row.Get(GetField(prefix, SqlHelper.Field_Vocab_KanjiWriting));
             vocab.FrequencyRank = row.ReadInt(GetField(prefix, SqlHelper.Field_Vocab_FrequencyRank));
             vocab.Furigana = row.Get(GetField(prefix, SqlHelper.Field_Vocab_Furigana));
+            vocab.JlptLevel = row.ReadInt(GetField(prefix, SqlHelper.Field_Vocab_JlptLevel));
             return vocab;
         }
     }

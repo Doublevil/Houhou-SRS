@@ -11,6 +11,7 @@ using Kanji.Database.Dao;
 using Kanji.Database.Entities;
 using Kanji.Database.Entities.Joins;
 using System.IO;
+using Kanji.Common.Helpers;
 
 namespace Kanji.DatabaseMaker
 {
@@ -58,6 +59,19 @@ namespace Kanji.DatabaseMaker
         private static readonly string XmlValue_Gai2 = "gai2";
 
         private static readonly int BatchSize = 5000;
+
+        private static int[] CommonnessFloors = new int[]
+        {
+            // Very common
+            39000,
+            // Common
+            8000,
+            // Unusual
+            1000,
+            // Rare
+            250
+            // Very rare
+        };
 
         #endregion
 
@@ -148,30 +162,101 @@ namespace Kanji.DatabaseMaker
 
             // Flush the remaining data.
             Commit(vocabList);
+
+            AttachWordFrequencyOnSingleKanaMatch();
+        }
+
+        private void AttachWordFrequencyOnSingleKanaMatch()
+        {
+            _log.InfoFormat("Attaching word frequency on single kana match...");
+            VocabDao dao = new VocabDao();
+            dao.OpenMassTransaction();
+            foreach (string line in FileReadingHelper.ReadLineByLine(PathHelper.WordUsagePath, Encoding.UTF8))
+            {
+                if (!string.IsNullOrWhiteSpace(line))
+                {
+                    string[] split = line.Trim().Split('|');
+                    long? rank = ParsingHelper.ParseLong(split[0]);
+                    if (split.Count() == 3 && rank.HasValue)
+                    {
+                        string kanjiReading = split[1];
+                        string kanaReading = split[2];
+                        if (kanjiReading == kanaReading)
+                        {
+                            if (dao.UpdateFrequencyRankOnSingleKanaMatch(kanaReading, (int)rank.Value))
+                            {
+                                _log.InfoFormat("{0} has a frequency of {1}", kanaReading, rank.Value);
+                            }
+                        }
+                    }
+                }
+            }
+            dao.CloseMassTransaction();
         }
 
         private void Commit(List<VocabEntity> vocabList)
         {
-            AttachFurigana(vocabList);
-            InsertData(vocabList);
-        }
-
-        private void AttachFurigana(List<VocabEntity> vocabList)
-        {
-            DateTime before = DateTime.Now;
-            Dictionary<string, List<VocabEntity>> dic = new Dictionary<string, List<VocabEntity>>();
+            Dictionary<string, List<VocabEntity>> fullDictionary = new Dictionary<string, List<VocabEntity>>();
+            Dictionary<string, List<VocabEntity>> kanaDictionary = new Dictionary<string, List<VocabEntity>>();
             foreach (VocabEntity entity in vocabList)
             {
-                string vocabString = entity.KanjiWriting + "|" + entity.KanaWriting;
-                if (dic.ContainsKey(vocabString))
+                string fullString = entity.KanjiWriting + "|" + entity.KanaWriting;
+                if (fullDictionary.ContainsKey(fullString))
                 {
-                    dic[vocabString].Add(entity);
+                    fullDictionary[fullString].Add(entity);
                 }
                 else
                 {
-                    dic.Add(vocabString, new List<VocabEntity>() { entity });
+                    fullDictionary.Add(fullString, new List<VocabEntity>() { entity });
+                }
+
+                if (kanaDictionary.ContainsKey(entity.KanaWriting))
+                {
+                    kanaDictionary[entity.KanaWriting].Add(entity);
+                }
+                else
+                {
+                    kanaDictionary.Add(entity.KanaWriting, new List<VocabEntity>() { entity });
                 }
             }
+
+            AttachFurigana(vocabList, fullDictionary);
+            AttachJlptLevel(vocabList, fullDictionary, kanaDictionary);
+            AttachWordFrequency(vocabList, fullDictionary);
+            InsertData(vocabList);
+        }
+
+        private void AttachWordFrequency(List<VocabEntity> vocabList, Dictionary<string, List<VocabEntity>> fullDictionary)
+        {
+            DateTime before = DateTime.Now;
+            foreach (string line in FileReadingHelper.ReadLineByLine(PathHelper.WordUsagePath, Encoding.UTF8))
+            {
+                if (!string.IsNullOrWhiteSpace(line))
+                {
+                    string[] split = line.Trim().Split('|');
+                    long? rank = ParsingHelper.ParseLong(split[0]);
+                    if (split.Count() == 3 && rank.HasValue)
+                    {
+                        string kanjiReading = split[1];
+                        string kanaReading = split[2];
+                        string vocabString = kanjiReading + "|" + kanaReading;
+                        if (fullDictionary.ContainsKey(vocabString))
+                        {
+                            foreach (VocabEntity match in fullDictionary[vocabString])
+                            {
+                                match.FrequencyRank = (int)rank.Value;
+                            }
+                        }
+                    }
+                }
+            }
+            TimeSpan duration = DateTime.Now - before;
+            _log.InfoFormat("Attaching word frequency took {0}ms.", (long)duration.TotalMilliseconds);
+        }
+
+        private void AttachFurigana(List<VocabEntity> vocabList, Dictionary<string, List<VocabEntity>> fullDictionary)
+        {
+            DateTime before = DateTime.Now;
 
             using (StreamReader reader = new StreamReader(PathHelper.JmDictFuriganaPath))
             {
@@ -185,9 +270,9 @@ namespace Kanji.DatabaseMaker
 
                     string[] split = line.Split('|');
                     string vocabString = split[0] + "|" + split[1];
-                    if (dic.ContainsKey(vocabString))
+                    if (fullDictionary.ContainsKey(vocabString))
                     {
-                        foreach (VocabEntity match in dic[vocabString])
+                        foreach (VocabEntity match in fullDictionary[vocabString])
                         {
                             match.Furigana = split[2];
                         }
@@ -196,6 +281,63 @@ namespace Kanji.DatabaseMaker
             }
             TimeSpan duration = DateTime.Now - before;
             _log.InfoFormat("Attaching furigana took {0}ms.", (long)duration.TotalMilliseconds);
+        }
+
+        private void AttachJlptLevel(List<VocabEntity> vocabList, Dictionary<string, List<VocabEntity>> fullDictionary,
+            Dictionary<string, List<VocabEntity>> kanaDictionary)
+        {
+            DateTime before = DateTime.Now;
+
+            using (StreamReader reader = new StreamReader(PathHelper.JlptVocabListPath))
+            {
+                string line = string.Empty;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (string.IsNullOrWhiteSpace(line))
+                    {
+                        continue;
+                    }
+
+                    string[] split = line.Split('|');
+
+                    if (split.Length < 1)
+                    {
+                        continue;
+                    }
+
+                    short? level = ParsingHelper.ParseShort(split[0]);
+                    if (!level.HasValue)
+                    {
+                        continue;
+                    }
+
+                    if (split.Length == 2)
+                    {
+                        // Level | kana
+                        if (kanaDictionary.ContainsKey(split[1]))
+                        {
+                            foreach (VocabEntity match in kanaDictionary[split[1]])
+                            {
+                                match.JlptLevel = level.Value;
+                            }
+                        }
+                    }
+                    else if (split.Length == 3)
+                    {
+                        // Level | kanji | kana
+                        string vocabString = split[1] + "|" + split[2];
+                        if (fullDictionary.ContainsKey(vocabString))
+                        {
+                            foreach (VocabEntity match in fullDictionary[vocabString])
+                            {
+                                match.JlptLevel = level.Value;
+                            }
+                        }
+                    }
+                }
+            }
+            TimeSpan duration = DateTime.Now - before;
+            _log.InfoFormat("Attaching JLPT level took {0}ms.", (long)duration.TotalMilliseconds);
         }
 
         /// <summary>
@@ -473,7 +615,7 @@ namespace Kanji.DatabaseMaker
             vocab.KanjiWriting = xkanjiElement.Element(XmlNode_KanjiReading).Value;
             if (_topFrequencyWords.ContainsKey(vocab.KanjiWriting))
             {
-                vocab.FrequencyRank = _topFrequencyWords[vocab.KanjiWriting];
+                //vocab.FrequencyRank = _topFrequencyWords[vocab.KanjiWriting];
                 vocab.IsCommon = true;
             }
             else

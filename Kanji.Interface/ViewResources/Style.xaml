@@ -31,6 +31,11 @@
     <converters:StringFormatConverter x:Key="StringFormatConverter" />
     <converters:EnumBooleanConverter x:Key="EnumBooleanConverter" />
     <converters:SrsEntryImportResultConverter x:Key="SrsEntryImportResultConverter" />
+    <converters:VocabFrequencyToStringConverter x:Key="VocabFrequencyToStringConverter" />
+    <converters:VocabFrequencyToBrushConverter x:Key="VocabFrequencyToBrushConverter" />
+    <converters:JlptLevelToBrushConverter x:Key="JlptLevelToBrushConverter" />
+    <converters:IsFirstItemInContainerConverter x:Key="IsFirstItemInContainerConverter" />
+    <converters:KanjiToReadingListConverter x:Key="KanjiToReadingListConverter" />
 
     <!-- ObjectDataProviders -->
     <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="KanjiFilterModeEnum">
@@ -186,11 +191,12 @@
 
     <Style TargetType="{x:Type TextBox}" x:Key="ReadingLabel" BasedOn="{StaticResource LabelBox}">
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="LayoutTransform">
+        <!--<Setter Property="LayoutTransform">
             <Setter.Value>
                 <ScaleTransform ScaleX="1.2" />
             </Setter.Value>
-        </Setter>
+        </Setter>-->
+        <Setter Property="FontFamily" Value="Meiryo UI" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
@@ -217,28 +223,16 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
-    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource ReadingLabel}" x:Key="OnYomiLabel">
-
-    </Style>
-    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource ReadingLabel}" x:Key="KunYomiLabel">
-        <Setter Property="BorderThickness" Value="0,0,0,1" />
-    </Style>
-    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource ReadingLabel}" x:Key="NanoriLabel">
-
-    </Style>
-
+    
     <Style TargetType="ListBox" x:Key="KanjiReadingListbox">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
-        <Setter Property="BorderBrush" Value="#22000000" />
-        <Setter Property="BorderThickness" Value="1 0 1 1" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Padding" Value="0 0 0 4" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <WrapPanel HorizontalAlignment="Center" />
+                    <WrapPanel />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -252,16 +246,28 @@
                             <ControlTemplate TargetType="ListBoxItem">
                                 <Border BorderBrush="#CC000000" BorderThickness="1"
                                         Background="{TemplateBinding Background}"
-                                        Padding="2" Margin="0 2 5 0">
+                                        Padding="2">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Converter={StaticResource IsFirstItemInContainerConverter}}"
+                                                    Value="True">
+                                                    <!-- First item in the list. Add a margin -->
+                                                    <Setter Property="Margin" Value="60 0 5 1" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                            <Setter Property="Margin" Value="0 0 5 1" />
+                                        </Style>
+                                    </Border.Style>
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
                                             <i:InvokeCommandAction Command="{Binding DataContext.FilterReadingCommand,
-                                                        RelativeSource={RelativeSource AncestorType={x:Type controls:KanjiDetails}}}"
-                                                        CommandParameter="{Binding HiraganaReading}" />
+                                                    RelativeSource={RelativeSource AncestorType={x:Type controls:KanjiDetails}}}"
+                                                CommandParameter="{Binding HiraganaReading}" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <TextBox Style="{StaticResource ReadingLabel}"
-                                             Text="{Binding ModifiedReading}" />
+                                        Text="{Binding ModifiedReading}" />
                                 </Border>
 
                                 <!-- Triggers -->
@@ -369,6 +375,93 @@
         <Setter Property="Padding" Value="0" />
         <Setter Property="Height" Value="25" />
     </Style>
+
+    <!--<Style TargetType="{x:Type Button}" x:Key="KanjiSrsEditActionButton">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                    <GradientStop Color="#774B8CFF" Offset="0.1"/>
+                    <GradientStop Color="#77447FEA" Offset="0.49"/>
+                    <GradientStop Color="#773D70D9" Offset="0.5"/>
+                    <GradientStop Color="#77365DC6" Offset="0.9"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="#99042880" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}"
+                            Height="{TemplateBinding Height}" Cursor="Hand">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="8*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*" />
+                                <RowDefinition Height="16*" />
+                                <RowDefinition Height="2*" />
+                            </Grid.RowDefinitions>
+                            <Viewbox Grid.Column="1" Grid.Row="1" StretchDirection="UpOnly" MaxHeight="30" MinHeight="15">
+                                <Viewbox.RenderTransform>
+                                    <TranslateTransform X="-1"  Y="-1" />
+                                </Viewbox.RenderTransform>
+                                <TextBlock Text="{TemplateBinding Content}" FontSize="{TemplateBinding FontSize}"
+                                    VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black" />
+                            </Viewbox>
+                            <Viewbox Grid.Column="1" Grid.Row="1" StretchDirection="UpOnly" MaxHeight="30" MinHeight="15">
+                                <TextBlock Text="{TemplateBinding Content}" FontSize="{TemplateBinding FontSize}"
+                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Viewbox>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                                        <GradientStop Color="#FF3B7CEF" Offset="0.1"/>
+                                        <GradientStop Color="#FF346FDA" Offset="0.49"/>
+                                        <GradientStop Color="#FF2D60C9" Offset="0.5"/>
+                                        <GradientStop Color="#FF264DB6" Offset="0.9"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="BorderThickness" Value="3,2,1,1" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                                        <GradientStop Color="#DD7BBCFF" Offset="0.1"/>
+                                        <GradientStop Color="#DD74AFEA" Offset="0.49"/>
+                                        <GradientStop Color="#DD6DA0D9" Offset="0.5"/>
+                                        <GradientStop Color="#DD668DC6" Offset="0.9"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Foreground" Value="LightGray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="FontSize" Value="8" />
+        <Setter Property="Foreground" Value="#33FFFFFF" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Height" Value="25" />
+    </Style>-->
 
     <Style TargetType="Button" BasedOn="{StaticResource ActionButton}" x:Key="BigActionButton">
         <Setter Property="Height" Value="Auto" />
@@ -549,7 +642,7 @@
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="BorderBrush" Value="Black" />
         <Setter Property="Background" Value="White" />
-        <Setter Property="Margin" Value="5" />
+        <Setter Property="Margin" Value="5 5 5 0" />
         <Setter Property="Width" Value="90" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Center" />
@@ -1096,30 +1189,79 @@
 
                                                 <StackPanel Orientation="Horizontal" Margin="0 2 0 2">
                                                     <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
-                                                        HorizontalAlignment="Left" Padding="5 0 5 0" Background="#3F91EF5E">
+                                                        HorizontalAlignment="Left" Padding="5 0 5 0" Width="93"
+                                                        Background="{Binding DbVocab.FrequencyRank, Converter={StaticResource VocabFrequencyToBrushConverter}}">
                                                         <Border.Style>
                                                             <Style TargetType="Border">
                                                                 <Style.Triggers>
                                                                     <DataTrigger Binding="{Binding DbVocab.FrequencyRank}" Value="{x:Null}">
                                                                         <Setter Property="Visibility" Value="Collapsed" />
                                                                     </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding DbVocab.FrequencyRank}" Value="1">
+                                                                        <Setter Property="ToolTip" Value="Found 1 time in 7905 books." />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                                <Setter Property="ToolTip">
+                                                                    <Setter.Value>
+                                                                        <ToolTip Content="{Binding DbVocab.FrequencyRank}" ContentStringFormat="{}Found {0} times in 7905 books." />
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <DockPanel LastChildFill="True">
+                                                            <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left">
+                                                                本
+                                                            </TextBlock>
+                                                            <TextBlock HorizontalAlignment="Center">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="Text">
+                                                                            <Setter.Value>
+                                                                                <Binding Path="DbVocab.FrequencyRank" Converter="{StaticResource VocabFrequencyToStringConverter}" />
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Setter Property="FontSize" Value="10" />
+                                                                        <Setter Property="Foreground" Value="#555555" />
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                        </DockPanel>
+                                                    </Border>
+
+                                                    <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
+                                                        HorizontalAlignment="Left" Padding="8 0 8 0"
+                                                        Background="{Binding DbVocab.JlptLevel, Converter={StaticResource JlptLevelToBrushConverter}}">
+                                                        <Border.ToolTip>
+                                                            <ToolTip Content="{Binding DbVocab.JlptLevel}"
+                                                                ContentStringFormat="{}Part of the vocabulary list for the N{0} level of the Japanese-Language Proficiency Test." />
+                                                        </Border.ToolTip>
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding DbVocab.JlptLevel}" Value="{x:Null}">
+                                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                                    </DataTrigger>
                                                                 </Style.Triggers>
                                                             </Style>
                                                         </Border.Style>
-                                                        <TextBlock>
-                                                            <TextBlock.Style>
-                                                                <Style TargetType="TextBlock">
-                                                                    <Setter Property="Text">
-                                                                        <Setter.Value>
-                                                                            <Binding Path="DbVocab.FrequencyRank" Converter="{StaticResource IntegerToOrdinalStringConverter}"
-                                                                                StringFormat="{}{0} most used word" />
-                                                                        </Setter.Value>
-                                                                    </Setter>
-                                                                    <Setter Property="FontSize" Value="10" />
-                                                                    <Setter Property="Foreground" Value="#555555" />
-                                                                </Style>
-                                                            </TextBlock.Style>
-                                                        </TextBlock>
+                                                        <DockPanel LastChildFill="True">
+                                                            <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" Opacity="0.7">
+                                                                JLPT
+                                                            </TextBlock>
+                                                            <TextBlock HorizontalAlignment="Right" Margin="5 0 0 0">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="Text">
+                                                                            <Setter.Value>
+                                                                                <Binding Path="DbVocab.JlptLevel" StringFormat="{}N{0}" />
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Setter Property="FontSize" Value="10" />
+                                                                        <Setter Property="Foreground" Value="#555555" />
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                        </DockPanel>
                                                     </Border>
 
                                                     <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
@@ -1159,9 +1301,10 @@
                                                     </i:Interaction.Triggers>
                                                 </Button>
                                             </StackPanel>
-                                            
-                                                
-                                            <Button Grid.Row="1" Content="Add" Margin="5 0 0 5" Width="70" HorizontalAlignment="Left"
+
+
+                                            <Button Grid.Row="1" Content="✙ Add" Margin="5 0 0 5" Width="70" HorizontalAlignment="Left"
+                                                BorderBrush="#22000000"
 				                                Command="{Binding DataContext.AddToSrsCommand,
 						                            RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
 				                                CommandParameter="{Binding .}">
@@ -1320,6 +1463,80 @@
     <Style TargetType="TextBlock" x:Key="LegendText">
         <Setter Property="Foreground" Value="{StaticResource LegendTextBrush}" />
         <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource LegendText}" x:Key="KanjiReadingLabel">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style TargetType="Border" x:Key="KanjiReadingLabelBorder">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Width" Value="58" />
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="Margin" Value="0 0 5 1" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="#CC000000" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="Background" Value="#444444" />
+    </Style>
+
+    <Style TargetType="ListBox" x:Key="KanjiReadingsListbox">
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <ContentControl Content="{Binding .}">
+                                    <ContentControl.Resources>
+                                        <DataTemplate DataType="{x:Type models:KanjiReading}">
+                                            <Border BorderBrush="#CC000000" BorderThickness="1" Padding="2">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="#FFE0E0E0" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                        <Setter Property="Margin" Value="0 0 5 1" />
+                                                        <Setter Property="Background" Value="White" />
+                                                    </Style>
+                                                </Border.Style>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.FilterReadingCommand,
+                                                                RelativeSource={RelativeSource AncestorType={x:Type controls:KanjiDetails}}}"
+                                                            CommandParameter="{Binding HiraganaReading}" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                                <TextBox Style="{StaticResource ReadingLabel}" Text="{Binding ModifiedReading}" />
+                                            </Border>
+                                        </DataTemplate>
+                                        <DataTemplate DataType="{x:Type models:KanjiReadingLabel}">
+                                            <Border Style="{StaticResource KanjiReadingLabelBorder}">
+                                                <TextBlock Style="{StaticResource KanjiReadingLabel}" Text="{Binding Label}" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </ContentControl.Resources>
+                                </ContentControl>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style TargetType="TextBlock" x:Key="SettingText">

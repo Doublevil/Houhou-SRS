@@ -12,6 +12,12 @@ namespace Kanji.Database.Dao
 {
     public class VocabDao : Dao
     {
+        #region Fields
+
+        private DaoConnection _connection = null;
+
+        #endregion
+
         #region Methods
 
         public void SelectAllVocab()
@@ -34,6 +40,170 @@ namespace Kanji.Database.Dao
                 {
                     connection.Dispose();
                 }
+            }
+        }
+
+        public void OpenMassTransaction()
+        {
+            _connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
+        }
+
+        public void CloseMassTransaction()
+        {
+            _connection.Dispose();
+        }
+
+        public IEnumerable<VocabEntity> GetAllVocab()
+        {
+            DaoConnection connection = null;
+            try
+            {
+                connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
+                IEnumerable<NameValueCollection> vocabs = connection.Query(
+                      "SELECT * FROM " + SqlHelper.Table_Vocab);
+
+                VocabBuilder builder = new VocabBuilder();
+                foreach (NameValueCollection nvcVocab in vocabs)
+                {
+                    yield return builder.BuildEntity(nvcVocab, null);
+                }
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Dispose();
+                }
+            }
+        }
+
+        public IEnumerable<VocabEntity> GetVocabByReadings(string kanjiReading, string kanaReading)
+        {
+            DaoConnection connection = null;
+            try
+            {
+                //connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
+                connection = _connection;
+
+                string requestString = string.Empty;
+                VocabBuilder builder = new VocabBuilder();
+                if (kanjiReading == kanaReading)
+                {
+                    IEnumerable<NameValueCollection> vocabs = connection.Query(
+                      "SELECT * FROM " + SqlHelper.Table_Vocab + " WHERE " + SqlHelper.Field_Vocab_KanaWriting + "=@kanaWriting",
+                      new DaoParameter("@kanaWriting", kanaReading));
+
+                    if (vocabs.Count() == 1)
+                    {
+                        yield return builder.BuildEntity(vocabs.First(), null);
+                        yield break;
+                    }
+                }
+
+                IEnumerable<NameValueCollection> fullMatch = connection.Query(
+                      "SELECT * FROM " + SqlHelper.Table_Vocab + " WHERE " + SqlHelper.Field_Vocab_KanaWriting + "=@kanaWriting"
+                      + " AND " + SqlHelper.Field_Vocab_KanjiWriting + "=@kanjiWriting",
+                      new DaoParameter("@kanaWriting", kanaReading), new DaoParameter("@kanjiWriting", kanjiReading));
+
+                foreach (NameValueCollection match in fullMatch)
+                {
+                    yield return builder.BuildEntity(match, null);
+                }
+            }
+            finally
+            {
+                //if (connection != null)
+                //{
+                //    connection.Dispose();
+                //}
+            }
+        }
+
+        public VocabEntity GetSingleVocabByKanaReading(string kanaReading)
+        {
+            DaoConnection connection = null;
+            try
+            {
+                //connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
+                connection = _connection;
+
+                string requestString = string.Empty;
+
+                long count = (long)connection.QueryScalar(
+                    "SELECT COUNT(1) FROM " + SqlHelper.Table_Vocab + " WHERE " + SqlHelper.Field_Vocab_KanaWriting + "=@kanaWriting",
+                    new DaoParameter("@kanaWriting", kanaReading));
+
+                if (count == 1)
+                {
+
+                    IEnumerable<NameValueCollection> vocabs = connection.Query(
+                        "SELECT * FROM " + SqlHelper.Table_Vocab + " WHERE " + SqlHelper.Field_Vocab_KanaWriting + "=@kanaWriting",
+                        new DaoParameter("@kanaWriting", kanaReading));
+
+                    VocabBuilder builder = new VocabBuilder();
+                    return builder.BuildEntity(vocabs.First(), null);
+                }
+            }
+            finally
+            {
+                //if (connection != null)
+                //{
+                //    connection.Dispose();
+                //}
+            }
+
+            return null;
+        }
+
+        public bool UpdateFrequencyRankOnSingleKanaMatch(string kanaReading, int rank)
+        {
+            DaoConnection connection = null;
+            try
+            {
+                //connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
+                connection = _connection;
+
+                string requestString = string.Empty;
+
+                long count = (long)connection.QueryScalar(
+                    "SELECT COUNT(1) FROM " + SqlHelper.Table_Vocab + " WHERE " + SqlHelper.Field_Vocab_KanaWriting + "=@kanaWriting",
+                    new DaoParameter("@kanaWriting", kanaReading));
+
+                if (count == 1)
+                {
+                    return connection.ExecuteNonQuery("UPDATE " + SqlHelper.Table_Vocab + " SET " + SqlHelper.Field_Vocab_FrequencyRank + "="
+                        + SqlHelper.Field_Vocab_FrequencyRank + "+@rank WHERE " + SqlHelper.Field_Vocab_KanaWriting + "=@kanaWriting",
+                        new DaoParameter("@rank", rank), new DaoParameter("@kanaWriting", kanaReading)) == 1;
+                }
+            }
+            finally
+            {
+                //if (connection != null)
+                //{
+                //    connection.Dispose();
+                //}
+            }
+
+            return false;
+        }
+
+        public void UpdateFrequencyRank(VocabEntity vocab, int rank)
+        {
+            DaoConnection connection = null;
+            try
+            {
+                //connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
+                connection = _connection;
+
+                connection.ExecuteNonQuery("UPDATE " + SqlHelper.Table_Vocab + " SET " + SqlHelper.Field_Vocab_FrequencyRank + "=@rank "
+                    + "WHERE " + SqlHelper.Field_Vocab_Id + "=@id", new DaoParameter("@rank", rank), new DaoParameter("@id", vocab.ID));
+            }
+            finally
+            {
+                //if (connection != null)
+                //{
+                //    connection.Dispose();
+                //}
             }
         }
 

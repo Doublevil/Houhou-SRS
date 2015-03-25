@@ -30,7 +30,7 @@
                 </Grid>
             </Border>
 
-            <Button Grid.Column="2" Style="{StaticResource MiniActionButton}"
+            <Button Style="{StaticResource MiniActionButton}"
                 Content="Edit" VerticalContentAlignment="Center" Width="60" Height="{Binding ElementName=SrsLevelIndicator, Path=ActualHeight}"
                 Command="{Binding DataContext.EditSrsEntryCommand, RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
                 CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
