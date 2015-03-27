@@ -84,6 +84,7 @@
     <Compile Include="Entities\KanjiDatabase\KanjiEntity.cs" />
     <Compile Include="Entities\KanjiDatabase\KanjiMeaning.cs" />
     <Compile Include="Entities\KanjiDatabase\RadicalEntity.cs" />
+    <Compile Include="Entities\KanjiDatabase\KanjiStrokes.cs" />
     <Compile Include="Entities\UserDatabase\SrsEntry.cs" />
     <Compile Include="Entities\KanjiDatabase\VocabCategory.cs" />
     <Compile Include="Entities\KanjiDatabase\VocabEntity.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="EntityBuilders\EntityBuilder.cs" />
     <Compile Include="EntityBuilders\KanjiBuilder.cs" />
     <Compile Include="EntityBuilders\KanjiMeaningBuilder.cs" />
+    <Compile Include="EntityBuilders\KanjiStrokesBuilder.cs" />
     <Compile Include="EntityBuilders\RadicalBuilder.cs" />
     <Compile Include="EntityBuilders\SrsEntryBuilder.cs" />
     <Compile Include="EntityBuilders\VocabBuilder.cs" />

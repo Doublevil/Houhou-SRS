@@ -7,6 +7,9 @@ using Kanji.Database.Entities;
 using Kanji.Database.EntityBuilders;
 using Kanji.Database.Helpers;
 using Kanji.Database.Models;
+using System.Data.SQLite;
+using Kanji.Common.Helpers;
+using System.IO;
 
 namespace Kanji.Database.Dao
 {
@@ -180,6 +183,98 @@ namespace Kanji.Database.Dao
                 return (long)connection.QueryScalar(
                     "SELECT COUNT(1) FROM " + SqlHelper.Table_Kanji + " k " + sqlFilter,
                     parameters.ToArray());
+            }
+        }
+
+        //public KanjiStrokes GetKanjiStrokes(long id)
+        //{
+        //    KanjiStrokes result = null;
+
+        //    DaoConnection connection = null;
+        //    try
+        //    {
+        //        // Create and open synchronously the primary Kanji connection.
+        //        connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
+
+        //        // FILTERS COMPUTED.
+        //        // Execute the final request.
+        //        IEnumerable<NameValueCollection> results = connection.Query(
+        //            "SELECT * "
+        //            + "FROM " + SqlHelper.Table_KanjiStrokes + " ks "
+        //            + "WHERE ks." + SqlHelper.Field_KanjiStrokes_Id + "=@ks;",
+        //        new DaoParameter("@ks", id));
+
+        //        if (results.Any())
+        //        {
+        //            KanjiStrokesBuilder builder = new KanjiStrokesBuilder();
+        //            result = builder.BuildEntity(results.First(), null);
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        if (connection != null)
+        //        {
+        //            connection.Dispose();
+        //        }
+        //    }
+
+        //    return result;
+        //}
+
+        public KanjiStrokes GetKanjiStrokes(long id)
+        {
+            KanjiStrokes result = new KanjiStrokes();
+            result.ID = id;
+            result.FramesSvg = new byte[0];
+
+            DaoConnection connection = null;
+            SQLiteDataReader reader = null;
+            try
+            {
+                // Create and open synchronously the primary Kanji connection.
+                connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
+
+                reader = connection.QueryDataReader(
+                    "SELECT " + SqlHelper.Field_KanjiStrokes_FramesSvg
+                    + " FROM " + SqlHelper.Table_KanjiStrokes
+                    + " WHERE " + SqlHelper.Field_KanjiStrokes_Id + "=@id;",
+                    new DaoParameter("@id", id));
+
+                while (reader.Read())
+                {
+                    result.FramesSvg = GetBytes(reader);
+                }
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                    reader.Dispose();
+                }
+                if (connection != null)
+                {
+                    connection.Dispose();
+                }
+            }
+
+            return result;
+        }
+
+        private byte[] GetBytes(SQLiteDataReader reader)
+        {
+            const int CHUNK_SIZE = 2 * 1024;
+            byte[] buffer = new byte[CHUNK_SIZE];
+            long bytesRead;
+            long fieldOffset = 0;
+            using (MemoryStream stream = new MemoryStream())
+            {
+                while ((bytesRead = reader.GetBytes(0, fieldOffset, buffer, 0, buffer.Length)) > 0)
+                {
+                    stream.Write(buffer, 0, (int)bytesRead);
+                    fieldOffset += bytesRead;
+                }
+                return stream.ToArray();
             }
         }
 

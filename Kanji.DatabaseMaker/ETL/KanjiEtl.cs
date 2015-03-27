@@ -10,6 +10,7 @@ using Kanji.Database.Entities;
 using Kanji.Database.Entities.Joins;
 using Kanji.Database.Helpers;
 using System.IO;
+using System.IO.Compression;
 
 namespace Kanji.DatabaseMaker
 {
@@ -49,7 +50,10 @@ namespace Kanji.DatabaseMaker
         private RadicalDictionary _radicalDictionary;
         private Dictionary<string, short> _jlptDictionary;
         private Dictionary<string, int> _frequencyRankDictionary;
+        private Dictionary<string, int> _waniKaniDictionary;
         private log4net.ILog _log;
+
+        private ZipArchive _svgZipArchive;
 
         #endregion
 
@@ -81,6 +85,7 @@ namespace Kanji.DatabaseMaker
             _log = log4net.LogManager.GetLogger(this.GetType());
             CreateJlptDictionary();
             CreateFrequencyRankDictionary();
+            CreateWkDictionary();
         }
 
         #endregion
@@ -137,16 +142,41 @@ namespace Kanji.DatabaseMaker
         }
 
         /// <summary>
+        /// Reads the WaniKani kanji list file and fills a dictionary that will be used to look up the info
+        /// during the execution of the ETL.
+        /// </summary>
+        private void CreateWkDictionary()
+        {
+            _waniKaniDictionary = new Dictionary<string, int>();
+            foreach (string line in File.ReadLines(PathHelper.WaniKaniKanjiListPath))
+            {
+                string[] split = line.Split('|');
+                if (split.Count() != 2)
+                {
+                    continue;
+                }
+
+                int? level = ParsingHelper.ParseInt(split[1]);
+                if (!_waniKaniDictionary.ContainsKey(split[0]) && level.HasValue)
+                {
+                    _waniKaniDictionary.Add(split[0], level.Value);
+                }
+            }
+        }
+
+        /// <summary>
         /// Reads kanji and stores them in the database.
         /// </summary>
         public override void Execute()
         {
             List<KanjiRadicalJoinEntity> kanjiRadicalList = new List<KanjiRadicalJoinEntity>();
             List<KanjiMeaning> kanjiMeaningList = new List<KanjiMeaning>();
+            List<KanjiStrokes> kanjiStrokes = new List<KanjiStrokes>();
 
             using (SQLiteBulkInsert<KanjiEntity> kanjiInsert
                 = new SQLiteBulkInsert<KanjiEntity>(KanjiMaxCommit))
             {
+                
                 // Parse the file.
                 foreach (KanjiEntity kanji in ReadKanjiDic2())
                 {
@@ -165,6 +195,9 @@ namespace Kanji.DatabaseMaker
                             addedRadicalsString += radicalValue.Character + " "; // Log
                         }
                     }
+
+                    // Search for a matching SVG.
+                    kanjiStrokes.Add(RetrieveSvg(kanji));
 
                     // Add the finalized kanji to the database.
                     kanji.ID = kanjiInsert.Insert(kanji);
@@ -187,6 +220,17 @@ namespace Kanji.DatabaseMaker
 
                     // Log
                     _log.InfoFormat("Inserted kanji {0}  ({1}) with radicals {2}", kanji.Character, kanji.ID, addedRadicalsString);
+                }
+            }
+            CloseZipArchive();
+
+            // Insert the strokes.
+            using (SQLiteBulkInsert<KanjiStrokes> kanjiStrokesInsert
+                    = new SQLiteBulkInsert<KanjiStrokes>(KanjiMaxCommit))
+            {
+                foreach (KanjiStrokes strokes in kanjiStrokes)
+                {
+                    kanjiStrokesInsert.Insert(strokes);
                 }
             }
 
@@ -258,15 +302,15 @@ namespace Kanji.DatabaseMaker
                 if (xmisc != null)
                 {
                     // Try to read the grade, stroke count, frequency and JLPT level.
-                    // Update: JLPT level is unreliable in this file. Now using the JLPTKanjiList.
+                    // Update: JLPT level is outdated in this file. Now using the JLPTKanjiList.
                     XElement xgrade = xmisc.Element(XmlNode_Grade);
                     XElement xstrokeCount = xmisc.Element(XmlNode_StrokeCount);
-                    //XElement xfrequency = xmisc.Element(XmlNode_Frequency);
+                    XElement xfrequency = xmisc.Element(XmlNode_Frequency);
                     //XElement xjlpt = xmisc.Element(XmlNode_JlptLevel);
 
                     if (xgrade != null) kanji.Grade = ParsingHelper.ParseShort(xgrade.Value);
                     if (xstrokeCount != null) kanji.StrokeCount = ParsingHelper.ParseShort(xstrokeCount.Value);
-                    //if (xfrequency != null) kanji.MostUsedRank = ParsingHelper.ParseInt(xfrequency.Value);
+                    if (xfrequency != null) kanji.NewspaperRank = ParsingHelper.ParseInt(xfrequency.Value);
                     //if (xjlpt != null) kanji.JlptLevel = ParsingHelper.ParseShort(xjlpt.Value);
                 }
 
@@ -280,6 +324,12 @@ namespace Kanji.DatabaseMaker
                 if (_frequencyRankDictionary.ContainsKey(kanji.Character))
                 {
                     kanji.MostUsedRank = _frequencyRankDictionary[kanji.Character];
+                }
+
+                // Find the WaniKani level using the dictionary.
+                if (_waniKaniDictionary.ContainsKey(kanji.Character))
+                {
+                    kanji.WaniKaniLevel = _waniKaniDictionary[kanji.Character];
                 }
 
                 // In the reading/meaning node...
@@ -341,6 +391,53 @@ namespace Kanji.DatabaseMaker
 
                 xkanji.RemoveAll();
             }
+        }
+
+        /// <summary>
+        /// Attempts to retrieve the kanji strokes SVG matching the given kanji inside the zip file.
+        /// </summary>
+        /// <param name="k">Target kanji.</param>
+        /// <returns>A kanji strokes entity, never null, that contains either the retrieved data or an
+        /// empty byte array when the entry was not found.</returns>
+        private KanjiStrokes RetrieveSvg(KanjiEntity k)
+        {
+            KanjiStrokes strokes = new KanjiStrokes();
+            strokes.FramesSvg = new byte[0];
+
+            if (!k.UnicodeValue.HasValue)
+            {
+                return strokes;
+            }
+
+            ZipArchive svgZip = GetSvgZipArchive();
+            string entryName = string.Format("{0}_frames.svg", k.UnicodeValue.Value);
+            ZipArchiveEntry entry = svgZip.GetEntry(entryName);
+            if (entry != null)
+            {
+                using (Stream stream = entry.Open())
+                {
+                    strokes.FramesSvg = StringCompressionHelper.Zip(StreamHelper.ReadToEnd(stream));
+                    StringCompressionHelper.Unzip(strokes.FramesSvg);
+                }
+            }
+
+            return strokes;
+        }
+
+        private ZipArchive GetSvgZipArchive()
+        {
+            if (_svgZipArchive == null)
+            {
+                _svgZipArchive = ZipFile.OpenRead(PathHelper.SvgZipPath);
+            }
+
+            return _svgZipArchive;
+        }
+
+        private void CloseZipArchive()
+        {
+            _svgZipArchive.Dispose();
+            _svgZipArchive = null;
         }
 
         #endregion

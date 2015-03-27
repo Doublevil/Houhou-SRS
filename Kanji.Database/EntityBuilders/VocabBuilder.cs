@@ -21,6 +21,8 @@ namespace Kanji.Database.EntityBuilders
             vocab.FrequencyRank = row.ReadInt(GetField(prefix, SqlHelper.Field_Vocab_FrequencyRank));
             vocab.Furigana = row.Get(GetField(prefix, SqlHelper.Field_Vocab_Furigana));
             vocab.JlptLevel = row.ReadInt(GetField(prefix, SqlHelper.Field_Vocab_JlptLevel));
+            vocab.WikipediaRank = row.ReadInt(GetField(prefix, SqlHelper.Field_Vocab_WikipediaRank));
+            vocab.WaniKaniLevel = row.ReadInt(GetField(prefix, SqlHelper.Field_Vocab_WaniKaniLevel));
             return vocab;
         }
     }

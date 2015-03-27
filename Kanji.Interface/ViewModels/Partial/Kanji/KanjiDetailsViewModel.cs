@@ -10,11 +10,27 @@ using Kanji.Interface.Models;
 using Kanji.Interface.Utilities;
 using Kanji.Interface.Views;
 using Kanji.Interface.Extensions;
+using System.ComponentModel;
+using Kanji.Interface.Helpers;
+using Kanji.Database.Dao;
+using SharpVectors.Converters;
+using System.IO;
+using Kanji.Common.Helpers;
+using System.Windows.Media;
+using System.Text.RegularExpressions;
+using System.Windows.Threading;
+using System.Diagnostics;
 
 namespace Kanji.Interface.ViewModels
 {
     class KanjiDetailsViewModel : ViewModel
     {
+        #region Constants
+
+        private static readonly int StrokeSquareWidth = 109;
+
+        #endregion
+
         #region Fields
 
         private ExtendedKanji _kanjiEntity;
@@ -22,6 +38,16 @@ namespace Kanji.Interface.ViewModels
         private static bool _showDetails = true;
 
         private ExtendedSrsEntry _srsEntry;
+
+        private object _updateLock = new object();
+
+        private DrawingGroup _strokesDrawingGroup;
+
+        private int _strokesCount;
+
+        private int _currentStroke;
+
+        private DispatcherTimer _strokeUpdateTimer;
 
         #endregion
 
@@ -87,6 +113,56 @@ namespace Kanji.Interface.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the drawing group that represents the
+        /// strokes diagram of the kanji.
+        /// </summary>
+        public DrawingGroup StrokesDrawingGroup
+        {
+            get { return _strokesDrawingGroup; }
+            set
+            {
+                if (_strokesDrawingGroup != value)
+                {
+                    _strokesDrawingGroup = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the number of strokes.
+        /// </summary>
+        public int StrokesCount
+        {
+            get { return _strokesCount; }
+            set
+            {
+                if (_strokesCount != value)
+                {
+                    _strokesCount = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the current 1-based index of the stroke
+        /// displayed by the StrokesDrawingGroup.
+        /// </summary>
+        public int CurrentStroke
+        {
+            get { return _currentStroke; }
+            set
+            {
+                if (_currentStroke != value)
+                {
+                    _currentStroke = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -112,6 +188,31 @@ namespace Kanji.Interface.ViewModels
         /// Gets the command used to filter the vocab of the kanji represented in this view model by the given reading.
         /// </summary>
         public RelayCommand<string> FilterReadingCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command used to advance to the next stroke.
+        /// </summary>
+        public RelayCommand NextStrokeCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command used to go back to the previous stroke.
+        /// </summary>
+        public RelayCommand PreviousStrokeCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command used to advance to the last stroke.
+        /// </summary>
+        public RelayCommand LastStrokeCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command used to go back to the first stroke.
+        /// </summary>
+        public RelayCommand FirstStrokeCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command used to access the kanji on WaniKani.
+        /// </summary>
+        public RelayCommand WaniKaniCommand { get; private set; }
 
         #endregion
 
@@ -153,11 +254,117 @@ namespace Kanji.Interface.ViewModels
             AddToSrsCommand = new RelayCommand(OnAddToSrs);
             EditSrsEntryCommand = new RelayCommand(OnEditSrsEntry);
             FilterReadingCommand = new RelayCommand<string>(OnFilterReading);
+
+            NextStrokeCommand = new RelayCommand(OnNextStroke);
+            PreviousStrokeCommand = new RelayCommand(OnPreviousStroke);
+            LastStrokeCommand = new RelayCommand(OnLastStroke);
+            FirstStrokeCommand = new RelayCommand(OnFirstStroke);
+            WaniKaniCommand = new RelayCommand(OnWaniKani);
+
+            PrepareSvg();
         }
 
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Advances to the next stroke.
+        /// </summary>
+        private void GoToNextStroke()
+        {
+            int next = CurrentStroke + 1;
+            if (next > StrokesCount)
+            {
+                next = 1;
+            }
+
+            SetCurrentStroke(next);
+        }
+
+        /// <summary>
+        /// Sets the current stroke to the given value.
+        /// </summary>
+        /// <param name="value">New value for the current stroke.</param>
+        private void SetCurrentStroke(int value)
+        {
+            // Careful: CurrentStroke starts at 1, not 0.
+            CurrentStroke = value;
+
+            if (StrokesDrawingGroup != null)
+            {
+                int startX = (CurrentStroke - 1) * StrokeSquareWidth;
+                StrokesDrawingGroup.ClipGeometry = new RectangleGeometry(
+                    new System.Windows.Rect(startX, 0, StrokeSquareWidth, StrokesDrawingGroup.Bounds.Height));
+            }
+        }
+
+        #region PrepareSvg
+
+        /// <summary>
+        /// Starts a background task to retrieve and prepare the SVG of the kanji.
+        /// </summary>
+        private void PrepareSvg()
+        {
+            // Run the task in the background.
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.DoWork += DoPrepareSvg;
+            worker.RunWorkerCompleted += DonePrepareSvg;
+            worker.RunWorkerAsync();
+        }
+
+        /// <summary>
+        /// Background task work method.
+        /// </summary>
+        private void DoPrepareSvg(object sender, DoWorkEventArgs e)
+        {
+            // Lock to allow only one of these operations at a time.
+            lock (_updateLock)
+            {
+                KanjiDao dao = new KanjiDao();
+                // Get the kanji strokes.
+                KanjiStrokes strokes = dao.GetKanjiStrokes(_kanjiEntity.DbKanji.ID);
+                if (strokes != null && strokes.FramesSvg.Length > 0)
+                {
+                    // If the strokes was successfuly retrieved, we have to read the compressed SVG contained inside.
+                    SharpVectors.Renderers.Wpf.WpfDrawingSettings settings = new SharpVectors.Renderers.Wpf.WpfDrawingSettings();
+                    using (FileSvgReader r = new FileSvgReader(settings))
+                    {
+                        // Unzip the stream and remove instances of "px" that are problematic for SharpVectors.
+                        string svgString = StringCompressionHelper.Unzip(strokes.FramesSvg);
+                        svgString = svgString.Replace("px", string.Empty);
+                        StrokesCount = Regex.Matches(svgString, "<circle").Count;
+                        using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(svgString)))
+                        {
+                            // Then read the stream to a DrawingGroup.
+                            // We are forced to do this operation on the UI thread because DrawingGroups must
+                            // be always manipulated by the same thread.
+                            DispatcherHelper.Invoke(() => 
+                                {
+                                    StrokesDrawingGroup = r.Read(stream);
+                                    SetCurrentStroke(1);
+                                });
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Background task completed method. Unsubscribes to the events.
+        /// </summary>
+        private void DonePrepareSvg(object sender, RunWorkerCompletedEventArgs e)
+        {
+            ((BackgroundWorker)sender).DoWork -= DoPrepareSvg;
+            ((BackgroundWorker)sender).RunWorkerCompleted -= DonePrepareSvg;
+
+            _strokeUpdateTimer = new DispatcherTimer();
+            _strokeUpdateTimer.Interval = TimeSpan.FromSeconds(1);
+            _strokeUpdateTimer.Tick += OnStrokeUpdateTimerTick;
+            _strokeUpdateTimer.Start();
+        }
+
+        #endregion
 
         #region Command callbacks
 
@@ -238,6 +445,77 @@ namespace Kanji.Interface.ViewModels
             VocabFilterVm.ReadingFilter = reading.Replace("ー", string.Empty).Replace(".", string.Empty);
         }
 
+        /// <summary>
+        /// Called when the NextStrokeCommand is fired.
+        /// Advances to the next stroke. Stops the timer if it was active.
+        /// </summary>
+        private void OnNextStroke()
+        {
+            if (_strokeUpdateTimer != null)
+            {
+                _strokeUpdateTimer.Stop();
+            }
+
+            GoToNextStroke();
+        }
+
+        /// <summary>
+        /// Called when the PreviousStrokeCommand is fired.
+        /// Goes back to the previous stroke. Stops the timer if it was active.
+        /// </summary>
+        private void OnPreviousStroke()
+        {
+            if (_strokeUpdateTimer != null)
+            {
+                _strokeUpdateTimer.Stop();
+            }
+
+            int next = CurrentStroke - 1;
+            if (next <= 0)
+            {
+                next = StrokesCount;
+            }
+
+            SetCurrentStroke(next);
+        }
+
+        /// <summary>
+        /// Called when the LastStrokeCommand is fired.
+        /// Advances to the last stroke. Stops the timer if it was active.
+        /// </summary>
+        private void OnLastStroke()
+        {
+            if (_strokeUpdateTimer != null)
+            {
+                _strokeUpdateTimer.Stop();
+            }
+
+            SetCurrentStroke(StrokesCount);
+        }
+
+        /// <summary>
+        /// Called when the FirstStrokeCommand is fired.
+        /// Goes back to the first stroke. Stops the timer if it was active.
+        /// </summary>
+        private void OnFirstStroke()
+        {
+            if (_strokeUpdateTimer != null)
+            {
+                _strokeUpdateTimer.Stop();
+            }
+
+            SetCurrentStroke(1);
+        }
+
+        /// <summary>
+        /// Called when the WaniKaniCommand is fired.
+        /// Navigates to the URL of the kanji on WaniKani.
+        /// </summary>
+        private void OnWaniKani()
+        {
+            Process.Start("https://www.wanikani.com/kanji/" + _kanjiEntity.DbKanji.Character);
+        }
+
         #endregion
 
         #region Event callbacks
@@ -268,6 +546,16 @@ namespace Kanji.Interface.ViewModels
             VocabListVm.ReapplyFilter();
         }
 
+        /// <summary>
+        /// Event callback.
+        /// Called when the stroke update timer ticks.
+        /// Goes to the next stroke.
+        /// </summary>
+        private void OnStrokeUpdateTimerTick(object sender, EventArgs e)
+        {
+            GoToNextStroke();
+        }
+
         #endregion
 
         /// <summary>
@@ -280,6 +568,12 @@ namespace Kanji.Interface.ViewModels
             VocabListVm.Dispose();
             VocabFilterVm.FilterChanged -= OnVocabFilterChanged;
             VocabFilterVm.Dispose();
+
+            if (_strokeUpdateTimer != null)
+            {
+                _strokeUpdateTimer.Tick -= OnStrokeUpdateTimerTick;
+            }
+
             base.Dispose();
         }
 

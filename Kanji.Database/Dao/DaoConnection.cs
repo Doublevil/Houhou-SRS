@@ -220,6 +220,35 @@ namespace Kanji.Database.Dao
             }
         }
 
+        public SQLiteDataReader QueryDataReader(string sqlQuery, params DaoParameter[] parameters)
+        {
+            SQLiteDataReader reader = null;
+
+            // Make sure the connection is open before starting the operation.
+            WaitOpen();
+
+            // Create the command.
+            using (SQLiteCommand cmd = new SQLiteCommand(sqlQuery, _connection))
+            {
+                // Add the parameters.
+                foreach (DaoParameter param in parameters)
+                {
+                    cmd.Parameters.Add(new SQLiteParameter(param.Name, param.Value));
+                }
+
+                // Lock and execute the query (and fetch the first result).
+                lock (_connectionLock)
+                {
+                    if (_connection != null)
+                    {
+                        reader = cmd.ExecuteReader();
+                    }
+                }
+            }
+
+            return reader;
+        }
+
         /// <summary>
         /// Executes an SQL query over a scalar object (ex: a row count).
         /// </summary>

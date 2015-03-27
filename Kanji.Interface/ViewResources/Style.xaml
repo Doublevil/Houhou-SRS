@@ -36,6 +36,8 @@
     <converters:JlptLevelToBrushConverter x:Key="JlptLevelToBrushConverter" />
     <converters:IsFirstItemInContainerConverter x:Key="IsFirstItemInContainerConverter" />
     <converters:KanjiToReadingListConverter x:Key="KanjiToReadingListConverter" />
+    <converters:WkLevelToBrushConverter x:Key="WkLevelToBrushConverter" />
+    <converters:WikipediaRankToBrushConverter x:Key="WikipediaRankToBrushConverter" />
 
     <!-- ObjectDataProviders -->
     <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="KanjiFilterModeEnum">
@@ -1187,7 +1189,7 @@
                                             
                                             <StackPanel>
 
-                                                <StackPanel Orientation="Horizontal" Margin="0 2 0 2">
+                                                <WrapPanel Orientation="Horizontal" Margin="0 2 0 2">
                                                     <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
                                                         HorizontalAlignment="Left" Padding="5 0 5 0" Width="93"
                                                         Background="{Binding DbVocab.FrequencyRank, Converter={StaticResource VocabFrequencyToBrushConverter}}">
@@ -1209,7 +1211,7 @@
                                                             </Style>
                                                         </Border.Style>
                                                         <DockPanel LastChildFill="True">
-                                                            <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left">
+                                                            <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" FontWeight="SemiBold" Opacity="0.75">
                                                                 本
                                                             </TextBlock>
                                                             <TextBlock HorizontalAlignment="Center">
@@ -1229,7 +1231,46 @@
                                                     </Border>
 
                                                     <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
-                                                        HorizontalAlignment="Left" Padding="8 0 8 0"
+                                                        HorizontalAlignment="Left" Padding="5 0 5 0"
+                                                        Background="{Binding DbVocab.WikipediaRank, Converter={StaticResource WikipediaRankToBrushConverter}}">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding DbVocab.WikipediaRank}" Value="{x:Null}">
+                                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                                <Setter Property="ToolTip">
+                                                                    <Setter.Value>
+                                                                        <ToolTip Content="{Binding DbVocab.WikipediaRank, Converter={StaticResource IntegerToOrdinalStringConverter}}"
+                                                                            ContentStringFormat="{}{0} out of 10000 most used word in a study of Japanese Wikipedia articles." />
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <DockPanel LastChildFill="True">
+                                                            <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" Margin="0 0 6 0" FontWeight="SemiBold">
+                                                                W
+                                                            </TextBlock>
+                                                            <TextBlock HorizontalAlignment="Center">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="Text">
+                                                                            <Setter.Value>
+                                                                                <Binding Path="DbVocab.WikipediaRank" Converter="{StaticResource IntegerToOrdinalStringConverter}"
+                                                                                    StringFormat="{}{0} most used" />
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Setter Property="FontSize" Value="10" />
+                                                                        <Setter Property="Foreground" Value="#555555" />
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                        </DockPanel>
+                                                    </Border>
+
+                                                    <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
+                                                        HorizontalAlignment="Left" Padding="5 0 5 0"
                                                         Background="{Binding DbVocab.JlptLevel, Converter={StaticResource JlptLevelToBrushConverter}}">
                                                         <Border.ToolTip>
                                                             <ToolTip Content="{Binding DbVocab.JlptLevel}"
@@ -1245,7 +1286,7 @@
                                                             </Style>
                                                         </Border.Style>
                                                         <DockPanel LastChildFill="True">
-                                                            <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" Opacity="0.7">
+                                                            <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" Opacity="1" FontWeight="SemiBold">
                                                                 JLPT
                                                             </TextBlock>
                                                             <TextBlock HorizontalAlignment="Right" Margin="5 0 0 0">
@@ -1254,6 +1295,42 @@
                                                                         <Setter Property="Text">
                                                                             <Setter.Value>
                                                                                 <Binding Path="DbVocab.JlptLevel" StringFormat="{}N{0}" />
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Setter Property="FontSize" Value="10" />
+                                                                        <Setter Property="Foreground" Value="#555555" />
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                        </DockPanel>
+                                                    </Border>
+
+                                                    <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
+                                                        HorizontalAlignment="Left" Padding="5 0 5 0"
+                                                        Background="{Binding DbVocab.WaniKaniLevel, Converter={StaticResource WkLevelToBrushConverter}}">
+                                                        <Border.ToolTip>
+                                                            <ToolTip Content="{Binding DbVocab.WaniKaniLevel}"
+                                                                ContentStringFormat="{}Vocab learned at level {0} on the kanji learning website WaniKani." />
+                                                        </Border.ToolTip>
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding DbVocab.WaniKaniLevel}" Value="{x:Null}">
+                                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <DockPanel LastChildFill="True">
+                                                            <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" Opacity="1" FontWeight="SemiBold">
+                                                                WK
+                                                            </TextBlock>
+                                                            <TextBlock HorizontalAlignment="Right" Margin="5 0 0 0">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="Text">
+                                                                            <Setter.Value>
+                                                                                <Binding Path="DbVocab.WaniKaniLevel" StringFormat="{}Level {0}" />
                                                                             </Setter.Value>
                                                                         </Setter>
                                                                         <Setter Property="FontSize" Value="10" />
@@ -1277,7 +1354,7 @@
                                                         </Border.Style>
                                                         <TextBlock Text="{Binding DbVocab.Categories, Converter={StaticResource VocabCategoriesToStringConverter}}" FontSize="10" />
                                                     </Border>
-                                                </StackPanel>
+                                                </WrapPanel>
 
 
                                                 <controls:BindableRichTextBox x:Name="MeaningRtb"

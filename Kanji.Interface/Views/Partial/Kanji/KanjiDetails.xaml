@@ -6,6 +6,7 @@
       xmlns:converters="clr-namespace:Kanji.Interface.Converters"
       xmlns:controls="clr-namespace:Kanji.Interface.Controls"
       xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="600">
     
@@ -25,26 +26,9 @@
             <!-- Big kanji character -->
             <TextBox x:Name="KanjiTitleLabel" Style="{StaticResource KanjiTitle}" Text="{Binding KanjiEntity.DbKanji.Character}" />
 
-            <!-- Stroke count label -->
-            <TextBox x:Name="StrokeCountLabel" FontSize="8" HorizontalAlignment="Center" Margin="0 0 0 0">
-                <TextBox.Style>
-                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource LabelBox}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding KanjiEntity.DbKanji.StrokeCount}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding KanjiEntity.DbKanji.StrokeCount}" Value="1">
-                                <Setter Property="Text" Value="1 stroke" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                        <Setter Property="Text" Value="{Binding Path=KanjiEntity.DbKanji.StrokeCount, StringFormat=\{0\} strokes}" />
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
-
             <!-- Radical list -->
-            <StackPanel Grid.Column="0" Grid.Row="1" Margin="5 0 5 0"
-                    Visibility="{Binding ShowDetails, Converter={StaticResource ValueToVisibilityConverter}}">
+            <StackPanel Grid.Column="0" Grid.Row="1" Margin="5 3 5 0"
+                Visibility="{Binding ShowDetails, Converter={StaticResource ValueToVisibilityConverter}}">
                 <ListBox ItemsSource="{Binding KanjiEntity.Radicals}"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      BorderThickness="0"
@@ -71,6 +55,35 @@
             
             <!-- Secondary information panel -->
             <WrapPanel Orientation="Horizontal">
+                <Border Width="70" Height="60" BorderBrush="{StaticResource FadedBorderBrush}" BorderThickness="1" CornerRadius="4"
+                    Background="White" Margin="0 0 10 0" Visibility="{Binding StrokesDrawingGroup, Converter={StaticResource ValueToVisibilityConverter}}">
+                    <Grid>
+                        <Image HorizontalAlignment="Center" Cursor="Hand">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                    <i:InvokeCommandAction Command="{Binding NextStrokeCommand}" />
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="PreviewMouseRightButtonUp">
+                                    <i:InvokeCommandAction Command="{Binding PreviousStrokeCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Image.Source>
+                                <DrawingImage Drawing="{Binding StrokesDrawingGroup, IsAsync=True}" />
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Style="{StaticResource LegendText}" FontSize="8" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2 0 0 0">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} / {1}">
+                                    <MultiBinding.Bindings>
+                                        <Binding Path="CurrentStroke" />
+                                        <Binding Path="StrokesCount" />
+                                    </MultiBinding.Bindings>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Grid>
+                </Border>
+                
                 <Border CornerRadius="4" Width="70" Height="60" BorderBrush="{StaticResource FadedBorderBrush}" BorderThickness="1" Margin="0 0 10 0"
                     Background="#3377FF77" Visibility="{Binding KanjiEntity.DbKanji.MostUsedRank, Converter={StaticResource ValueToVisibilityConverter}}">
                     <Border.ToolTip>
@@ -161,10 +174,40 @@
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock HorizontalAlignment="Center" FontSize="16">
                             <TextBlock.Text>
-                                <Binding Path="KanjiEntity.DbKanji.JlptLevel" StringFormat="{} N{0}" />
+                                <Binding Path="KanjiEntity.DbKanji.JlptLevel" StringFormat="{}N{0}" />
                             </TextBlock.Text>
                         </TextBlock>
                         <TextBlock Style="{StaticResource LegendText}" HorizontalAlignment="Center" Text="JLPT level" />
+                    </StackPanel>
+                </Border>
+                <Border CornerRadius="4" Width="70" Height="60" BorderBrush="{StaticResource FadedBorderBrush}" BorderThickness="1" Margin="0 0 10 0"
+                    Visibility="{Binding KanjiEntity.DbKanji.WaniKaniLevel, Converter={StaticResource ValueToVisibilityConverter}}" Cursor="Hand">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                            <i:InvokeCommandAction Command="{Binding WaniKaniCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Border.ToolTip>
+                        <ToolTip Content="{Binding KanjiEntity.DbKanji.WaniKaniLevel}"
+                            ContentStringFormat="{}Kanji learned at level {0} on the kanji learning website WaniKani." />
+                    </Border.ToolTip>
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#3359B859" />
+                                </Trigger>
+                            </Style.Triggers>
+                            <Setter Property="Background" Value="#3377FF77" />
+                        </Style>
+                    </Border.Style>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock HorizontalAlignment="Center" FontSize="16">
+                            <TextBlock.Text>
+                                <Binding Path="KanjiEntity.DbKanji.WaniKaniLevel" StringFormat="{}Level {0}" />
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource LegendText}" HorizontalAlignment="Center" Text="on WaniKani" FontSize="11" />
                     </StackPanel>
                 </Border>
                 <Button Content="  ✙&#x0a;Add" FontSize="12" Width="70" Height="60" Margin="0 0 0 0"
@@ -220,44 +263,11 @@
                     </Border>
                 </Grid>
             </WrapPanel>
-            
-            <!-- Readings -->
-            <!--<StackPanel Visibility="{Binding ShowDetails, Converter={StaticResource ValueToVisibilityConverter}}" Margin="0 5 0 0">
-                <Grid Visibility="{Binding KanjiEntity.DbKanji.OnYomi, Converter={StaticResource ValueToVisibilityConverter}}">
-                    <Border Style="{StaticResource KanjiReadingLabelBorder}">
-                        <TextBlock Style="{StaticResource KanjiReadingLabel}" Text="On'yomi" />
-                    </Border>
-                    <ListBox Style="{StaticResource KanjiReadingListbox}"
-                    ItemsSource="{Binding KanjiEntity.DbKanji.OnYomi,
-                        Converter={StaticResource KanjiReadingToListConverter},
-                        ConverterParameter={x:Static converters:KanjiReadingToListConversionType.OnYomi}}" />
-                </Grid>
-                <Grid Visibility="{Binding KanjiEntity.DbKanji.KunYomi, Converter={StaticResource ValueToVisibilityConverter}}">
-                    <Border Style="{StaticResource KanjiReadingLabelBorder}">
-                        <TextBlock Style="{StaticResource KanjiReadingLabel}" Text="Kun'yomi" />
-                    </Border>
-                    <ListBox Style="{StaticResource KanjiReadingListbox}"
-                    ItemsSource="{Binding KanjiEntity.DbKanji.KunYomi,
-                        Converter={StaticResource KanjiReadingToListConverter},
-                        ConverterParameter={x:Static converters:KanjiReadingToListConversionType.KunYomi}}" />
-                </Grid>
-                <Grid Visibility="{Binding KanjiEntity.DbKanji.Nanori, Converter={StaticResource ValueToVisibilityConverter}}">
-                    <Border Style="{StaticResource KanjiReadingLabelBorder}">
-                        <TextBlock Style="{StaticResource KanjiReadingLabel}" Text="Nanori" />
-                    </Border>
-                    <ListBox Style="{StaticResource KanjiReadingListbox}"
-                    ItemsSource="{Binding KanjiEntity.DbKanji.Nanori,
-                        Converter={StaticResource KanjiReadingToListConverter},
-                        ConverterParameter={x:Static converters:KanjiReadingToListConversionType.Nanori}}" />
-                </Grid>
-            </StackPanel>-->
 
             <ListBox Style="{StaticResource KanjiReadingsListbox}" Margin="0 5 0 0"
                 Visibility="{Binding ShowDetails, Converter={StaticResource ValueToVisibilityConverter}}"
                 ItemsSource="{Binding KanjiEntity, Converter={StaticResource KanjiToReadingListConverter}}" />
 
-            <!--<svgc:SvgViewbox Source="Data/25731_frames.svg" Height="60" Stretch="Uniform" />-->
-            
         </StackPanel>
 
         <!-- Vocab table title -->

@@ -52,6 +52,8 @@
     <Compile Include="Helpers\KanaHelper.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Helpers\ParsingHelper.cs" />
+    <Compile Include="Helpers\StreamHelper.cs" />
+    <Compile Include="Helpers\StringCompressionHelper.cs" />
     <Compile Include="Helpers\StringDistanceHelper.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Models\BinaryOperatorEnum.cs" />

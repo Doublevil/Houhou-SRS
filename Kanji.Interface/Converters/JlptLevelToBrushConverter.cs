@@ -30,19 +30,19 @@ namespace Kanji.Interface.Converters
                 }
                 else if (v == 4)
                 {
-                    return new SolidColorBrush(Color.FromArgb(80, 255, 255, 0));
+                    return new SolidColorBrush(Color.FromArgb(85, 255, 255, 0));
                 }
                 else if (v == 3)
                 {
-                    return new SolidColorBrush(Color.FromArgb(60, 255, 255, 0));
+                    return new SolidColorBrush(Color.FromArgb(70, 255, 255, 0));
                 }
                 else if (v == 2)
                 {
-                    return new SolidColorBrush(Color.FromArgb(40, 255, 255, 0));
+                    return new SolidColorBrush(Color.FromArgb(55, 255, 255, 0));
                 }
                 else if (v == 1)
                 {
-                    return new SolidColorBrush(Color.FromArgb(20, 255, 255, 0));
+                    return new SolidColorBrush(Color.FromArgb(40, 255, 255, 0));
                 }
                 else
                 {

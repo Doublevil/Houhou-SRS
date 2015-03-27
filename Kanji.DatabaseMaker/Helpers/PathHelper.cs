@@ -22,5 +22,8 @@ namespace Kanji.DatabaseMaker
         public static readonly string JlptVocabListPath = Path.Combine(ResourcesBasePath, "JLPTVocabList.txt");
         public static readonly string WordUsagePath = Path.Combine(ResourcesBasePath, "WordUsage.txt");
         public static readonly string KanjiUsagePath = Path.Combine(ResourcesBasePath, "KanjiUsage.txt");
+        public static readonly string SvgZipPath = Path.Combine(ResourcesBasePath, "svgs.zip");
+        public static readonly string WaniKaniKanjiListPath = Path.Combine(ResourcesBasePath, "WaniKaniKanjiList.txt");
+        public static readonly string WaniKaniVocabListPath = Path.Combine(ResourcesBasePath, "WaniKaniVocabList.txt");
     }
 }

@@ -148,5 +148,11 @@ namespace Kanji.Database.Extensions
 
             return null;
         }
+
+        public static byte[] ReadBinary(this NameValueCollection c, string key)
+        {
+            string value = c.Get(key);
+            return Encoding.UTF8.GetBytes(value);
+        }
     }
 }

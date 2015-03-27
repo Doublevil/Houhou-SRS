@@ -60,19 +60,6 @@ namespace Kanji.DatabaseMaker
 
         private static readonly int BatchSize = 5000;
 
-        private static int[] CommonnessFloors = new int[]
-        {
-            // Very common
-            39000,
-            // Common
-            8000,
-            // Unusual
-            1000,
-            // Rare
-            250
-            // Very rare
-        };
-
         #endregion
 
         #region Fields
@@ -82,6 +69,7 @@ namespace Kanji.DatabaseMaker
         private Dictionary<string, VocabCategory> _categoryDictionary;
         private Dictionary<string, KanjiEntity> _kanjiDictionary;
         private Dictionary<string, int> _topFrequencyWords;
+        private Dictionary<string, int> _waniKaniDictionary;
 
         #endregion
 
@@ -118,6 +106,8 @@ namespace Kanji.DatabaseMaker
                     _kanjiDictionary.Add(kanji.Character, kanji);
                 }
             }
+
+            LoadWkDictionary();
         }
 
         #endregion
@@ -223,6 +213,7 @@ namespace Kanji.DatabaseMaker
             AttachFurigana(vocabList, fullDictionary);
             AttachJlptLevel(vocabList, fullDictionary, kanaDictionary);
             AttachWordFrequency(vocabList, fullDictionary);
+            AttachWkLevel(vocabList);
             InsertData(vocabList);
         }
 
@@ -340,6 +331,18 @@ namespace Kanji.DatabaseMaker
             _log.InfoFormat("Attaching JLPT level took {0}ms.", (long)duration.TotalMilliseconds);
         }
 
+        private void AttachWkLevel(List<VocabEntity> vocabList)
+        {
+            foreach (VocabEntity v in vocabList)
+            {
+                string vocabString = v.KanjiWriting + "|" + v.KanaWriting;
+                if (_waniKaniDictionary.ContainsKey(vocabString))
+                {
+                    v.WaniKaniLevel = _waniKaniDictionary[vocabString];
+                }
+            }
+        }
+
         /// <summary>
         /// Reads the most used words and puts the result in the decicated field.
         /// </summary>
@@ -353,6 +356,30 @@ namespace Kanji.DatabaseMaker
                 if (!_topFrequencyWords.ContainsKey(words[i]))
                 {
                     _topFrequencyWords.Add(words[i], _topFrequencyWords.Count + 1);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reads the WaniKani vocab list file and builds the dictionary that will be used
+        /// during the execution of the ETL.
+        /// </summary>
+        private void LoadWkDictionary()
+        {
+            _waniKaniDictionary = new Dictionary<string, int>();
+            foreach (string line in File.ReadLines(PathHelper.WaniKaniVocabListPath))
+            {
+                string[] split = line.Split('|');
+                if (split.Count() != 3)
+                {
+                    continue;
+                }
+
+                int? level = ParsingHelper.ParseInt(split[2]);
+                string vocabString = split[0] + "|" + split[1];
+                if (!_waniKaniDictionary.ContainsKey(vocabString) && level.HasValue)
+                {
+                    _waniKaniDictionary.Add(vocabString, level.Value);
                 }
             }
         }
@@ -615,7 +642,7 @@ namespace Kanji.DatabaseMaker
             vocab.KanjiWriting = xkanjiElement.Element(XmlNode_KanjiReading).Value;
             if (_topFrequencyWords.ContainsKey(vocab.KanjiWriting))
             {
-                //vocab.FrequencyRank = _topFrequencyWords[vocab.KanjiWriting];
+                vocab.WikipediaRank = _topFrequencyWords[vocab.KanjiWriting];
                 vocab.IsCommon = true;
             }
             else

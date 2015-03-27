@@ -192,6 +192,8 @@
     <Compile Include="Converters\ValueToVisibilityConverter.cs" />
     <Compile Include="Converters\VocabFrequencyToBrushConverter.cs" />
     <Compile Include="Converters\VocabFrequencyToStringConverter.cs" />
+    <Compile Include="Converters\WikipediaRankToBrushConverter.cs" />
+    <Compile Include="Converters\WkLevelToBrushConverter.cs" />
     <Compile Include="Extensions\SrsEntryExtensions.cs" />
     <Compile Include="Extensions\StartPageEnumExtensions.cs" />
     <Compile Include="Helpers\ClipboardHelper.cs" />
@@ -939,9 +941,6 @@
     </Compile>
     <Resource Include="Data\UI\CsvIcon.png" />
     <Resource Include="Data\UI\WaniKaniIcon.png" />
-    <None Include="Data\25731_frames.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

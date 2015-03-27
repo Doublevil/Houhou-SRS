@@ -17,6 +17,7 @@ namespace Kanji.Database.Helpers
         public static readonly string Table_Vocab = "VocabSet";
         public static readonly string Table_VocabCategory = "VocabCategorySet";
         public static readonly string Table_VocabMeaning = "VocabMeaningSet";
+        public static readonly string Table_KanjiStrokes = "KanjiStrokes";
 
         public static readonly string Table_SrsEntry = "SrsEntrySet";
 
@@ -48,6 +49,8 @@ namespace Kanji.Database.Helpers
         public static readonly string Field_Kanji_KunYomi = "KunYomi";
         public static readonly string Field_Kanji_Nanori = "Nanori";
         public static readonly string Field_Kanji_UnicodeValue = "UnicodeValue";
+        public static readonly string Field_Kanji_NewspaperRank = "NewspaperRank";
+        public static readonly string Field_Kanji_WaniKaniLevel = "WkLevel";
 
         #endregion
 
@@ -76,6 +79,8 @@ namespace Kanji.Database.Helpers
         public static readonly string Field_Vocab_FrequencyRank = "FrequencyRank";
         public static readonly string Field_Vocab_Furigana = "Furigana";
         public static readonly string Field_Vocab_JlptLevel = "JlptLevel";
+        public static readonly string Field_Vocab_WaniKaniLevel = "WkLevel";
+        public static readonly string Field_Vocab_WikipediaRank = "WikiRank";
 
         #endregion
 
@@ -148,6 +153,13 @@ namespace Kanji.Database.Helpers
         public static readonly string Field_SrsEntry_LastUpdateDate = "LastUpdateDate";
         public static readonly string Field_SrsEntry_IsDeleted = "IsDeleted";
         public static readonly string Field_SrsEntry_ServerId = "ServerId";
+
+        #endregion
+
+        #region KanjiStrokes tables
+
+        public static readonly string Field_KanjiStrokes_Id = "ID";
+        public static readonly string Field_KanjiStrokes_FramesSvg = "FramesSvg";
 
         #endregion
 

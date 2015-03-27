@@ -22,6 +22,8 @@ namespace Kanji.Database.Entities
         public Nullable<int> MostUsedRank { get; set; }
         public Nullable<short> JlptLevel { get; set; }
         public Nullable<int> UnicodeValue { get; set; }
+        public Nullable<int> NewspaperRank { get; set; }
+        public Nullable<int> WaniKaniLevel { get; set; }
         public string OnYomi { get; set; }
         public string KunYomi { get; set; }
         public string Nanori { get; set; }
@@ -43,7 +45,9 @@ namespace Kanji.Database.Entities
                 { SqlHelper.Field_Kanji_KunYomi, DbType.String },
                 { SqlHelper.Field_Kanji_Nanori, DbType.String },
                 { SqlHelper.Field_Kanji_OnYomi, DbType.String },
-                { SqlHelper.Field_Kanji_UnicodeValue, DbType.Int32 }
+                { SqlHelper.Field_Kanji_UnicodeValue, DbType.Int32 },
+                { SqlHelper.Field_Kanji_NewspaperRank, DbType.Int32 },
+                { SqlHelper.Field_Kanji_WaniKaniLevel, DbType.Int32 }
             };
         }
 
@@ -52,7 +56,7 @@ namespace Kanji.Database.Entities
             return new object[]
             {
                 Character, StrokeCount, Grade, MostUsedRank, JlptLevel, KunYomi,
-                Nanori, OnYomi, UnicodeValue
+                Nanori, OnYomi, UnicodeValue, NewspaperRank, WaniKaniLevel
             };
         }
 
