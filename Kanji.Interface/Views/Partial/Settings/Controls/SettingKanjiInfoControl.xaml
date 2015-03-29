@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.SettingKanjiInfoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600">
+    <StackPanel>
+        <CheckBox Content="Show nanori (name) readings" IsChecked="{Binding ShowNanori}" Margin="0 0 0 15" />
+        <CheckBox Content="Show kanji frequency information" IsChecked="{Binding ShowBookRanking}" Margin="0 0 0 5" />
+        <CheckBox Content="Show kanji grade information" IsChecked="{Binding ShowGrade}" Margin="0 0 0 5" />
+        <CheckBox Content="Show kanji JLPT level" IsChecked="{Binding ShowJlptLevel}" Margin="0 0 0 5" />
+        <CheckBox Content="Show kanji WaniKani level" IsChecked="{Binding ShowWkLevel}" Margin="0 0 0 5" />
+        <CheckBox Content="Show kanji strokes" IsChecked="{Binding ShowStrokes}" Margin="0 0 0 5" />
+        <Border IsEnabled="{Binding ShowStrokes}" Padding="20 0 0 0">
+            <StackPanel>
+                <CheckBox Content="Animate kanji strokes" IsChecked="{Binding AnimateStrokes}" Margin="0 0 0 5" />
+                <Border IsEnabled="{Binding AnimateStrokes}" Padding="20 0 0 0">
+                    <DockPanel>
+                        <TextBlock Style="{StaticResource LegendText}" Text="Animation speed:" DockPanel.Dock="Left" Margin="0 0 8 0" Foreground="Black" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MaxWidth="150" />
+                            </Grid.ColumnDefinitions>
+                            <Slider Minimum="300" Maximum="3000" MaxWidth="150" IsSnapToTickEnabled="True" IsDirectionReversed="True"
+                                Ticks="300,500,750,1000,1500,2000,2500,3000" Value="{Binding StrokeAnimationDelay}" />
+                        </Grid>
+                    </DockPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

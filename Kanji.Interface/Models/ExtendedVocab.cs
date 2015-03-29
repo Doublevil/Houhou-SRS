@@ -96,6 +96,26 @@ namespace Kanji.Interface.Models
             get { return string.IsNullOrEmpty(DbVocab.Furigana) && !string.IsNullOrEmpty(DbVocab.KanjiWriting); }
         }
 
+        public bool ShowBookRanking
+        {
+            get { return DbVocab.FrequencyRank.HasValue && Kanji.Interface.Properties.Settings.Default.ShowVocabBookRanking; }
+        }
+
+        public bool ShowWikipediaRank
+        {
+            get { return DbVocab.WikipediaRank.HasValue && Kanji.Interface.Properties.Settings.Default.ShowVocabWikipediaRank; }
+        }
+
+        public bool ShowJlptLevel
+        {
+            get { return DbVocab.JlptLevel.HasValue && Kanji.Interface.Properties.Settings.Default.ShowVocabJlptLevel; }
+        }
+
+        public bool ShowWkLevel
+        {
+            get { return DbVocab.WaniKaniLevel.HasValue && Kanji.Interface.Properties.Settings.Default.ShowVocabWkLevel; }
+        }
+
         #endregion
 
         #region Constructors

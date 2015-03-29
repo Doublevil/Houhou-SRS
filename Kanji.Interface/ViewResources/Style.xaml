@@ -1192,13 +1192,11 @@
                                                 <WrapPanel Orientation="Horizontal" Margin="0 2 0 2">
                                                     <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
                                                         HorizontalAlignment="Left" Padding="5 0 5 0" Width="93"
+                                                        Visibility="{Binding ShowBookRanking, Converter={StaticResource ValueToVisibilityConverter}}"
                                                         Background="{Binding DbVocab.FrequencyRank, Converter={StaticResource VocabFrequencyToBrushConverter}}">
                                                         <Border.Style>
                                                             <Style TargetType="Border">
                                                                 <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding DbVocab.FrequencyRank}" Value="{x:Null}">
-                                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                                    </DataTrigger>
                                                                     <DataTrigger Binding="{Binding DbVocab.FrequencyRank}" Value="1">
                                                                         <Setter Property="ToolTip" Value="Found 1 time in 7905 books." />
                                                                     </DataTrigger>
@@ -1232,22 +1230,12 @@
 
                                                     <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
                                                         HorizontalAlignment="Left" Padding="5 0 5 0"
+                                                        Visibility="{Binding ShowWikipediaRank, Converter={StaticResource ValueToVisibilityConverter}}"
                                                         Background="{Binding DbVocab.WikipediaRank, Converter={StaticResource WikipediaRankToBrushConverter}}">
-                                                        <Border.Style>
-                                                            <Style TargetType="Border">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding DbVocab.WikipediaRank}" Value="{x:Null}">
-                                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                                <Setter Property="ToolTip">
-                                                                    <Setter.Value>
-                                                                        <ToolTip Content="{Binding DbVocab.WikipediaRank, Converter={StaticResource IntegerToOrdinalStringConverter}}"
-                                                                            ContentStringFormat="{}{0} out of 10000 most used word in a study of Japanese Wikipedia articles." />
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </Style>
-                                                        </Border.Style>
+                                                        <Border.ToolTip>
+                                                            <ToolTip Content="{Binding DbVocab.WikipediaRank, Converter={StaticResource IntegerToOrdinalStringConverter}}"
+                                                                ContentStringFormat="{}{0} out of 10000 most used word in a study of Japanese Wikipedia articles." />
+                                                        </Border.ToolTip>
                                                         <DockPanel LastChildFill="True">
                                                             <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" Margin="0 0 6 0" FontWeight="SemiBold">
                                                                 W
@@ -1271,20 +1259,12 @@
 
                                                     <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
                                                         HorizontalAlignment="Left" Padding="5 0 5 0"
+                                                        Visibility="{Binding ShowJlptLevel, Converter={StaticResource ValueToVisibilityConverter}}"
                                                         Background="{Binding DbVocab.JlptLevel, Converter={StaticResource JlptLevelToBrushConverter}}">
                                                         <Border.ToolTip>
                                                             <ToolTip Content="{Binding DbVocab.JlptLevel}"
                                                                 ContentStringFormat="{}Part of the vocabulary list for the N{0} level of the Japanese-Language Proficiency Test." />
                                                         </Border.ToolTip>
-                                                        <Border.Style>
-                                                            <Style TargetType="Border">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding DbVocab.JlptLevel}" Value="{x:Null}">
-                                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Border.Style>
                                                         <DockPanel LastChildFill="True">
                                                             <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" Opacity="1" FontWeight="SemiBold">
                                                                 JLPT
@@ -1307,20 +1287,12 @@
 
                                                     <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
                                                         HorizontalAlignment="Left" Padding="5 0 5 0"
+                                                        Visibility="{Binding ShowWkLevel, Converter={StaticResource ValueToVisibilityConverter}}"
                                                         Background="{Binding DbVocab.WaniKaniLevel, Converter={StaticResource WkLevelToBrushConverter}}">
                                                         <Border.ToolTip>
                                                             <ToolTip Content="{Binding DbVocab.WaniKaniLevel}"
                                                                 ContentStringFormat="{}Vocab learned at level {0} on the kanji learning website WaniKani." />
                                                         </Border.ToolTip>
-                                                        <Border.Style>
-                                                            <Style TargetType="Border">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding DbVocab.WaniKaniLevel}" Value="{x:Null}">
-                                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Border.Style>
                                                         <DockPanel LastChildFill="True">
                                                             <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" Opacity="1" FontWeight="SemiBold">
                                                                 WK

@@ -351,5 +351,161 @@ namespace Kanji.Interface.Properties {
                 this["WindowCloseAction"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowNanori {
+            get {
+                return ((bool)(this["ShowNanori"]));
+            }
+            set {
+                this["ShowNanori"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AnimateStrokes {
+            get {
+                return ((bool)(this["AnimateStrokes"]));
+            }
+            set {
+                this["AnimateStrokes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public double StrokeAnimationDelay {
+            get {
+                return ((double)(this["StrokeAnimationDelay"]));
+            }
+            set {
+                this["StrokeAnimationDelay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowVocabBookRanking {
+            get {
+                return ((bool)(this["ShowVocabBookRanking"]));
+            }
+            set {
+                this["ShowVocabBookRanking"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowVocabWikipediaRank {
+            get {
+                return ((bool)(this["ShowVocabWikipediaRank"]));
+            }
+            set {
+                this["ShowVocabWikipediaRank"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowVocabJlptLevel {
+            get {
+                return ((bool)(this["ShowVocabJlptLevel"]));
+            }
+            set {
+                this["ShowVocabJlptLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowVocabWkLevel {
+            get {
+                return ((bool)(this["ShowVocabWkLevel"]));
+            }
+            set {
+                this["ShowVocabWkLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowKanjiBookRanking {
+            get {
+                return ((bool)(this["ShowKanjiBookRanking"]));
+            }
+            set {
+                this["ShowKanjiBookRanking"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowKanjiStrokes {
+            get {
+                return ((bool)(this["ShowKanjiStrokes"]));
+            }
+            set {
+                this["ShowKanjiStrokes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowKanjiGrade {
+            get {
+                return ((bool)(this["ShowKanjiGrade"]));
+            }
+            set {
+                this["ShowKanjiGrade"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowKanjiJlptLevel {
+            get {
+                return ((bool)(this["ShowKanjiJlptLevel"]));
+            }
+            set {
+                this["ShowKanjiJlptLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowKanjiWkLevel {
+            get {
+                return ((bool)(this["ShowKanjiWkLevel"]));
+            }
+            set {
+                this["ShowKanjiWkLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShouldUpgradeSettings {
+            get {
+                return ((bool)(this["ShouldUpgradeSettings"]));
+            }
+            set {
+                this["ShouldUpgradeSettings"] = value;
+            }
+        }
     }
 }

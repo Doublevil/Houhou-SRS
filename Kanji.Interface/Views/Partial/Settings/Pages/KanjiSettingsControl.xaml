@@ -27,5 +27,14 @@
             </StackPanel>
         </GroupBox>
 
+        <GroupBox BorderBrush="#666666" Margin="0 20 0 0">
+            <GroupBox.Header>
+                <TextBlock Text="Kanji details" Style="{StaticResource SettingCategoryTitle}" />
+            </GroupBox.Header>
+            <StackPanel Margin="6 10">
+                <controls:SettingKanjiInfoControl DataContext="{Binding KanjiInfoVm}" />
+            </StackPanel>
+        </GroupBox>
+
     </StackPanel>
 </UserControl>

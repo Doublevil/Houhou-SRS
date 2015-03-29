@@ -40,6 +40,31 @@ namespace Kanji.Interface.Models
             }
         }
 
+        public bool ShowBookRanking
+        {
+            get { return DbKanji.MostUsedRank.HasValue && Kanji.Interface.Properties.Settings.Default.ShowKanjiBookRanking; }
+        }
+
+        public bool ShowGrade
+        {
+            get { return DbKanji.Grade.HasValue && Kanji.Interface.Properties.Settings.Default.ShowKanjiGrade; }
+        }
+
+        public bool ShowJlptLevel
+        {
+            get { return DbKanji.JlptLevel.HasValue && Kanji.Interface.Properties.Settings.Default.ShowKanjiJlptLevel; }
+        }
+
+        public bool ShowWkLevel
+        {
+            get { return DbKanji.WaniKaniLevel.HasValue && Kanji.Interface.Properties.Settings.Default.ShowKanjiWkLevel; }
+        }
+
+        public bool ShowStrokes
+        {
+            get { return Kanji.Interface.Properties.Settings.Default.ShowKanjiStrokes; }
+        }
+
         #endregion
 
         #region Constructors

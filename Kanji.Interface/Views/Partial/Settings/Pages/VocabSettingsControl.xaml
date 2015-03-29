@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:Kanji.Interface.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="800" d:DesignWidth="300">
     <StackPanel>
         <GroupBox BorderBrush="#666666">
             <GroupBox.Header>
@@ -23,7 +23,8 @@
             </GroupBox.Header>
             <StackPanel Margin="6 10">
                 <controls:SettingVocabPerPageControl DataContext="{Binding VocabPerPageVm}" />
-                <controls:SettingCollapseMeaningLimitControl DataContext="{Binding CollapseMeaningLimitVm}" Margin="0 10 0 0" />
+                <controls:SettingCollapseMeaningLimitControl DataContext="{Binding CollapseMeaningLimitVm}" Margin="0 10 0 10" />
+                <controls:SettingVocabInfoControl DataContext="{Binding VocabInfoVm}" />
             </StackPanel>
         </GroupBox>
     </StackPanel>

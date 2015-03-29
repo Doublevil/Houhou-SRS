@@ -35,6 +35,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public SettingCollapseMeaningLimitViewModel CollapseMeaningLimitVm { get; private set; }
 
+        /// <summary>
+        /// Gets the vocab info view model.
+        /// </summary>
+        public SettingVocabInfoViewModel VocabInfoVm { get; private set; }
+
         #endregion
 
         #region Methods
@@ -48,6 +53,7 @@ namespace Kanji.Interface.ViewModels
             AudioVolumeVm = new SettingAudioVolumeViewModel();
             VocabPerPageVm = new SettingVocabPerPageViewModel();
             CollapseMeaningLimitVm = new SettingCollapseMeaningLimitViewModel();
+            VocabInfoVm = new SettingVocabInfoViewModel();
 
             return new SettingControlViewModel[]
             {
@@ -55,7 +61,8 @@ namespace Kanji.Interface.ViewModels
                 ReviewPlayAudioVm,
                 AudioVolumeVm,
                 VocabPerPageVm,
-                CollapseMeaningLimitVm
+                CollapseMeaningLimitVm,
+                VocabInfoVm
             };
         }
 

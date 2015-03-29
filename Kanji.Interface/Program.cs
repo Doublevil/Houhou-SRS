@@ -74,6 +74,9 @@ namespace Kanji.Interface
             // Initialize the logging system.
             LogHelper.InitializeLoggingSystem();
 
+            // Initialize settings.
+            InitializeUserSettings();
+
             // Initialize the configuration system.
             ConfigurationHelper.InitializeConfiguration();
 
@@ -107,14 +110,39 @@ namespace Kanji.Interface
                 app.InitializeComponent();
                 AppDomain.CurrentDomain.UnhandledException += OnAppDomainUnhandledException;
                 app.DispatcherUnhandledException += OnUnhandledException;
-                TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+                TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
                 app.Run();
 
                 // The execution blocks here until the application exits.
             }
         }
 
-        static void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        /// <summary>
+        /// Initializes user settings if they need to be.
+        /// This ensures user settings are kept after upgrading to a newer version.
+        /// </summary>
+        private static void InitializeUserSettings()
+        {
+            if (Kanji.Interface.Properties.Settings.Default.ShouldUpgradeSettings)
+            {
+                try
+                {
+                    Kanji.Interface.Properties.Settings.Default.Upgrade();
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.GetLogger("Settings initialization").Error("Settings initialization failed.", ex);
+                }
+
+                Kanji.Interface.Properties.Settings.Default.ShouldUpgradeSettings = false;
+                Kanji.Interface.Properties.Settings.Default.Save();
+            }
+        }
+
+        /// <summary>
+        /// Event trigger. Called when an exception occurs in some situations.
+        /// </summary>
+        private static void OnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             OnUnhandledException(e.Exception);
         }
@@ -122,7 +150,7 @@ namespace Kanji.Interface
         /// <summary>
         /// Event trigger. Called when an unhandled exception is thrown by any thread.
         /// </summary>
-        static void OnAppDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private static void OnAppDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             OnUnhandledException((e.ExceptionObject as Exception) ?? new Exception("Unknown fatal error."));
         }

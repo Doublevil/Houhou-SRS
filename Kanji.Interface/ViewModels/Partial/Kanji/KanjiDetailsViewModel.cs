@@ -358,10 +358,13 @@ namespace Kanji.Interface.ViewModels
             ((BackgroundWorker)sender).DoWork -= DoPrepareSvg;
             ((BackgroundWorker)sender).RunWorkerCompleted -= DonePrepareSvg;
 
-            _strokeUpdateTimer = new DispatcherTimer();
-            _strokeUpdateTimer.Interval = TimeSpan.FromSeconds(1);
-            _strokeUpdateTimer.Tick += OnStrokeUpdateTimerTick;
-            _strokeUpdateTimer.Start();
+            if (Kanji.Interface.Properties.Settings.Default.AnimateStrokes)
+            {
+                _strokeUpdateTimer = new DispatcherTimer();
+                _strokeUpdateTimer.Interval = TimeSpan.FromMilliseconds(Kanji.Interface.Properties.Settings.Default.StrokeAnimationDelay);
+                _strokeUpdateTimer.Tick += OnStrokeUpdateTimerTick;
+                _strokeUpdateTimer.Start();
+            }
         }
 
         #endregion

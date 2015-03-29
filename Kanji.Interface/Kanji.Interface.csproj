@@ -296,6 +296,7 @@
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingCollapseMeaningLimitViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingDoUpdateCheckViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingIgnoreAnswerShortcutViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Settings\Controls\SettingKanjiInfoViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingKanjiPerPageViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingSrsEntriesPerPageViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingSrsLevelSetViewModel.cs" />
@@ -305,6 +306,7 @@
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingTrayIntervalViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingTrayNotifyThresholdViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingUserDirectoryViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Settings\Controls\SettingVocabInfoViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingVocabPerPageViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Controls\SettingWindowCloseActionViewModel.cs" />
     <Compile Include="ViewModels\Partial\Settings\Pages\ApplicationSettingsViewModel.cs" />
@@ -424,6 +426,9 @@
     <Compile Include="Views\Partial\Settings\Controls\SettingIgnoreAnswerShortcut.xaml.cs">
       <DependentUpon>SettingIgnoreAnswerShortcut.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Partial\Settings\Controls\SettingKanjiInfoControl.xaml.cs">
+      <DependentUpon>SettingKanjiInfoControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Partial\Settings\Controls\SettingKanjiPerPageControl.xaml.cs">
       <DependentUpon>SettingKanjiPerPageControl.xaml</DependentUpon>
     </Compile>
@@ -456,6 +461,9 @@
     </Compile>
     <Compile Include="Views\Partial\Settings\Controls\SettingUserDirectory.xaml.cs">
       <DependentUpon>SettingUserDirectory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Settings\Controls\SettingVocabInfoControl.xaml.cs">
+      <DependentUpon>SettingVocabInfoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\Settings\Controls\SettingVocabPerPageControl.xaml.cs">
       <DependentUpon>SettingVocabPerPageControl.xaml</DependentUpon>
@@ -720,6 +728,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Partial\Settings\Controls\SettingKanjiInfoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Partial\Settings\Controls\SettingKanjiPerPageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -761,6 +773,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\Settings\Controls\SettingUserDirectory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Settings\Controls\SettingVocabInfoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

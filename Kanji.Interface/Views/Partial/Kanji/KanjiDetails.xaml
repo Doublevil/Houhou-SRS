@@ -56,7 +56,19 @@
             <!-- Secondary information panel -->
             <WrapPanel Orientation="Horizontal">
                 <Border Width="70" Height="60" BorderBrush="{StaticResource FadedBorderBrush}" BorderThickness="1" CornerRadius="4"
-                    Background="White" Margin="0 0 10 0" Visibility="{Binding StrokesDrawingGroup, Converter={StaticResource ValueToVisibilityConverter}}">
+                    Background="White" Margin="0 0 10 0">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding StrokesDrawingGroup}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding KanjiEntity.ShowStrokes}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
                     <Grid>
                         <Image HorizontalAlignment="Center" Cursor="Hand">
                             <i:Interaction.Triggers>
@@ -85,7 +97,7 @@
                 </Border>
                 
                 <Border CornerRadius="4" Width="70" Height="60" BorderBrush="{StaticResource FadedBorderBrush}" BorderThickness="1" Margin="0 0 10 0"
-                    Background="#3377FF77" Visibility="{Binding KanjiEntity.DbKanji.MostUsedRank, Converter={StaticResource ValueToVisibilityConverter}}">
+                    Background="#3377FF77" Visibility="{Binding KanjiEntity.ShowBookRanking, Converter={StaticResource ValueToVisibilityConverter}}">
                     <Border.ToolTip>
                         <ToolTip Content="{Binding KanjiEntity.DbKanji.MostUsedRank, Converter={StaticResource IntegerToOrdinalStringConverter}}"
                             ContentStringFormat="{}{0} most used kanji in an analysis of 7905 books." />
@@ -105,7 +117,7 @@
                     </StackPanel>
                 </Border>
                 <Border CornerRadius="4" Width="70" Height="60" BorderBrush="{StaticResource FadedBorderBrush}" BorderThickness="1" Margin="0 0 10 0"
-                    Background="#3377FF77" Visibility="{Binding KanjiEntity.DbKanji.Grade, Converter={StaticResource ValueToVisibilityConverter}}">
+                    Background="#3377FF77" Visibility="{Binding KanjiEntity.ShowGrade, Converter={StaticResource ValueToVisibilityConverter}}">
                     <Border.Style>
                         <Style TargetType="Border">
                             <Style.Triggers>
@@ -166,7 +178,7 @@
                     </StackPanel>
                 </Border>
                 <Border CornerRadius="4" Width="70" Height="60" BorderBrush="{StaticResource FadedBorderBrush}" BorderThickness="1" Margin="0 0 10 0"
-                    Background="#3377FF77" Visibility="{Binding KanjiEntity.DbKanji.JlptLevel, Converter={StaticResource ValueToVisibilityConverter}}">
+                    Background="#3377FF77" Visibility="{Binding KanjiEntity.ShowJlptLevel, Converter={StaticResource ValueToVisibilityConverter}}">
                     <Border.ToolTip>
                         <ToolTip Content="{Binding KanjiEntity.DbKanji.JlptLevel}"
                             ContentStringFormat="{}Part of the kanji list for the N{0} level of the Japanese-Language Proficiency Test." />
@@ -181,7 +193,7 @@
                     </StackPanel>
                 </Border>
                 <Border CornerRadius="4" Width="70" Height="60" BorderBrush="{StaticResource FadedBorderBrush}" BorderThickness="1" Margin="0 0 10 0"
-                    Visibility="{Binding KanjiEntity.DbKanji.WaniKaniLevel, Converter={StaticResource ValueToVisibilityConverter}}" Cursor="Hand">
+                    Visibility="{Binding KanjiEntity.ShowWkLevel, Converter={StaticResource ValueToVisibilityConverter}}" Cursor="Hand">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
                             <i:InvokeCommandAction Command="{Binding WaniKaniCommand}" />

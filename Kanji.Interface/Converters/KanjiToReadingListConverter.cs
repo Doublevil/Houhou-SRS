@@ -38,7 +38,7 @@ namespace Kanji.Interface.Converters
                 results.AddRange(GetReadingList(kanji.DbKanji.KunYomi, Properties.Settings.Default.KunYomiReadingType));
             }
 
-            if (!string.IsNullOrWhiteSpace(kanji.DbKanji.Nanori))
+            if (!string.IsNullOrWhiteSpace(kanji.DbKanji.Nanori) && Kanji.Interface.Properties.Settings.Default.ShowNanori)
             {
                 results.Add(new KanjiReadingLabel() { Label = "Nanori" });
                 results.AddRange(GetReadingList(kanji.DbKanji.KunYomi, Properties.Settings.Default.NanoriReadingType));
