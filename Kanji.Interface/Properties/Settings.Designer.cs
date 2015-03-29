@@ -507,5 +507,17 @@ namespace Kanji.Interface.Properties {
                 this["ShouldUpgradeSettings"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("24")]
+        public double VocabSrsDelayHours {
+            get {
+                return ((double)(this["VocabSrsDelayHours"]));
+            }
+            set {
+                this["VocabSrsDelayHours"] = value;
+            }
+        }
     }
 }

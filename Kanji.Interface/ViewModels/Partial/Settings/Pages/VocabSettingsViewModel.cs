@@ -40,6 +40,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public SettingVocabInfoViewModel VocabInfoVm { get; private set; }
 
+        /// <summary>
+        /// Gets the SRS quick delay view model.
+        /// </summary>
+        public SettingSrsQuickDelayViewModel SrsQuickDelayVm { get; private set; }
+
         #endregion
 
         #region Methods
@@ -54,6 +59,7 @@ namespace Kanji.Interface.ViewModels
             VocabPerPageVm = new SettingVocabPerPageViewModel();
             CollapseMeaningLimitVm = new SettingCollapseMeaningLimitViewModel();
             VocabInfoVm = new SettingVocabInfoViewModel();
+            SrsQuickDelayVm = new SettingSrsQuickDelayViewModel();
 
             return new SettingControlViewModel[]
             {
@@ -62,7 +68,8 @@ namespace Kanji.Interface.ViewModels
                 AudioVolumeVm,
                 VocabPerPageVm,
                 CollapseMeaningLimitVm,
-                VocabInfoVm
+                VocabInfoVm,
+                SrsQuickDelayVm
             };
         }
 

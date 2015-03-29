@@ -30,15 +30,38 @@
                 </Grid>
             </Border>
 
-            <Button Style="{StaticResource MiniActionButton}"
-                Content="Edit" VerticalContentAlignment="Center" Width="60" Height="{Binding ElementName=SrsLevelIndicator, Path=ActualHeight}"
-                Command="{Binding DataContext.EditSrsEntryCommand, RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
-                CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
-                ToolTip="Edit the SRS item" Margin="0 0 0 0" BorderThickness="0 1 1 1" BorderBrush="Black">
-                <Button.RenderTransform>
-                    <TranslateTransform X="-1" Y="0" />
-                </Button.RenderTransform>
-            </Button>
+            <Border Width="55" Height="{Binding ElementName=SrsLevelIndicator, Path=ActualHeight}" BorderThickness="0 1 0 1"
+                BorderBrush="Black" CornerRadius="0 0 0 0">
+                <Button Style="{StaticResource MiniActionButton}"
+                    Content="Edit" VerticalContentAlignment="Center"
+                    Command="{Binding DataContext.EditSrsEntryCommand, RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+                    CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                    ToolTip="Edit the SRS item" Margin="0 0 0 0" BorderThickness="0 0 1 0" BorderBrush="#33000000" />
+            </Border>
+
+            <Border BorderThickness="0 1 1 1" BorderBrush="Black" Width="93" CornerRadius="0 3 3 0"
+                Height="{Binding ElementName=SrsLevelIndicator, Path=ActualHeight}">
+                <DockPanel>
+                    <Button DockPanel.Dock="Right" Style="{StaticResource MiniActionButton}" Content="+" Width="15" BorderThickness="0"
+                        ToolTip="Add a delay to the next review date."
+                        Command="{Binding DataContext.AddSrsDelayCommand, RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+                        CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" />
+                    <Button DockPanel.Dock="Right" Style="{StaticResource MiniActionButton}" Content="−" Width="15" BorderThickness="0"
+                        ToolTip="Subtracts a delay from the next review date."
+                        Command="{Binding DataContext.SubtractSrsDelayCommand, RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+                        CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" />
+                    <Viewbox DockPanel.Dock="Left" Height="14">
+                        <Viewbox.ToolTip>
+                            <ToolTip Content="{Binding NextAnswerDate, Mode=OneWay, Converter={StaticResource DateTimeToStringConverter},
+                                    ConverterParameter={x:Static converters:DateTimeToStringConversionEnum.Relative}}"
+                                ContentStringFormat="{}Next review: {0}." />
+                        </Viewbox.ToolTip>
+                        <TextBlock Style="{StaticResource LegendText}" Text="{Binding NextAnswerDate, Converter={StaticResource DateTimeToStringConverter},
+                            ConverterParameter={x:Static converters:DateTimeToStringConversionEnum.Relative}}" VerticalAlignment="Center"
+                            Margin="8 0 5 0" />
+                    </Viewbox>
+                </DockPanel>
+            </Border>
 
         </StackPanel>
     </Border>

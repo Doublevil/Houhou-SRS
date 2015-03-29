@@ -1352,13 +1352,9 @@
                                             </StackPanel>
 
 
-                                            <Button Grid.Row="1" Content="✙ Add" Margin="5 0 0 5" Width="70" HorizontalAlignment="Left"
-                                                BorderBrush="#22000000"
-				                                Command="{Binding DataContext.AddToSrsCommand,
-						                            RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
-				                                CommandParameter="{Binding .}">
-                                                <Button.Style>
-                                                    <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5 0 0 5">
+                                                <StackPanel.Style>
+                                                    <Style TargetType="StackPanel">
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding SrsEntry}" Value="{x:Null}">
                                                                 <Setter Property="Visibility" Value="Visible" />
@@ -1366,8 +1362,17 @@
                                                         </Style.Triggers>
                                                         <Setter Property="Visibility" Value="Collapsed" />
                                                     </Style>
-                                                </Button.Style>
-                                            </Button>
+                                                </StackPanel.Style>
+                                                <Button Content="✙ Add" Width="70" HorizontalAlignment="Left" BorderBrush="#22000000"
+				                                    Command="{Binding DataContext.AddToSrsCommand,
+						                                RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+				                                    CommandParameter="{Binding .}" Style="{StaticResource MiniActionButton}" />
+                                                <Button Content="✙ Quick add" Width="70" HorizontalAlignment="Left" BorderBrush="#22000000"
+				                                    Margin="8 0 0 0" Command="{Binding DataContext.QuickAddToSrsCommand,
+						                                RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+				                                    CommandParameter="{Binding .}" Style="{StaticResource MiniActionButton}"
+                                                    ToolTip="Add this vocab entry to your SRS list in one click." />
+                                            </StackPanel>
 
                                             <controls:SrsVocabEntryProgress Grid.Row="1" DataContext="{Binding SrsEntry, IsAsync=True}">
                                                 <controls:SrsVocabEntryProgress.Style>

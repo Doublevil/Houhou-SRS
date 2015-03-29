@@ -19,6 +19,8 @@ using Kanji.Interface.Models;
 using Kanji.Interface.Utilities;
 using Kanji.Interface.Extensions;
 using Kanji.Interface.Views;
+using Kanji.Database.Dao;
+using Kanji.Interface.Actors;
 
 namespace Kanji.Interface.ViewModels
 {
@@ -82,9 +84,24 @@ namespace Kanji.Interface.ViewModels
         public RelayCommand<ExtendedVocab> AddToSrsCommand { get; set; }
 
         /// <summary>
+        /// Commands used to one-click add a vocab to the SRS.
+        /// </summary>
+        public RelayCommand<ExtendedVocab> QuickAddToSrsCommand { get; set; }
+
+        /// <summary>
         /// Command used to edit an SRS item.
         /// </summary>
         public RelayCommand<ExtendedVocab> EditSrsEntryCommand { get; set; }
+
+        /// <summary>
+        /// Command used to add a delay to the next review date of an SRS item associated to a vocab entry.
+        /// </summary>
+        public RelayCommand<ExtendedVocab> AddSrsDelayCommand { get; set; }
+
+        /// <summary>
+        /// Command used to subtract a delay from the next review date of an SRS item associated to a vocab entry.
+        /// </summary>
+        public RelayCommand<ExtendedVocab> SubtractSrsDelayCommand { get; set; }
 
         /// <summary>
         /// Command used to copy a kanji writing to the clipboard.
@@ -131,6 +148,9 @@ namespace Kanji.Interface.ViewModels
         {
             KanjiNavigationCommand = new RelayCommand<KanjiWritingCharacter>(OnKanjiNavigation);
             AddToSrsCommand = new RelayCommand<ExtendedVocab>(OnAddToSrs);
+            QuickAddToSrsCommand = new RelayCommand<ExtendedVocab>(OnQuickAddToSrs);
+            AddSrsDelayCommand = new RelayCommand<ExtendedVocab>(OnAddSrsDelay);
+            SubtractSrsDelayCommand = new RelayCommand<ExtendedVocab>(OnSubtractSrsDelay);
             EditSrsEntryCommand = new RelayCommand<ExtendedVocab>(OnEditSrsEntry);
             KanjiCopyCommand = new RelayCommand<ExtendedVocab>(OnKanjiCopy);
             KanaCopyCommand = new RelayCommand<ExtendedVocab>(OnKanaCopy);
@@ -140,6 +160,33 @@ namespace Kanji.Interface.ViewModels
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Adds a positive or negative delay to the next review date of the SRS entry associated
+        /// with the given vocab. The delay is determined by a user setting.
+        /// </summary>
+        private void DelaySrsEntry(ExtendedVocab vocab, bool add)
+        {
+            try
+            {
+                TimeSpan delay = TimeSpan.FromHours(Kanji.Interface.Properties.Settings.Default.VocabSrsDelayHours);
+                DateTime start = vocab.SrsEntry.NextAnswerDate ?? DateTime.Now;
+
+                vocab.SrsEntry.NextAnswerDate = (add ? start + delay : start - delay);
+                new SrsEntryDao().Update(vocab.SrsEntry.Reference);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(
+                    NavigationActor.Instance.ActiveWindow,
+                    string.Format("An error occured: {0}", ex.Message),
+                    "Quick delay error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
+
+                LogHelper.GetLogger("Quick SRS delay").Error("An error occured during quick SRS delay.", ex);
+            }
+        }
 
         #region Override
 
@@ -217,6 +264,67 @@ namespace Kanji.Interface.ViewModels
                 // We can use it in this ViewModel.
                 vocab.SrsEntry = result;
             }
+        }
+
+        /// <summary>
+        /// Command callback.
+        /// Called to directly add the calling vocab to the SRS.
+        /// </summary>
+        /// <param name="vocab">Calling vocab.</param>
+        private void OnQuickAddToSrs(ExtendedVocab vocab)
+        {
+            SrsEntry entry = new SrsEntry();
+            entry.LoadFromVocab(vocab.DbVocab);
+            entry.Tags = Kanji.Interface.Properties.Settings.Default.LastSrsTagsValue;
+
+            SrsLevel startLevel = SrsLevelStore.Instance.GetLevelByValue(0);
+            if (startLevel != null)
+            {
+                entry.NextAnswerDate = DateTime.Now + startLevel.Delay;
+            }
+
+            // Sets some properties
+            entry.CreationDate = DateTime.UtcNow;
+
+            try
+            {
+                // Add the entity to the database.
+                new SrsEntryDao().Add(entry);
+                vocab.SrsEntry = new ExtendedSrsEntry(entry);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(
+                    NavigationActor.Instance.ActiveWindow,
+                    string.Format("An error occured: {0}", ex.Message),
+                    "Quick add error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
+
+                LogHelper.GetLogger("Quick add").Error("An error occured during quick add.", ex);
+            }
+        }
+
+        /// <summary>
+        /// Command callback.
+        /// Called to add a delay to the next review date of the SRS entry
+        /// associated with the calling vocab.
+        /// </summary>
+        /// <param name="vocab">Calling vocab.</param>
+        private void OnAddSrsDelay(ExtendedVocab vocab)
+        {
+            DelaySrsEntry(vocab, true);
+        }
+
+        /// <summary>
+        /// Command callback.
+        /// Called to subtract a delay from the next review date of the SRS entry
+        /// associated with the calling vocab.
+        /// </summary>
+        /// <param name="vocab">Calling vocab.</param>
+        private void OnSubtractSrsDelay(ExtendedVocab vocab)
+        {
+            DelaySrsEntry(vocab, false);
         }
 
         /// <summary>
