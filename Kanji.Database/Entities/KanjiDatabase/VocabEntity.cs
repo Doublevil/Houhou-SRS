@@ -13,6 +13,7 @@ namespace Kanji.Database.Entities
             this.Kanji = new HashSet<KanjiEntity>();
             this.Categories = new HashSet<VocabCategory>();
             this.SrsEntries = new HashSet<SrsEntry>();
+            this.Variants = new HashSet<VocabEntity>();
         }
     
         public long ID { get; set; }
@@ -24,11 +25,14 @@ namespace Kanji.Database.Entities
         public string Furigana { get; set; }
         public Nullable<int> WaniKaniLevel { get; set; }
         public Nullable<int> WikipediaRank { get; set; }
+        public int GroupId { get; set; }
+        public bool IsMain { get; set; }
     
         public ICollection<VocabMeaning> Meanings { get; set; }
         public ICollection<KanjiEntity> Kanji { get; set; }
         public ICollection<VocabCategory> Categories { get; set; }
         public ICollection<SrsEntry> SrsEntries { get; set; }
+        public ICollection<VocabEntity> Variants { get; set; }
 
         public override string GetTableName()
         {
@@ -46,7 +50,9 @@ namespace Kanji.Database.Entities
                 { SqlHelper.Field_Vocab_Furigana, DbType.String },
                 { SqlHelper.Field_Vocab_JlptLevel, DbType.Int16 },
                 { SqlHelper.Field_Vocab_WaniKaniLevel, DbType.Int32 },
-                { SqlHelper.Field_Vocab_WikipediaRank, DbType.Int32 }
+                { SqlHelper.Field_Vocab_WikipediaRank, DbType.Int32 },
+                { SqlHelper.Field_Vocab_GroupId, DbType.Int32 },
+                { SqlHelper.Field_Vocab_IsMain, DbType.Boolean }
             };
         }
 
@@ -54,7 +60,8 @@ namespace Kanji.Database.Entities
         {
             return new object[]
             {
-                IsCommon, KanaWriting, KanjiWriting, FrequencyRank, Furigana, JlptLevel, WaniKaniLevel, WikipediaRank
+                IsCommon, KanaWriting, KanjiWriting, FrequencyRank, Furigana, JlptLevel, WaniKaniLevel,
+                WikipediaRank, GroupId, IsMain
             };
         }
 

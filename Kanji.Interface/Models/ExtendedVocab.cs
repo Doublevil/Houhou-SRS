@@ -116,6 +116,11 @@ namespace Kanji.Interface.Models
             get { return DbVocab.WaniKaniLevel.HasValue && Kanji.Interface.Properties.Settings.Default.ShowVocabWkLevel; }
         }
 
+        public bool HasVariants
+        {
+            get { return DbVocab.Variants.Any(); }
+        }
+
         #endregion
 
         #region Constructors

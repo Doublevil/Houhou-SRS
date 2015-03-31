@@ -261,6 +261,52 @@ namespace Kanji.Database.Dao
         }
 
         /// <summary>
+        /// Retrieves and returns the complete VocabEntity matching the given ID.
+        /// </summary>
+        /// <param name="id">Id to search.</param>
+        /// <returns>The VocabEntity that matches the given ID, or null if not found.</returns>
+        public VocabEntity GetVocabById(long id)
+        {
+            VocabEntity result = null;
+
+            DaoConnection connection = null;
+            DaoConnection srsConnection = null;
+
+            try
+            {
+                connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
+                srsConnection = new DaoConnection(DaoConnectionEnum.SrsDatabase);
+                srsConnection.OpenAsync();
+
+                IEnumerable<NameValueCollection> vocabs = connection.Query(
+                      "SELECT * FROM " + SqlHelper.Table_Vocab + " WHERE "
+                    + SqlHelper.Field_Vocab_Id + "=@id",
+                    new DaoParameter("@id", id));
+
+                if (vocabs.Any())
+                {
+                    VocabBuilder builder = new VocabBuilder();
+                    VocabEntity vocab = builder.BuildEntity(vocabs.First(), null);
+                    IncludeCategories(connection, vocab);
+                    IncludeMeanings(connection, vocab);
+                    IncludeKanji(connection, srsConnection, vocab);
+                    IncludeSrsEntries(srsConnection, vocab);
+                    IncludeVariants(connection, vocab);
+                    result = vocab;
+                }
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Dispose();
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Retrieves and returns the collection of vocab matching the
         /// given filters.
         /// </summary>
@@ -317,6 +363,7 @@ namespace Kanji.Database.Dao
                     IncludeMeanings(connection, vocab);
                     IncludeKanji(connection, srsConnection, vocab);
                     IncludeSrsEntries(srsConnection, vocab);
+                    IncludeVariants(connection, vocab);
                     yield return vocab;
                 }
             }
@@ -517,6 +564,25 @@ namespace Kanji.Database.Dao
                 KanjiDao.IncludeRadicals(connection, kanji);
                 KanjiDao.IncludeSrsEntries(srsConnection, kanji);
                 vocab.Kanji.Add(kanji);
+            }
+        }
+
+        /// <summary>
+        /// Includes the vocab variants in the entity.
+        /// </summary>
+        private void IncludeVariants(DaoConnection connection, VocabEntity vocab)
+        {
+            IEnumerable<NameValueCollection> results = connection.Query(
+                "SELECT * FROM " + SqlHelper.Table_Vocab + " WHERE "
+                + SqlHelper.Field_Vocab_GroupId + "=@gid AND "
+                + SqlHelper.Field_Vocab_Id + "!=@id",
+                new DaoParameter("@gid", vocab.GroupId),
+                new DaoParameter("@id", vocab.ID));
+
+            VocabBuilder builder = new VocabBuilder();
+            foreach (NameValueCollection nvcVocab in results)
+            {
+                vocab.Variants.Add(builder.BuildEntity(nvcVocab, null));
             }
         }
 

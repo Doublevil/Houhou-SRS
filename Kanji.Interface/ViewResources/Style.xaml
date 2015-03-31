@@ -38,6 +38,7 @@
     <converters:KanjiToReadingListConverter x:Key="KanjiToReadingListConverter" />
     <converters:WkLevelToBrushConverter x:Key="WkLevelToBrushConverter" />
     <converters:WikipediaRankToBrushConverter x:Key="WikipediaRankToBrushConverter" />
+    <converters:ExtendedVocabToVariantListConverter x:Key="ExtendedVocabToVariantListConverter" />
 
     <!-- ObjectDataProviders -->
     <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="KanjiFilterModeEnum">
@@ -167,6 +168,11 @@
         <Setter Property="IsReadOnly" Value="True" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="LegendText">
+        <Setter Property="Foreground" Value="{StaticResource LegendTextBrush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource LabelBox}" x:Key="ErrorLabel">
@@ -646,11 +652,13 @@
         <Setter Property="Background" Value="White" />
         <Setter Property="Margin" Value="5 5 5 0" />
         <Setter Property="Width" Value="90" />
-        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Height" Value="90" />
+        <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="TextWrapping" Value="NoWrap" />
         <Setter Property="TextAlignment" Value="Center" />
         <Setter Property="FontSize" Value="64" />
+        <Setter Property="FontFamily" Value="../Data/Fonts/NotoSansCJKjp-Thin.otf#Noto Sans CJK JP Thin" />
     </Style>
 
     <ControlTemplate TargetType="ListBoxItem" x:Key="MiniRadicalInListImageTemplate">
@@ -793,6 +801,7 @@
                                         <Setter Property="FontSize" Value="26" />
                                         <Setter Property="HorizontalAlignment" Value="Center" />
                                         <Setter Property="VerticalAlignment" Value="Center" />
+                                        <Setter Property="FontFamily" Value="../Data/Fonts/NotoSansCJKjp-Thin.otf#Noto Sans CJK JP Thin" />
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
@@ -924,13 +933,14 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
                                 <TextBox Text="{Binding Character}"
+                                         FontFamily="../Data/Fonts/NotoSansCJKjp-Thin.otf#Noto Sans CJK JP Thin"
                                          ToolTip="{Binding Kanji, Converter={StaticResource KanjiToStringConverter},
                                             ConverterParameter={x:Static converters:KanjiToStringConversionType.Short}}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
                                             <i:InvokeCommandAction Command="{Binding DataContext.KanjiNavigationCommand,
-                                                RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                                   CommandParameter="{Binding .}" />
+                                                    RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding .}" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <TextBox.Style>
@@ -964,7 +974,6 @@
             </Setter.Value>
         </Setter>
         <Setter Property="FontSize" Value="26" />
-        <Setter Property="FontFamily" Value="Meiryo" />
     </Style>
 
     <!-- Vocab writing part listbox -->
@@ -1004,7 +1013,7 @@
                                     </Grid.RowDefinitions>
 
                                     <ListBox Grid.Row="1" Style="{StaticResource VocabKanjiWritingListbox}"
-                                             ItemsSource="{Binding Characters, Mode=OneWay}" x:Name="KWListbox" />
+                                        ItemsSource="{Binding Characters, Mode=OneWay}" x:Name="KWListbox" />
                                     <Border>
                                         <Border.Style>
                                             <Style TargetType="Border">
@@ -1018,7 +1027,7 @@
                                         </Border.Style>
                                         <Viewbox MaxWidth="{Binding ElementName=KWListbox, Path=ActualWidth}">
                                             <TextBox Text="{Binding Furigana, Mode=OneWay}" HorizontalContentAlignment="Center"
-                                                Padding="0" Margin="0">
+                                                Padding="0" Margin="0" FontFamily="../Data/Fonts/togoshi-gothic.ttf#戸越ゴシック">
                                                 <TextBox.Style>
                                                     <Style TargetType="TextBox" BasedOn="{StaticResource LabelBox}" />
                                                 </TextBox.Style>
@@ -1034,10 +1043,101 @@
             </Setter.Value>
         </Setter>
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="FontFamily" Value="Meiryo" />
     </Style>
 
     <!-- VOCAB -->
+    
+    <Style TargetType="TextBlock" x:Key="VocabVariantText">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="Black" />
+            </Trigger>
+            <DataTrigger Binding="{Binding Variant.IsMain}" Value="True">
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Foreground" Value="#AAAA0000" />
+            </DataTrigger>
+        </Style.Triggers>
+        <Setter Property="Foreground" Value="#777777" />
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+    
+    <Style TargetType="ListBox" x:Key="VocabVariantList">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <ItemsPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="0 0 0 3" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <ContentControl Content="{Binding .}">
+                                    <ContentControl.Resources>
+                                        <DataTemplate DataType="{x:Type models:VocabVariant}">
+                                            <Border Cursor="Hand" BorderBrush="{StaticResource FadedBorderBrush}" BorderThickness="1" Margin="5 2 0 0"
+                                                Padding="4 0 4 0">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.SwitchVocabCommand,
+                                                                RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Variant.IsMain}" Value="True">
+                                                                <!--<Setter Property="Background" Value="#6444FF55" />-->
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                        <Setter Property="Background" Value="#44FFFFFF" />
+                                                    </Style>
+                                                </Border.Style>
+                                                
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Style="{StaticResource VocabVariantText}">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="{}{0} 【{1}】">
+                                                                <MultiBinding.Bindings>
+                                                                    <Binding Path="Variant.KanjiWriting" />
+                                                                    <Binding Path="Variant.KanaWriting" />
+                                                                </MultiBinding.Bindings>
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                        <DataTemplate DataType="{x:Type sys:String}">
+                                            <Border BorderBrush="#CC000000" BorderThickness="1" Margin="5 2 0 0"
+                                                Background="#AA777777" Padding="4 0 4 0">
+                                                <TextBlock Style="{StaticResource LegendText}" Text="{Binding .}" Foreground="White" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </ContentControl.Resources>
+                                </ContentControl>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style TargetType="ListBox" x:Key="VocabList">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
@@ -1172,10 +1272,15 @@
                                             <ColumnDefinition Width="350" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
 
                                         <Grid Grid.Column="1">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
                                                 <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
                                             <!--<StackPanel Orientation="Horizontal">
@@ -1438,22 +1543,23 @@
                                                         <RowDefinition Height="Auto" />
                                                         <RowDefinition Height="*" />
                                                     </Grid.RowDefinitions>
-                                                    <ListBox Grid.Row="1" Style="{StaticResource VocabWritingPartListbox}"
-			                                            ItemsSource="{Binding DbVocab, Mode=OneWay,
-					                                        Converter={StaticResource KanjiWritingToCharactersConverter},
-					                                        IsAsync=True}" />
+                                                    <StackPanel Grid.Row="1">
+                                                        <ListBox Style="{StaticResource VocabWritingPartListbox}"
+			                                                ItemsSource="{Binding DbVocab, Mode=OneWay,
+					                                            Converter={StaticResource KanjiWritingToCharactersConverter},
+					                                            IsAsync=True}" />
+                                                    </StackPanel>
                                                 </Grid>
                                                 <Grid Grid.Column="2">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="*" />
                                                         <RowDefinition Height="*" />
                                                     </Grid.RowDefinitions>
-                                                    <Button 
-				                                    Content="Kanji" HorizontalAlignment="Right" FontSize="6"
-				                                    ToolTip="Copy the kanji writing to the clipboard."
-				                                    Command="{Binding DataContext.KanjiCopyCommand,
-				                                    RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
-				                                    CommandParameter="{Binding .}">
+                                                    <Button Content="Kanji" HorizontalAlignment="Right" FontSize="6"
+				                                        ToolTip="Copy the kanji writing to the clipboard."
+				                                        Command="{Binding DataContext.KanjiCopyCommand,
+				                                            RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+				                                        CommandParameter="{Binding .}">
                                                         <Button.Style>
                                                             <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
                                                                 <Style.Triggers>
@@ -1476,12 +1582,11 @@
                                                             <RotateTransform Angle="-90" />
                                                         </Button.LayoutTransform>
                                                     </Button>
-                                                    <Button Grid.Row="1"
-				                                    Content="Kana" HorizontalAlignment="Right" FontSize="6"
-				                                    ToolTip="Copy the kana writing to the clipboard."
-				                                    Command="{Binding DataContext.KanaCopyCommand,
-				                                    RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
-				                                    CommandParameter="{Binding .}">
+                                                    <Button Grid.Row="1" Content="Kana" HorizontalAlignment="Right" FontSize="6"
+				                                        ToolTip="Copy the kana writing to the clipboard."
+				                                        Command="{Binding DataContext.KanaCopyCommand,
+				                                            RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+				                                        CommandParameter="{Binding .}">
                                                         <Button.Style>
                                                             <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
                                                                 <Style.Triggers>
@@ -1502,6 +1607,14 @@
                                                 
                                             </Grid>
                                         </Border>
+
+                                        <Border Grid.Row="1" Grid.ColumnSpan="2"  Visibility="{Binding HasVariants, Converter={StaticResource ValueToVisibilityConverter}}"
+                                            BorderThickness="0 1 0 0" BorderBrush="#22000000" Padding="0 2 0 2">
+                                            <ListBox Style="{StaticResource VocabVariantList}"
+                                                                ItemsSource="{Binding ., Mode=OneWay,
+                                                                    Converter={StaticResource ExtendedVocabToVariantListConverter},
+                                                                    IsAsync=True}" />
+                                        </Border>
                                     </Grid>
                                 </Border>
                             </ControlTemplate>
@@ -1513,11 +1626,6 @@
     </Style>
 
     <!-- SRS ENTRY WINDOW -->
-
-    <Style TargetType="TextBlock" x:Key="LegendText">
-        <Setter Property="Foreground" Value="{StaticResource LegendTextBrush}" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-    </Style>
 
     <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource LegendText}" x:Key="KanjiReadingLabel">
         <Setter Property="HorizontalAlignment" Value="Center" />

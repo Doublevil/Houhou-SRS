@@ -23,6 +23,8 @@ namespace Kanji.Database.EntityBuilders
             vocab.JlptLevel = row.ReadInt(GetField(prefix, SqlHelper.Field_Vocab_JlptLevel));
             vocab.WikipediaRank = row.ReadInt(GetField(prefix, SqlHelper.Field_Vocab_WikipediaRank));
             vocab.WaniKaniLevel = row.ReadInt(GetField(prefix, SqlHelper.Field_Vocab_WaniKaniLevel));
+            vocab.GroupId = row.ReadInt(GetField(prefix, SqlHelper.Field_Vocab_GroupId)).Value;
+            vocab.IsMain = row.ReadBool(GetField(prefix, SqlHelper.Field_Vocab_IsMain)).Value;
             return vocab;
         }
     }

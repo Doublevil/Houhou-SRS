@@ -81,6 +81,8 @@ namespace Kanji.Database.Helpers
         public static readonly string Field_Vocab_JlptLevel = "JlptLevel";
         public static readonly string Field_Vocab_WaniKaniLevel = "WkLevel";
         public static readonly string Field_Vocab_WikipediaRank = "WikiRank";
+        public static readonly string Field_Vocab_GroupId = "GroupId";
+        public static readonly string Field_Vocab_IsMain = "IsMain";
 
         #endregion
 

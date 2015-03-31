@@ -118,6 +118,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public RelayCommand<ExtendedVocab> PlayAudioCommand { get; set; }
 
+        /// <summary>
+        /// Command used to switch between two variants.
+        /// </summary>
+        public RelayCommand<VocabVariant> SwitchVocabCommand { get; set; }
+
         #endregion
 
         #region Events
@@ -155,6 +160,7 @@ namespace Kanji.Interface.ViewModels
             KanjiCopyCommand = new RelayCommand<ExtendedVocab>(OnKanjiCopy);
             KanaCopyCommand = new RelayCommand<ExtendedVocab>(OnKanaCopy);
             PlayAudioCommand = new RelayCommand<ExtendedVocab>(OnPlayAudio);
+            SwitchVocabCommand = new RelayCommand<VocabVariant>(OnSwitchVocab);
         }
 
         #endregion
@@ -393,6 +399,23 @@ namespace Kanji.Interface.ViewModels
         private void OnPlayAudio(ExtendedVocab vocab)
         {
             AudioBusiness.PlayVocabAudio(vocab.Audio);
+        }
+
+        /// <summary>
+        /// Command callback.
+        /// Called to switch between two variants of a vocab entry.
+        /// </summary>
+        /// <param name="variant">Variant to switch to.</param>
+        private void OnSwitchVocab(VocabVariant variant)
+        {
+            int index = LoadedItems.IndexOf(variant.Parent);
+            if (index >= 0)
+            {
+                VocabEntity newVocab = new VocabDao().GetVocabById(variant.Variant.ID);
+
+                LoadedItems[index] = new ExtendedVocab(newVocab, newVocab.SrsEntries.Any() ?
+                    new ExtendedSrsEntry(newVocab.SrsEntries.First()) : null);
+            }
         }
 
         #endregion

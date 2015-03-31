@@ -214,6 +214,7 @@ namespace Kanji.DatabaseMaker
             AttachJlptLevel(vocabList, fullDictionary, kanaDictionary);
             AttachWordFrequency(vocabList, fullDictionary);
             AttachWkLevel(vocabList);
+            AttachWikipediaRank(vocabList);
             InsertData(vocabList);
         }
 
@@ -339,6 +340,20 @@ namespace Kanji.DatabaseMaker
                 if (_waniKaniDictionary.ContainsKey(vocabString))
                 {
                     v.WaniKaniLevel = _waniKaniDictionary[vocabString];
+                }
+            }
+        }
+
+        private void AttachWikipediaRank(List<VocabEntity> vocabList)
+        {
+            foreach (VocabEntity v in vocabList)
+            {
+                // Find the word in the frequency list.
+                // Only for main vocab.
+                if (v.IsMain && !string.IsNullOrWhiteSpace(v.KanjiWriting) && _topFrequencyWords.ContainsKey(v.KanjiWriting))
+                {
+                    v.WikipediaRank = _topFrequencyWords[v.KanjiWriting];
+                    v.IsCommon = true;
                 }
             }
         }
@@ -567,6 +582,8 @@ namespace Kanji.DatabaseMaker
         /// <returns>Vocab loaded from the file.</returns>
         private IEnumerable<VocabEntity> LoadVocabItems(XDocument xdoc)
         {
+            int groupId = 1;
+
             // Browse each vocab entry.
             foreach (XElement xentry in xdoc.Root.Elements(XmlNode_Entry))
             {
@@ -576,7 +593,7 @@ namespace Kanji.DatabaseMaker
                 foreach (XElement xkanjiElement in xentry.Elements(XmlNode_KanjiElement))
                 {
                     // Parse the kanji element. The list will be expanded with new elements.
-                    ParseKanji(xkanjiElement, vocabList);
+                    ParseKanji(xkanjiElement, vocabList, groupId);
                 }
 
                 // For each kanji reading node
@@ -592,7 +609,7 @@ namespace Kanji.DatabaseMaker
 
                     // Parse the reading. The list will be expanded and/or its elements filled with
                     // the available info.
-                    ParseReading(xreadingElement, vocabList);
+                    ParseReading(xreadingElement, vocabList, groupId);
                 }
 
                 // For each kanji meaning node
@@ -604,6 +621,7 @@ namespace Kanji.DatabaseMaker
 
                 // Now we will define the vocab <-> kanji relationships.
                 // For each vocab
+                bool first = true;
                 foreach (VocabEntity vocab in vocabList)
                 {
                     // If the kanji vocab is defined
@@ -623,9 +641,25 @@ namespace Kanji.DatabaseMaker
                         }
                     }
 
+                    if (first)
+                    {
+                        // Set the first vocab as the main variant.
+                        first = false;
+                        vocab.IsMain = true;
+                    }
+                    else
+                    {
+                        // For now, we are saying that non-main vocab cannot be common.
+                        // Otherwise, too much variants are marked as common and it can
+                        // be confusing.
+                        vocab.IsCommon = false;
+                    }
+
                     // Return the vocab and continue to the next one.
                     yield return vocab;
                 }
+
+                groupId++;
             }
         }
 
@@ -635,20 +669,14 @@ namespace Kanji.DatabaseMaker
         /// </summary>
         /// <param name="xkanjiElement">Element to parse.</param>
         /// <param name="vocabList">Vocab list to be updated.</param>
-        private void ParseKanji(XElement xkanjiElement, List<VocabEntity> vocabList)
+        /// <param name="groupId">Current group ID.</param>
+        private void ParseKanji(XElement xkanjiElement, List<VocabEntity> vocabList, int groupId)
         {
             // Create a new vocab with the associated writing.
             VocabEntity vocab = new VocabEntity();
+            vocab.GroupId = groupId;
             vocab.KanjiWriting = xkanjiElement.Element(XmlNode_KanjiReading).Value;
-            if (_topFrequencyWords.ContainsKey(vocab.KanjiWriting))
-            {
-                vocab.WikipediaRank = _topFrequencyWords[vocab.KanjiWriting];
-                vocab.IsCommon = true;
-            }
-            else
-            {
-                vocab.IsCommon = IsCommonWord(xkanjiElement, XmlNode_KanjiVocabReference);
-            }
+            vocab.IsCommon = IsCommonWord(xkanjiElement, XmlNode_KanjiVocabReference);
             
             // For each kanji info node
             foreach (XElement xkanjiInf in xkanjiElement.Elements(XmlNode_KanjiInfo))
@@ -671,7 +699,7 @@ namespace Kanji.DatabaseMaker
         /// </summary>
         /// <param name="xreadingElement">Element to parse.</param>
         /// <param name="vocabList">Vocab list to be updated.</param>
-        private void ParseReading(XElement xreadingElement, List<VocabEntity> vocabList)
+        private void ParseReading(XElement xreadingElement, List<VocabEntity> vocabList, int groupId)
         {
             // First, we have to determine the target of the reading node.
             // Two possible cases:
@@ -686,6 +714,7 @@ namespace Kanji.DatabaseMaker
             {
                 // Scenario 1. Create a new kanji reading, add it to the list, and set it as target.
                 VocabEntity newVocab = new VocabEntity();
+                newVocab.GroupId = groupId;
                 vocabList.Add(newVocab);
                 targets = new VocabEntity[] { newVocab };
             }
@@ -737,6 +766,7 @@ namespace Kanji.DatabaseMaker
                     // If a target already has a kana reading, we need to create a new vocab.
                     VocabEntity newVocab = new VocabEntity()
                     {
+                        GroupId = target.GroupId,
                         KanjiWriting = target.KanjiWriting, // Assign the old kanji reading,
                         IsCommon = target.IsCommon || isCommon, // combined common flag,
                         FrequencyRank = target.FrequencyRank, // same frequency rank,

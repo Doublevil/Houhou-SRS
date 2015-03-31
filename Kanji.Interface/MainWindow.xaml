@@ -72,5 +72,6 @@
                 </Style>
             </views:SettingsPage.Style>
         </views:SettingsPage>
+        <!--<TextBlock FontFamily="./NotoSansCJKjp-Thin.otf#Noto Sans CJK JP Thin" FontSize="32" Foreground="Black" Text="Mahaoren 見ている" />-->
     </Grid>
 </Window>

@@ -181,6 +181,7 @@
     <Compile Include="Converters\ComparablesToBooleanConverter.cs" />
     <Compile Include="Converters\DateTimeToStringConverter.cs" />
     <Compile Include="Converters\EnumBooleanConverter.cs" />
+    <Compile Include="Converters\ExtendedVocabToVariantListConverter.cs" />
     <Compile Include="Converters\IsFirstItemInContainerConverter.cs" />
     <Compile Include="Converters\JlptLevelToBrushConverter.cs" />
     <Compile Include="Converters\KanjiToReadingListConverter.cs" />
@@ -223,6 +224,7 @@
     <Compile Include="Models\VocabAudio.cs" />
     <Compile Include="Models\VocabAudioState.cs" />
     <Compile Include="Models\VocabCommonnessEnum.cs" />
+    <Compile Include="Models\VocabVariant.cs" />
     <Compile Include="Models\VocabWritingPart.cs" />
     <Compile Include="Models\WindowCloseActionEnum.cs" />
     <Compile Include="Utilities\SetPropertyAction.cs" />
@@ -992,6 +994,9 @@
     <Content Include="Data\UserContent\SrsDatabase.sqlite">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Data\Fonts\NotoSansCJKjp-Thin.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
