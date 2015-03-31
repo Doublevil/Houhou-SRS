@@ -23,5 +23,10 @@ namespace Kanji.Interface.Views
             InitializeComponent();
             DataContext = new HomeViewModel();
         }
+
+        private void OnRequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            System.Diagnostics.Process.Start(e.Uri.ToString());
+        }
     }
 }

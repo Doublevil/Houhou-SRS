@@ -17,6 +17,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="95" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -41,6 +42,33 @@
                         <controls:ChangelogListControl DataContext="{Binding FutureChanges}" />
                     </TabItem>
                 </TabControl>
+                
+                <StackPanel Grid.Row="2" Margin="0 5 0 0">
+                    <TextBlock Foreground="#333333" FontSize="12" FontWeight="SemiBold">
+                        C<Bold FontSize="10">REDITS AND DATA SOURCES:</Bold>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" Foreground="#666666">
+                        <TextBlock.Resources>
+                            <Style TargetType="Hyperlink">
+                                <Setter Property="Foreground" Value="#444444" />
+                            </Style>
+                        </TextBlock.Resources>
+                        Houhou is a free software made by Doublevil and provided to you thanks to a compilation of gloriously free data sources:
+                        the word dictionary is built from the <Bold><Hyperlink NavigateUri="http://www.edrdg.org/jmdict/edict_doc.html" RequestNavigate="OnRequestNavigate">JMdict</Hyperlink></Bold>,
+                        by Jim Breen and the EDRDG.
+                        The kanji dictionary is provided by the <Bold><Hyperlink NavigateUri="http://www.csse.monash.edu.au/~jwb/kanjidic2/index.html" RequestNavigate="OnRequestNavigate">KANJIDIC2</Hyperlink></Bold>,
+                        by the same authors.
+                        The radical information comes from the <Bold><Hyperlink NavigateUri="http://www.csse.monash.edu.au/~jwb/kradinf.html" RequestNavigate="OnRequestNavigate">RADKFILE</Hyperlink></Bold>,
+                        again by Jim Breen and the EDRDG.
+                        The kanji drawing diagrams come from the <Bold><Hyperlink NavigateUri="https://github.com/Kimtaro/kanjivg2svg" RequestNavigate="OnRequestNavigate">kanjivg2svg</Hyperlink></Bold>
+                        script by Kim Ahlström, which uses data from the <Bold><Hyperlink NavigateUri="http://kanjivg.tagaini.net/" RequestNavigate="OnRequestNavigate">KanjiVG</Hyperlink></Bold>
+                        project by Ulrich Apel.
+                        The JLPT level data comes from <Bold><Hyperlink NavigateUri="http://www.tanos.co.uk/jlpt/" RequestNavigate="OnRequestNavigate">Jonathan Waller's website</Hyperlink></Bold>.
+                        The Wikipedia word ranking data comes from the <Bold><Hyperlink NavigateUri="http://en.wiktionary.org/wiki/Wiktionary:Frequency_lists/Japanese" RequestNavigate="OnRequestNavigate">Wiktionary</Hyperlink></Bold>.
+                        The idea and the design were inspired by <Bold><Hyperlink NavigateUri="https://www.wanikani.com/" RequestNavigate="OnRequestNavigate">WaniKani</Hyperlink></Bold>,
+                        a cool kanji learning website by the Tofugu team, and the WaniKani level data is used with their permission.
+                    </TextBlock>
+                </StackPanel>
             </Grid>
         </Border>
     </DockPanel>
