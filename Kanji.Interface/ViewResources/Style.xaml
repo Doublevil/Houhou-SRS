@@ -1339,7 +1339,7 @@
                                                         Background="{Binding DbVocab.WikipediaRank, Converter={StaticResource WikipediaRankToBrushConverter}}">
                                                         <Border.ToolTip>
                                                             <ToolTip Content="{Binding DbVocab.WikipediaRank, Converter={StaticResource IntegerToOrdinalStringConverter}}"
-                                                                ContentStringFormat="{}{0} out of 10000 most used word in a study of Japanese Wikipedia articles." />
+                                                                ContentStringFormat="{}{0} out of 20000 most used word in a study of Japanese Wikipedia articles." />
                                                         </Border.ToolTip>
                                                         <DockPanel LastChildFill="True">
                                                             <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" Margin="0 0 6 0" FontWeight="SemiBold">

@@ -20,7 +20,7 @@ namespace Kanji.Interface.Converters
             int? v = value as int?;
             if (v != null)
             {
-                int opacity = (int)(40f * (1 - (((float)v.Value - 1f) / 10000f)) + 60f);
+                int opacity = (int)(60f * (1 - (((float)v.Value - 1f) / 20000f)) + 40f);
                 return new SolidColorBrush(Color.FromArgb((byte)opacity, 255, 255, 0));
             }
             else
