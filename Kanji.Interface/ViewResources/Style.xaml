@@ -933,9 +933,9 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
                                 <TextBox Text="{Binding Character}"
-                                         FontFamily="../Data/Fonts/NotoSansCJKjp-Thin.otf#Noto Sans CJK JP Thin"
-                                         ToolTip="{Binding Kanji, Converter={StaticResource KanjiToStringConverter},
-                                            ConverterParameter={x:Static converters:KanjiToStringConversionType.Short}}">
+                                    FontFamily="../Data/Fonts/NotoSansCJKjp-Thin.otf#Noto Sans CJK JP Thin"
+                                    ToolTip="{Binding Kanji, Converter={StaticResource KanjiToStringConverter},
+                                        ConverterParameter={x:Static converters:KanjiToStringConversionType.Short}}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
                                             <i:InvokeCommandAction Command="{Binding DataContext.KanjiNavigationCommand,
@@ -946,10 +946,14 @@
                                     <TextBox.Style>
                                         <Style TargetType="TextBox" BasedOn="{StaticResource LabelBox}">
                                             <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsMarginalReading}" Value="True">
+                                                    <Setter Property="Opacity" Value="0.33" />
+                                                </DataTrigger>
                                                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}" Value="True">
-                                                    <Setter Property="TextDecorations" Value="Underline" />
+                                                    <!--<Setter Property="TextDecorations" Value="Underline" />-->
                                                     <Setter Property="Cursor" Value="Hand" />
                                                     <Setter Property="Foreground" Value="Blue" />
+                                                    <Setter Property="Opacity" Value="1" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -1027,7 +1031,7 @@
                                         </Border.Style>
                                         <Viewbox MaxWidth="{Binding ElementName=KWListbox, Path=ActualWidth}">
                                             <TextBox Text="{Binding Furigana, Mode=OneWay}" HorizontalContentAlignment="Center"
-                                                Padding="0" Margin="0" FontFamily="../Data/Fonts/togoshi-gothic.ttf#戸越ゴシック">
+                                                Padding="0" Margin="0">
                                                 <TextBox.Style>
                                                     <Style TargetType="TextBox" BasedOn="{StaticResource LabelBox}" />
                                                 </TextBox.Style>
@@ -1155,467 +1159,385 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
                                 <!--<Border BorderThickness="0,0,0,1" Height="70" VerticalAlignment="Center">-->
-                                <Border BorderThickness="0,0,0,1" VerticalAlignment="Center">
-                                    <!--<Border.Background>
-                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                            <GradientStop Color="Transparent" Offset="0"/>
-                                            <GradientStop Color="#3F91EF5E" Offset="0.5"/>
-                                            <GradientStop Color="Transparent" Offset="1"/>
-                                            <GradientStop Color="#3F91EF5E" Offset="0.85"/>
-                                            <GradientStop Color="#3F91EF5E" Offset="0.15"/>
-                                        </LinearGradientBrush>
-                                    </Border.Background>-->
-                                    <Border.BorderBrush>
-                                        <!--<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                            <LinearGradientBrush.RelativeTransform>
-                                                <TransformGroup>
-                                                    <ScaleTransform CenterY="0.5" CenterX="0.5"/>
-                                                    <SkewTransform CenterY="0.5" CenterX="0.5"/>
-                                                    <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
-                                                    <TranslateTransform/>
-                                                </TransformGroup>
-                                            </LinearGradientBrush.RelativeTransform>
-                                            <GradientStop Color="#00000000" Offset="0.007"/>
-                                            <GradientStop Color="Transparent" Offset="1"/>
-                                            <GradientStop Color="#FF878787" Offset="0.85"/>
-                                            <GradientStop Color="#FF878787" Offset="0.15"/>
-                                        </LinearGradientBrush>-->
-                                        #FF878787
-                                    </Border.BorderBrush>
+                                <Border>
                                     <Border.Style>
                                         <Style TargetType="Border">
                                             <Style.Triggers>
-                                                <!-- When IsCommon and unselected -->
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding DbVocab.IsCommon}" Value="True" />
-                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Self},
-                                                            Path=IsMouseOver}" Value="False" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <MultiDataTrigger.Setters>
-                                                        <Setter Property="Background" >
-                                                            <Setter.Value>
-                                                                <!--<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                                    <GradientStop Color="Transparent" Offset="0"/>
-                                                                    <GradientStop Color="#3F91EF5E" Offset="0.5"/>
-                                                                    <GradientStop Color="Transparent" Offset="1"/>
-                                                                    <GradientStop Color="#3F91EF5E" Offset="0.85"/>
-                                                                    <GradientStop Color="#3F91EF5E" Offset="0.15"/>
-                                                                </LinearGradientBrush>-->
-                                                                #3F91EF5E
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                        <!--<Setter Property="Background" Value="#CFEFBE" />-->
-                                                    </MultiDataTrigger.Setters>
-                                                </MultiDataTrigger>
-                                                <!-- When IsCommon and selected -->
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding DbVocab.IsCommon}" Value="True" />
-                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Self},
-                                                            Path=IsMouseOver}" Value="True" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <MultiDataTrigger.Setters>
-                                                        <Setter Property="Background" Value="#B5CFA5" />
-                                                    </MultiDataTrigger.Setters>
-                                                </MultiDataTrigger>
-                                                <!-- When !IsCommon and unselected -->
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding DbVocab.IsCommon}" Value="False" />
-                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Self},
-                                                            Path=IsMouseOver}" Value="False" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <MultiDataTrigger.Setters>
-                                                        <Setter Property="Background" Value="#FFFFFF" />
-                                                    </MultiDataTrigger.Setters>
-                                                </MultiDataTrigger>
-                                                <!-- When !IsCommon and selected -->
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding DbVocab.IsCommon}" Value="False" />
-                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Self},
-                                                            Path=IsMouseOver}" Value="True" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <MultiDataTrigger.Setters>
-                                                        <Setter Property="Background" Value="#DDDDDD" />
-                                                    </MultiDataTrigger.Setters>
-                                                </MultiDataTrigger>
-                                                <!-- When IsObsolete and unselected -->
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding IsObsolete}" Value="True" />
-                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Self},
-                                                            Path=IsMouseOver}" Value="False" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <MultiDataTrigger.Setters>
-                                                        <Setter Property="Background" Value="#BBBBBB" />
-                                                        <Setter Property="Opacity" Value="0.6" />
-                                                    </MultiDataTrigger.Setters>
-                                                </MultiDataTrigger>
-                                                <!-- When IsObsolete and selected -->
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding IsObsolete}" Value="True" />
-                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Self},
-                                                            Path=IsMouseOver}" Value="True" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <MultiDataTrigger.Setters>
-                                                        <Setter Property="Background" Value="#AAAAAA" />
-                                                    </MultiDataTrigger.Setters>
-                                                </MultiDataTrigger>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True">
+                                                    <Setter Property="Background" Value="#22000000" />
+                                                </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
                                     </Border.Style>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="350" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-
-                                        <Grid Grid.Column="1">
+                                    <Border BorderThickness="0,0,0,1" VerticalAlignment="Center" BorderBrush="#FF878787">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Style.Triggers>
+                                                    <!-- When IsCommon -->
+                                                    <DataTrigger Binding="{Binding DbVocab.IsCommon}" Value="True">
+                                                        <Setter Property="Background" Value="#3F91EF5E" />
+                                                    </DataTrigger>
+                                                    <!-- When IsObsolete -->
+                                                    <DataTrigger Binding="{Binding IsObsolete}" Value="True">
+                                                        <Setter Property="Background" Value="#22000000" />
+                                                        <Setter Property="Opacity" Value="0.8" />
+                                                    </DataTrigger>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Opacity" Value="1" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="350" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="*" />
                                                 <RowDefinition Height="Auto" />
                                                 <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
-                                            <!--<StackPanel Orientation="Horizontal">
-                                                <TextBox Style="{StaticResource LabelBox}" Foreground="#555555" FontSize="12"
-                                                    Margin="0 0 10 0"
-		                                            Text="{Binding DbVocab.KanjiWriting, Mode=OneWay}" />
-                                                <TextBox Style="{StaticResource LabelBox}" Foreground="#555555" FontSize="12"
-                                                    Margin="0 0 0 0"
-		                                            Text="{Binding DbVocab.KanaWriting, Mode=OneWay}" />
-                                            </StackPanel>-->
+
+                                            <Grid Grid.Column="1">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <!--<StackPanel Orientation="Horizontal">
+                                                    <TextBox Style="{StaticResource LabelBox}" Foreground="#555555" FontSize="12"
+                                                        Margin="0 0 10 0"
+		                                                Text="{Binding DbVocab.KanjiWriting, Mode=OneWay}" />
+                                                    <TextBox Style="{StaticResource LabelBox}" Foreground="#555555" FontSize="12"
+                                                        Margin="0 0 0 0"
+		                                                Text="{Binding DbVocab.KanaWriting, Mode=OneWay}" />
+                                                </StackPanel>-->
                                             
-                                            <StackPanel>
+                                                <StackPanel>
 
-                                                <WrapPanel Orientation="Horizontal" Margin="0 2 0 2">
-                                                    <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
-                                                        HorizontalAlignment="Left" Padding="5 0 5 0" Width="93"
-                                                        Visibility="{Binding ShowBookRanking, Converter={StaticResource ValueToVisibilityConverter}}"
-                                                        Background="{Binding DbVocab.FrequencyRank, Converter={StaticResource VocabFrequencyToBrushConverter}}">
-                                                        <Border.Style>
-                                                            <Style TargetType="Border">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding DbVocab.FrequencyRank}" Value="1">
-                                                                        <Setter Property="ToolTip" Value="Found 1 time in 7905 books." />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                                <Setter Property="ToolTip">
-                                                                    <Setter.Value>
-                                                                        <ToolTip Content="{Binding DbVocab.FrequencyRank}" ContentStringFormat="{}Found {0} times in 7905 books." />
-                                                                    </Setter.Value>
-                                                                </Setter>
+                                                    <WrapPanel Orientation="Horizontal" Margin="0 2 0 2">
+                                                        <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
+                                                            HorizontalAlignment="Left" Padding="5 0 5 0" Width="93"
+                                                            Visibility="{Binding ShowBookRanking, Converter={StaticResource ValueToVisibilityConverter}}"
+                                                            Background="{Binding DbVocab.FrequencyRank, Converter={StaticResource VocabFrequencyToBrushConverter}}">
+                                                            <Border.Style>
+                                                                <Style TargetType="Border">
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding DbVocab.FrequencyRank}" Value="1">
+                                                                            <Setter Property="ToolTip" Value="Found 1 time in 7905 books." />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                    <Setter Property="ToolTip">
+                                                                        <Setter.Value>
+                                                                            <ToolTip Content="{Binding DbVocab.FrequencyRank}" ContentStringFormat="{}Found {0} times in 7905 books." />
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </Style>
+                                                            </Border.Style>
+                                                            <DockPanel LastChildFill="True">
+                                                                <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" FontWeight="SemiBold" Opacity="0.75">
+                                                                    本
+                                                                </TextBlock>
+                                                                <TextBlock HorizontalAlignment="Center">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock">
+                                                                            <Setter Property="Text">
+                                                                                <Setter.Value>
+                                                                                    <Binding Path="DbVocab.FrequencyRank" Converter="{StaticResource VocabFrequencyToStringConverter}" />
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                            <Setter Property="FontSize" Value="10" />
+                                                                            <Setter Property="Foreground" Value="#555555" />
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                            </DockPanel>
+                                                        </Border>
+
+                                                        <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
+                                                            HorizontalAlignment="Left" Padding="5 0 5 0"
+                                                            Visibility="{Binding ShowWikipediaRank, Converter={StaticResource ValueToVisibilityConverter}}"
+                                                            Background="{Binding DbVocab.WikipediaRank, Converter={StaticResource WikipediaRankToBrushConverter}}">
+                                                            <Border.ToolTip>
+                                                                <ToolTip Content="{Binding DbVocab.WikipediaRank, Converter={StaticResource IntegerToOrdinalStringConverter}}"
+                                                                    ContentStringFormat="{}{0} out of 20000 most used word in a study of Japanese Wikipedia articles." />
+                                                            </Border.ToolTip>
+                                                            <DockPanel LastChildFill="True">
+                                                                <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" Margin="0 0 6 0" FontWeight="SemiBold">
+                                                                    W
+                                                                </TextBlock>
+                                                                <TextBlock HorizontalAlignment="Center">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock">
+                                                                            <Setter Property="Text">
+                                                                                <Setter.Value>
+                                                                                    <Binding Path="DbVocab.WikipediaRank" Converter="{StaticResource IntegerToOrdinalStringConverter}"
+                                                                                        StringFormat="{}{0} most used" />
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                            <Setter Property="FontSize" Value="10" />
+                                                                            <Setter Property="Foreground" Value="#555555" />
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                            </DockPanel>
+                                                        </Border>
+
+                                                        <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
+                                                            HorizontalAlignment="Left" Padding="5 0 5 0"
+                                                            Visibility="{Binding ShowJlptLevel, Converter={StaticResource ValueToVisibilityConverter}}"
+                                                            Background="{Binding DbVocab.JlptLevel, Converter={StaticResource JlptLevelToBrushConverter}}">
+                                                            <Border.ToolTip>
+                                                                <ToolTip Content="{Binding DbVocab.JlptLevel}"
+                                                                    ContentStringFormat="{}Part of the vocabulary list for the N{0} level of the Japanese-Language Proficiency Test." />
+                                                            </Border.ToolTip>
+                                                            <DockPanel LastChildFill="True">
+                                                                <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" Opacity="1" FontWeight="SemiBold">
+                                                                    JLPT
+                                                                </TextBlock>
+                                                                <TextBlock HorizontalAlignment="Right" Margin="5 0 0 0">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock">
+                                                                            <Setter Property="Text">
+                                                                                <Setter.Value>
+                                                                                    <Binding Path="DbVocab.JlptLevel" StringFormat="{}N{0}" />
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                            <Setter Property="FontSize" Value="10" />
+                                                                            <Setter Property="Foreground" Value="#555555" />
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                            </DockPanel>
+                                                        </Border>
+
+                                                        <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
+                                                            HorizontalAlignment="Left" Padding="5 0 5 0"
+                                                            Visibility="{Binding ShowWkLevel, Converter={StaticResource ValueToVisibilityConverter}}"
+                                                            Background="{Binding DbVocab.WaniKaniLevel, Converter={StaticResource WkLevelToBrushConverter}}">
+                                                            <Border.ToolTip>
+                                                                <ToolTip Content="{Binding DbVocab.WaniKaniLevel}"
+                                                                    ContentStringFormat="{}Vocab learned at level {0} on the kanji learning website WaniKani." />
+                                                            </Border.ToolTip>
+                                                            <DockPanel LastChildFill="True">
+                                                                <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" Opacity="1" FontWeight="SemiBold">
+                                                                    WK
+                                                                </TextBlock>
+                                                                <TextBlock HorizontalAlignment="Right" Margin="5 0 0 0">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock">
+                                                                            <Setter Property="Text">
+                                                                                <Setter.Value>
+                                                                                    <Binding Path="DbVocab.WaniKaniLevel" StringFormat="{}Level {0}" />
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                            <Setter Property="FontSize" Value="10" />
+                                                                            <Setter Property="Foreground" Value="#555555" />
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                            </DockPanel>
+                                                        </Border>
+
+                                                        <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
+                                                            HorizontalAlignment="Left" Padding="5 0 5 0">
+                                                            <Border.Style>
+                                                                <Style TargetType="Border">
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding DbVocab.Categories.Count}" Value="0">
+                                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Border.Style>
+                                                            <TextBlock Text="{Binding DbVocab.Categories, Converter={StaticResource VocabCategoriesToStringConverter}}" FontSize="10" />
+                                                        </Border>
+                                                    </WrapPanel>
+
+
+                                                    <controls:BindableRichTextBox x:Name="MeaningRtb"
+							                            Margin="0 0 0 5" Padding="0 0 0 0">
+                                                        <controls:BindableRichTextBox.Style>
+                                                            <Style TargetType="controls:BindableRichTextBox" BasedOn="{StaticResource VocabMeaningRichTextBox}">
+                                                                <Setter Property="Document" Value="{Binding DbVocab, Mode=OneTime, IsAsync=False, Converter={StaticResource VocabMeaningsToStringConverter}}" />
                                                             </Style>
-                                                        </Border.Style>
-                                                        <DockPanel LastChildFill="True">
-                                                            <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" FontWeight="SemiBold" Opacity="0.75">
-                                                                本
-                                                            </TextBlock>
-                                                            <TextBlock HorizontalAlignment="Center">
-                                                                <TextBlock.Style>
-                                                                    <Style TargetType="TextBlock">
-                                                                        <Setter Property="Text">
-                                                                            <Setter.Value>
-                                                                                <Binding Path="DbVocab.FrequencyRank" Converter="{StaticResource VocabFrequencyToStringConverter}" />
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                        <Setter Property="FontSize" Value="10" />
-                                                                        <Setter Property="Foreground" Value="#555555" />
-                                                                    </Style>
-                                                                </TextBlock.Style>
-                                                            </TextBlock>
-                                                        </DockPanel>
-                                                    </Border>
+                                                        </controls:BindableRichTextBox.Style>
+                                                    </controls:BindableRichTextBox>
 
-                                                    <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
-                                                        HorizontalAlignment="Left" Padding="5 0 5 0"
-                                                        Visibility="{Binding ShowWikipediaRank, Converter={StaticResource ValueToVisibilityConverter}}"
-                                                        Background="{Binding DbVocab.WikipediaRank, Converter={StaticResource WikipediaRankToBrushConverter}}">
-                                                        <Border.ToolTip>
-                                                            <ToolTip Content="{Binding DbVocab.WikipediaRank, Converter={StaticResource IntegerToOrdinalStringConverter}}"
-                                                                ContentStringFormat="{}{0} out of 20000 most used word in a study of Japanese Wikipedia articles." />
-                                                        </Border.ToolTip>
-                                                        <DockPanel LastChildFill="True">
-                                                            <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" Margin="0 0 6 0" FontWeight="SemiBold">
-                                                                W
-                                                            </TextBlock>
-                                                            <TextBlock HorizontalAlignment="Center">
-                                                                <TextBlock.Style>
-                                                                    <Style TargetType="TextBlock">
-                                                                        <Setter Property="Text">
-                                                                            <Setter.Value>
-                                                                                <Binding Path="DbVocab.WikipediaRank" Converter="{StaticResource IntegerToOrdinalStringConverter}"
-                                                                                    StringFormat="{}{0} most used" />
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                        <Setter Property="FontSize" Value="10" />
-                                                                        <Setter Property="Foreground" Value="#555555" />
-                                                                    </Style>
-                                                                </TextBlock.Style>
-                                                            </TextBlock>
-                                                        </DockPanel>
-                                                    </Border>
-
-                                                    <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
-                                                        HorizontalAlignment="Left" Padding="5 0 5 0"
-                                                        Visibility="{Binding ShowJlptLevel, Converter={StaticResource ValueToVisibilityConverter}}"
-                                                        Background="{Binding DbVocab.JlptLevel, Converter={StaticResource JlptLevelToBrushConverter}}">
-                                                        <Border.ToolTip>
-                                                            <ToolTip Content="{Binding DbVocab.JlptLevel}"
-                                                                ContentStringFormat="{}Part of the vocabulary list for the N{0} level of the Japanese-Language Proficiency Test." />
-                                                        </Border.ToolTip>
-                                                        <DockPanel LastChildFill="True">
-                                                            <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" Opacity="1" FontWeight="SemiBold">
-                                                                JLPT
-                                                            </TextBlock>
-                                                            <TextBlock HorizontalAlignment="Right" Margin="5 0 0 0">
-                                                                <TextBlock.Style>
-                                                                    <Style TargetType="TextBlock">
-                                                                        <Setter Property="Text">
-                                                                            <Setter.Value>
-                                                                                <Binding Path="DbVocab.JlptLevel" StringFormat="{}N{0}" />
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                        <Setter Property="FontSize" Value="10" />
-                                                                        <Setter Property="Foreground" Value="#555555" />
-                                                                    </Style>
-                                                                </TextBlock.Style>
-                                                            </TextBlock>
-                                                        </DockPanel>
-                                                    </Border>
-
-                                                    <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
-                                                        HorizontalAlignment="Left" Padding="5 0 5 0"
-                                                        Visibility="{Binding ShowWkLevel, Converter={StaticResource ValueToVisibilityConverter}}"
-                                                        Background="{Binding DbVocab.WaniKaniLevel, Converter={StaticResource WkLevelToBrushConverter}}">
-                                                        <Border.ToolTip>
-                                                            <ToolTip Content="{Binding DbVocab.WaniKaniLevel}"
-                                                                ContentStringFormat="{}Vocab learned at level {0} on the kanji learning website WaniKani." />
-                                                        </Border.ToolTip>
-                                                        <DockPanel LastChildFill="True">
-                                                            <TextBlock HorizontalAlignment="Left" FontSize="10" DockPanel.Dock="Left" Opacity="1" FontWeight="SemiBold">
-                                                                WK
-                                                            </TextBlock>
-                                                            <TextBlock HorizontalAlignment="Right" Margin="5 0 0 0">
-                                                                <TextBlock.Style>
-                                                                    <Style TargetType="TextBlock">
-                                                                        <Setter Property="Text">
-                                                                            <Setter.Value>
-                                                                                <Binding Path="DbVocab.WaniKaniLevel" StringFormat="{}Level {0}" />
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                        <Setter Property="FontSize" Value="10" />
-                                                                        <Setter Property="Foreground" Value="#555555" />
-                                                                    </Style>
-                                                                </TextBlock.Style>
-                                                            </TextBlock>
-                                                        </DockPanel>
-                                                    </Border>
-
-                                                    <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="#55000000" CornerRadius="2"
-                                                        HorizontalAlignment="Left" Padding="5 0 5 0">
-                                                        <Border.Style>
-                                                            <Style TargetType="Border">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding DbVocab.Categories.Count}" Value="0">
-                                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Border.Style>
-                                                        <TextBlock Text="{Binding DbVocab.Categories, Converter={StaticResource VocabCategoriesToStringConverter}}" FontSize="10" />
-                                                    </Border>
-                                                </WrapPanel>
+                                                    <Button x:Name="ExpandButton" Content="Show more meanings" Width="140" HorizontalAlignment="Left"
+                                                        Style="{StaticResource MiniActionButton}" Margin="5 0 0 3"
+                                                        Visibility="{Binding NeedsExpanding, Converter={StaticResource ValueToVisibilityConverter}}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Click">
+                                                                <utility:SetPropertyAction TargetObject="{Binding ElementName=MeaningRtb}" PropertyName="Document"
+                                                                    PropertyValue="{Binding DbVocab, Mode=OneTime, IsAsync=False, Converter={StaticResource VocabMeaningsToStringConverter}, ConverterParameter=Full}" />
+                                                                <utility:SetPropertyAction PropertyName="Visibility" PropertyValue="{x:Static Visibility.Collapsed}" />
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </Button>
+                                                </StackPanel>
 
 
-                                                <controls:BindableRichTextBox x:Name="MeaningRtb"
-							                        Margin="0 0 0 5" Padding="0 0 0 0">
-                                                    <controls:BindableRichTextBox.Style>
-                                                        <Style TargetType="controls:BindableRichTextBox" BasedOn="{StaticResource VocabMeaningRichTextBox}">
-                                                            <Setter Property="Document" Value="{Binding DbVocab, Mode=OneTime, IsAsync=False, Converter={StaticResource VocabMeaningsToStringConverter}}" />
+                                                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5 0 0 5">
+                                                    <StackPanel.Style>
+                                                        <Style TargetType="StackPanel">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding SrsEntry}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                            <Setter Property="Visibility" Value="Collapsed" />
                                                         </Style>
-                                                    </controls:BindableRichTextBox.Style>
-                                                </controls:BindableRichTextBox>
+                                                    </StackPanel.Style>
+                                                    <Button Content="✙ Add" Width="70" HorizontalAlignment="Left" BorderBrush="#22000000"
+				                                        Command="{Binding DataContext.AddToSrsCommand,
+						                                    RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+				                                        CommandParameter="{Binding .}" Style="{StaticResource MiniActionButton}" />
+                                                    <Button Content="✙ Quick add" Width="70" HorizontalAlignment="Left" BorderBrush="#22000000"
+				                                        Margin="8 0 0 0" Command="{Binding DataContext.QuickAddToSrsCommand,
+						                                    RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+				                                        CommandParameter="{Binding .}" Style="{StaticResource MiniActionButton}"
+                                                        ToolTip="Add this vocab entry to your SRS list in one click." />
+                                                </StackPanel>
 
-                                                <Button x:Name="ExpandButton" Content="Show more meanings" Width="140" HorizontalAlignment="Left"
-                                                    Style="{StaticResource MiniActionButton}" Margin="5 0 0 3"
-                                                    Visibility="{Binding NeedsExpanding, Converter={StaticResource ValueToVisibilityConverter}}">
-                                                    <i:Interaction.Triggers>
-                                                        <i:EventTrigger EventName="Click">
-                                                            <utility:SetPropertyAction TargetObject="{Binding ElementName=MeaningRtb}" PropertyName="Document"
-                                                                PropertyValue="{Binding DbVocab, Mode=OneTime, IsAsync=False, Converter={StaticResource VocabMeaningsToStringConverter}, ConverterParameter=Full}" />
-                                                            <utility:SetPropertyAction PropertyName="Visibility" PropertyValue="{x:Static Visibility.Collapsed}" />
-                                                        </i:EventTrigger>
-                                                    </i:Interaction.Triggers>
-                                                </Button>
-                                            </StackPanel>
-
-
-                                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5 0 0 5">
-                                                <StackPanel.Style>
-                                                    <Style TargetType="StackPanel">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding SrsEntry}" Value="{x:Null}">
-                                                                <Setter Property="Visibility" Value="Visible" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                    </Style>
-                                                </StackPanel.Style>
-                                                <Button Content="✙ Add" Width="70" HorizontalAlignment="Left" BorderBrush="#22000000"
+                                                <controls:SrsVocabEntryProgress Grid.Row="1" DataContext="{Binding SrsEntry, IsAsync=True}">
+                                                    <controls:SrsVocabEntryProgress.Style>
+                                                        <Style TargetType="controls:SrsVocabEntryProgress">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding .}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </controls:SrsVocabEntryProgress.Style>
+                                                </controls:SrsVocabEntryProgress>
+                                                <!--<Button Grid.Column="1" Content="Add to my list" Width="120" HorizontalAlignment="Left"
 				                                    Command="{Binding DataContext.AddToSrsCommand,
 						                                RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
-				                                    CommandParameter="{Binding .}" Style="{StaticResource MiniActionButton}" />
-                                                <Button Content="✙ Quick add" Width="70" HorizontalAlignment="Left" BorderBrush="#22000000"
-				                                    Margin="8 0 0 0" Command="{Binding DataContext.QuickAddToSrsCommand,
-						                                RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
-				                                    CommandParameter="{Binding .}" Style="{StaticResource MiniActionButton}"
-                                                    ToolTip="Add this vocab entry to your SRS list in one click." />
-                                            </StackPanel>
-
-                                            <controls:SrsVocabEntryProgress Grid.Row="1" DataContext="{Binding SrsEntry, IsAsync=True}">
-                                                <controls:SrsVocabEntryProgress.Style>
-                                                    <Style TargetType="controls:SrsVocabEntryProgress">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding .}" Value="{x:Null}">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </controls:SrsVocabEntryProgress.Style>
-                                            </controls:SrsVocabEntryProgress>
-                                            <!--<Button Grid.Column="1" Content="Add to my list" Width="120" HorizontalAlignment="Left"
-				                                Command="{Binding DataContext.AddToSrsCommand,
-						                            RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
-				                                CommandParameter="{Binding .}">
-                                                <Button.Style>
-                                                    <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding SrsEntry}" Value="{x:Null}">
-                                                                <Setter Property="Visibility" Value="Visible" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                    </Style>
-                                                </Button.Style>
-                                            </Button>
-
-                                            <controls:SrsVocabEntryProgress Grid.Column="1" DataContext="{Binding SrsEntry, IsAsync=True}">
-                                                <controls:SrsVocabEntryProgress.Style>
-                                                    <Style TargetType="controls:SrsVocabEntryProgress">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding .}" Value="{x:Null}">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </controls:SrsVocabEntryProgress.Style>
-                                            </controls:SrsVocabEntryProgress>-->
-                                        </Grid>
-                                        
-                                        <Border Padding="0 3 0 0">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                            
-                                                <!-- Audio button -->
-                                                <Button Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource VocabAudioButton}"
-				                                    DataContext="{Binding Audio}">
-                                                    <Button.LayoutTransform>
-                                                        <RotateTransform Angle="-90" />
-                                                    </Button.LayoutTransform>
+				                                    CommandParameter="{Binding .}">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding SrsEntry}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </Style>
+                                                    </Button.Style>
                                                 </Button>
 
-
-
-                                                <Grid Grid.Column="1">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="*" />
-                                                        <RowDefinition Height="Auto" />
-                                                        <RowDefinition Height="*" />
-                                                    </Grid.RowDefinitions>
-                                                    <StackPanel Grid.Row="1">
-                                                        <ListBox Style="{StaticResource VocabWritingPartListbox}"
-			                                                ItemsSource="{Binding DbVocab, Mode=OneWay,
-					                                            Converter={StaticResource KanjiWritingToCharactersConverter},
-					                                            IsAsync=True}" />
-                                                    </StackPanel>
-                                                </Grid>
-                                                <Grid Grid.Column="2">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="*" />
-                                                        <RowDefinition Height="*" />
-                                                    </Grid.RowDefinitions>
-                                                    <Button Content="Kanji" HorizontalAlignment="Right" FontSize="6"
-				                                        ToolTip="Copy the kanji writing to the clipboard."
-				                                        Command="{Binding DataContext.KanjiCopyCommand,
-				                                            RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
-				                                        CommandParameter="{Binding .}">
-                                                        <Button.Style>
-                                                            <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding DbVocab.KanjiWriting}" Value="{x:Null}">
-                                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                                    </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding DbVocab.KanjiWriting}" Value="">
-                                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                                    </DataTrigger>
-                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter Property="Opacity" Value="1" />
-                                                                        <Setter Property="BorderBrush" Value="#99042880" />
-                                                                    </Trigger>
-                                                                </Style.Triggers>
-                                                                <Setter Property="Opacity" Value="0.15" />
-                                                                <Setter Property="BorderBrush" Value="Transparent" />
-                                                            </Style>
-                                                        </Button.Style>
-                                                        <Button.LayoutTransform>
-                                                            <RotateTransform Angle="-90" />
-                                                        </Button.LayoutTransform>
-                                                    </Button>
-                                                    <Button Grid.Row="1" Content="Kana" HorizontalAlignment="Right" FontSize="6"
-				                                        ToolTip="Copy the kana writing to the clipboard."
-				                                        Command="{Binding DataContext.KanaCopyCommand,
-				                                            RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
-				                                        CommandParameter="{Binding .}">
-                                                        <Button.Style>
-                                                            <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
-                                                                <Style.Triggers>
-                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter Property="Opacity" Value="1" />
-                                                                        <Setter Property="BorderBrush" Value="#99042880" />
-                                                                    </Trigger>
-                                                                </Style.Triggers>
-                                                                <Setter Property="Opacity" Value="0.15" />
-                                                                <Setter Property="BorderBrush" Value="Transparent" />
-                                                            </Style>
-                                                        </Button.Style>
-                                                        <Button.LayoutTransform>
-                                                            <RotateTransform Angle="-90" />
-                                                        </Button.LayoutTransform>
-                                                    </Button>
-                                                </Grid>
-                                                
+                                                <controls:SrsVocabEntryProgress Grid.Column="1" DataContext="{Binding SrsEntry, IsAsync=True}">
+                                                    <controls:SrsVocabEntryProgress.Style>
+                                                        <Style TargetType="controls:SrsVocabEntryProgress">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding .}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </controls:SrsVocabEntryProgress.Style>
+                                                </controls:SrsVocabEntryProgress>-->
                                             </Grid>
-                                        </Border>
+                                        
+                                            <Border Padding="0 3 0 0">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                            
+                                                    <!-- Audio button -->
+                                                    <Button Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource VocabAudioButton}"
+				                                        DataContext="{Binding Audio}">
+                                                        <Button.LayoutTransform>
+                                                            <RotateTransform Angle="-90" />
+                                                        </Button.LayoutTransform>
+                                                    </Button>
 
-                                        <Border Grid.Row="1" Grid.ColumnSpan="2"  Visibility="{Binding HasVariants, Converter={StaticResource ValueToVisibilityConverter}}"
-                                            BorderThickness="0 1 0 0" BorderBrush="#22000000" Padding="0 2 0 2">
-                                            <ListBox Style="{StaticResource VocabVariantList}"
-                                                                ItemsSource="{Binding ., Mode=OneWay,
-                                                                    Converter={StaticResource ExtendedVocabToVariantListConverter},
-                                                                    IsAsync=True}" />
-                                        </Border>
-                                    </Grid>
+
+
+                                                    <Grid Grid.Column="1">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*" />
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="*" />
+                                                        </Grid.RowDefinitions>
+                                                        <StackPanel Grid.Row="1">
+                                                            <ListBox Style="{StaticResource VocabWritingPartListbox}"
+			                                                    ItemsSource="{Binding DbVocab, Mode=OneWay,
+					                                                Converter={StaticResource KanjiWritingToCharactersConverter},
+					                                                IsAsync=True}" />
+                                                        </StackPanel>
+                                                    </Grid>
+                                                    <Grid Grid.Column="2">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*" />
+                                                            <RowDefinition Height="*" />
+                                                        </Grid.RowDefinitions>
+                                                        <Button Content="Kanji" HorizontalAlignment="Right" FontSize="6"
+				                                            ToolTip="Copy the kanji writing to the clipboard."
+				                                            Command="{Binding DataContext.KanjiCopyCommand,
+				                                                RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+				                                            CommandParameter="{Binding .}">
+                                                            <Button.Style>
+                                                                <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding DbVocab.KanjiWriting}" Value="{x:Null}">
+                                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding DbVocab.KanjiWriting}" Value="">
+                                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                                        </DataTrigger>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Opacity" Value="1" />
+                                                                            <Setter Property="BorderBrush" Value="#99042880" />
+                                                                        </Trigger>
+                                                                    </Style.Triggers>
+                                                                    <Setter Property="Opacity" Value="0.15" />
+                                                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                                                </Style>
+                                                            </Button.Style>
+                                                            <Button.LayoutTransform>
+                                                                <RotateTransform Angle="-90" />
+                                                            </Button.LayoutTransform>
+                                                        </Button>
+                                                        <Button Grid.Row="1" Content="Kana" HorizontalAlignment="Right" FontSize="6"
+				                                            ToolTip="Copy the kana writing to the clipboard."
+				                                            Command="{Binding DataContext.KanaCopyCommand,
+				                                                RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
+				                                            CommandParameter="{Binding .}">
+                                                            <Button.Style>
+                                                                <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                                                                    <Style.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Opacity" Value="1" />
+                                                                            <Setter Property="BorderBrush" Value="#99042880" />
+                                                                        </Trigger>
+                                                                    </Style.Triggers>
+                                                                    <Setter Property="Opacity" Value="0.15" />
+                                                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                                                </Style>
+                                                            </Button.Style>
+                                                            <Button.LayoutTransform>
+                                                                <RotateTransform Angle="-90" />
+                                                            </Button.LayoutTransform>
+                                                        </Button>
+                                                    </Grid>
+                                                
+                                                </Grid>
+                                            </Border>
+
+                                            <Border Grid.Row="1" Grid.ColumnSpan="2"  Visibility="{Binding HasVariants, Converter={StaticResource ValueToVisibilityConverter}}"
+                                                BorderThickness="0 1 0 0" BorderBrush="#22000000" Padding="0 2 0 2">
+                                                <ListBox Style="{StaticResource VocabVariantList}"
+                                                                    ItemsSource="{Binding ., Mode=OneWay,
+                                                                        Converter={StaticResource ExtendedVocabToVariantListConverter},
+                                                                        IsAsync=True}" />
+                                            </Border>
+                                        </Grid>
+                                    </Border>
                                 </Border>
                             </ControlTemplate>
                         </Setter.Value>

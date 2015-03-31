@@ -121,6 +121,11 @@ namespace Kanji.Interface.Models
             get { return DbVocab.Variants.Any(); }
         }
 
+        public bool IsUsuallyKana
+        {
+            get { return DbVocab.Meanings.All(m => m.Categories.Any(c => c.ShortName == "uk")); }
+        }
+
         #endregion
 
         #region Constructors
