@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:controls="clr-namespace:Kanji.Interface.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -62,6 +63,10 @@
                         Margin="0 0 0 5" Command="{Binding BulkEditTagsCommand}" Height="Auto" MinHeight="20" />
                     <Button Style="{StaticResource ActionButton}" Content="Bulk edit the SRS level"
                         Margin="0 0 0 5" Command="{Binding BulkEditLevelCommand}" Height="Auto" MinHeight="20" />
+                    <Button Style="{StaticResource ActionButton}" Content="Bulk reschedule review dates"
+                        Margin="0 0 0 5" Command="{Binding BulkRescheduleCommand}" Height="Auto" MinHeight="20" />
+                    <Button Style="{StaticResource ActionButton}" Content="Bulk delay review dates"
+                        Margin="0 0 0 5" Command="{Binding BulkDelayCommand}" Height="Auto" MinHeight="20" />
                     <Button Style="{StaticResource ActionButton}" Content="Suspend all selected items"
                         Margin="0 0 0 5" Command="{Binding BulkSuspendCommand}" Height="Auto" MinHeight="20" />
                     <Button Style="{StaticResource ActionButton}" Content="Resume all selected items"
@@ -178,6 +183,104 @@
                     Command="{Binding BulkEditLevelApplyCommand}" Margin="0 0 0 5" />
             </Grid>
             
+            <!-- BulkEditMode = Timing -->
+            <Grid Visibility="{Binding BulkEditMode,
+                    Converter={StaticResource ValueToVisibilityConverter},
+                    ConverterParameter=Timing}">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding BulkEditMode}" Value="Tags">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </Style>
+                </Grid.Style>
+
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <Button DockPanel.Dock="Right" Style="{StaticResource MiniActionButton}"
+                            Content="Cancel" Padding="8 0" Command="{Binding CancelBulkEditCommand}" />
+                        <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap" Margin="0 5 0 8">
+                            These settings allow you to reschedule the review dates of your selected SRS items.
+                        </TextBlock>
+
+                        <StackPanel DataContext="{Binding TimingVm}">
+                            <RadioButton GroupName="Timing" Content="Reset to SRS level timing" IsChecked="{Binding TimingMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=UseSrsLevel}" />
+                            <RadioButton GroupName="Timing" Content="Start all now" IsChecked="{Binding TimingMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Immediate}" />
+                            <RadioButton GroupName="Timing" Content="Never review" IsChecked="{Binding TimingMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Never}" />
+                            <RadioButton x:Name="FixedDateRadio" GroupName="Timing" Content="Set all dates to this value:" IsChecked="{Binding TimingMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Fixed}" />
+
+                            <Border Margin="15 5 0 0" BorderThickness="2 0 0 0" BorderBrush="#666666" Padding="5 0 0 0">
+                                <xctk:DateTimePicker Grid.Column="1" Value="{Binding FixedDate}" Format="Custom" FormatString="yyyy-MM-dd H:mm:ss"
+                                    TextAlignment="Left" IsEnabled="{Binding ElementName=FixedDateRadio, Mode=OneWay, Path=IsChecked}" />
+                            </Border>
+
+                            <RadioButton x:Name="SpreadTimingRadio" GroupName="Timing" Content="Spread reviews over time" IsChecked="{Binding TimingMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Spread}" />
+
+                            <Border Margin="15 5 0 0" BorderThickness="2 0 0 0" BorderBrush="#666666" Padding="5 0 0 0">
+                                <StackPanel IsEnabled="{Binding ElementName=SpreadTimingRadio, Mode=OneWay, Path=IsChecked}">
+                                    <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                                        <xctk:IntegerUpDown Value="{Binding SpreadAmountPerDay}" Width="60" Minimum="1" Maximum="99999" />
+                                        <TextBlock Style="{StaticResource LegendText}" Margin="5 0 0 0">
+                                            new items per day
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <RadioButton GroupName="SpreadMode" Content="In random order" IsChecked="{Binding SpreadMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Random}" />
+                                    <RadioButton GroupName="SpreadMode" Content="In import source order" IsChecked="{Binding SpreadMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=ListOrder}" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                        <Button Style="{StaticResource ActionButton}" Content="Apply changes" FontSize="13"
+                            Command="{Binding BulkRescheduleApplyCommand}" Margin="0 10 0 5" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+
+            <!-- BulkEditMode = Delay -->
+            <Grid Visibility="{Binding BulkEditMode,
+                    Converter={StaticResource ValueToVisibilityConverter},
+                    ConverterParameter=Delay}">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding BulkEditMode}" Value="Tags">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </Style>
+                </Grid.Style>
+
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <Button DockPanel.Dock="Right" Style="{StaticResource MiniActionButton}"
+                            Content="Cancel" Padding="8 0" Command="{Binding CancelBulkEditCommand}" />
+                        <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap" Margin="0 5 0 8">
+                            Delay the next review dates of all selected items by:
+                        </TextBlock>
+                        <StackPanel Orientation="Horizontal" Margin="0 2 0 3">
+                            <xctk:DoubleUpDown Value="{Binding TimingDelay}" Width="60" />
+                            <TextBlock Margin="6 0 0 0" Foreground="Black">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource LegendText}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding TimingDelay}" Value="1">
+                                                <Setter Property="Text" Value="hour" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                        <Setter Property="Text" Value="hours" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                        <Button Style="{StaticResource ActionButton}" Content="Apply changes" FontSize="13"
+                            Command="{Binding BulkDelayApplyCommand}" Margin="0 10 0 5" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+
             <!-- BulkEditMode = Applying -->
             <Grid Visibility="{Binding BulkEditMode,
                 Converter={StaticResource ValueToVisibilityConverter},

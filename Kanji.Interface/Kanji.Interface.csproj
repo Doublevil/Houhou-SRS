@@ -231,7 +231,7 @@
     <Compile Include="ViewModels\Partial\Import\ImportDuplicateOptionsViewModel.cs" />
     <Compile Include="ViewModels\Partial\Import\ImportOverviewViewModel.cs" />
     <Compile Include="ViewModels\Partial\Import\ImportProgressViewModel.cs" />
-    <Compile Include="ViewModels\Partial\Import\ImportTimingViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Srs\SrsTimingViewModel.cs" />
     <Compile Include="Models\Import\ImportTimingMode.cs" />
     <Compile Include="Models\SettingsCategoryEnum.cs" />
     <Compile Include="Models\SrsEntryFilter.cs" />

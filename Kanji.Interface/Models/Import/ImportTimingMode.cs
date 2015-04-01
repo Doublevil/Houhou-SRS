@@ -10,6 +10,8 @@ namespace Kanji.Interface.Models
     {
         UseSrsLevel = 0,
         Immediate = 1,
-        Spread = 2
+        Spread = 2,
+        Never = 3,
+        Fixed = 4
     }
 }

@@ -29,7 +29,9 @@ namespace Kanji.Interface.ViewModels
             Tags = 3,
             Level = 4,
             Applying = 5,
-            Applied = 6
+            Applied = 6,
+            Delay = 7,
+            Timing = 8
         }
 
         public enum BulkEditTaskEnum
@@ -40,7 +42,8 @@ namespace Kanji.Interface.ViewModels
             Level = 3,
             Suspend = 4,
             Resume = 5,
-            Delete = 6
+            Delete = 6,
+            Timing = 7
         }
 
         #endregion
@@ -67,7 +70,7 @@ namespace Kanji.Interface.ViewModels
 
         private long _bulkEditResultCount;
 
-        public System.Windows.Controls.DataGrid _dataGrid;
+        private double _timingDelay;
 
         #endregion
 
@@ -209,9 +212,30 @@ namespace Kanji.Interface.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the ViewModel of the level picker.
+        /// Gets the view model of the level picker.
         /// </summary>
-        public SrsLevelPickerViewModel LevelPickerVm { get; set; }
+        public SrsLevelPickerViewModel LevelPickerVm { get; private set; }
+
+        /// <summary>
+        /// Gets the view model for the review date rescheduling.
+        /// </summary>
+        public SrsTimingViewModel TimingVm { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the delay in hours for next review dates in delay bulk edit.
+        /// </summary>
+        public double TimingDelay
+        {
+            get { return _timingDelay; }
+            set
+            {
+                if (_timingDelay != value)
+                {
+                    _timingDelay = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
 
         #endregion
 
@@ -303,6 +327,28 @@ namespace Kanji.Interface.ViewModels
         public RelayCommand BulkDeleteCommand { get; set; }
 
         /// <summary>
+        /// Gets or sets the command used to reschedule the next review date of
+        /// all selected items.
+        /// </summary>
+        public RelayCommand BulkRescheduleCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the command used to apply a reschedule.
+        /// </summary>
+        public RelayCommand BulkRescheduleApplyCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the command used to delay the next review date of all
+        /// selected items.
+        /// </summary>
+        public RelayCommand BulkDelayCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the command used to apply a delay bulk edit.
+        /// </summary>
+        public RelayCommand BulkDelayApplyCommand { get; set; }
+
+        /// <summary>
         /// Gets or sets the command used to export all selected items.
         /// </summary>
         public RelayCommand ExportCommand { get; set; }
@@ -327,6 +373,9 @@ namespace Kanji.Interface.ViewModels
             LevelPickerVm = new SrsLevelPickerViewModel();
             LevelPickerVm.Initialize(0);
 
+            TimingVm = new SrsTimingViewModel();
+            TimingDelay = 24;
+
             RefreshSelectionCommand = new RelayCommand(OnRefreshSelection);
             SelectSrsItemCommand = new RelayCommand<FilteringSrsEntry>(OnSelectSrsItem);
             EditSingleItemCommand = new RelayCommand<FilteringSrsEntry>(OnEditSingleItem);
@@ -344,6 +393,10 @@ namespace Kanji.Interface.ViewModels
             BulkResumeCommand = new RelayCommand(OnBulkResume);
             BulkDeleteCommand = new RelayCommand(OnBulkDelete);
             ExportCommand = new RelayCommand(OnExport);
+            BulkRescheduleCommand = new RelayCommand(OnBulkReschedule);
+            BulkRescheduleApplyCommand = new RelayCommand(OnBulkRescheduleApply);
+            BulkDelayCommand = new RelayCommand(OnBulkDelay);
+            BulkDelayApplyCommand = new RelayCommand(OnBulkDelayApply);
         }
 
         #endregion
@@ -558,17 +611,17 @@ namespace Kanji.Interface.ViewModels
                         _srsEntryDao.BulkEditGrade(entries, (short)value,
                         SrsLevelStore.Instance.GetLevelByValue((short)value).Delay);
                     break;
+                case BulkEditTaskEnum.Timing:
+                    BulkEditResultCount = _srsEntryDao.BulkEditReviewDate(entries);
+                    break;
                 case BulkEditTaskEnum.Suspend:
-                    BulkEditResultCount =
-                        _srsEntryDao.BulkSuspend(entries);
+                    BulkEditResultCount = _srsEntryDao.BulkSuspend(entries);
                     break;
                 case BulkEditTaskEnum.Resume:
-                    BulkEditResultCount =
-                        _srsEntryDao.BulkResume(entries);
+                    BulkEditResultCount = _srsEntryDao.BulkResume(entries);
                     break;
                 case BulkEditTaskEnum.Delete:
-                    BulkEditResultCount =
-                        _srsEntryDao.BulkDelete(entries);
+                    BulkEditResultCount = _srsEntryDao.BulkDelete(entries);
                     break;
                 default:
                     throw new ArgumentException(string.Format(
@@ -817,6 +870,76 @@ namespace Kanji.Interface.ViewModels
                 BulkEdit(BulkEditTaskEnum.Delete,
                     SelectedItems.Select(i => i.Reference).ToArray());
             }
+        }
+
+        /// <summary>
+        /// Command callback. Switches the bulk edit mode.
+        /// </summary>
+        private void OnBulkReschedule()
+        {
+            BulkEditMode = BulkEditModeEnum.Timing;
+        }
+
+        /// <summary>
+        /// Command callback. Applies the reschedule.
+        /// </summary>
+        private void OnBulkRescheduleApply()
+        {
+            if (System.Windows.MessageBox.Show(
+                NavigationActor.Instance.ActiveWindow,
+                string.Format("Do you really want to reset the review date of all {0} selected "
+                    + "items?{1}This action is not reversible.",
+                    SelectedItems.Count,
+                    Environment.NewLine),
+                "Bulk edition confirmation",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Question,
+                System.Windows.MessageBoxResult.Cancel)
+                == System.Windows.MessageBoxResult.Yes)
+            {
+                // Apply the timing.
+                TimingVm.ApplyTiming(_selectedItems.Select(e => e.Reference).ToList());
+
+                // Send to bulk edit.
+                BulkEdit(BulkEditTaskEnum.Timing,
+                    SelectedItems.Select(i => i.Reference).ToArray());
+            }
+        }
+
+        /// <summary>
+        /// Command callback. Applies the delay.
+        /// </summary>
+        private void OnBulkDelayApply()
+        {
+            if (System.Windows.MessageBox.Show(
+                NavigationActor.Instance.ActiveWindow,
+                string.Format("Do you really want to delay the review date of all {0} selected items?",
+                    SelectedItems.Count),
+                "Bulk edition confirmation",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Question,
+                System.Windows.MessageBoxResult.Cancel)
+                == System.Windows.MessageBoxResult.Yes)
+            {
+                // Apply the delay.
+                foreach (SrsEntry entry in _selectedItems.Select(e => e.Reference))
+                {
+                    DateTime start = entry.NextAnswerDate.HasValue ? entry.NextAnswerDate.Value : DateTime.Now;
+                    entry.NextAnswerDate = start + TimeSpan.FromHours(TimingDelay);
+                }
+
+                // Send to bulk edit.
+                BulkEdit(BulkEditTaskEnum.Timing,
+                    SelectedItems.Select(i => i.Reference).ToArray());
+            }
+        }
+
+        /// <summary>
+        /// Command callback. Switches the bulk edit mode.
+        /// </summary>
+        private void OnBulkDelay()
+        {
+            BulkEditMode = BulkEditModeEnum.Delay;
         }
 
         /// <summary>

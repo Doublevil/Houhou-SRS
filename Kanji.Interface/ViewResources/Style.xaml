@@ -1158,7 +1158,6 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
-                                <!--<Border BorderThickness="0,0,0,1" Height="70" VerticalAlignment="Center">-->
                                 <Border>
                                     <Border.Style>
                                         <Style TargetType="Border">

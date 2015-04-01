@@ -800,6 +800,48 @@ namespace Kanji.Database.Dao
         }
 
         /// <summary>
+        /// Updates the review date for all given entities.
+        /// The review date is assumed already modified in the entity.
+        /// </summary>
+        /// <param name="entities">Entities to update.</param>
+        /// <returns>Number of entities updated.</returns>
+        public long BulkEditReviewDate(IEnumerable<SrsEntry> entities)
+        {
+            if (!entities.Any())
+            {
+                return 0;
+            }
+
+            DaoConnection connection = null;
+            long result = -1;
+            try
+            {
+                connection = DaoConnection.Open(DaoConnectionEnum.SrsDatabase);
+                result = 0;
+
+                foreach (SrsEntry entry in entities)
+                {
+                    // Execute the query.
+                    result += connection.ExecuteNonQuery("UPDATE " + SqlHelper.Table_SrsEntry
+                        + " SET " + SqlHelper.Field_SrsEntry_NextAnswerDate + "=@Value, " + SqlHelper.Field_SrsEntry_LastUpdateDate
+                        + "=@LastUpdateDate WHERE " + SqlHelper.Field_SrsEntry_Id + "=@Id",
+                        new DaoParameter("@Value", entry.NextAnswerDate.HasValue ? (object)entry.NextAnswerDate.Value.ToUniversalTime().Ticks : "null"),
+                        new DaoParameter("@LastUpdateDate", DateTime.UtcNow.Ticks),
+                        new DaoParameter("@Id", entry.ID));
+                }
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Dispose();
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Suspends all the given entities (i.e. sets their suspension dates to now).
         /// </summary>
         /// <param name="entities">Entities to suspend.</param>
