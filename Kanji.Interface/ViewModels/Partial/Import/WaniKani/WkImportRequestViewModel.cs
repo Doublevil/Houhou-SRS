@@ -346,6 +346,11 @@ namespace Kanji.Interface.ViewModels
                 string code = (string)errorObject["code"];
                 string message = (string)errorObject["message"];
                 Error = string.Format("WaniKani error '{0}': {1}", code, message);
+                if (Error.ToLower().Contains("level"))
+                {
+                    Error += Environment.NewLine + "Please check that you are currently on an active WaniKani subscription.";
+                }
+
                 return true;
             }
 
