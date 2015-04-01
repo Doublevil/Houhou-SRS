@@ -39,6 +39,7 @@
     <converters:WkLevelToBrushConverter x:Key="WkLevelToBrushConverter" />
     <converters:WikipediaRankToBrushConverter x:Key="WikipediaRankToBrushConverter" />
     <converters:ExtendedVocabToVariantListConverter x:Key="ExtendedVocabToVariantListConverter" />
+    <converters:NullValueToVisibilityConverter x:Key="NullValueToVisibilityConverter" />
 
     <!-- ObjectDataProviders -->
     <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="KanjiFilterModeEnum">
@@ -2162,20 +2163,20 @@
                                         <UniformGrid Grid.Row="3" Rows="1">
                                             <Button Style="{StaticResource MiniActionButton}"
                                                 Command="{Binding DataContext.BrowseSetCommand,
-                                                RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 CommandParameter="{Binding .}" Content="Browse"
                                                 ToolTip="Open the set directory in the explorer."
                                                 Margin="0 0 5 0" />
                                             <Button Style="{StaticResource MiniActionButton}"
                                                 Command="{Binding DataContext.SelectSetCommand,
-                                                RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 CommandParameter="{Binding .}" Content="Use this set"
                                                 ToolTip="Sets this set to be used from now on."
                                                 Visibility="{Binding Tag, RelativeSource={RelativeSource AncestorType=Border},
-                                                Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Null}}" />
+                                                    Converter={StaticResource NullValueToVisibilityConverter}}" />
                                             <TextBlock Text="In use" VerticalAlignment="Center" HorizontalAlignment="Center"
                                                 Visibility="{Binding Tag, RelativeSource={RelativeSource AncestorType=Border},
-                                                Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter=True}" />
+                                                    Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter=True}" />
                                         </UniformGrid>
                                     </Grid>
                                 </Border>

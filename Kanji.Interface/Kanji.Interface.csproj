@@ -185,6 +185,7 @@
     <Compile Include="Converters\IsFirstItemInContainerConverter.cs" />
     <Compile Include="Converters\JlptLevelToBrushConverter.cs" />
     <Compile Include="Converters\KanjiToReadingListConverter.cs" />
+    <Compile Include="Converters\NullValueToVisibilityConverter.cs" />
     <Compile Include="Converters\PercentageToStringConverter.cs" />
     <Compile Include="Converters\SrsEntryImportResultConverter.cs" />
     <Compile Include="Converters\SrsEntryToStringConverter.cs" />
