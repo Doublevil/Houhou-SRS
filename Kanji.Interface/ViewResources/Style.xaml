@@ -1036,6 +1036,9 @@
                                                 <TextBox.Style>
                                                     <Style TargetType="TextBox" BasedOn="{StaticResource LabelBox}" />
                                                 </TextBox.Style>
+                                                <TextBox.ToolTip>
+                                                    <TextBlock Text="{Binding Furigana}" FontSize="16" />
+                                                </TextBox.ToolTip>
                                             </TextBox>
                                         </Viewbox>
                                     </Border>

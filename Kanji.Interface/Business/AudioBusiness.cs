@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Kanji.Interface.Business
 {
@@ -19,6 +20,7 @@ namespace Kanji.Interface.Business
         #region Constants
 
         private static readonly int UnavailableDurationTicks = 56946938;
+        private static readonly int TimeoutMs = 10000;
 
         #endregion
 
@@ -46,6 +48,7 @@ namespace Kanji.Interface.Business
         private MediaPlayer _player;
         private VocabAudio _playingVocab;
         private bool _isBusy;
+        private DispatcherTimer _timeoutTimer;
 
         #endregion
 
@@ -88,6 +91,30 @@ namespace Kanji.Interface.Business
             _player.MediaFailed += OnMediaFailed;
 
             PlayVocabAudioCommand = new RelayCommand<VocabAudio>(PlayVocabAudio);
+
+            _timeoutTimer = new DispatcherTimer();
+            _timeoutTimer.Interval = TimeSpan.FromMilliseconds(TimeoutMs);
+            _timeoutTimer.Tick += OnTimeoutTick;
+        }
+
+        /// <summary>
+        /// Event trigger.
+        /// Triggered when the timeout timer ticks.
+        /// Stops loading and returns the business to a non-busy state.
+        /// </summary>
+        private void OnTimeoutTick(object sender, EventArgs e)
+        {
+            if (IsBusy)
+            {
+                if (_playingVocab != null)
+                {
+                    _playingVocab.State = VocabAudioState.Failed;
+                    _playingVocab = null;
+                }
+
+                _player.Stop();
+                IsBusy = false;
+            }
         }
 
         #endregion
@@ -134,6 +161,7 @@ namespace Kanji.Interface.Business
 
                 // Switch the playing vocab and open the audio file.
                 _playingVocab = vocab;
+                _timeoutTimer.Start();
                 _player.Open(GetUri(vocab));
             }
             catch (Exception ex)
@@ -192,16 +220,24 @@ namespace Kanji.Interface.Business
             if (_player.NaturalDuration.TimeSpan.Ticks == UnavailableDurationTicks)
             {
                 // Probably unavailable (or we're having terrible, terrible luck)
-                _playingVocab.State = VocabAudioState.Unavailable;
-                _playingVocab = null;
+                if (_playingVocab != null)
+                {
+                    _playingVocab.State = VocabAudioState.Unavailable;
+                    _playingVocab = null;
+                }
                 IsBusy = false;
             }
             else
             {
                 // Audio is available. Play it!
-                _playingVocab.State = VocabAudioState.Playing;
+                if (_playingVocab != null)
+                {
+                    _playingVocab.State = VocabAudioState.Playing;
+                }
+
                 _player.Volume = Math.Min(1, Math.Max(0, Properties.Settings.Default.AudioVolume / 100f));
                 _player.Play();
+                _timeoutTimer.Stop();
             }
         }
 
@@ -210,8 +246,11 @@ namespace Kanji.Interface.Business
         /// </summary>
         private void OnMediaFailed(object sender, ExceptionEventArgs e)
         {
-            _playingVocab.State = VocabAudioState.Failed;
-            _playingVocab = null;
+            if (_playingVocab != null)
+            {
+                _playingVocab.State = VocabAudioState.Failed;
+                _playingVocab = null;
+            }
             IsBusy = false;
         }
 
@@ -220,8 +259,11 @@ namespace Kanji.Interface.Business
         /// </summary>
         private void OnMediaEnded(object sender, EventArgs e)
         {
-            _playingVocab.State = VocabAudioState.Playable;
-            _playingVocab = null;
+            if (_playingVocab != null)
+            {
+                _playingVocab.State = VocabAudioState.Playable;
+                _playingVocab = null;
+            }
             IsBusy = false;
         }
 
