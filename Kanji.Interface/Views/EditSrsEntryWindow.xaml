@@ -13,7 +13,7 @@
                 </DataTrigger>
             </Style.Triggers>
             <Setter Property="Background" Value="#E4FBD0" />
-            <Setter Property="Title" Value="SRS item edition" />
+            <Setter Property="Title" Value="SRS item editing" />
         </Style>
     </Window.Style>
     

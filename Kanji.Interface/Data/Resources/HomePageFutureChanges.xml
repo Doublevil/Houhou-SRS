@@ -1,22 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ArrayOfChangelogEntry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ChangelogEntry>
-    <Version>Soon</Version>
-    <Title>Better settings</Title>
-    <Description>The Settings page was rushed before the release. It will be improved and will include more settings.</Description>
-  </ChangelogEntry>
-  <ChangelogEntry>
-    <Version>Soon</Version>
-    <Title>Startup time optimization</Title>
-    <Description>Houhou can be a bit slow to start. I'll be sure to check this soon.</Description>
-  </ChangelogEntry>
-  <ChangelogEntry>
-    <Version>Soon</Version>
+    <Version>Soon?</Version>
     <Title>Database optimization</Title>
-    <Description>I'm not satisfied with the speed of vocab search. I'll check this out as soon as possible.</Description>
+    <Description>I'm not satisfied with the speed of vocab search.</Description>
   </ChangelogEntry>
   <ChangelogEntry>
-    <Version>Soon</Version>
+    <Version>Soon?</Version>
     <Title>Keyboard shortcuts</Title>
     <Description>They should have been there already. There will be shortcuts to navigate to each tab, to start searching for a new Kanji, for vocab, SRS, etc.</Description>
   </ChangelogEntry>
@@ -28,8 +18,7 @@
   <ChangelogEntry>
     <Version>Soon?</Version>
     <Title>Fill the blank in the SRS tab</Title>
-    <Description>There's nothing to cover the bottom of the SRS tab. Maybe I'll add a graph or something.
-I'm open to your ideas on this.</Description>
+    <Description>There's nothing to cover the bottom of the SRS tab. I'm thinking of a panel that introduces common kanji and vocab that are not yet in your SRS list.</Description>
   </ChangelogEntry>
   <ChangelogEntry>
     <Version>Later</Version>
@@ -44,12 +33,12 @@ In the future, you will be able to edit those easily and safely from the Setting
   </ChangelogEntry>
   <ChangelogEntry>
     <Version>Maybe later</Version>
-    <Title>Kanji drawing order</Title>
-    <Description>Maybe the application could display the Kanji drawing order from the Kanji details page. I need to investigate this to be sure this is possible with open resources.</Description>
-  </ChangelogEntry>
-  <ChangelogEntry>
-    <Version>Maybe later</Version>
     <Title>Kanji drawing filter</Title>
     <Description>The ability to search for Kanji by drawing them would be a great feature but would probably require a lot of work.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>Soon?</Version>
+    <Title>Reverse SRS</Title>
+    <Description>Houhou will probably be able to "reverse-quizz" you on your SRS items. Basically, if you enable this, in addition to the normal SRS, you will be asked to input the Japanese reading of items based on a definition.</Description>
   </ChangelogEntry>
 </ArrayOfChangelogEntry>

@@ -1,6 +1,61 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ArrayOfChangelogEntry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ChangelogEntry>
+    <Version>1.2</Version>
+    <Title>Quick add for vocab</Title>
+    <Description>You can now add vocab to your SRS list in one click using the Quick add button.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.2</Version>
+    <Title>New info for kanji and vocab</Title>
+    <Description>The kanji details page now shows a new frequency rank, computed from a study of more than 7000 books; it also shows the drawing strokes of the kanji, its grade, its JLPT level and its level on WaniKani when appliable.
+In a similar fashion, vocab shows frequency info from the books study, frequency rank from a study of Wikipedia articles, JLPT level and WaniKani level when appliable.
+These data provide a great help in deciding which kanji or words you want to learn.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.2</Version>
+    <Title>Vocab variants</Title>
+    <Description>Vocabulary entries now show their variants (different writing, same or close meaning) when they exist. Keep in mind that variants are often less used than the main entries.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.2</Version>
+    <Title>Audio support for vocab</Title>
+    <Description>Added support for audio pronunciation of words. You have to configure this feature in the Settings/Vocab tab.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.2</Version>
+    <Title>Furigana for vocab</Title>
+    <Description>Instead of the old fashioned vocabulary entries with kanji on one column and kana on the other, kana now shows up as furigana for most entries.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.2</Version>
+    <Title>Batch rescheduling/delay for your SRS items</Title>
+    <Description>You can now reschedule or delay the next review date of multiple items at once using the "Browse" part of the SRS tab.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.2</Version>
+    <Title>Optional meaning/reading field for SRS items</Title>
+    <Description>You are no longer forced to fill both the Accepted meanings and the Accepted Readings fields. This means that you are now free to add a kana-only word without any accepted reading, so that the system doesn't prompt you to enter the reading of an item that already appears in all kana.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.2</Version>
+    <Title>Minor additions and fixes</Title>
+    <Description>• Settings are (hopefully) no longer overwritten when updating Houhou.
+• Searching vocab by meaning is now (hopefully) a bit faster.
+• Added settings on the kanji and vocab subtabs to define how many kanji and vocab are shown in result lists.
+• Added a configurable setting that collapses vocabulary definitions in the result list when there are too many different meanings.
+• The kanji characters of vocab entries that are usually written in kana now have a toned down opacity.
+• Added proper credits to the resources Houhou uses on the bottom of this page.
+• The button to copy the kanji reading of a vocab entry to the clipboard is now split in two; one button for kana, the other for kanji.
+• The auto-fill arrow button on the SRS item creation/editing window is now slightly smarter.
+• When a crash occurs, you can now open your log file, so that you can easily save it and send it to me.
+• Added a clearer error label when trying to import items from WaniKani with an unsubscribed account.
+• The tray app now (by default) shows a popup when closing the main window.
+• Added a setting to completely shutdown Houhou (along with the SRS tray app) when closing the main window.
+• Fixed the "SRS item edition" window title.
+• Added a setting to show/hide nanori (name) readings for kanji. It is off by default.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
     <Version>1.1.2</Version>
     <Title>Export feature</Title>
     <Description>You can now export any selection of SRS items in the Item Browsing part of the SRS tab.</Description>
