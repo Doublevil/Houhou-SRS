@@ -653,7 +653,7 @@
         <Setter Property="Background" Value="White" />
         <Setter Property="Margin" Value="5 5 5 0" />
         <Setter Property="Width" Value="90" />
-        <Setter Property="Height" Value="90" />
+        <Setter Property="Height" Value="87" />
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="TextWrapping" Value="NoWrap" />
