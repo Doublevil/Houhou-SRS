@@ -262,9 +262,6 @@ namespace Kanji.Interface.ViewModels
                 KanjiNavigationEntry entry = _navigationHistory.Pop();
                 RaisePropertyChanged("CanNavigateBack");
 
-                // Reset the kanji details viewmodel.
-                SetKanjiDetailsVm(entry.KanjiDetailsVm);
-
                 // Apply the filter.
                 _kanjiFilter = entry.KanjiFilter;
                 KanjiFilterVm.SetFilter(_kanjiFilter);
@@ -277,6 +274,9 @@ namespace Kanji.Interface.ViewModels
                 {
                     KanjiListVm.SetFilter(_kanjiFilter);
                 }
+
+                // Reset the kanji details viewmodel.
+                SetKanjiDetailsVm(entry.KanjiDetailsVm);
             }
             catch (InvalidOperationException)
             {
