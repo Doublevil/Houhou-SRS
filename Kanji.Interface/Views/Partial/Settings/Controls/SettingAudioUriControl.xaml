@@ -13,7 +13,7 @@
         <TextBox Grid.Row="1" Text="{Binding AudioUri, Mode=TwoWay}" HorizontalAlignment="Stretch" />
         <TextBlock Grid.Row="2" Style="{StaticResource LegendText}" TextWrapping="Wrap">
             In the above field, the audio system will replace %kana% with the kana reading of the vocab to play, and %kanji% with the kanji reading.<LineBreak />
-            Please understand that you have to fill this field manually for legal reasons.<LineBreak />
+            Please understand that you have to fill this field manually for legal reasons.
         </TextBlock>
     </StackPanel>
 </UserControl>

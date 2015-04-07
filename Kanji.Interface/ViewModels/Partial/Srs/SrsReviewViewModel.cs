@@ -348,7 +348,8 @@ namespace Kanji.Interface.ViewModels
             // Play audio if auto play enabled.
             if (CurrentQuestion.Question == SrsQuestionEnum.Reading
                 && CurrentQuestionGroup.IsVocab
-                && Properties.Settings.Default.ReviewPlayAudio)
+                && ((success && Properties.Settings.Default.AudioAutoplayMode.ShouldPlayOnSuccess())
+                || (!success && Properties.Settings.Default.AudioAutoplayMode.ShouldPlayOnFailure())))
             {
                 AudioBusiness.PlayVocabAudio(CurrentQuestionGroup.Audio);
             }

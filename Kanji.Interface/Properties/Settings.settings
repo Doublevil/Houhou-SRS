@@ -128,5 +128,8 @@
     <Setting Name="VocabSrsDelayHours" Type="System.Double" Scope="User">
       <Value Profile="(Default)">24</Value>
     </Setting>
+    <Setting Name="AudioAutoplayMode" Type="Kanji.Interface.Models.AudioAutoplayModeEnum" Scope="User">
+      <Value Profile="(Default)">Disabled</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kanji.Interface.Models;
 
 namespace Kanji.Interface.ViewModels
 {
@@ -10,24 +11,23 @@ namespace Kanji.Interface.ViewModels
     {
         #region Fields
 
-        private bool _isAutoPlay;
+        private AudioAutoplayModeEnum _autoPlayMode;
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Gets or sets the value indicating if audio should automatically play
-        /// during reviews after submitting a reading answer.
+        /// Gets or sets the audio autoplay mode.
         /// </summary>
-        public bool IsAutoPlay
+        public AudioAutoplayModeEnum AutoPlayMode
         {
-            get { return _isAutoPlay; }
+            get { return _autoPlayMode; }
             set
             {
-                if (_isAutoPlay != value)
+                if (_autoPlayMode != value)
                 {
-                    _isAutoPlay = value;
+                    _autoPlayMode = value;
                     RaisePropertyChanged();
                 }
             }
@@ -39,7 +39,7 @@ namespace Kanji.Interface.ViewModels
 
         public SettingReviewPlayAudio()
         {
-            IsAutoPlay = Properties.Settings.Default.ReviewPlayAudio;
+            AutoPlayMode = Properties.Settings.Default.AudioAutoplayMode;
         }
 
         #endregion
@@ -48,12 +48,12 @@ namespace Kanji.Interface.ViewModels
 
         public override bool IsSettingChanged()
         {
-            return Properties.Settings.Default.ReviewPlayAudio != IsAutoPlay;
+            return Properties.Settings.Default.AudioAutoplayMode != AutoPlayMode;
         }
 
         protected override void DoSaveSetting()
         {
-            Properties.Settings.Default.ReviewPlayAudio = IsAutoPlay;
+            Properties.Settings.Default.AudioAutoplayMode = AutoPlayMode;
         }
 
         #endregion

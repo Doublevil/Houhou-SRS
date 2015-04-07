@@ -519,5 +519,17 @@ namespace Kanji.Interface.Properties {
                 this["VocabSrsDelayHours"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Disabled")]
+        public global::Kanji.Interface.Models.AudioAutoplayModeEnum AudioAutoplayMode {
+            get {
+                return ((global::Kanji.Interface.Models.AudioAutoplayModeEnum)(this["AudioAutoplayMode"]));
+            }
+            set {
+                this["AudioAutoplayMode"] = value;
+            }
+        }
     }
 }

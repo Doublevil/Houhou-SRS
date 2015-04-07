@@ -6,7 +6,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
-        <CheckBox IsChecked="{Binding IsAutoPlay, Mode=TwoWay}" Content="Automatically play audio during reviews"
-            ToolTip="If checked, during reviews, after submitting an answer about the reading of a vocab item, the audio for the item will automatically play." />
+        <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap" Margin="0 0 0 3" Foreground="Black">
+            Audio auto-play for vocabulary in SRS reviews:
+        </TextBlock>
+        <RadioButton Margin="0 0 0 3" GroupName="AudioAuto" Content="Disabled" IsChecked="{Binding AutoPlayMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Disabled}" />
+        <RadioButton Margin="0 0 0 3" GroupName="AudioAuto" Content="Always auto-play" IsChecked="{Binding AutoPlayMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Always}" />
+        <RadioButton Margin="0 0 0 3" GroupName="AudioAuto" Content="Auto-play on wrong answers" IsChecked="{Binding AutoPlayMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=OnFailure}" />
+        <RadioButton Margin="0 0 0 3" GroupName="AudioAuto" Content="Auto-play on correct answers" IsChecked="{Binding AutoPlayMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=OnSuccess}" />
+        <TextBlock Style="{StaticResource LegendText}" TextWrapping="Wrap">
+            Please note that if auto-play is enabled, it will only occur when validating answers for a reading question.
+        </TextBlock>
     </StackPanel>
 </UserControl>

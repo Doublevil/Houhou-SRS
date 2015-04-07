@@ -221,6 +221,7 @@
     <Compile Include="Models\Import\WkImportResult.cs" />
     <Compile Include="Models\Import\WkItem.cs" />
     <Compile Include="Models\KanjiReadingLabel.cs" />
+    <Compile Include="Models\Settings\AudioAutoplayModeEnum.cs" />
     <Compile Include="Models\TrayNotificationEnum.cs" />
     <Compile Include="Models\VocabAudio.cs" />
     <Compile Include="Models\VocabAudioState.cs" />
