@@ -1479,7 +1479,7 @@
                                                             <RowDefinition Height="*" />
                                                             <RowDefinition Height="*" />
                                                         </Grid.RowDefinitions>
-                                                        <Button Content="Kanji" HorizontalAlignment="Right" FontSize="6"
+                                                        <Button Grid.Row="1" Content="Kanji" HorizontalAlignment="Right" FontSize="6"
 				                                            ToolTip="Copy the kanji writing to the clipboard."
 				                                            Command="{Binding DataContext.KanjiCopyCommand,
 				                                                RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
@@ -1506,7 +1506,7 @@
                                                                 <RotateTransform Angle="-90" />
                                                             </Button.LayoutTransform>
                                                         </Button>
-                                                        <Button Grid.Row="1" Content="Kana" HorizontalAlignment="Right" FontSize="6"
+                                                        <Button Content="Kana" HorizontalAlignment="Right" FontSize="6"
 				                                            ToolTip="Copy the kana writing to the clipboard."
 				                                            Command="{Binding DataContext.KanaCopyCommand,
 				                                                RelativeSource={RelativeSource AncestorType=controls:VocabList}}"
