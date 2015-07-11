@@ -609,6 +609,8 @@ namespace Kanji.Common.Helpers
             // Then, replace 4 letter characters:
             romaji = romaji.Replace("XTSU", "ッ");
             romaji = romaji.Replace("xtsu", "っ");
+            romaji = romaji.Replace("LTSU", "ッ");
+            romaji = romaji.Replace("ltsu", "っ");
 
             // Then, replace 3 letter characters:
             romaji = romaji.Replace("CHA", "チャ");
@@ -753,6 +755,12 @@ namespace Kanji.Common.Helpers
             romaji = romaji.Replace("xye", "ぇ");
             romaji = romaji.Replace("XYO", "ョ");
             romaji = romaji.Replace("xyo", "ょ");
+            romaji = romaji.Replace("cya", "ちゃ");
+            romaji = romaji.Replace("cyu", "ちゅ");
+            romaji = romaji.Replace("cyo", "ちょ");
+            romaji = romaji.Replace("sya", "しゃ");
+            romaji = romaji.Replace("syu", "しゅ");
+            romaji = romaji.Replace("syo", "しょ");
 
             // Then, replace 2 letter characters:
             romaji = romaji.Replace("KA", "カ");

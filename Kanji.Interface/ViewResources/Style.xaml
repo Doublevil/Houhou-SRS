@@ -205,7 +205,6 @@
                 <ScaleTransform ScaleX="1.2" />
             </Setter.Value>
         </Setter>-->
-        <Setter Property="FontFamily" Value="Meiryo UI" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
