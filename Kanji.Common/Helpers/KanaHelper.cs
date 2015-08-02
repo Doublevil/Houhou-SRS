@@ -764,6 +764,9 @@ namespace Kanji.Common.Helpers
             romaji = romaji.Replace("tya", "ちゃ");
             romaji = romaji.Replace("tyu", "ちゅ");
             romaji = romaji.Replace("tyo", "ちょ");
+            romaji = romaji.Replace("TYA", "チャ");
+            romaji = romaji.Replace("TYU", "チュ");
+            romaji = romaji.Replace("TYO", "チョ");
 
             // Then, replace 2 letter characters:
             romaji = romaji.Replace("KA", "カ");
