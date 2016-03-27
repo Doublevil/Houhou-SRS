@@ -12,3 +12,5 @@ NotifyIconWpf/obj
 NotifyIconWpf/bin
 *.suo
 UpgradeLog.htm
+packages
+.nuget
