@@ -57,6 +57,23 @@ namespace Kanji.Database.Models
             : base("se." + SqlHelper.Field_SrsEntry_CurrentGrade) { }
     }
 
+    public sealed class SrsEntryFilterCategoryClause : VocabCategorySearchFilterClause
+    {
+        
+    }
+
+    public sealed class SrsEntryFilterJlptLevelClause : SingleFieldIntegerFilterClause
+    {
+        public SrsEntryFilterJlptLevelClause()
+            : base("se." + SqlHelper.Field_Vocab_JlptLevel) { }
+    }
+
+    public sealed class SrsEntryFilterWkLevelClause : SingleFieldIntegerFilterClause
+    {
+        public SrsEntryFilterWkLevelClause()
+            : base("se." + SqlHelper.Field_Vocab_WaniKaniLevel) { }
+    }
+
     public sealed class SrsEntryFilterNotesClause : StringFieldSearchFilterClause
     {
         public SrsEntryFilterNotesClause()

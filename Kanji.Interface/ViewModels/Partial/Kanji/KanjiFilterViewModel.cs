@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
 using Kanji.Common.Helpers;
+using Kanji.Common.Utility;
 using Kanji.Database.Entities;
 using Kanji.Interface.Business;
 using Kanji.Interface.Helpers;
@@ -186,6 +187,38 @@ namespace Kanji.Interface.ViewModels
                 }
             }
         }
+        
+        /// <summary>
+        /// Gets or sets the JLPT level filter applied to the vocab list.
+        /// </summary>
+        public int JlptLevel
+        {
+            get { return _filter.JlptLevel; }
+            set
+            {
+                if (_filter.JlptLevel != value)
+                {
+                    _filter.JlptLevel = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the WaniKani level filter applied to the vocab list.
+        /// </summary>
+        public int WkLevel
+        {
+            get { return _filter.WkLevel; }
+            set
+            {
+                if (_filter.WkLevel != value)
+                {
+                    _filter.WkLevel = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
 
         #region Commands
 
@@ -194,6 +227,15 @@ namespace Kanji.Interface.ViewModels
         public RelayCommand SendTextFilterCommand { get; set; }
         public RelayCommand SendRadicalFilterCommand { get; set; }
         public RelayCommand<RadicalSortModeEnum> SetRadicalSortModeCommand { get; set; }
+        
+        /// <summary>
+        /// Command used to validate the JLPT & WK level filters.
+        /// </summary>
+        /// <remarks>
+        /// This is a shared command named like this because the control shared with
+        /// the SRS tab wants the command to have this name.
+        /// </remarks>
+        public RelayCommand FilterChangedCommand { get; set; }
 
         #endregion
 
@@ -216,12 +258,15 @@ namespace Kanji.Interface.ViewModels
             RadicalSortMode = Kanji.Interface.Properties.Settings.Default.RadicalSortMode;
             _radicalBusiness = new RadicalBusiness();
             MainFilterMode = KanjiFilterModeEnum.Meaning;
+            JlptLevel = Levels.IgnoreJlptLevel;
+            WkLevel = Levels.IgnoreWkLevel;
 
             FilterModeChangedCommand = new RelayCommand(OnFilterModeChanged);
             SendMainFilterCommand = new RelayCommand(OnSendMainFilter);
             SendTextFilterCommand = new RelayCommand(OnSendTextFilter);
             SendRadicalFilterCommand = new RelayCommand(OnSendRadicalFilter);
             SetRadicalSortModeCommand = new RelayCommand<RadicalSortModeEnum>(OnSetRadicalSortMode);
+	        FilterChangedCommand = new RelayCommand(DoFilterChange);
 
             RadicalStore.Instance.IssueWhenLoaded(OnRadicalsLoaded);
         }
@@ -240,6 +285,8 @@ namespace Kanji.Interface.ViewModels
             MainFilterMode = KanjiFilterModeEnum.Meaning;
             Radicals.SelectedItems.Clear();
             _filter.Radicals = new FilteringRadical[0] { };
+            JlptLevel = Levels.IgnoreJlptLevel;
+            WkLevel = Levels.IgnoreWkLevel;
 
             foreach (FilteringRadical radical in Radicals)
             {
@@ -274,6 +321,8 @@ namespace Kanji.Interface.ViewModels
             RaisePropertyChanged("TextFilter");
             RaisePropertyChanged("MainFilter");
             RaisePropertyChanged("MainFilterMode");
+            RaisePropertyChanged("JlptLevel");
+            RaisePropertyChanged("WkLevel");
             ComputeRadicalAvailability();
         }
 

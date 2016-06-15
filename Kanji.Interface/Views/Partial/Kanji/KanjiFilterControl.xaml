@@ -23,6 +23,7 @@
             <RowDefinition Height="Auto" /> <!-- 2. Radical list label -->
             <RowDefinition Height="*" />    <!-- 3. Radical list -->
             <RowDefinition Height="Auto" /> <!-- 4. Radical filter -->
+            <RowDefinition Height="Auto" /> <!-- 5. JLPT/WK level filter -->
         </Grid.RowDefinitions>
         
         <!-- 0. Multiline text filter -->
@@ -126,6 +127,16 @@
                     </Style>
                 </Button.Style>
             </Button>
+        </Grid>
+
+        <!-- JLPT/WK levels -->
+        <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <controls:WkLevelFilterControl Grid.Column="0" DataContext="{Binding}" />
+            <controls:JlptLevelFilterControl Grid.Column="1" Margin="5,0,0,0" DataContext="{Binding}" />
         </Grid>
     </Grid>
 </UserControl>

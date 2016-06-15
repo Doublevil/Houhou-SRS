@@ -61,6 +61,22 @@ namespace Kanji.Interface.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets the category filter applied to the vocab list.
+        /// </summary>
+        public VocabCategory Category
+        {
+            get { return ((VocabFilter)_filter).Category; }
+            set
+            {
+                if (Filter.Category != value)
+                {
+                    Filter.Category = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
         /// Private property used for convenience (get casts in VocabFilter).
         /// </summary>
         private VocabFilter Filter

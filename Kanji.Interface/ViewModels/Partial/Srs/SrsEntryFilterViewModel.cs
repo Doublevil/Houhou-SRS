@@ -26,6 +26,9 @@ namespace Kanji.Interface.ViewModels
         public SrsEntryTagsFilterViewModel TagsFilterVm { get; set; }
         public SrsEntryTypeFilterViewModel TypeFilterVm { get; set; }
         public SrsEntryLevelFilterViewModel LevelFilterVm { get; set; }
+        public CategoryFilterViewModel CategoryFilterVm { get; set; }
+        public JlptLevelFilterViewModel JlptLevelFilterVm { get; set; }
+        public WkLevelFilterViewModel WkLevelFilterVm { get; set; }
 
         #endregion
 
@@ -68,6 +71,12 @@ namespace Kanji.Interface.ViewModels
             TypeFilterVm.FilterChanged += OnFilterChanged;
             LevelFilterVm = new SrsEntryLevelFilterViewModel();
             LevelFilterVm.FilterChanged += OnFilterChanged;
+            CategoryFilterVm = new CategoryFilterViewModel();
+            CategoryFilterVm.FilterChanged += OnFilterChanged;
+            JlptLevelFilterVm = new JlptLevelFilterViewModel();
+            JlptLevelFilterVm.FilterChanged += OnFilterChanged;
+            WkLevelFilterVm = new WkLevelFilterViewModel();
+            WkLevelFilterVm.FilterChanged += OnFilterChanged;
 
             // Commands
             BrowseAllItemsCommand = new RelayCommand(OnBrowseAllItems);
@@ -88,6 +97,9 @@ namespace Kanji.Interface.ViewModels
             TagsFilterVm.ClearFilter();
             TypeFilterVm.ClearFilter();
             LevelFilterVm.ClearFilter();
+            CategoryFilterVm.ClearFilter();
+            JlptLevelFilterVm.ClearFilter();
+            WkLevelFilterVm.ClearFilter();
         }
 
         #region Command callbacks
@@ -135,7 +147,10 @@ namespace Kanji.Interface.ViewModels
                 ReadingFilterVm.GetFilterClause(),
                 TagsFilterVm.GetFilterClause(),
                 TypeFilterVm.GetFilterClause(),
-                LevelFilterVm.GetFilterClause()
+                LevelFilterVm.GetFilterClause(),
+                CategoryFilterVm.GetFilterClause(),
+                JlptLevelFilterVm.GetFilterClause(),
+                WkLevelFilterVm.GetFilterClause()
             }.Where(f => f != null)
             .ToArray();
 
@@ -163,6 +178,15 @@ namespace Kanji.Interface.ViewModels
 
             LevelFilterVm.FilterChanged -= OnFilterChanged;
             LevelFilterVm.Dispose();
+
+            CategoryFilterVm.FilterChanged -= OnFilterChanged;
+            CategoryFilterVm.Dispose();
+
+            JlptLevelFilterVm.FilterChanged -= OnFilterChanged;
+            JlptLevelFilterVm.Dispose();
+
+            WkLevelFilterVm.FilterChanged -= OnFilterChanged;
+            WkLevelFilterVm.Dispose();
 
             base.Dispose();
         }

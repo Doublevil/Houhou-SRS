@@ -411,10 +411,6 @@ namespace Kanji.Interface.Converters
                     return CategoryDictionary[category.ID].Label;
                 }
             }
-            else if (value != null)
-            {
-                throw new ArgumentException("This converter takes one or more VocabCategory entities.");
-            }
 
             return null;
         }

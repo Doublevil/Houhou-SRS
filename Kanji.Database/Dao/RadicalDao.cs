@@ -24,7 +24,7 @@ namespace Kanji.Database.Dao
             {
                 connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
                 IEnumerable<NameValueCollection> results = connection.Query(
-                    "SELECT * FROM " + SqlHelper.Table_Radical);
+                    string.Format("SELECT * FROM {0}", SqlHelper.Table_Radical));
 
                 RadicalBuilder radicalBuilder = new RadicalBuilder();
                 foreach (NameValueCollection nvcRadical in results)
@@ -49,12 +49,13 @@ namespace Kanji.Database.Dao
         /// </summary>
         public IEnumerable<RadicalEntity> GetAvailableRadicals(RadicalGroup[] radicals, string textFilter,
             string meaningFilter, string anyReadingFilter, string onYomiFilter, string kunYomiFilter,
-            string nanoriFilter)
+            string nanoriFilter, int jlptLevel, int wkLevel)
         {
             // Compute the filters.
             List<DaoParameter> parameters = new List<DaoParameter>();
             string sqlFilter = KanjiDao.BuildKanjiFilterClauses(parameters, radicals, textFilter,
-                meaningFilter, anyReadingFilter, onYomiFilter, kunYomiFilter, nanoriFilter);
+                meaningFilter, anyReadingFilter, onYomiFilter, kunYomiFilter, nanoriFilter,
+                jlptLevel, wkLevel);
 
             DaoConnection connection = null;
             try
@@ -62,13 +63,14 @@ namespace Kanji.Database.Dao
                 connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
 
                 IEnumerable<NameValueCollection> results = connection.Query(
-                  "SELECT DISTINCT ckr." + SqlHelper.Field_Kanji_Radical_RadicalId + " Id "
-                + "FROM " + SqlHelper.Table_Kanji + " k "
-                + "JOIN " + SqlHelper.Table_Kanji_Radical + " ckr "
-                + "ON (ckr." + SqlHelper.Field_Kanji_Radical_KanjiId
-                + "=k." + SqlHelper.Field_Kanji_Id + ") "
-                + sqlFilter,
-                parameters.ToArray());
+                    string.Format(
+                        "SELECT DISTINCT ckr.{0} Id " + "FROM {1} k JOIN {2} ckr " + "ON (ckr.{3}=k.{4}) {5}",
+                        SqlHelper.Field_Kanji_Radical_RadicalId,
+                        SqlHelper.Table_Kanji,
+                        SqlHelper.Table_Kanji_Radical,
+                        SqlHelper.Field_Kanji_Radical_KanjiId,
+                        SqlHelper.Field_Kanji_Id, sqlFilter),
+                    parameters.ToArray());
 
                 RadicalBuilder radicalBuilder = new RadicalBuilder();
                 foreach (NameValueCollection nvcRadical in results)
@@ -94,9 +96,12 @@ namespace Kanji.Database.Dao
         private void IncludeKanji(DaoConnection connection, RadicalEntity radical)
         {
             IEnumerable<NameValueCollection> results = connection.Query(
-                "SELECT kr." + SqlHelper.Field_Kanji_Radical_KanjiId + " "
-                + SqlHelper.Field_Kanji_Id + " FROM " + SqlHelper.Table_Kanji_Radical
-                + " kr WHERE kr." + SqlHelper.Field_Kanji_Radical_RadicalId + "=@rid",
+                string.Format(
+                    "SELECT kr.{0} {1} FROM {2} kr WHERE kr.{3}=@rid",
+                    SqlHelper.Field_Kanji_Radical_KanjiId,
+                    SqlHelper.Field_Kanji_Id,
+                    SqlHelper.Table_Kanji_Radical,
+                    SqlHelper.Field_Kanji_Radical_RadicalId),
                 new DaoParameter("@rid", radical.ID));
 
             KanjiBuilder kanjiBuilder = new KanjiBuilder();

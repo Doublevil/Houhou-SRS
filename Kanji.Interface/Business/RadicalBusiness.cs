@@ -44,7 +44,7 @@ namespace Kanji.Interface.Business
             RadicalGroup[] radicalGroups = filter.Radicals.SelectMany(r => r.Reference.RadicalGroups).ToArray();
 
             return _radicalDao.GetAvailableRadicals(radicalGroups, filter.TextFilter, meaningFilter,
-                anyReadingFilter, onYomiFilter, kunYomiFilter, nanoriFilter)
+                anyReadingFilter, onYomiFilter, kunYomiFilter, nanoriFilter, filter.JlptLevel, filter.WkLevel)
                 .ToArray();
         }
 
