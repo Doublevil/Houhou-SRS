@@ -148,9 +148,9 @@ namespace Kanji.Interface.ViewModels
                 TagsFilterVm.GetFilterClause(),
                 TypeFilterVm.GetFilterClause(),
                 LevelFilterVm.GetFilterClause(),
-                CategoryFilterVm.GetFilterClause(),
+                /*CategoryFilterVm.GetFilterClause(),
                 JlptLevelFilterVm.GetFilterClause(),
-                WkLevelFilterVm.GetFilterClause()
+                WkLevelFilterVm.GetFilterClause()*/
             }.Where(f => f != null)
             .ToArray();
 
