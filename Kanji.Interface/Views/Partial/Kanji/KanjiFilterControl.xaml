@@ -20,10 +20,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" /> <!-- 0. Multiline text filter -->
             <RowDefinition Height="Auto" /> <!-- 1. Meaning/reading filter -->
-            <RowDefinition Height="Auto" /> <!-- 2. Radical list label -->
-            <RowDefinition Height="*" />    <!-- 3. Radical list -->
-            <RowDefinition Height="Auto" /> <!-- 4. Radical filter -->
-            <RowDefinition Height="Auto" /> <!-- 5. JLPT/WK level filter -->
+            <RowDefinition Height="Auto" /> <!-- 2. JLPT/WK level filter -->
+            <RowDefinition Height="Auto" /> <!-- 3. Radical list label -->
+            <RowDefinition Height="*" />    <!-- 4. Radical list -->
+            <RowDefinition Height="Auto" /> <!-- 5. Radical filter -->
         </Grid.RowDefinitions>
         
         <!-- 0. Multiline text filter -->
@@ -68,15 +68,25 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
+        <!-- JLPT/WK levels -->
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <controls:WkLevelFilterControl Grid.Column="0" DataContext="{Binding}" />
+            <controls:JlptLevelFilterControl Grid.Column="1" Margin="5,0,0,0" DataContext="{Binding}" />
+        </Grid>
+
         <!-- 2. Radical list label -->
-        <TextBlock Grid.Row="2" Grid.ColumnSpan="4" Text="containing the selected radicals:" />
+        <TextBlock Grid.Row="3" Grid.ColumnSpan="4" Text="containing the selected radicals:" />
         
         <!-- 3. Radical list -->
-        <ListBox Grid.Row="3" Grid.ColumnSpan="4" Style="{StaticResource RadicalList}" Margin="0 2"
+        <ListBox Grid.Row="4" Grid.ColumnSpan="4" Style="{StaticResource RadicalList}" Margin="0 2"
             ItemsSource="{Binding Radicals}" utilities:MultiSelect.IsEnabled="True" />
         
         <!-- 4. Radical filter -->
-        <Grid Grid.Row="4" Grid.ColumnSpan="4" Margin="0 5">
+        <Grid Grid.Row="5" Grid.ColumnSpan="4" Margin="0 5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -127,16 +137,6 @@
                     </Style>
                 </Button.Style>
             </Button>
-        </Grid>
-
-        <!-- JLPT/WK levels -->
-        <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <controls:WkLevelFilterControl Grid.Column="0" DataContext="{Binding}" />
-            <controls:JlptLevelFilterControl Grid.Column="1" Margin="5,0,0,0" DataContext="{Binding}" />
         </Grid>
     </Grid>
 </UserControl>

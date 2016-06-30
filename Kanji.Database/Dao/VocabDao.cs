@@ -563,6 +563,8 @@ namespace Kanji.Database.Dao
                 parameters.Add(new DaoParameter("@reading", "%" + readingFilter + "%"));
             }
 
+	        string sqlSharedJoins = string.Empty;
+
             string sqlMeaningFilterJoins = string.Empty;
             string sqlMeaningFilter = string.Empty;
             if (!string.IsNullOrWhiteSpace(meaningFilter))
@@ -573,10 +575,14 @@ namespace Kanji.Database.Dao
                 // WHERE vm.Meaning LIKE '%test%'
 
                 // First, build the join clause. This will be included before the filters.
-                sqlMeaningFilterJoins = string.Format("JOIN {0} vvm ON (vvm.{1}=v.{2}) JOIN {3} vm ON (vm.{4}=vvm.{5}) ",
-                    SqlHelper.Table_Vocab_VocabMeaning,
-                    SqlHelper.Field_Vocab_VocabMeaning_VocabId,
-                    SqlHelper.Field_Vocab_Id,
+	            if (string.IsNullOrEmpty(sqlSharedJoins))
+	            {
+	                sqlSharedJoins = string.Format("JOIN {0} vvm ON (vvm.{1}=v.{2}) ",
+	                    SqlHelper.Table_Vocab_VocabMeaning,
+	                    SqlHelper.Field_Vocab_VocabMeaning_VocabId,
+	                    SqlHelper.Field_Vocab_Id);
+	            }
+                sqlMeaningFilterJoins = string.Format("JOIN {0} vm ON (vm.{1}=vvm.{2}) ",
                     SqlHelper.Table_VocabMeaning,
                     SqlHelper.Field_VocabMeaning_Id,
                     SqlHelper.Field_Vocab_VocabMeaning_VocabMeaningId);
@@ -601,19 +607,25 @@ namespace Kanji.Database.Dao
                 // Example of filter clause with category.ID=42 :
                 //
                 // WHERE vc.Categories_ID=42 OR mc.Categories_ID=42
+                
+	            if (string.IsNullOrEmpty(sqlSharedJoins))
+	            {
+	                sqlSharedJoins = string.Format("JOIN {0} vvm ON (vvm.{1}=v.{2}) ",
+	                    SqlHelper.Table_Vocab_VocabMeaning,
+	                    SqlHelper.Field_Vocab_VocabMeaning_VocabId,
+	                    SqlHelper.Field_Vocab_Id);
+	            }
 
                 sqlCategoryFilterJoins = string.Format(
-                    "JOIN {0} vc ON (vc.{1}=v.{2}) JOIN {3} vvm ON (vvm.{4}=v.{2}) JOIN {5} mc ON (mc.{6}=vvm.{7})",
+                    "JOIN {0} vc ON (vc.{1}=v.{2}) JOIN {3} mc ON (mc.{4}=vvm.{5}) ",
                     SqlHelper.Table_VocabCategory_Vocab,
                     SqlHelper.Field_VocabCategory_Vocab_VocabId,
                     SqlHelper.Field_VocabCategory_Id,
-                    SqlHelper.Table_Vocab_VocabMeaning,
-                    SqlHelper.Field_Vocab_VocabMeaning_VocabId,
                     SqlHelper.Table_VocabMeaning_VocabCategory,
                     SqlHelper.Field_VocabMeaning_VocabCategory_VocabMeaningId,
                     SqlHelper.Field_Vocab_VocabMeaning_VocabMeaningId);
                 
-                sqlCategoryFilter = string.Format("vc.{0}=@cat OR mc.{1}=@cat ",
+                sqlCategoryFilter = string.Format("(vc.{0}=@cat OR mc.{1}=@cat) ",
                     SqlHelper.Field_VocabCategory_Vocab_VocabCategoryId,
                     SqlHelper.Field_VocabMeaning_VocabCategory_VocabCategoryId);
 
@@ -622,10 +634,11 @@ namespace Kanji.Database.Dao
 
             string[] sqlArgs =
             {
-                sqlJlptFilter,
-                sqlWkFilter,
+                sqlSharedJoins,
                 sqlMeaningFilterJoins,
                 sqlCategoryFilterJoins,
+                sqlJlptFilter,
+                sqlWkFilter,
                 sqlKanjiFilter,
                 sqlReadingFilter,
                 sqlMeaningFilter,
