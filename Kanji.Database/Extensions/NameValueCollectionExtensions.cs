@@ -142,7 +142,8 @@ namespace Kanji.Database.Extensions
                 long numericValue = 0;
                 if (long.TryParse(value, out numericValue))
                 {
-                    return new DateTime(numericValue, DateTimeKind.Utc);
+                    // The DB should store it as UTC, but we need to work with it as local time.
+                    return new DateTime(numericValue, DateTimeKind.Utc).ToLocalTime();
                 }
             }
 

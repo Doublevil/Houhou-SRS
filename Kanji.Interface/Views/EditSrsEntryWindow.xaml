@@ -166,11 +166,11 @@
                             </TextBlock.Style>
                         </TextBlock>
                         <TextBox Grid.Column="1" Style="{StaticResource NextReviewDateLabel}"
-                                 Text="{Binding Entry.NextActiveReviewDate,
+                                 Text="{Binding Entry.NextAnswerDate,
                             Converter={StaticResource DateTimeToStringConverter},
                             ConverterParameter={x:Static converters:DateTimeToStringConversionEnum.Relative},
                             Mode=OneWay}"
-                                 ToolTip="{Binding Entry.NextActiveReviewDate,
+                                 ToolTip="{Binding Entry.NextAnswerDate,
                             Converter={StaticResource DateTimeToStringConverter},
                             ConverterParameter={x:Static converters:DateTimeToStringConversionEnum.Absolute},
                             Mode=OneWay}"
