@@ -176,7 +176,7 @@
                             Mode=OneWay}"
                                  Visibility="{Binding IsEditingDate, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter=False}" />
 
-                        <xctk:DateTimePicker Grid.Column="1" Value="{Binding Entry.NextAnswerDate}" Format="Custom" FormatString="yyyy-MM-dd H:mm:ss"
+                        <xctk:DateTimePicker Grid.Column="1" Value="{Binding Entry.NextAnswerDate}" Format="FullDateTime"
                             TextAlignment="Left" Visibility="{Binding IsEditingDate, Converter={StaticResource ValueToVisibilityConverter}}"  />
                         
                         <Button Grid.Column="2" Command="{Binding ToggleDateEditCommand}" Margin="10 0 0 0" Width="70" HorizontalAlignment="Right">
