@@ -51,7 +51,7 @@ namespace Kanji.Interface.Business
             RadicalGroup[] radicalGroups = filter.Radicals.SelectMany(r => r.Reference.RadicalGroups).ToArray();
 
             return _kanjiDao.GetFilteredKanji(radicalGroups, filter.TextFilter, meaningFilter,
-                anyReadingFilter, onYomiFilter, kunYomiFilter, nanoriFilter);
+                anyReadingFilter, onYomiFilter, kunYomiFilter, nanoriFilter, filter.JlptLevel, filter.WkLevel);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Kanji.Interface.Business
             RadicalGroup[] radicalGroups = filter.Radicals.SelectMany(r => r.Reference.RadicalGroups).ToArray();
 
             return (int)_kanjiDao.GetFilteredKanjiCount(radicalGroups, filter.TextFilter, meaningFilter,
-                anyReadingFilter, onYomiFilter, kunYomiFilter, nanoriFilter);
+                anyReadingFilter, onYomiFilter, kunYomiFilter, nanoriFilter, filter.JlptLevel, filter.WkLevel);
         }
 
         /// <summary>

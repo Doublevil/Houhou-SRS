@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kanji.Common.Utility;
 using Kanji.Database.Entities;
 
 namespace Kanji.Interface.Models
@@ -31,6 +32,16 @@ namespace Kanji.Interface.Models
         /// which do not contain all of them.
         /// </summary>
         public FilteringRadical[] Radicals { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the JLPT level vocab filter.
+        /// </summary>
+        public int JlptLevel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the WaniKani level vocab filter.
+        /// </summary>
+        public int WkLevel { get; set; }
 
         public KanjiFilter()
         {
@@ -41,6 +52,8 @@ namespace Kanji.Interface.Models
         {
             return string.IsNullOrWhiteSpace(MainFilter)
                 && string.IsNullOrWhiteSpace(TextFilter)
+                && JlptLevel > Levels.MaxJlptLevel
+                && WkLevel < Levels.MinWkLevel
                 && !Radicals.Any();
         }
 
@@ -52,7 +65,9 @@ namespace Kanji.Interface.Models
                 MainFilter = this.MainFilter,
                 MainFilterMode = this.MainFilterMode,
                 TextFilter = this.TextFilter,
-                Radicals = (FilteringRadical[])this.Radicals.Clone()
+                Radicals = (FilteringRadical[])this.Radicals.Clone(),
+                JlptLevel = this.JlptLevel,
+                WkLevel = this.WkLevel
             };
         }
     }

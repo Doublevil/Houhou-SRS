@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
 using GalaSoft.MvvmLight.Command;
+using Kanji.Common.Utility;
 using Kanji.Interface.Actors;
 using Kanji.Interface.Business;
 using Kanji.Interface.Models;
@@ -125,7 +126,11 @@ namespace Kanji.Interface.ViewModels
             // Create a new filter matching the vocab word selected.
             _kanjiFilter = new KanjiFilter()
             {
-                TextFilter = character.OriginalVocab.KanjiWriting
+                TextFilter = character.OriginalVocab.KanjiWriting,
+                // Ignore the levels because not only are they irrelevant,
+                // they might not even be the same for the kanji as for the vocab.
+                JlptLevel = Levels.IgnoreJlptLevel,
+                WkLevel = Levels.IgnoreWkLevel
             };
 
             // Apply the filter

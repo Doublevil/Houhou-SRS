@@ -105,10 +105,12 @@
     <Compile Include="Models\FilterClauses\Concrete\SrsEntryFilterClauses.cs" />
     <Compile Include="Models\FilterClauses\MultiFieldComparisonFilterClause.cs" />
     <Compile Include="Models\FilterClauses\MultiFieldFilterClause.cs" />
+    <Compile Include="Models\FilterClauses\SingleFieldIntegerFilterClause.cs" />
     <Compile Include="Models\FilterClauses\StringFieldSearchFilterClause.cs" />
     <Compile Include="Models\FilterClauses\NullFieldFilterClause.cs" />
     <Compile Include="Models\FilterClauses\SingleFieldFilterClause.cs" />
     <Compile Include="Models\FilterClauses\SingleFieldComparisonFilterClause.cs" />
+    <Compile Include="Models\FilterClauses\VocabCategorySearchFilterClause.cs" />
     <Compile Include="Models\RadicalGroup.cs" />
     <Compile Include="Models\FilterClause.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

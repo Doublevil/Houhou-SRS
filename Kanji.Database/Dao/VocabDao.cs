@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
+using Kanji.Common.Utility;
 using Kanji.Database.Entities;
 using Kanji.Database.EntityBuilders;
 using Kanji.Database.Helpers;
@@ -27,7 +28,7 @@ namespace Kanji.Database.Dao
             {
                 connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
                 IEnumerable<NameValueCollection> vocabs = connection.Query(
-                      "SELECT * FROM " + SqlHelper.Table_Vocab);
+                    string.Format("SELECT * FROM {0}", SqlHelper.Table_Vocab));
 
                 foreach (NameValueCollection nvcVocab in vocabs)
                 {
@@ -60,7 +61,7 @@ namespace Kanji.Database.Dao
             {
                 connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
                 IEnumerable<NameValueCollection> vocabs = connection.Query(
-                      "SELECT * FROM " + SqlHelper.Table_Vocab);
+                    string.Format("SELECT * FROM {0}", SqlHelper.Table_Vocab));
 
                 VocabBuilder builder = new VocabBuilder();
                 foreach (NameValueCollection nvcVocab in vocabs)
@@ -85,12 +86,13 @@ namespace Kanji.Database.Dao
                 //connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
                 connection = _connection;
 
-                string requestString = string.Empty;
                 VocabBuilder builder = new VocabBuilder();
                 if (kanjiReading == kanaReading)
                 {
                     IEnumerable<NameValueCollection> vocabs = connection.Query(
-                      "SELECT * FROM " + SqlHelper.Table_Vocab + " WHERE " + SqlHelper.Field_Vocab_KanaWriting + "=@kanaWriting",
+                      string.Format("SELECT * FROM {0} WHERE {1}=@kanaWriting",
+                      SqlHelper.Table_Vocab,
+                      SqlHelper.Field_Vocab_KanaWriting),
                       new DaoParameter("@kanaWriting", kanaReading));
 
                     if (vocabs.Count() == 1)
@@ -101,8 +103,10 @@ namespace Kanji.Database.Dao
                 }
 
                 IEnumerable<NameValueCollection> fullMatch = connection.Query(
-                      "SELECT * FROM " + SqlHelper.Table_Vocab + " WHERE " + SqlHelper.Field_Vocab_KanaWriting + "=@kanaWriting"
-                      + " AND " + SqlHelper.Field_Vocab_KanjiWriting + "=@kanjiWriting",
+                      string.Format("SELECT * FROM {0} WHERE {1}=@kanaWriting AND {2}=@kanjiWriting",
+                      SqlHelper.Table_Vocab,
+                      SqlHelper.Field_Vocab_KanaWriting,
+                       SqlHelper.Field_Vocab_KanjiWriting),
                       new DaoParameter("@kanaWriting", kanaReading), new DaoParameter("@kanjiWriting", kanjiReading));
 
                 foreach (NameValueCollection match in fullMatch)
@@ -127,17 +131,19 @@ namespace Kanji.Database.Dao
                 //connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
                 connection = _connection;
 
-                string requestString = string.Empty;
-
                 long count = (long)connection.QueryScalar(
-                    "SELECT COUNT(1) FROM " + SqlHelper.Table_Vocab + " WHERE " + SqlHelper.Field_Vocab_KanaWriting + "=@kanaWriting",
+                    string.Format("SELECT COUNT(1) FROM {0} WHERE {1}=@kanaWriting",
+                    SqlHelper.Table_Vocab,
+                    SqlHelper.Field_Vocab_KanaWriting),
                     new DaoParameter("@kanaWriting", kanaReading));
 
                 if (count == 1)
                 {
 
                     IEnumerable<NameValueCollection> vocabs = connection.Query(
-                        "SELECT * FROM " + SqlHelper.Table_Vocab + " WHERE " + SqlHelper.Field_Vocab_KanaWriting + "=@kanaWriting",
+                        string.Format("SELECT * FROM {0} WHERE {1}=@kanaWriting",
+                        SqlHelper.Table_Vocab,
+                        SqlHelper.Field_Vocab_KanaWriting),
                         new DaoParameter("@kanaWriting", kanaReading));
 
                     VocabBuilder builder = new VocabBuilder();
@@ -162,18 +168,22 @@ namespace Kanji.Database.Dao
             {
                 //connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
                 connection = _connection;
-
-                string requestString = string.Empty;
-
+                
                 long count = (long)connection.QueryScalar(
-                    "SELECT COUNT(1) FROM " + SqlHelper.Table_Vocab + " WHERE " + SqlHelper.Field_Vocab_KanaWriting + "=@kanaWriting",
+                    string.Format("SELECT COUNT(1) FROM {0} WHERE {1}=@kanaWriting",
+                    SqlHelper.Table_Vocab,
+                    SqlHelper.Field_Vocab_KanaWriting),
                     new DaoParameter("@kanaWriting", kanaReading));
 
                 if (count == 1)
                 {
-                    return connection.ExecuteNonQuery("UPDATE " + SqlHelper.Table_Vocab + " SET " + SqlHelper.Field_Vocab_FrequencyRank + "="
-                        + SqlHelper.Field_Vocab_FrequencyRank + "+@rank WHERE " + SqlHelper.Field_Vocab_KanaWriting + "=@kanaWriting",
-                        new DaoParameter("@rank", rank), new DaoParameter("@kanaWriting", kanaReading)) == 1;
+                    return connection.ExecuteNonQuery(
+                        string.Format("UPDATE {0} SET {1}={1}+@rank WHERE {2}=@kanaWriting",
+                            SqlHelper.Table_Vocab,
+                            SqlHelper.Field_Vocab_FrequencyRank,
+                            SqlHelper.Field_Vocab_KanaWriting),
+                        new DaoParameter("@rank", rank),
+                        new DaoParameter("@kanaWriting", kanaReading)) == 1;
                 }
             }
             finally
@@ -195,8 +205,14 @@ namespace Kanji.Database.Dao
                 //connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
                 connection = _connection;
 
-                connection.ExecuteNonQuery("UPDATE " + SqlHelper.Table_Vocab + " SET " + SqlHelper.Field_Vocab_FrequencyRank + "=@rank "
-                    + "WHERE " + SqlHelper.Field_Vocab_Id + "=@id", new DaoParameter("@rank", rank), new DaoParameter("@id", vocab.ID));
+                connection.ExecuteNonQuery(
+                    string.Format(
+                        "UPDATE {0} SET {1}=@rank WHERE {2}=@id",
+                        SqlHelper.Table_Vocab,
+                        SqlHelper.Field_Vocab_FrequencyRank,
+                        SqlHelper.Field_Vocab_Id),
+                    new DaoParameter("@rank", rank),
+                    new DaoParameter("@id", vocab.ID));
             }
             finally
             {
@@ -219,9 +235,10 @@ namespace Kanji.Database.Dao
             {
                 connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
                 IEnumerable<NameValueCollection> vocabs = connection.Query(
-                      "SELECT v.* FROM " + SqlHelper.Table_Vocab + " v "
-                    + "WHERE v." + SqlHelper.Field_Vocab_KanjiWriting + "=@v "
-                    + "ORDER BY v." + SqlHelper.Field_Vocab_IsCommon + " DESC",
+                      string.Format("SELECT v.* FROM {0} v WHERE v.{1}=@v ORDER BY v.{2} DESC",
+                      SqlHelper.Table_Vocab,
+                      SqlHelper.Field_Vocab_KanjiWriting,
+                      SqlHelper.Field_Vocab_IsCommon),
                     new DaoParameter("@v", reading));
 
                 if (vocabs.Any())
@@ -237,9 +254,10 @@ namespace Kanji.Database.Dao
                 else
                 {
                     vocabs = connection.Query(
-                          "SELECT v.* FROM " + SqlHelper.Table_Vocab + " v "
-                        + "WHERE v." + SqlHelper.Field_Vocab_KanaWriting + "=@v "
-                        + "ORDER BY v." + SqlHelper.Field_Vocab_IsCommon + " DESC",
+                          string.Format("SELECT v.* FROM {0} v WHERE v.{1}=@v ORDER BY v.{2} DESC",
+                          SqlHelper.Table_Vocab,
+                          SqlHelper.Field_Vocab_KanaWriting,
+                          SqlHelper.Field_Vocab_IsCommon),
                         new DaoParameter("@v", reading));
 
                     VocabBuilder builder = new VocabBuilder();
@@ -279,8 +297,9 @@ namespace Kanji.Database.Dao
                 srsConnection.OpenAsync();
 
                 IEnumerable<NameValueCollection> vocabs = connection.Query(
-                      "SELECT * FROM " + SqlHelper.Table_Vocab + " WHERE "
-                    + SqlHelper.Field_Vocab_Id + "=@id",
+                      string.Format("SELECT * FROM {0} WHERE {1}=@id",
+                      SqlHelper.Table_Vocab,
+                      SqlHelper.Field_Vocab_Id),
                     new DaoParameter("@id", id));
 
                 if (vocabs.Any())
@@ -317,6 +336,13 @@ namespace Kanji.Database.Dao
         /// <param name="meaningFilter">Meaning filter. Only vocab containing
         /// this string as part of at least one of their meaning entries will
         /// be filtered in.</param>
+        /// <param name="categoryFilter">If not null, this category is used as the filter.</param>
+        /// <param name="jlptLevel">The JLPT level to filter
+        /// (1-5, where a lower value means it is not covered on the JLPT
+        /// and a higher value means that this filter will be ignored).</param>
+        /// <param name="wkLevel">The WaniKani level to filter
+        /// (1-60, where a higher value means it is not taught by WaniKani
+        /// and a lower value means that this filter will be ignored).</param>
         /// <param name="isCommonFirst">Indicates if common vocab should be
         /// presented first. If false, results are sorted only by the length
         /// of their writing (asc or desc depending on the parameter)</param>
@@ -326,20 +352,22 @@ namespace Kanji.Database.Dao
         /// come first.</param>
         /// <returns>Vocab entities matching the filters.</returns>
         public IEnumerable<VocabEntity> GetFilteredVocab(KanjiEntity kanji,
-            string readingFilter, string meaningFilter, bool isCommonFirst,
-            bool isShortWritingFirst)
+            string readingFilter, string meaningFilter, VocabCategory categoryFilter,
+            int jlptLevel, int wkLevel,
+			bool isCommonFirst, bool isShortWritingFirst)
         {
             List<DaoParameter> parameters = new List<DaoParameter>();
             string sqlFilterClauses = BuildVocabFilterClauses(parameters, kanji,
-                readingFilter, meaningFilter);
+                readingFilter, meaningFilter, categoryFilter, jlptLevel, wkLevel);
 
             string sortClause = "ORDER BY ";
             if (isCommonFirst)
             {
-                sortClause += "v." + SqlHelper.Field_Vocab_IsCommon + " DESC,";
+                sortClause += string.Format("v.{0} DESC,", SqlHelper.Field_Vocab_IsCommon);
             }
-            sortClause += "length(v." + SqlHelper.Field_Vocab_KanaWriting + ") "
-                + (isShortWritingFirst ? "ASC" : "DESC");
+            sortClause += string.Format("length(v.{0}) {1}",
+                SqlHelper.Field_Vocab_KanaWriting,
+                (isShortWritingFirst ? "ASC" : "DESC"));
 
             DaoConnection connection = null;
             DaoConnection srsConnection = null;
@@ -350,9 +378,10 @@ namespace Kanji.Database.Dao
                 srsConnection.OpenAsync();
 
                 IEnumerable<NameValueCollection> vocabs = connection.Query(
-                      "SELECT DISTINCT v.* FROM " + SqlHelper.Table_Vocab + " v "
-                    + sqlFilterClauses
-                    + sortClause,
+                      string.Format("SELECT DISTINCT v.* FROM {0} v {1}{2}",
+                      SqlHelper.Table_Vocab,
+                      sqlFilterClauses,
+                      sortClause),
                     parameters.ToArray());
 
                 VocabBuilder vocabBuilder = new VocabBuilder();
@@ -380,19 +409,20 @@ namespace Kanji.Database.Dao
         /// See <see cref="Kanji.Database.Dao.VocabDao.GetFilteredVocab"/>.
         /// Returns the results count.
         /// </summary>
-        public long GetFilteredVocabCount(KanjiEntity kanji, string readingFilter,
-            string meaningFilter)
+        public long GetFilteredVocabCount(KanjiEntity kanji,
+			string readingFilter, string meaningFilter, VocabCategory categoryFilter, int jlptLevel, int wkLevel)
         {
             List<DaoParameter> parameters = new List<DaoParameter>();
             string sqlFilterClauses = BuildVocabFilterClauses(parameters, kanji,
-                readingFilter, meaningFilter);
+                readingFilter, meaningFilter, categoryFilter, jlptLevel, wkLevel);
 
             using (DaoConnection connection
                 = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase))
             {
                 return (long)connection.QueryScalar(
-                      "SELECT count(1) FROM " + SqlHelper.Table_Vocab + " v "
-                    + sqlFilterClauses,
+                      string.Format("SELECT count(1) FROM {0} v {1}",
+                      SqlHelper.Table_Vocab,
+                      sqlFilterClauses),
                     parameters.ToArray());
             }
         }
@@ -408,7 +438,7 @@ namespace Kanji.Database.Dao
             {
                 connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
                 IEnumerable<NameValueCollection> results = connection.Query(
-                    "SELECT * FROM " + SqlHelper.Table_VocabCategory);
+                    string.Format("SELECT * FROM {0}", SqlHelper.Table_VocabCategory));
 
                 VocabCategoryBuilder categoryBuilder = new VocabCategoryBuilder();
                 foreach (NameValueCollection nvcCategory in results)
@@ -437,12 +467,13 @@ namespace Kanji.Database.Dao
             {
                 connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
                 IEnumerable<NameValueCollection> results = connection.Query(
-                    "SELECT * FROM " + SqlHelper.Table_VocabCategory
-                    + " WHERE " + SqlHelper.Field_VocabCategory_Label + "=@label",
+                    string.Format("SELECT * FROM {0} WHERE {1}=@label",
+                    SqlHelper.Table_VocabCategory,
+                    SqlHelper.Field_VocabCategory_Label),
                     new DaoParameter("@label", label));
 
                 VocabCategoryBuilder categoryBuilder = new VocabCategoryBuilder();
-                if (results.Count() >= 1)
+                if (results.Any())
                 {
                     return categoryBuilder.BuildEntity(results.First(), null);
                 }
@@ -464,10 +495,43 @@ namespace Kanji.Database.Dao
         /// Builds and returns the vocab filter SQL clauses from the given
         /// filters.
         /// </summary>
-        internal string BuildVocabFilterClauses(List<DaoParameter> parameters,
-            KanjiEntity kanji, string readingFilter, string meaningFilter)
+        internal string BuildVocabFilterClauses(List<DaoParameter> parameters, 
+            KanjiEntity kanji,
+			string readingFilter, string meaningFilter, VocabCategory categoryFilter,
+            int jlptLevel, int wkLevel)
         {
-            bool isFiltered = false;
+            const int minJlptLevel = Levels.MinJlptLevel;
+            const int maxJlptLevel = Levels.MaxJlptLevel;
+            const int minWkLevel = Levels.MinWkLevel;
+            const int maxWkLevel = Levels.MaxWkLevel;
+
+            string sqlJlptFilter = string.Empty;
+            if (jlptLevel >= minJlptLevel && jlptLevel <= maxJlptLevel)
+            {
+                sqlJlptFilter = string.Format("v.{0}=@jlpt ",
+                    SqlHelper.Field_Vocab_JlptLevel);
+
+                parameters.Add(new DaoParameter("@jlpt", jlptLevel));
+            }
+            else if (jlptLevel < minJlptLevel)
+            {
+                sqlJlptFilter = string.Format("v.{0} IS NULL ",
+                    SqlHelper.Field_Vocab_JlptLevel);
+            }
+
+            string sqlWkFilter = string.Empty;
+            if (wkLevel >= minWkLevel && wkLevel <= maxWkLevel)
+            {
+                sqlWkFilter = string.Format("v.{0}=@wk ",
+                    SqlHelper.Field_Vocab_WaniKaniLevel);
+
+                parameters.Add(new DaoParameter("@wk", wkLevel));
+            }
+            else if (wkLevel > maxWkLevel)
+            {
+                sqlWkFilter = string.Format("v.{0} IS NULL ",
+                    SqlHelper.Field_Vocab_WaniKaniLevel);
+            }
 
             string sqlKanjiFilter = string.Empty;
             if (kanji != null)
@@ -477,9 +541,8 @@ namespace Kanji.Database.Dao
                 //
                 // WHERE v.KanjiWriting LIKE '%達%'
 
-                isFiltered = true;
-                sqlKanjiFilter = "WHERE v." + SqlHelper.Field_Vocab_KanjiWriting
-                    + " LIKE @kanji ";
+                sqlKanjiFilter = string.Format("v.{0} LIKE @kanji ",
+                    SqlHelper.Field_Vocab_KanjiWriting);
 
                 parameters.Add(new DaoParameter("@kanji", "%" + kanji.Character + "%"));
             }
@@ -493,15 +556,14 @@ namespace Kanji.Database.Dao
                 // WHERE v.KanaWriting LIKE '%かな%' OR
                 // v.KanjiWriting LIKE '%かな%'
 
-                sqlReadingFilter = isFiltered ? "AND " : "WHERE ";
-                isFiltered = true;
-
-                sqlReadingFilter += "(v." + SqlHelper.Field_Vocab_KanaWriting
-                    + " LIKE @reading OR v." + SqlHelper.Field_Vocab_KanjiWriting
-                    + " LIKE @reading) ";
+                sqlReadingFilter = string.Format("(v.{0} LIKE @reading OR v.{1} LIKE @reading) ",
+                    SqlHelper.Field_Vocab_KanaWriting,
+                    SqlHelper.Field_Vocab_KanjiWriting);
 
                 parameters.Add(new DaoParameter("@reading", "%" + readingFilter + "%"));
             }
+
+	        string sqlSharedJoins = string.Empty;
 
             string sqlMeaningFilterJoins = string.Empty;
             string sqlMeaningFilter = string.Empty;
@@ -510,33 +572,91 @@ namespace Kanji.Database.Dao
                 // Build the sql meaning filter clause and join clauses.
                 // Example of filter clause with meaningFilter="test" :
                 //
-                // WHERE vme.Meaning LIKE '%test%'
+                // WHERE vm.Meaning LIKE '%test%'
 
                 // First, build the join clause. This will be included before the filters.
-                sqlMeaningFilterJoins = "JOIN " + SqlHelper.Table_Vocab_VocabMeaning
-                    + " vvm ON (vvm." + SqlHelper.Field_Vocab_VocabMeaning_VocabId
-                    + "=v." + SqlHelper.Field_Vocab_Id + ") "
-                    + "JOIN " + SqlHelper.Table_VocabMeaning + " vm ON (vm."
-                    + SqlHelper.Field_VocabMeaning_Id + "=vvm."
-                    + SqlHelper.Field_Vocab_VocabMeaning_VocabMeaningId + ") ";
+	            if (string.IsNullOrEmpty(sqlSharedJoins))
+	            {
+	                sqlSharedJoins = string.Format("JOIN {0} vvm ON (vvm.{1}=v.{2}) ",
+	                    SqlHelper.Table_Vocab_VocabMeaning,
+	                    SqlHelper.Field_Vocab_VocabMeaning_VocabId,
+	                    SqlHelper.Field_Vocab_Id);
+	            }
+                sqlMeaningFilterJoins = string.Format("JOIN {0} vm ON (vm.{1}=vvm.{2}) ",
+                    SqlHelper.Table_VocabMeaning,
+                    SqlHelper.Field_VocabMeaning_Id,
+                    SqlHelper.Field_Vocab_VocabMeaning_VocabMeaningId);
                 // Ouch... it looks kinda like an obfuscated string... Sorry.
                 // Basically, you just join the vocab to its meaning entries.
 
                 // Once the join clauses are done, build the filter itself.
-                // This will be applied as the last filter.
-                sqlMeaningFilter = isFiltered ? "AND " : "WHERE ";
-                isFiltered = true;
-
-                sqlMeaningFilter += "vm." + SqlHelper.Field_VocabMeaning_Meaning
-                    + " LIKE @meaning ";
+                sqlMeaningFilter = string.Format("vm.{0} LIKE @meaning ",
+                    SqlHelper.Field_VocabMeaning_Meaning);
 
                 parameters.Add(new DaoParameter("@meaning", "%" + meaningFilter + "%"));
             }
+			
+            string sqlCategoryFilterJoins = string.Empty;
+            string sqlCategoryFilter = string.Empty;
+            if (categoryFilter != null)
+            {
+                // Build the filter clause for the vocab category.
+                // Note that the category is actually associated either with the vocab itself or with a MEANING,
+                // so we need to grab any vocab which itself has said category, or of which ONE OF THE MEANINGS
+                // is of said category.
+                // Example of filter clause with category.ID=42 :
+                //
+                // WHERE vc.Categories_ID=42 OR mc.Categories_ID=42
+                
+	            if (string.IsNullOrEmpty(sqlSharedJoins))
+	            {
+	                sqlSharedJoins = string.Format("JOIN {0} vvm ON (vvm.{1}=v.{2}) ",
+	                    SqlHelper.Table_Vocab_VocabMeaning,
+	                    SqlHelper.Field_Vocab_VocabMeaning_VocabId,
+	                    SqlHelper.Field_Vocab_Id);
+	            }
 
-            return sqlMeaningFilterJoins
-                    + sqlKanjiFilter
-                    + sqlReadingFilter
-                    + sqlMeaningFilter;
+                sqlCategoryFilterJoins = string.Format(
+                    "JOIN {0} vc ON (vc.{1}=v.{2}) JOIN {3} mc ON (mc.{4}=vvm.{5}) ",
+                    SqlHelper.Table_VocabCategory_Vocab,
+                    SqlHelper.Field_VocabCategory_Vocab_VocabId,
+                    SqlHelper.Field_VocabCategory_Id,
+                    SqlHelper.Table_VocabMeaning_VocabCategory,
+                    SqlHelper.Field_VocabMeaning_VocabCategory_VocabMeaningId,
+                    SqlHelper.Field_Vocab_VocabMeaning_VocabMeaningId);
+                
+                sqlCategoryFilter = string.Format("(vc.{0}=@cat OR mc.{1}=@cat) ",
+                    SqlHelper.Field_VocabCategory_Vocab_VocabCategoryId,
+                    SqlHelper.Field_VocabMeaning_VocabCategory_VocabCategoryId);
+
+                parameters.Add(new DaoParameter("@cat", categoryFilter.ID));
+            }
+
+            string[] sqlArgs =
+            {
+                sqlSharedJoins,
+                sqlMeaningFilterJoins,
+                sqlCategoryFilterJoins,
+                sqlJlptFilter,
+                sqlWkFilter,
+                sqlKanjiFilter,
+                sqlReadingFilter,
+                sqlMeaningFilter,
+                sqlCategoryFilter
+            };
+            
+            bool isFiltered = false;
+            for (int i = 0; i < sqlArgs.Length; i++)
+            {
+                string arg = sqlArgs[i];
+                if (string.IsNullOrEmpty(arg) || arg.StartsWith("JOIN"))
+                    continue;
+
+                sqlArgs[i] = (isFiltered ? "AND " : "WHERE ") + arg;
+                isFiltered = true;
+            }
+
+            return string.Concat(sqlArgs);
         }
 
         #endregion
@@ -550,10 +670,12 @@ namespace Kanji.Database.Dao
             VocabEntity vocab)
         {
             IEnumerable<NameValueCollection> results = connection.Query(
-                "SELECT k.* FROM " + SqlHelper.Table_Kanji_Vocab + " kv "
-                + "JOIN " + SqlHelper.Table_Kanji + " k ON (k."
-                + SqlHelper.Field_Kanji_Id + "=kv." + SqlHelper.Field_Kanji_Vocab_KanjiId
-                + ") WHERE kv." + SqlHelper.Field_Kanji_Vocab_VocabId + "=@vid",
+                string.Format("SELECT k.* FROM {0} kv JOIN {1} k ON (k.{2}=kv.{3}) WHERE kv.{4}=@vid",
+                SqlHelper.Table_Kanji_Vocab,
+                SqlHelper.Table_Kanji,
+                SqlHelper.Field_Kanji_Id,
+                SqlHelper.Field_Kanji_Vocab_KanjiId,
+                SqlHelper.Field_Kanji_Vocab_VocabId),
                 new DaoParameter("@vid", vocab.ID));
 
             KanjiBuilder kanjiBuilder = new KanjiBuilder();
@@ -573,9 +695,10 @@ namespace Kanji.Database.Dao
         private void IncludeVariants(DaoConnection connection, VocabEntity vocab)
         {
             IEnumerable<NameValueCollection> results = connection.Query(
-                "SELECT * FROM " + SqlHelper.Table_Vocab + " WHERE "
-                + SqlHelper.Field_Vocab_GroupId + "=@gid AND "
-                + SqlHelper.Field_Vocab_Id + "!=@id",
+                string.Format("SELECT * FROM {0} WHERE {1}=@gid AND {2}!=@id",
+                SqlHelper.Table_Vocab,
+                SqlHelper.Field_Vocab_GroupId,
+                SqlHelper.Field_Vocab_Id),
                 new DaoParameter("@gid", vocab.GroupId),
                 new DaoParameter("@id", vocab.ID));
 
@@ -592,11 +715,12 @@ namespace Kanji.Database.Dao
         private void IncludeCategories(DaoConnection connection, VocabEntity vocab)
         {
             IEnumerable<NameValueCollection> categories = connection.Query(
-                  "SELECT vc.* FROM " + SqlHelper.Table_VocabCategory_Vocab + " vcv "
-                + "JOIN " + SqlHelper.Table_VocabCategory + " vc ON (vcv."
-                + SqlHelper.Field_VocabCategory_Vocab_VocabCategoryId + "=vc."
-                + SqlHelper.Field_VocabCategory_Id + ") WHERE vcv."
-                + SqlHelper.Field_VocabCategory_Vocab_VocabId + "=@vid",
+                  string.Format("SELECT vc.* FROM {0} vcv JOIN {1} vc ON (vcv.{2}=vc.{3}) WHERE vcv.{4}=@vid",
+                  SqlHelper.Table_VocabCategory_Vocab,
+                  SqlHelper.Table_VocabCategory,
+                  SqlHelper.Field_VocabCategory_Vocab_VocabCategoryId,
+                  SqlHelper.Field_VocabCategory_Id,
+                  SqlHelper.Field_VocabCategory_Vocab_VocabId),
                 new DaoParameter("@vid", vocab.ID));
 
             VocabCategoryBuilder categoryBuilder = new VocabCategoryBuilder();
@@ -613,11 +737,12 @@ namespace Kanji.Database.Dao
         private void IncludeMeanings(DaoConnection connection, VocabEntity vocab)
         {
             IEnumerable<NameValueCollection> meanings = connection.Query(
-                  "SELECT vm.* FROM " + SqlHelper.Table_Vocab_VocabMeaning + " vvm "
-                + "JOIN " + SqlHelper.Table_VocabMeaning + " vm ON (vvm."
-                + SqlHelper.Field_Vocab_VocabMeaning_VocabMeaningId + "=vm."
-                + SqlHelper.Field_VocabMeaning_Id + ") WHERE vvm."
-                + SqlHelper.Field_Vocab_VocabMeaning_VocabId + "=@vid",
+                  string.Format("SELECT vm.* FROM {0} vvm JOIN {1} vm ON (vvm.{2}=vm.{3}) WHERE vvm.{4}=@vid",
+                  SqlHelper.Table_Vocab_VocabMeaning,
+                  SqlHelper.Table_VocabMeaning,
+                  SqlHelper.Field_Vocab_VocabMeaning_VocabMeaningId,
+                  SqlHelper.Field_VocabMeaning_Id,
+                  SqlHelper.Field_Vocab_VocabMeaning_VocabId),
                 new DaoParameter("@vid", vocab.ID));
 
             VocabMeaningBuilder meaningBuilder = new VocabMeaningBuilder();
@@ -635,11 +760,12 @@ namespace Kanji.Database.Dao
         private void IncludeMeaningCategories(DaoConnection connection, VocabMeaning meaning)
         {
             IEnumerable<NameValueCollection> categories = connection.Query(
-                  "SELECT vc.* FROM " + SqlHelper.Table_VocabMeaning_VocabCategory + " vmvc "
-                + "JOIN " + SqlHelper.Table_VocabCategory + " vc ON (vmvc."
-                + SqlHelper.Field_VocabMeaning_VocabCategory_VocabCategoryId + "=vc."
-                + SqlHelper.Field_VocabCategory_Id + ") WHERE vmvc."
-                + SqlHelper.Field_VocabMeaning_VocabCategory_VocabMeaningId + "=@mid",
+                  string.Format("SELECT vc.* FROM {0} vmvc JOIN {1} vc ON (vmvc.{2}=vc.{3}) WHERE vmvc.{4}=@mid",
+                  SqlHelper.Table_VocabMeaning_VocabCategory,
+                  SqlHelper.Table_VocabCategory,
+                  SqlHelper.Field_VocabMeaning_VocabCategory_VocabCategoryId,
+                  SqlHelper.Field_VocabCategory_Id,
+                  SqlHelper.Field_VocabMeaning_VocabCategory_VocabMeaningId),
                 new DaoParameter("@mid", meaning.ID));
 
             VocabCategoryBuilder categoryBuilder = new VocabCategoryBuilder();
@@ -661,9 +787,9 @@ namespace Kanji.Database.Dao
                 : vocab.KanjiWriting;
 
             IEnumerable<NameValueCollection> nvcEntries = connection.Query(
-                "SELECT * "
-                + "FROM " + SqlHelper.Table_SrsEntry + " srs "
-                + "WHERE srs." + SqlHelper.Field_SrsEntry_AssociatedVocab + "=@k",
+                string.Format("SELECT * FROM {0} srs WHERE srs.{1}=@k",
+                SqlHelper.Table_SrsEntry,
+                SqlHelper.Field_SrsEntry_AssociatedVocab),
                 new DaoParameter("@k", value));
 
             SrsEntryBuilder srsEntryBuilder = new SrsEntryBuilder();

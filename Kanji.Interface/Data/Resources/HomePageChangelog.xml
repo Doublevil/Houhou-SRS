@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ArrayOfChangelogEntry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ChangelogEntry>
+    <Version>1.3</Version>
+    <Title>Filter vocab/kanji by JLPT/WK level</Title>
+    <Description>You can now filter vocabulary words and kanji by the level at which they are taught on the Kanji learning website WaniKani and the JLPT level at which they are used.
+
+Moreover, vocabulary words can now be filtered by their categories (such as mathematical terms and computer-related terms).
+Note that a lot of categories currently exist, but many of them are not used.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
     <Version>1.2</Version>
     <Title>Quick add for vocab</Title>
     <Description>You can now add vocab to your SRS list in one click using the Quick add button.</Description>

@@ -213,7 +213,7 @@
                             <RadioButton x:Name="FixedDateRadio" GroupName="Timing" Content="Set all dates to this value:" IsChecked="{Binding TimingMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Fixed}" />
 
                             <Border Margin="15 5 0 0" BorderThickness="2 0 0 0" BorderBrush="#666666" Padding="5 0 0 0">
-                                <xctk:DateTimePicker Grid.Column="1" Value="{Binding FixedDate}" Format="Custom" FormatString="yyyy-MM-dd H:mm:ss"
+                                <xctk:DateTimePicker Grid.Column="1" Value="{Binding FixedDate}" Format="FullDateTime"
                                     TextAlignment="Left" IsEnabled="{Binding ElementName=FixedDateRadio, Mode=OneWay, Path=IsChecked}" />
                             </Border>
 

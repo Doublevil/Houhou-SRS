@@ -10,6 +10,7 @@ using Kanji.Database.Models;
 using System.Data.SQLite;
 using Kanji.Common.Helpers;
 using System.IO;
+using Kanji.Common.Utility;
 
 namespace Kanji.Database.Dao
 {
@@ -30,7 +31,7 @@ namespace Kanji.Database.Dao
                 connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
 
                 IEnumerable<NameValueCollection> results = connection.Query(
-                  "SELECT * FROM " + SqlHelper.Table_Kanji);
+                    string.Format("SELECT * FROM {0}", SqlHelper.Table_Kanji));
 
                 KanjiBuilder kanjiBuilder = new KanjiBuilder();
                 foreach (NameValueCollection nvcKanji in results)
@@ -66,12 +67,11 @@ namespace Kanji.Database.Dao
 
                 // FILTERS COMPUTED.
                 // Execute the final request.
-                IEnumerable<NameValueCollection> results = connection.Query(
-                    "SELECT * "
-                + "FROM " + SqlHelper.Table_Kanji + " k "
-                + "WHERE k." + SqlHelper.Field_Kanji_Character + "=@k "
-                + "ORDER BY (k." + SqlHelper.Field_Kanji_MostUsedRank + " IS NULL),"
-                + "(k." + SqlHelper.Field_Kanji_MostUsedRank + ");",
+                IEnumerable<NameValueCollection> results = connection.Query(string.Format(
+                    "SELECT * FROM {0} k WHERE k.{1}=@k ORDER BY (k.{2} IS NULL),(k.{2});",
+                    SqlHelper.Table_Kanji,
+                    SqlHelper.Field_Kanji_Character,
+                    SqlHelper.Field_Kanji_MostUsedRank),
                 new DaoParameter("@k", character));
 
                 if (results.Any())
@@ -115,11 +115,12 @@ namespace Kanji.Database.Dao
         /// <returns>Kanji matching the given filters.</returns>
         public IEnumerable<KanjiEntity> GetFilteredKanji(RadicalGroup[] radicals, string textFilter,
             string meaningFilter, string anyReadingFilter, string onYomiFilter, string kunYomiFilter,
-            string nanoriFilter)
+            string nanoriFilter, int jlptLevel, int wkLevel)
         {
             List<DaoParameter> parameters = new List<DaoParameter>();
             string sqlFilter = BuildKanjiFilterClauses(parameters, radicals, textFilter,
-                meaningFilter, anyReadingFilter, onYomiFilter, kunYomiFilter, nanoriFilter);
+                meaningFilter, anyReadingFilter, onYomiFilter, kunYomiFilter, nanoriFilter,
+                jlptLevel, wkLevel);
 
             DaoConnection connection = null;
             DaoConnection srsConnection = null;
@@ -134,12 +135,11 @@ namespace Kanji.Database.Dao
 
                 // FILTERS COMPUTED.
                 // Execute the final request.
-                IEnumerable<NameValueCollection> results = connection.Query(
-                    "SELECT * "
-                + "FROM " + SqlHelper.Table_Kanji + " k "
-                + sqlFilter
-                + "ORDER BY (k." + SqlHelper.Field_Kanji_MostUsedRank + " IS NULL),"
-                + "(k." + SqlHelper.Field_Kanji_MostUsedRank + ");",
+                IEnumerable<NameValueCollection> results = connection.Query(string.Format(
+                    "SELECT * FROM {0} k {1}ORDER BY (k.{2} IS NULL),(k.{2});",
+                    SqlHelper.Table_Kanji,
+                    sqlFilter,
+                    SqlHelper.Field_Kanji_MostUsedRank),
                 parameters.ToArray());
 
                 KanjiBuilder kanjiBuilder = new KanjiBuilder();
@@ -171,17 +171,20 @@ namespace Kanji.Database.Dao
         /// </summary>
         public long GetFilteredKanjiCount(RadicalGroup[] radicals, string textFilter,
             string meaningFilter, string anyReadingFilter, string onYomiFilter, string kunYomiFilter,
-            string nanoriFilter)
+            string nanoriFilter, int jlptLevel, int wkLevel)
         {
             List<DaoParameter> parameters = new List<DaoParameter>();
             string sqlFilter = BuildKanjiFilterClauses(parameters, radicals, textFilter,
-                meaningFilter, anyReadingFilter, onYomiFilter, kunYomiFilter, nanoriFilter);
+                meaningFilter, anyReadingFilter, onYomiFilter, kunYomiFilter, nanoriFilter,
+                jlptLevel, wkLevel);
 
             using (DaoConnection connection =
                 DaoConnection.Open(DaoConnectionEnum.KanjiDatabase))
             {
                 return (long)connection.QueryScalar(
-                    "SELECT COUNT(1) FROM " + SqlHelper.Table_Kanji + " k " + sqlFilter,
+                    string.Format("SELECT COUNT(1) FROM {0} k {1}",
+                    SqlHelper.Table_Kanji,
+                    sqlFilter),
                     parameters.ToArray());
             }
         }
@@ -235,9 +238,10 @@ namespace Kanji.Database.Dao
                 connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
 
                 reader = connection.QueryDataReader(
-                    "SELECT " + SqlHelper.Field_KanjiStrokes_FramesSvg
-                    + " FROM " + SqlHelper.Table_KanjiStrokes
-                    + " WHERE " + SqlHelper.Field_KanjiStrokes_Id + "=@id;",
+                    string.Format("SELECT {0} FROM {1} WHERE {2}=@id;",
+                    SqlHelper.Field_KanjiStrokes_FramesSvg,
+                    SqlHelper.Table_KanjiStrokes,
+                    SqlHelper.Field_KanjiStrokes_Id),
                     new DaoParameter("@id", id));
 
                 while (reader.Read())
@@ -285,9 +289,40 @@ namespace Kanji.Database.Dao
         /// </summary>
         internal static string BuildKanjiFilterClauses(List<DaoParameter> parameters, RadicalGroup[] radicalGroups,
             string textFilter, string meaningFilter, string anyReadingFilter, string onYomiFilter,
-            string kunYomiFilter, string nanoriFilter)
+            string kunYomiFilter, string nanoriFilter, int jlptLevel, int wkLevel)
         {
-            bool isFiltered = false;
+            const int minJlptLevel = Levels.MinJlptLevel;
+            const int maxJlptLevel = Levels.MaxJlptLevel;
+            const int minWkLevel = Levels.MinWkLevel;
+            const int maxWkLevel = Levels.MaxWkLevel;
+
+            string sqlJlptFilter = string.Empty;
+            if (jlptLevel >= minJlptLevel && jlptLevel <= maxJlptLevel)
+            {
+                sqlJlptFilter = string.Format("k.{0}=@jlpt ",
+                    SqlHelper.Field_Vocab_JlptLevel);
+
+                parameters.Add(new DaoParameter("@jlpt", jlptLevel));
+            }
+            else if (jlptLevel < minJlptLevel)
+            {
+                sqlJlptFilter = string.Format("k.{0} IS NULL ",
+                    SqlHelper.Field_Vocab_JlptLevel);
+            }
+
+            string sqlWkFilter = string.Empty;
+            if (wkLevel >= minWkLevel && wkLevel <= maxWkLevel)
+            {
+                sqlWkFilter = string.Format("k.{0}=@wk ",
+                    SqlHelper.Field_Vocab_WaniKaniLevel);
+
+                parameters.Add(new DaoParameter("@wk", wkLevel));
+            }
+            else if (wkLevel > maxWkLevel)
+            {
+                sqlWkFilter = string.Format("k.{0} IS NULL ",
+                    SqlHelper.Field_Vocab_WaniKaniLevel);
+            }
 
             string sqlTextFilter = string.Empty;
             if (!string.IsNullOrWhiteSpace(textFilter))
@@ -297,9 +332,8 @@ namespace Kanji.Database.Dao
                 // 
                 // WHERE '1959年生まれ' LIKE '%' || k.Character || '%'
 
-                sqlTextFilter += "WHERE @textFilter LIKE '%' || k."
-                    + SqlHelper.Field_Kanji_Character + " || '%' ";
-                isFiltered = true;
+                sqlTextFilter = string.Format("@textFilter LIKE '%' || k.{0} || '%' ",
+                    SqlHelper.Field_Kanji_Character);
 
                 // And add the parameter.
                 parameters.Add(new DaoParameter("@textFilter", textFilter));
@@ -317,58 +351,39 @@ namespace Kanji.Database.Dao
                 // WHERE (k.KunYomi LIKE '%test%' OR k.OnYomi LIKE '%test%'
                 // OR k.Nanori LIKE '%test%')
 
-                // Start with the AND or WHERE, depending on the existence of previous filters.
-                sqlAnyReadingFilter = isFiltered ? "AND " : "WHERE ";
-                isFiltered = true;
-
-                // Then include the test.
-                sqlAnyReadingFilter += "(k." + SqlHelper.Field_Kanji_KunYomi
-                    + " LIKE @anyReadingFilter OR k." + SqlHelper.Field_Kanji_OnYomi
-                    + " LIKE @anyReadingFilter OR k." + SqlHelper.Field_Kanji_Nanori
-                    + " LIKE @anyReadingFilter) ";
+                sqlAnyReadingFilter = string.Format(
+                    "(k.{0} LIKE @anyReadingFilter OR k.{1} LIKE @anyReadingFilter OR k.{2} LIKE @anyReadingFilter) ",
+                    SqlHelper.Field_Kanji_KunYomi,
+                    SqlHelper.Field_Kanji_OnYomi,
+                    SqlHelper.Field_Kanji_Nanori);
 
                 // And add the parameter.
-                parameters.Add(new DaoParameter("@anyReadingFilter", "%" + anyReadingFilter + "%"));
+                parameters.Add(new DaoParameter("@anyReadingFilter", string.Format("%{0}%", anyReadingFilter)));
             }
             else
             {
                 // Any reading filter is not set. Browse the other reading filters.
                 if (!string.IsNullOrWhiteSpace(onYomiFilter))
                 {
-                    // Start with the AND or WHERE, depending on the existence of previous filters.
-                    sqlOnYomiFilter = isFiltered ? "AND " : "WHERE ";
-                    isFiltered = true;
+                    sqlOnYomiFilter = string.Format("k.{0} LIKE @onYomiFilter ", SqlHelper.Field_Kanji_OnYomi);
 
-                    sqlOnYomiFilter += "k." + SqlHelper.Field_Kanji_OnYomi
-                        + " LIKE @onYomiFilter ";
-
-                    parameters.Add(new DaoParameter("@onYomiFilter", "%" + onYomiFilter + "%"));
+                    parameters.Add(new DaoParameter("@onYomiFilter", string.Format("%{0}%", onYomiFilter)));
                 }
                 if (!string.IsNullOrWhiteSpace(kunYomiFilter))
                 {
-                    // Start with the AND or WHERE, depending on the existence of previous filters.
-                    sqlKunYomiFilter = isFiltered ? "AND " : "WHERE ";
-                    isFiltered = true;
+                    sqlKunYomiFilter = string.Format("k.{0} LIKE @kunYomiFilter ", SqlHelper.Field_Kanji_KunYomi);
 
-                    sqlKunYomiFilter += "k." + SqlHelper.Field_Kanji_KunYomi
-                        + " LIKE @kunYomiFilter ";
-
-                    parameters.Add(new DaoParameter("@kunYomiFilter", "%" + kunYomiFilter + "%"));
+                    parameters.Add(new DaoParameter("@kunYomiFilter", string.Format("%{0}%", kunYomiFilter)));
                 }
                 if (!string.IsNullOrWhiteSpace(nanoriFilter))
                 {
-                    // Start with the AND or WHERE, depending on the existence of previous filters.
-                    sqlNanoriFilter = isFiltered ? "AND " : "WHERE ";
-                    isFiltered = true;
+                    sqlNanoriFilter = string.Format("k.{0} LIKE @nanoriFilter ", SqlHelper.Field_Kanji_Nanori);
 
-                    sqlNanoriFilter += "k." + SqlHelper.Field_Kanji_Nanori
-                        + " LIKE @nanoriFilter ";
-
-                    parameters.Add(new DaoParameter("@nanoriFilter", "%" + nanoriFilter + "%"));
+                    parameters.Add(new DaoParameter("@nanoriFilter", string.Format("%{0}%", nanoriFilter)));
                 }
             }
 
-            string sqlRadicalFilter = string.Empty;
+            StringBuilder sqlRadicalFilter = new StringBuilder();
             if (radicalGroups.Any())
             {
                 // Build the radical sql filter. For example with:
@@ -402,7 +417,7 @@ namespace Kanji.Database.Dao
                     .SelectMany(g => g.Radicals).ToArray();
 
                 // Get the other radical groups. In our example, this would be {{7974,7975}}.
-                RadicalGroup[] optionGroups = radicalGroups.Where(g => g.Radicals.Count() > 1).ToArray();
+                RadicalGroup[] optionGroups = radicalGroups.Where(g => g.Radicals.Length > 1).ToArray();
 
                 // We need to build one request per option group,
                 // and one request for all mandatory radicals.
@@ -411,48 +426,44 @@ namespace Kanji.Database.Dao
                 // Start with the request for all mandatory radicals.
                 if (mandatoryRadicals.Any())
                 {
-                    // Start with the AND or WHERE, depending on the existence of previous filters.
-                    sqlRadicalFilter += isFiltered ? "AND " : "WHERE ";
-                    isFiltered = true;
-
-                    sqlRadicalFilter += "(SELECT COUNT(*) FROM (";
+                    sqlRadicalFilter.Append("(SELECT COUNT(*) FROM (");
                     foreach (RadicalEntity radical in mandatoryRadicals)
                     {
-                        sqlRadicalFilter += "SELECT @rid" + idParamIndex + " ";
+                        sqlRadicalFilter.AppendFormat("SELECT @rid{0} ", idParamIndex);
                         if (mandatoryRadicals.Last() != radical)
                         {
-                            sqlRadicalFilter += "UNION ";
+                            sqlRadicalFilter.Append("UNION ");
                         }
                         parameters.Add(new DaoParameter("@rid" + idParamIndex++, radical.ID));
                     }
-                    sqlRadicalFilter += "INTERSECT SELECT kr." + SqlHelper.Field_Kanji_Radical_RadicalId + " "
-                                  + "FROM " + SqlHelper.Table_Kanji_Radical + " kr "
-                                  + "WHERE kr." + SqlHelper.Field_Kanji_Radical_KanjiId
-                                  + "=k." + SqlHelper.Field_Kanji_Id + "))=@radicalsCount ";
+                    sqlRadicalFilter.AppendFormat(
+                        "INTERSECT SELECT kr.{0} FROM {1} kr WHERE kr.{2}=k.{3}))=@radicalsCount ",
+                        SqlHelper.Field_Kanji_Radical_RadicalId,
+                        SqlHelper.Table_Kanji_Radical,
+                        SqlHelper.Field_Kanji_Radical_KanjiId,
+                        SqlHelper.Field_Kanji_Id);
                     parameters.Add(new DaoParameter("@radicalsCount", mandatoryRadicals.Count()));
                 }
 
                 // Now build the requests for the option groups.
                 foreach (RadicalGroup optionGroup in optionGroups)
                 {
-                    // Start with the AND or WHERE, depending on the existence of previous filters.
-                    sqlRadicalFilter += isFiltered ? "AND " : "WHERE ";
-                    isFiltered = true;
-
-                    sqlRadicalFilter += "(SELECT COUNT(*) FROM (";
+                    sqlRadicalFilter.Append("(SELECT COUNT(*) FROM (");
                     foreach (RadicalEntity radical in optionGroup.Radicals)
                     {
-                        sqlRadicalFilter += "SELECT @rid" + idParamIndex + " ";
+                        sqlRadicalFilter.AppendFormat("SELECT @rid{0} ", idParamIndex);
                         if (optionGroup.Radicals.Last() != radical)
                         {
-                            sqlRadicalFilter += "UNION ";
+                            sqlRadicalFilter.Append("UNION ");
                         }
                         parameters.Add(new DaoParameter("@rid" + idParamIndex++, radical.ID));
                     }
-                    sqlRadicalFilter += "INTERSECT SELECT kr." + SqlHelper.Field_Kanji_Radical_RadicalId + " "
-                                  + "FROM " + SqlHelper.Table_Kanji_Radical + " kr "
-                                  + "WHERE kr." + SqlHelper.Field_Kanji_Radical_KanjiId
-                                  + "=k." + SqlHelper.Field_Kanji_Id + "))>=1 ";
+                    sqlRadicalFilter.AppendFormat(
+                        "INTERSECT SELECT kr.{0} FROM {1} kr WHERE kr.{2}=k.{3}))>=1 ",
+                        SqlHelper.Field_Kanji_Radical_RadicalId,
+                        SqlHelper.Table_Kanji_Radical,
+                        SqlHelper.Field_Kanji_Radical_KanjiId,
+                        SqlHelper.Field_Kanji_Id);
                 }
             }
 
@@ -466,28 +477,43 @@ namespace Kanji.Database.Dao
                 // WHERE km.Kanji_Id=k.Id AND km.Language IS NULL
                 // AND km.Meaning LIKE '%test%') 
 
-                // Start with the AND or WHERE, depending on the existence of previous filters.
-                sqlMeaningFilter = isFiltered ? "AND " : "WHERE ";
-                isFiltered = true;
-
-                // Then include the test.
-                sqlMeaningFilter += "k." + SqlHelper.Field_Kanji_Id + " IN (SELECT km."
-                    + SqlHelper.Field_KanjiMeaning_KanjiId + " FROM " + SqlHelper.Table_KanjiMeaning
-                    + " km WHERE km." + SqlHelper.Field_KanjiMeaning_Language + " IS NULL "
-                    + "AND km." + SqlHelper.Field_KanjiMeaning_Meaning + " "
-                    + "LIKE @meaningFilter) ";
+                sqlMeaningFilter = string.Format(
+                    "k.{0} IN (SELECT km.{1} FROM {2} km WHERE km.{3} IS NULL AND km.{4} LIKE @meaningFilter) ",
+                    SqlHelper.Field_Kanji_Id,
+                    SqlHelper.Field_KanjiMeaning_KanjiId,
+                    SqlHelper.Table_KanjiMeaning,
+                    SqlHelper.Field_KanjiMeaning_Language,
+                    SqlHelper.Field_KanjiMeaning_Meaning);
 
                 // And add the parameter.
                 parameters.Add(new DaoParameter("@meaningFilter", "%" + meaningFilter + "%"));
             }
+            
+            string[] sqlArgs =
+            {
+                sqlJlptFilter,
+                sqlWkFilter,
+                sqlTextFilter,
+                sqlAnyReadingFilter,
+                sqlOnYomiFilter,
+                sqlKunYomiFilter,
+                sqlNanoriFilter,
+                sqlRadicalFilter.ToString(),
+                sqlMeaningFilter
+            };
+            
+            bool isFiltered = false;
+            for (int i = 0; i < sqlArgs.Length; i++)
+            {
+                string arg = sqlArgs[i];
+                if (string.IsNullOrEmpty(arg) || arg.StartsWith("JOIN"))
+                    continue;
 
-            return sqlTextFilter
-                + sqlAnyReadingFilter
-                + sqlOnYomiFilter
-                + sqlKunYomiFilter
-                + sqlNanoriFilter
-                + sqlRadicalFilter
-                + sqlMeaningFilter;
+                sqlArgs[i] = (isFiltered ? "AND " : "WHERE ") + arg;
+                isFiltered = true;
+            }
+
+            return string.Concat(sqlArgs);
         }
 
         #endregion
@@ -500,11 +526,11 @@ namespace Kanji.Database.Dao
         internal static void IncludeKanjiMeanings(DaoConnection connection, KanjiEntity kanji)
         {
             IEnumerable<NameValueCollection> nvcMeanings = connection.Query(
-                        "SELECT * "
-                      + "FROM " + SqlHelper.Table_KanjiMeaning + " km "
-                      + "WHERE km." + SqlHelper.Field_KanjiMeaning_KanjiId + "=@kanjiId "
-                      + "AND km." + SqlHelper.Field_KanjiMeaning_Language + " IS NULL;",
-                        new DaoParameter("@kanjiId", kanji.ID));
+                string.Format("SELECT * FROM {0} km WHERE km.{1}=@kanjiId AND km.{2} IS NULL;",
+                SqlHelper.Table_KanjiMeaning,
+                SqlHelper.Field_KanjiMeaning_KanjiId,
+                SqlHelper.Field_KanjiMeaning_Language),
+                new DaoParameter("@kanjiId", kanji.ID));
 
             KanjiMeaningBuilder meaningBuilder = new KanjiMeaningBuilder();
             foreach (NameValueCollection nvcMeaning in nvcMeanings)
@@ -522,12 +548,13 @@ namespace Kanji.Database.Dao
         internal static void IncludeRadicals(DaoConnection connection, KanjiEntity kanji)
         {
             IEnumerable<NameValueCollection> nvcRadicals = connection.Query(
-                        "SELECT * "
-                      + "FROM " + SqlHelper.Table_Radical + " r "
-                      + "JOIN " + SqlHelper.Table_Kanji_Radical + " kr "
-                      + "ON (kr." + SqlHelper.Field_Kanji_Radical_RadicalId + "=r." + SqlHelper.Field_Radical_Id + ") "
-                      + "WHERE kr." + SqlHelper.Field_Kanji_Radical_KanjiId + "=@kanjiId;",
-                        new DaoParameter("@kanjiId", kanji.ID));
+                string.Format("SELECT * FROM {0} r JOIN {1} kr ON (kr.{2}=r.{3}) WHERE kr.{4}=@kanjiId;",
+                SqlHelper.Table_Radical,
+                SqlHelper.Table_Kanji_Radical,
+                SqlHelper.Field_Kanji_Radical_RadicalId,
+                SqlHelper.Field_Radical_Id,
+                SqlHelper.Field_Kanji_Radical_KanjiId),
+                new DaoParameter("@kanjiId", kanji.ID));
 
             RadicalBuilder radicalBuilder = new RadicalBuilder();
             foreach (NameValueCollection nvcRadical in nvcRadicals)
@@ -545,9 +572,9 @@ namespace Kanji.Database.Dao
         internal static void IncludeSrsEntries(DaoConnection connection, KanjiEntity kanji)
         {
             IEnumerable<NameValueCollection> nvcEntries = connection.Query(
-                "SELECT * "
-                + "FROM " + SqlHelper.Table_SrsEntry + " srs "
-                + "WHERE srs." + SqlHelper.Field_SrsEntry_AssociatedKanji + "=@k",
+                string.Format("SELECT * FROM {0} srs WHERE srs.{1}=@k",
+                SqlHelper.Table_SrsEntry,
+                SqlHelper.Field_SrsEntry_AssociatedKanji),
                 new DaoParameter("@k", kanji.Character));
 
             SrsEntryBuilder srsEntryBuilder = new SrsEntryBuilder();

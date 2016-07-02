@@ -12,9 +12,13 @@ namespace Kanji.Interface.Converters
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             string output = string.Empty;
-            foreach (object value in values)
+            if (values != null)
             {
-                output += value.ToString();
+                foreach (object value in values)
+                {
+					if (value != null)
+						output += value.ToString();
+                }
             }
 
             return output;

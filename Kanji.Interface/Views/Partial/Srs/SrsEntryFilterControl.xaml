@@ -12,6 +12,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <!--<RowDefinition Height="*" />-->
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -23,10 +24,10 @@
         <Button Style="{StaticResource ActionButton}" Content="Browse all items" Margin="0 0 0 5"
                 Command="{Binding BrowseAllItemsCommand}" />
 
-        <Button Style="{StaticResource ActionButton}" Grid.Column="3" Content="Refresh"
+        <Button Style="{StaticResource ActionButton}" Grid.Row="0" Grid.Column="3" Content="Refresh"
                 Margin="0 0 0 5" Command="{Binding RefreshCommand}" />
 
-        <controls:SrsEntryMeaningFilterControl Grid.Row="1" DataContext="{Binding MeaningFilterVm}"
+        <controls:SrsEntryMeaningFilterControl Grid.Row="1" Grid.Column="0" DataContext="{Binding MeaningFilterVm}"
             IsInline="False" Margin="0 0 5 0" />
         <controls:SrsEntryReadingFilterControl Grid.Row="1" Grid.Column="1" DataContext="{Binding ReadingFilterVm}"
             IsInline="False" Margin="0 0 5 0" />
@@ -35,7 +36,14 @@
         <controls:SrsEntryTypeFilterControl Grid.Row="1" Grid.Column="3" DataContext="{Binding TypeFilterVm}"
             IsInline="False" />
         
-        <controls:SrsEntryLevelFilterControl Grid.Row="2" Grid.ColumnSpan="4" DataContext="{Binding LevelFilterVm}" />
+        <controls:SrsEntryLevelFilterControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" DataContext="{Binding LevelFilterVm}" />
+
+        <TextBlock Grid.Row="2" Grid.Column="3" Text="Category" Style="{StaticResource LegendText}" VerticalAlignment="Center" />
         
+        <!--<controls:SrsEntryCategoryFilterControl Grid.Row="2" Grid.Column="3" Margin="50,0,0,0" DataContext="{Binding CategoryFilterVm}" />
+
+        <controls:SrsEntryWkLevelFilterControl Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" DataContext="{Binding WkLevelFilterVm}" />
+        <controls:SrsEntryJlptLevelFilterControl Grid.Row="3" Grid.Column="3" DataContext="{Binding JlptLevelFilterVm}" />-->
+
     </Grid>
 </UserControl>

@@ -29,7 +29,10 @@ namespace Kanji.Interface.Converters
 
             if (v.HasValue)
             {
-                DateTime t = v.Value.ToLocalTime();
+                // If Kind is Unspecified, we want it treated as Local.
+                // This is because generally, Unspecified is only used for DateTime objects
+                // returned from the DatePicker control.
+                DateTime t = v.Value.Kind == DateTimeKind.Utc ? v.Value.ToLocalTime() : v.Value;
 
                 // Get the conversion type.
                 DateTimeToStringConversionEnum conversion;
@@ -51,7 +54,7 @@ namespace Kanji.Interface.Converters
                 {
                     // Get the difference.
                     TimeSpan diff = t - DateTime.Now;
-                    bool negate = diff.Ticks < 0;
+                    bool negate = diff.Ticks < 0L;
 
                     // Negate the TimeSpan if it is negative.
                     if (negate)

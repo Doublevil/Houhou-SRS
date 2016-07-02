@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="Kanji.Interface.Controls.CategoryFilterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:behaviors="clr-namespace:Kanji.Interface.Behaviors"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <ComboBox Name="ComboBox" Margin="5,2" VerticalAlignment="Center" VerticalContentAlignment="Center"
+            FontSize="15" FontWeight="SemiBold"
+            SelectedIndex="{Binding SelectedIndex, ElementName=HiddenList}"
+            behaviors:SelectionChangedBehavior.Command="{Binding FilterChangedCommand}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource VocabCategoriesToStringConverter}}"
+                        VerticalAlignment="Center" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <ListBox Grid.Column="0" Name="HiddenList" Visibility="Collapsed" SelectedItem="{Binding CategoryFilter, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Style="{StaticResource MiniActionButton}" Command="{Binding ClearCategoryFilterCommand}"
+                Content="Clear" Grid.Column="1"
+                HorizontalAlignment="Left" VerticalAlignment="Center" Padding="2,0" />
+    </Grid>
+</UserControl>

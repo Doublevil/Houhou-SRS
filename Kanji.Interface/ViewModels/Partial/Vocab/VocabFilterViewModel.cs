@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
+using Kanji.Database.Entities;
 using Kanji.Interface.Models;
 
 namespace Kanji.Interface.ViewModels
@@ -17,7 +18,7 @@ namespace Kanji.Interface.ViewModels
         #endregion
 
         #region Properties
-
+        
         /// <summary>
         /// Gets or sets the reading filter applied to the vocab list.
         /// </summary>
@@ -45,6 +46,54 @@ namespace Kanji.Interface.ViewModels
                 if (_filter.MeaningString != value)
                 {
                     _filter.MeaningString = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the category filter applied to the vocab list.
+        /// </summary>
+        public VocabCategory CategoryFilter
+        {
+            get { return _filter.Category; }
+            set
+            {
+                if (_filter.Category != value)
+                {
+                    _filter.Category = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the JLPT level filter applied to the vocab list.
+        /// </summary>
+        public int JlptLevel
+        {
+            get { return _filter.JlptLevel; }
+            set
+            {
+                if (_filter.JlptLevel != value)
+                {
+                    _filter.JlptLevel = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the WaniKani level filter applied to the vocab list.
+        /// </summary>
+        public int WkLevel
+        {
+            get { return _filter.WkLevel; }
+            set
+            {
+                if (_filter.WkLevel != value)
+                {
+                    _filter.WkLevel = value;
                     RaisePropertyChanged();
                 }
             }
@@ -94,10 +143,29 @@ namespace Kanji.Interface.ViewModels
         public RelayCommand SendReadingFilterCommand { get; set; }
 
         /// <summary>
+        /// Command used to validate the JLPT & WK level filters.
+        /// </summary>
+        /// <remarks>
+        /// This is a shared command named like this because the control shared with
+        /// the SRS tab wants the command to have this name.
+        /// </remarks>
+        public RelayCommand FilterChangedCommand { get; set; }
+
+        /// <summary>
         /// Command used to validate the meaning filter.
         /// </summary>
         public RelayCommand SendMeaningFilterCommand { get; set; }
 
+        /// <summary>
+        /// Command used to validate the category filter.
+        /// </summary>
+        public RelayCommand SendCategoryFilterCommand { get; set; }
+        
+        /// <summary>
+        /// Command used to clear the category filter.
+        /// </summary>
+        public RelayCommand ClearCategoryFilterCommand { get; set; }
+        
         /// <summary>
         /// Command used to switch the "common first" order.
         /// </summary>
@@ -128,10 +196,13 @@ namespace Kanji.Interface.ViewModels
         /// <param name="filter">Filter to use.</param>
         public VocabFilterViewModel(VocabFilter filter)
         {
-            _filter = filter;
-
-            SendReadingFilterCommand = new RelayCommand(OnSendReadingFilter);
+	        _filter = filter;
+            
+	        FilterChangedCommand = new RelayCommand(IssueFilterChangedEvent);
+	        SendReadingFilterCommand = new RelayCommand(OnSendReadingFilter);
             SendMeaningFilterCommand = new RelayCommand(OnSendMeaningFilter);
+            SendCategoryFilterCommand = new RelayCommand(OnSendCategoryFilter);
+            ClearCategoryFilterCommand = new RelayCommand(OnClearCategoryFilter);
             SwitchCommonOrderCommand = new RelayCommand(OnSwitchCommonOrder);
             SwitchWritingLengthOrderCommand = new RelayCommand(OnSwitchWritingLengthOrder);
         }
@@ -173,6 +244,21 @@ namespace Kanji.Interface.ViewModels
 
         /// <summary>
         /// Command callback.
+        /// Issues a filter changed event.
+        /// </summary>
+        private void OnSendCategoryFilter()
+        {
+            IssueFilterChangedEvent();
+        }
+        
+        private void OnClearCategoryFilter()
+        {
+            CategoryFilter = null;
+            IssueFilterChangedEvent();
+        }
+
+        /// <summary>
+        /// Command callback.
         /// Switches the "common first" order.
         /// </summary>
         private void OnSwitchCommonOrder()
@@ -190,7 +276,7 @@ namespace Kanji.Interface.ViewModels
             IsShortReadingFirst = !IsShortReadingFirst;
             IssueFilterChangedEvent();
         }
-
+        
         #endregion
 
         #endregion

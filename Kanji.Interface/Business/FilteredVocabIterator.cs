@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kanji.Common.Utility;
 using Kanji.Database.Dao;
 using Kanji.Database.Entities;
 using Kanji.Interface.Models;
@@ -43,6 +44,7 @@ namespace Kanji.Interface.Business
                 foreach (VocabEntity vocab in _vocabDao.GetFilteredVocab(
                     filter.Kanji.FirstOrDefault(),
                     filter.ReadingString, filter.MeaningString,
+                    filter.Category, filter.JlptLevel, filter.WkLevel,
                     filter.IsCommonFirst, filter.IsShortReadingFirst))
                 {
                     yield return vocab;
@@ -59,7 +61,8 @@ namespace Kanji.Interface.Business
                 VocabFilter filter = (VocabFilter)_currentFilter;
 
                 return (int)_vocabDao.GetFilteredVocabCount(filter.Kanji.FirstOrDefault(),
-                    filter.ReadingString, filter.MeaningString);
+                    filter.ReadingString, filter.MeaningString,
+                    filter.Category, filter.JlptLevel, filter.WkLevel);
             }
 
             return 0;
