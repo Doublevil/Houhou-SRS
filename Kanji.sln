@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kanji.Interface", "Kanji.Interface\Kanji.Interface.csproj", "{ED8C261A-4BC5-4A25-914C-440FEE3534D3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{FE599DC1-DEE5-47DE-BD28-FE4179322215}"
@@ -17,6 +19,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kanji.Common", "Kanji.Common\Kanji.Common.csproj", "{52EF53C1-9EF6-471E-8AFC-2874BF7C77F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotifyIconWpf", "NotifyIconWpf\NotifyIconWpf.csproj", "{7AC63864-7638-41C4-969C-D3197EF2BED9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kanji.DatabaseMaker.WaniKani", "Kanji.DatabaseMaker.WaniKani\Kanji.DatabaseMaker.WaniKani.csproj", "{39DECEC9-08DB-4F3A-9566-FEA5CF645F8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +81,16 @@ Global
 		{7AC63864-7638-41C4-969C-D3197EF2BED9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7AC63864-7638-41C4-969C-D3197EF2BED9}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{7AC63864-7638-41C4-969C-D3197EF2BED9}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{39DECEC9-08DB-4F3A-9566-FEA5CF645F8D}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{39DECEC9-08DB-4F3A-9566-FEA5CF645F8D}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{39DECEC9-08DB-4F3A-9566-FEA5CF645F8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39DECEC9-08DB-4F3A-9566-FEA5CF645F8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39DECEC9-08DB-4F3A-9566-FEA5CF645F8D}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{39DECEC9-08DB-4F3A-9566-FEA5CF645F8D}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{39DECEC9-08DB-4F3A-9566-FEA5CF645F8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39DECEC9-08DB-4F3A-9566-FEA5CF645F8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39DECEC9-08DB-4F3A-9566-FEA5CF645F8D}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{39DECEC9-08DB-4F3A-9566-FEA5CF645F8D}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

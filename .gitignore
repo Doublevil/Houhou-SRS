@@ -6,6 +6,8 @@ Kanji.Database/obj
 Kanji.Database/bin
 Kanji.DatabaseMaker/obj
 Kanji.DatabaseMaker/bin
+Kanji.DatabaseMaker.WaniKani/obj
+Kanji.DatabaseMaker.WaniKani/bin
 Kanji.Interface/obj
 Kanji.Interface/bin
 NotifyIconWpf/obj
@@ -15,3 +17,4 @@ UpgradeLog.htm
 packages
 .nuget
 /Kanji.DatabaseMaker/Resources/JMdict
+.vs
