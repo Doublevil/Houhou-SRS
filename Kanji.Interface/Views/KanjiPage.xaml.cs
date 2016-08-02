@@ -22,5 +22,46 @@ namespace Kanji.Interface.Views
             InitializeComponent();
             DataContext = new KanjiViewModel();
         }
+
+        /// <summary>
+        /// Since a <see cref="GalaSoft.MvvmLight.Command.RelayCommand"/> does not accept keyboard shortcuts,
+        /// we have to manually invoke the commands on a keyboard event.
+        /// </summary>
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            KeyboardDevice keyboardDevice = e.KeyboardDevice;
+
+            if (keyboardDevice.IsKeyDown(Key.LeftCtrl) || keyboardDevice.IsKeyDown(Key.RightCtrl))
+            {
+                switch (e.Key)
+                {
+                    case Key.R:
+                        KanjiFilterControl.RadicalNameFilter.Focus();
+                        break;
+                    case Key.W:
+                        KanjiFilterControl.WkLevelFilter.LevelSlider.Focus();
+                        break;
+                    case Key.J:
+                        KanjiFilterControl.JlptLevelFilter.LevelSlider.Focus();
+                        break;
+                    case Key.T:
+                        KanjiFilterControl.TextFilter.Focus();
+                        break;
+                    case Key.F:
+                        KanjiFilterControl.Filter.Focus();
+                        break;
+                }
+            }
+        }
+
+        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            // Focus the page once it becomes visible.
+            // This is so that the navigation bar does not keep the focus, which would prevent shortcut keys from working.
+            if (((bool)e.NewValue))
+            {
+                Focus();
+            }
+        }
     }
 }

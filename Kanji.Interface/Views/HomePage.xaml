@@ -6,8 +6,8 @@
              xmlns:controls="clr-namespace:Kanji.Interface.Controls"
              xmlns:business="clr-namespace:Kanji.Interface.Business"
              xmlns:toolkit="WPF"
-             mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="900">
+             mc:Ignorable="d" Focusable="true"
+             d:DesignHeight="400" d:DesignWidth="900" KeyDown="OnKeyDown" IsVisibleChanged="OnIsVisibleChanged">
 
     <DockPanel>
         <controls:NavigationBar DockPanel.Dock="Top" />

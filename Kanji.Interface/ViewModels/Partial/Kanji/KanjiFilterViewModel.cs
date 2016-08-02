@@ -462,7 +462,9 @@ namespace Kanji.Interface.ViewModels
 
             if (uniqueResult != null)
             {
-                if (!Radicals.SelectedItems.Contains(uniqueResult))
+                // Remove(...) returns false if it was not in the list in the first place; this way,
+                // pressing Enter when the radical was already selected will remove it, otherwise it will be added.
+                if (!Radicals.SelectedItems.Remove(uniqueResult))
                 {
                     Radicals.SelectedItems.Add(uniqueResult);
                 }

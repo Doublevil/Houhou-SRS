@@ -28,8 +28,9 @@
         
         <!-- 0. Multiline text filter -->
         <AdornerDecorator Grid.ColumnSpan="4">
-            <controls:CommandTextBox TextWrapping="Wrap" AcceptsReturn="False" Height="45" Margin="0 0 0 5"
+            <controls:CommandTextBox x:Name="TextFilter" TextWrapping="Wrap" AcceptsReturn="False" Height="45" Margin="0 0 0 5"
                 Text="{Binding TextFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                ToolTip="Shortcut: (CTRL+T)."
                 ValidationCommand="{Binding SendTextFilterCommand}">
                 <controls:WatermarkService.Watermark>
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center">
@@ -43,7 +44,8 @@
         <!-- 1. Reading/meaning filter -->
         <TextBlock Grid.Row="1" Text="with" Margin="0 0 5 0" VerticalAlignment="Center" />
         <AdornerDecorator Grid.Row="1" Grid.Column="1">
-            <controls:CommandTextBox Text="{Binding MainFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <controls:CommandTextBox x:Name="Filter" Text="{Binding MainFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                ToolTip="Shortcut: (CTRL+F)."
                 ValidationCommand="{Binding SendMainFilterCommand}">
                 <controls:WatermarkService.Watermark>
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center">
@@ -74,8 +76,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <controls:WkLevelFilterControl Grid.Column="0" DataContext="{Binding}" />
-            <controls:JlptLevelFilterControl Grid.Column="1" Margin="5,0,0,0" DataContext="{Binding}" />
+            <controls:WkLevelFilterControl x:Name="WkLevelFilter" Grid.Column="0" DataContext="{Binding}" />
+            <controls:JlptLevelFilterControl x:Name="JlptLevelFilter" Grid.Column="1" Margin="5,0,0,0" DataContext="{Binding}" />
         </Grid>
 
         <!-- 2. Radical list label -->
@@ -93,8 +95,8 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <AdornerDecorator>
-                <TextBox Text="{Binding RadicalFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    ToolTip="Type the filter until one single result remains, then press Enter to select it.">
+                <TextBox x:Name="RadicalNameFilter" Text="{Binding RadicalFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    ToolTip="Type the filter until one single result remains, then press Enter to select or deselect it (CTRL+R).">
                     <TextBox.InputBindings>
                         <KeyBinding Command="{Binding SendRadicalFilterCommand}" Key="Enter" />
                     </TextBox.InputBindings>

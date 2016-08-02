@@ -7,8 +7,8 @@
       xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WPF4"
       xmlns:utilities="clr-namespace:Kanji.Interface.Utilities"
       xmlns:controls="clr-namespace:Kanji.Interface.Controls"
-      mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="600">
+      mc:Ignorable="d" Focusable="true"
+      d:DesignHeight="300" d:DesignWidth="600" KeyDown="OnKeyDown" IsVisibleChanged="OnIsVisibleChanged">
 
     <DockPanel>
         <controls:NavigationBar DockPanel.Dock="Top" />
@@ -24,7 +24,7 @@
                 </Grid.RowDefinitions>
             
                 <!-- Filter control panel -->
-                <controls:KanjiFilterControl DataContext="{Binding KanjiFilterVm}">
+                <controls:KanjiFilterControl x:Name="KanjiFilterControl" DataContext="{Binding KanjiFilterVm}">
                     <controls:KanjiFilterControl.Style>
                         <Style TargetType="UserControl">
                             <Style.Triggers>

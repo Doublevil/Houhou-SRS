@@ -4,8 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:controls="clr-namespace:Kanji.Interface.Controls"
-      mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="600">
+      mc:Ignorable="d" Focusable="true"
+      d:DesignHeight="300" d:DesignWidth="600" KeyDown="OnKeyDown" IsVisibleChanged="OnIsVisibleChanged">
     
     <DockPanel>
         <controls:NavigationBar DockPanel.Dock="Top" />
@@ -21,7 +21,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- Filter panel -->
-                <controls:VocabFilterControl DataContext="{Binding VocabFilterVm}" />
+                <controls:VocabFilterControl x:Name="FilterControl" DataContext="{Binding VocabFilterVm}" />
 
                 <!-- Results list -->
                 <controls:VocabList DataContext="{Binding VocabListVm}" Grid.Row="1" />

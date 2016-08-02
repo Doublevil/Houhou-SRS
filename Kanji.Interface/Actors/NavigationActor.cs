@@ -111,6 +111,9 @@ namespace Kanji.Interface.Actors
         {
             lock (_mainWindowLock)
             {
+                if (CurrentPage == page)
+                    return;
+
                 RequireMainWindow();
                 CurrentPage = page;
             }

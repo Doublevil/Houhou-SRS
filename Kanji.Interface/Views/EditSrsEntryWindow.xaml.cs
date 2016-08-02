@@ -117,6 +117,51 @@ namespace Kanji.Interface.Views
             NavigationActor.Instance.ActiveWindow = NavigationActor.Instance.MainWindow;
         }
 
+        /// <summary>
+        /// Since a <see cref="GalaSoft.MvvmLight.Command.RelayCommand"/> does not accept keyboard shortcuts,
+        /// we have to manually invoke the commands on a keyboard event.
+        /// </summary>
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            /* 
+			 * - CTRL+Enter -> SubmitCommand
+			 * - CTRL+Delete -> DeleteCommand
+             * - CTRL+R -> DateToNowCommand
+             * - CTRL+N -> DateToNeverCommand
+             * - CTRL+E -> ToggleDateEditCommand
+			 */
+
+            KeyboardDevice keyboardDevice = e.KeyboardDevice;
+
+            if (keyboardDevice.IsKeyDown(Key.LeftCtrl) || keyboardDevice.IsKeyDown(Key.RightCtrl))
+            {
+                SrsEntryViewModel viewModel = ((SrsEntryViewModel)DataContext);
+                switch (e.Key)
+                {
+                    case Key.Enter:
+                        viewModel.SubmitCommand.Execute(null);
+                        break;
+                    case Key.Delete:
+                        viewModel.DeleteCommand.Execute(null);
+                        break;
+                    case Key.R:
+                        viewModel.DateToNowCommand.Execute(null);
+                        break;
+                    case Key.N:
+                        viewModel.DateToNeverCommand.Execute(null);
+                        break;
+                    case Key.E:
+                        viewModel.ToggleDateEditCommand.Execute(null);
+                        if (viewModel.IsEditingDate)
+                            ReviewDatePicker.Focus();
+                        break;
+                    case Key.S:
+                        viewModel.ToggleSuspendCommand.Execute(null);
+                        break;
+                }
+            }
+        }
+
         #endregion
     }
 }

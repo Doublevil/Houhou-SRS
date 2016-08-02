@@ -4,7 +4,7 @@
         xmlns:controls="clr-namespace:Kanji.Interface.Controls"
         xmlns:converters="clr-namespace:Kanji.Interface.Converters"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        Height="500" Width="500">
+        Height="500" Width="500" KeyDown="OnKeyDown">
     <Window.Style>
         <Style TargetType="Window">
             <Style.Triggers>
@@ -176,10 +176,10 @@
                             Mode=OneWay}"
                                  Visibility="{Binding IsEditingDate, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter=False}" />
 
-                        <xctk:DateTimePicker Grid.Column="1" Value="{Binding Entry.NextAnswerDate}" Format="FullDateTime"
-                            TextAlignment="Left" Visibility="{Binding IsEditingDate, Converter={StaticResource ValueToVisibilityConverter}}"  />
+                        <xctk:DateTimePicker x:Name="ReviewDatePicker" Grid.Column="1" Value="{Binding Entry.NextAnswerDate}" Format="FullDateTime"
+                            TextAlignment="Left" Visibility="{Binding IsEditingDate, Converter={StaticResource ValueToVisibilityConverter}}" Focusable="True"  />
                         
-                        <Button Grid.Column="2" Command="{Binding ToggleDateEditCommand}" Margin="10 0 0 0" Width="70" HorizontalAlignment="Right">
+                        <Button Grid.Column="2" Command="{Binding ToggleDateEditCommand}" Margin="10 0 0 0" Width="70" HorizontalAlignment="Right" ToolTip="Edit the next review date manually (CTRL+E).">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
                                     <Style.Triggers>
@@ -196,20 +196,20 @@
                         
                         <UniformGrid Columns="3" Grid.Row="1" Grid.ColumnSpan="3" Margin="0 3 0 0">
                             <Button Style="{StaticResource MiniActionButton}" Command="{Binding DateToNowCommand}"
-                                Content="Reset date" ToolTip="Set the next review date to now." />
+                                Content="Reset date" ToolTip="Set the next review date to now (CTRL+R)." />
                             <Button Style="{StaticResource MiniActionButton}" Command="{Binding DateToNeverCommand}"
-                                Content="Never review" ToolTip="Set the next review date to never." Margin="5 0" />
+                                Content="Never review" ToolTip="Set the next review date to never (CTRL+N)." Margin="5 0" />
                             <Button Command="{Binding ToggleSuspendCommand}">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Entry.SuspensionDate}" Value="{x:Null}">
                                                 <Setter Property="Content" Value="Suspend" />
-                                                <Setter Property="ToolTip" Value="Suspends the item. The item will not appear in reviews until you resume it." />
+                                                <Setter Property="ToolTip" Value="Suspends the item. The item will not appear in reviews until you resume it (CTRL+S)." />
                                             </DataTrigger>
                                         </Style.Triggers>
                                         <Setter Property="Content" Value="Resume" />
-                                        <Setter Property="ToolTip" Value="Resumes the SRS progression." />
+                                        <Setter Property="ToolTip" Value="Resumes the SRS progression (CTRL+S)." />
                                     </Style>
                                 </Button.Style>
                             </Button>
@@ -298,9 +298,9 @@
             <!-- Action button row -->
             <UniformGrid Grid.Row="5" Grid.ColumnSpan="2" Rows="1">
                 <Button Style="{StaticResource MiniActionButton}" Content="Cancel changes" Margin="3 5 3 0"
-                    Command="{Binding CancelCommand}" />
+                    Command="{Binding CancelCommand}" IsCancel="True" ToolTip="Cancel any changes you have made (CTRL+Escape)." />
                 <Button Content="Delete this item" Margin="0 5 3 0"
-                    Command="{Binding DeleteCommand}">
+                    Command="{Binding DeleteCommand}" ToolTip="Delete this SRS item (CTRL+Delete).">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
                             <Style.Triggers>
@@ -311,7 +311,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Margin="3 5 0 0" Command="{Binding SubmitCommand}">
+                <Button Margin="3 5 0 0" Command="{Binding SubmitCommand}" ToolTip="Save the changes you have made (CTRL+Enter).">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
                             <Style.Triggers>

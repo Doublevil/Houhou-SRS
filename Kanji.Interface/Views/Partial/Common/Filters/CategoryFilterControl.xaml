@@ -15,7 +15,8 @@
         <ComboBox Name="ComboBox" Margin="5,2" VerticalAlignment="Center" VerticalContentAlignment="Center"
             FontSize="15" FontWeight="SemiBold"
             SelectedIndex="{Binding SelectedIndex, ElementName=HiddenList}"
-            behaviors:SelectionChangedBehavior.Command="{Binding FilterChangedCommand}">
+            behaviors:SelectionChangedBehavior.Command="{Binding FilterChangedCommand}"
+            ToolTip="Select the category to filter by (CTRL+ALT+C)." >
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Converter={StaticResource VocabCategoriesToStringConverter}}"
