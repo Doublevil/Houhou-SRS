@@ -2,6 +2,15 @@
 <ArrayOfChangelogEntry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ChangelogEntry>
     <Version>1.3</Version>
+    <Title>Wrap Up</Title>
+    <Description>While doing reviews, there is now a 'Wrap up' button that ends the review session withouth a loss of data.
+This means that all kanji and vocab of which the reading question has appeared in the session will get their meaning question soon and vice versa, but no new kanji and vocab will appear in this session.
+(Note that since review items are scheduled in batches, items in the current batch of which neither the meaning nor reading has appeared will still appear in this session.)
+
+This helps when you're in a hurry, or when you have 300 reviews and don't want to do all of them at once.</Description>
+  </ChangelogEntry>
+   <ChangelogEntry>
+    <Version>1.3</Version>
     <Title>Shortcuts!</Title>
     <Description>Many tasks can now be performed with the keyboard, no mouse needed! Check the help page for more information (under 'Efficiency tips...').</Description>
   </ChangelogEntry>
