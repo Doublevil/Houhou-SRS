@@ -615,19 +615,30 @@ namespace Kanji.Database.Dao
 	                    SqlHelper.Field_Vocab_VocabMeaning_VocabId,
 	                    SqlHelper.Field_Vocab_Id);
 	            }
+				
+				/* TODO: Currently, only the meanings are checked for category matches, not vocab items themselves.
+				 * This is because of several reasons:
+				 * 
+				 * 1) In the current database, not a single vocab has a category attached.
+				 *    Only meanings do.
+				 * 2) Saving some performance by not doing a check that does not do anything.
+				 * 
+				 * This does mean that this query must be changed if vocab items every
+				 * get a category attached to them.
+				 */
 
-                sqlCategoryFilterJoins = string.Format(
-                    "JOIN {0} vc ON (vc.{1}=v.{2}) JOIN {3} mc ON (mc.{4}=vvm.{5}) ",
-                    SqlHelper.Table_VocabCategory_Vocab,
-                    SqlHelper.Field_VocabCategory_Vocab_VocabId,
-                    SqlHelper.Field_VocabCategory_Id,
-                    SqlHelper.Table_VocabMeaning_VocabCategory,
-                    SqlHelper.Field_VocabMeaning_VocabCategory_VocabMeaningId,
+	            string subQuery = string.Format("(SELECT m.{0} FROM {1} m WHERE m.{2}=@cat)",
+					SqlHelper.Field_VocabMeaning_VocabCategory_VocabMeaningId,
+					SqlHelper.Table_VocabMeaning_VocabCategory,
+                    SqlHelper.Field_VocabMeaning_VocabCategory_VocabCategoryId);
+
+                sqlCategoryFilterJoins = string.Format("JOIN {0} vm ON (vm.{1}=vvm.{2}) ",
+                    SqlHelper.Table_VocabMeaning,
+                    SqlHelper.Field_VocabMeaning_Id,
                     SqlHelper.Field_Vocab_VocabMeaning_VocabMeaningId);
                 
-                sqlCategoryFilter = string.Format("(vc.{0}=@cat OR mc.{1}=@cat) ",
-                    SqlHelper.Field_VocabCategory_Vocab_VocabCategoryId,
-                    SqlHelper.Field_VocabMeaning_VocabCategory_VocabCategoryId);
+                sqlCategoryFilter = string.Format("vm.{0} IN {1} ",
+                    SqlHelper.Field_VocabMeaning_Id, subQuery);
 
                 parameters.Add(new DaoParameter("@cat", categoryFilter.ID));
             }
