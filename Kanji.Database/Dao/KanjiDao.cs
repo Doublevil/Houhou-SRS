@@ -424,19 +424,21 @@ namespace Kanji.Database.Dao
                 int idParamIndex = 0;
 
                 // Start with the request for all mandatory radicals.
-                if (mandatoryRadicals.Any())
+	            bool hasMandatoryRadicals = mandatoryRadicals.Any();
+	            if (hasMandatoryRadicals)
                 {
                     sqlRadicalFilter.Append("(SELECT COUNT(*) FROM (");
-                    foreach (RadicalEntity radical in mandatoryRadicals)
-                    {
-                        sqlRadicalFilter.AppendFormat("SELECT @rid{0} ", idParamIndex);
-                        if (mandatoryRadicals.Last() != radical)
-                        {
-                            sqlRadicalFilter.Append("UNION ");
-                        }
-                        parameters.Add(new DaoParameter("@rid" + idParamIndex++, radical.ID));
-                    }
-                    sqlRadicalFilter.AppendFormat(
+	                for (int i = 0; i < mandatoryRadicals.Length; i++)
+	                {
+		                RadicalEntity radical = mandatoryRadicals[i];
+		                sqlRadicalFilter.AppendFormat("SELECT @rid{0} ", idParamIndex);
+		                if (i < mandatoryRadicals.Length - 1)
+		                {
+			                sqlRadicalFilter.Append("UNION ");
+		                }
+		                parameters.Add(new DaoParameter("@rid" + idParamIndex++, radical.ID));
+	                }
+	                sqlRadicalFilter.AppendFormat(
                         "INTERSECT SELECT kr.{0} FROM {1} kr WHERE kr.{2}=k.{3}))=@radicalsCount ",
                         SqlHelper.Field_Kanji_Radical_RadicalId,
                         SqlHelper.Table_Kanji_Radical,
@@ -448,6 +450,9 @@ namespace Kanji.Database.Dao
                 // Now build the requests for the option groups.
                 foreach (RadicalGroup optionGroup in optionGroups)
                 {
+					if (hasMandatoryRadicals)
+						sqlRadicalFilter.Append("AND ");
+
                     sqlRadicalFilter.Append("(SELECT COUNT(*) FROM (");
                     foreach (RadicalEntity radical in optionGroup.Radicals)
                     {
