@@ -19,6 +19,32 @@ namespace Kanji.Database.Dao
 
         #endregion
 
+        #region Properties
+        
+        private static string joinString_VocabEntity_VocabMeaning
+        {
+            get
+            {
+                return string.Format("JOIN {0} vvm ON (vvm.{1}=v.{2}) ",
+                    SqlHelper.Table_Vocab_VocabMeaning,
+                    SqlHelper.Field_Vocab_VocabMeaning_VocabId,
+                    SqlHelper.Field_Vocab_Id);
+            }
+        }
+        
+        private static string joinString_VocabMeaningSet
+        {
+            get
+            {
+                return string.Format("JOIN {0} vm ON (vm.{1}=vvm.{2}) ",
+                    SqlHelper.Table_VocabMeaning,
+                    SqlHelper.Field_VocabMeaning_Id,
+                    SqlHelper.Field_Vocab_VocabMeaning_VocabMeaningId);
+            }
+        }
+
+        #endregion
+
         #region Methods
 
         public void SelectAllVocab()
@@ -573,21 +599,13 @@ namespace Kanji.Database.Dao
                 // Example of filter clause with meaningFilter="test" :
                 //
                 // WHERE vm.Meaning LIKE '%test%'
-
-                // First, build the join clause. This will be included before the filters.
+                
+                // First, build the join clause if it does not already exist. This will be included before the filters.
 	            if (string.IsNullOrEmpty(sqlSharedJoins))
 	            {
-	                sqlSharedJoins = string.Format("JOIN {0} vvm ON (vvm.{1}=v.{2}) ",
-	                    SqlHelper.Table_Vocab_VocabMeaning,
-	                    SqlHelper.Field_Vocab_VocabMeaning_VocabId,
-	                    SqlHelper.Field_Vocab_Id);
+	                sqlSharedJoins = joinString_VocabEntity_VocabMeaning;
 	            }
-                sqlMeaningFilterJoins = string.Format("JOIN {0} vm ON (vm.{1}=vvm.{2}) ",
-                    SqlHelper.Table_VocabMeaning,
-                    SqlHelper.Field_VocabMeaning_Id,
-                    SqlHelper.Field_Vocab_VocabMeaning_VocabMeaningId);
-                // Ouch... it looks kinda like an obfuscated string... Sorry.
-                // Basically, you just join the vocab to its meaning entries.
+                sqlMeaningFilterJoins = joinString_VocabMeaningSet;
 
                 // Once the join clauses are done, build the filter itself.
                 sqlMeaningFilter = string.Format("vm.{0} LIKE @meaning ",
@@ -610,10 +628,7 @@ namespace Kanji.Database.Dao
                 
 	            if (string.IsNullOrEmpty(sqlSharedJoins))
 	            {
-	                sqlSharedJoins = string.Format("JOIN {0} vvm ON (vvm.{1}=v.{2}) ",
-	                    SqlHelper.Table_Vocab_VocabMeaning,
-	                    SqlHelper.Field_Vocab_VocabMeaning_VocabId,
-	                    SqlHelper.Field_Vocab_Id);
+	                sqlSharedJoins = joinString_VocabEntity_VocabMeaning;
 	            }
 				
 				/* TODO: Currently, only the meanings are checked for category matches, not vocab items themselves.
@@ -623,7 +638,7 @@ namespace Kanji.Database.Dao
 				 *    Only meanings do.
 				 * 2) Saving some performance by not doing a check that does not do anything.
 				 * 
-				 * This does mean that this query must be changed if vocab items every
+				 * This does mean that this query must be changed if vocab items ever
 				 * get a category attached to them.
 				 */
 
@@ -631,12 +646,11 @@ namespace Kanji.Database.Dao
 					SqlHelper.Field_VocabMeaning_VocabCategory_VocabMeaningId,
 					SqlHelper.Table_VocabMeaning_VocabCategory,
                     SqlHelper.Field_VocabMeaning_VocabCategory_VocabCategoryId);
-
-                sqlCategoryFilterJoins = string.Format("JOIN {0} vm ON (vm.{1}=vvm.{2}) ",
-                    SqlHelper.Table_VocabMeaning,
-                    SqlHelper.Field_VocabMeaning_Id,
-                    SqlHelper.Field_Vocab_VocabMeaning_VocabMeaningId);
                 
+                // First, build the join clause if it does not already exist. This will be included before the filters.
+                sqlCategoryFilterJoins = string.IsNullOrEmpty(sqlMeaningFilterJoins) ? joinString_VocabMeaningSet : null;
+                
+                // Once the join clauses are done, build the filter itself.
                 sqlCategoryFilter = string.Format("vm.{0} IN {1} ",
                     SqlHelper.Field_VocabMeaning_Id, subQuery);
 

@@ -424,21 +424,21 @@ namespace Kanji.Database.Dao
                 int idParamIndex = 0;
 
                 // Start with the request for all mandatory radicals.
-	            bool hasMandatoryRadicals = mandatoryRadicals.Any();
-	            if (hasMandatoryRadicals)
+                bool hasMandatoryRadicals = mandatoryRadicals.Any();
+                if (hasMandatoryRadicals)
                 {
                     sqlRadicalFilter.Append("(SELECT COUNT(*) FROM (");
-	                for (int i = 0; i < mandatoryRadicals.Length; i++)
-	                {
-		                RadicalEntity radical = mandatoryRadicals[i];
-		                sqlRadicalFilter.AppendFormat("SELECT @rid{0} ", idParamIndex);
-		                if (i < mandatoryRadicals.Length - 1)
-		                {
-			                sqlRadicalFilter.Append("UNION ");
-		                }
-		                parameters.Add(new DaoParameter("@rid" + idParamIndex++, radical.ID));
-	                }
-	                sqlRadicalFilter.AppendFormat(
+                    for (int i = 0; i < mandatoryRadicals.Length; i++)
+                    {
+                        RadicalEntity radical = mandatoryRadicals[i];
+                        sqlRadicalFilter.AppendFormat("SELECT @rid{0} ", idParamIndex);
+                        if (i < mandatoryRadicals.Length - 1)
+                        {
+                            sqlRadicalFilter.Append("UNION ");
+                        }
+                        parameters.Add(new DaoParameter("@rid" + idParamIndex++, radical.ID));
+                    }
+                    sqlRadicalFilter.AppendFormat(
                         "INTERSECT SELECT kr.{0} FROM {1} kr WHERE kr.{2}=k.{3}))=@radicalsCount ",
                         SqlHelper.Field_Kanji_Radical_RadicalId,
                         SqlHelper.Table_Kanji_Radical,
@@ -448,29 +448,29 @@ namespace Kanji.Database.Dao
                 }
 
                 // Now build the requests for the option groups.
-	            for (int i = 0; i < optionGroups.Length; i++)
-	            {
-		            RadicalGroup optionGroup = optionGroups[i];
-		            if (hasMandatoryRadicals || i > 0)
-			            sqlRadicalFilter.Append("AND ");
+                for (int i = 0; i < optionGroups.Length; i++)
+                {
+                    RadicalGroup optionGroup = optionGroups[i];
+                    if (hasMandatoryRadicals || i > 0)
+                        sqlRadicalFilter.Append("AND ");
 
-		            sqlRadicalFilter.Append("(SELECT COUNT(*) FROM (");
-		            foreach (RadicalEntity radical in optionGroup.Radicals)
-		            {
-			            sqlRadicalFilter.AppendFormat("SELECT @rid{0} ", idParamIndex);
-			            if (optionGroup.Radicals.Last() != radical)
-			            {
-				            sqlRadicalFilter.Append("UNION ");
-			            }
-			            parameters.Add(new DaoParameter("@rid" + idParamIndex++, radical.ID));
-		            }
-		            sqlRadicalFilter.AppendFormat(
-			            "INTERSECT SELECT kr.{0} FROM {1} kr WHERE kr.{2}=k.{3}))>=1 ",
-			            SqlHelper.Field_Kanji_Radical_RadicalId,
-			            SqlHelper.Table_Kanji_Radical,
-			            SqlHelper.Field_Kanji_Radical_KanjiId,
-			            SqlHelper.Field_Kanji_Id);
-	            }
+                    sqlRadicalFilter.Append("(SELECT COUNT(*) FROM (");
+                    foreach (RadicalEntity radical in optionGroup.Radicals)
+                    {
+                        sqlRadicalFilter.AppendFormat("SELECT @rid{0} ", idParamIndex);
+                        if (optionGroup.Radicals.Last() != radical)
+                        {
+                            sqlRadicalFilter.Append("UNION ");
+                        }
+                        parameters.Add(new DaoParameter("@rid" + idParamIndex++, radical.ID));
+                    }
+                    sqlRadicalFilter.AppendFormat(
+                        "INTERSECT SELECT kr.{0} FROM {1} kr WHERE kr.{2}=k.{3}))>=1 ",
+                        SqlHelper.Field_Kanji_Radical_RadicalId,
+                        SqlHelper.Table_Kanji_Radical,
+                        SqlHelper.Field_Kanji_Radical_KanjiId,
+                        SqlHelper.Field_Kanji_Id);
+                }
             }
 
             string sqlMeaningFilter = string.Empty;
