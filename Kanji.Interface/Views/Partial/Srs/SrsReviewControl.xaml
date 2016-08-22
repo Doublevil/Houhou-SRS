@@ -36,10 +36,22 @@
         </Grid.RowDefinitions>
 
         <!-- Exit button -->
-        <Button Style="{StaticResource MiniActionButton}"
-                        Content="Close review session"
-                        ToolTip="Close this SRS review session. Some progress may be lost."
-                        Command="{Binding StopSessionCommand}" />
+        <Button Command="{Binding WrapUpCommand}">
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsWrappingUp}" Value="True">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsWrappingUp}" Value="True">
+                            <Setter Property="Content" Value="Finishing the current batch of review items..." />
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Content" Value="Wrap up" />
+                    <Setter Property="ToolTip" Value="Wraps up this review session. Shortcut if enabled: (CTRL+W)." />
+                </Style>
+            </Button.Style>
+        </Button>
 
         <Border Grid.Row="1">
             <ProgressBar Style="{StaticResource SrsReviewProgressBar}"
@@ -313,10 +325,9 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="1" Content="Ignore answer"
+                <Button Grid.Column="0" Content="Ignore answer"
                         ToolTip="Use this button to ignore the answer you gave. The question will come back later. Shortcut if enabled: (Backspace)"
                         Command="{Binding IgnoreAnswerCommand}" Margin="5 0">
                     <Button.Style>
@@ -330,7 +341,7 @@
                     </Button.Style>
                 </Button>
 
-                <Button Grid.Column="2" Command="{Binding AddAnswerCommand}" Margin="5 0">
+                <Button Grid.Column="1" Command="{Binding AddAnswerCommand}" Margin="5 0">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
                             <Style.Triggers>
@@ -349,7 +360,7 @@
                     </Button.Style>
                 </Button>
 
-                <Button Grid.Column="3" Content="Edit this item"
+                <Button Grid.Column="2" Content="Edit this item"
                         ToolTip="Open the item edition window. Does not change your answer or its effects."
                         Command="{Binding EditSrsEntryCommand}" Margin="5 0">
                     <Button.Style>
@@ -363,50 +374,6 @@
                     </Button.Style>
                 </Button>
 
-            </Grid>
-
-        </Grid>
-
-        <!-- Tool buttons (displayed always) -->
-        <Grid Grid.Row="5">
-            <!--
-                Using the same row/column layout as the grid that is hidden during answering
-                so that it's easy to add other stuff that is always visible in the future.
-            -->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            
-            <!-- Action buttons -->
-            <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <Button Command="{Binding WrapUpCommand}" Margin="5 0">
-                    <Button.Style>
-                        <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsWrappingUp}" Value="True">
-                                    <Setter Property="IsEnabled" Value="False" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsWrappingUp}" Value="True">
-                                    <Setter Property="Content" Value="Wrapping up..." />
-                                </DataTrigger>
-                            </Style.Triggers>
-                            <Setter Property="Content" Value="Wrap up" />
-                            <Setter Property="ToolTip" Value="Wraps up this review session. Shortcut if enabled: (CTRL+W)." />
-                        </Style>
-                    </Button.Style>
-                </Button>
             </Grid>
         </Grid>
     </Grid>
