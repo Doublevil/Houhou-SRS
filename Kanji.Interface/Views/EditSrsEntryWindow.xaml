@@ -234,13 +234,13 @@
             <!-- Readings field -->
             <StackPanel Grid.Row="2" Grid.Column="1" Margin="3 5 0 0">
                 <TextBlock Style="{StaticResource LegendText}" Text="Accepted readings:" />
-                <TextBox Height="40" MaxLength="100" TextWrapping="Wrap"
-                         Text="{Binding Entry.Readings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         ToolTip="Readings separated with a comma.">
-                    <TextBox.LayoutTransform>
-                        <ScaleTransform ScaleX="1.2" />
-                    </TextBox.LayoutTransform>
-                </TextBox>
+                <controls:CommandTextBox Text="{Binding Entry.Readings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Height="40" MaxLength="100" TextWrapping="Wrap" IsKanaInput="True"
+                                         ToolTip="Readings separated with a comma.">
+                    <controls:WatermarkService.Watermark>
+                        <TextBlock />
+                    </controls:WatermarkService.Watermark>
+                </controls:CommandTextBox>
             </StackPanel>
             
             <!-- Meaning notes field -->
