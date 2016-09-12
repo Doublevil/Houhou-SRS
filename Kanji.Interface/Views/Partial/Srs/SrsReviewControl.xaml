@@ -35,23 +35,35 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- Exit button -->
-        <Button Command="{Binding WrapUpCommand}">
-            <Button.Style>
-                <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsWrappingUp}" Value="True">
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsWrappingUp}" Value="True">
-                            <Setter Property="Content" Value="Finishing the current batch of review items..." />
-                        </DataTrigger>
-                    </Style.Triggers>
-                    <Setter Property="Content" Value="Wrap up" />
-                    <Setter Property="ToolTip" Value="Wraps up this review session. Shortcut if enabled: (CTRL+W)." />
-                </Style>
-            </Button.Style>
-        </Button>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Wrap Up button -->
+            <Button Command="{Binding WrapUpCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsWrappingUp}" Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsWrappingUp}" Value="True">
+                                <Setter Property="Content" Value="Finishing the current batch of review items..." />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Content" Value="Wrap up" />
+                        <Setter Property="ToolTip" Value="Wraps up this review session. Shortcut if enabled: (CTRL+W)." />
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <!-- Exit without wrapping up button -->
+            <Button Grid.Column="1" Command="{Binding StopSessionCommand}"
+                    Content="X" ToolTip="Exits this review session immediately. Some data may be lost."
+                    Style="{StaticResource MiniActionButton}" />
+        </Grid>
 
         <Border Grid.Row="1">
             <ProgressBar Style="{StaticResource SrsReviewProgressBar}"
