@@ -37,18 +37,23 @@ namespace Kanji.Interface.Views
                 {
                     case Key.R:
                         KanjiFilterControl.RadicalNameFilter.Focus();
+                        e.Handled = true;
                         break;
                     case Key.W:
                         KanjiFilterControl.WkLevelFilter.LevelSlider.Focus();
+                        e.Handled = true;
                         break;
                     case Key.J:
                         KanjiFilterControl.JlptLevelFilter.LevelSlider.Focus();
+                        e.Handled = true;
                         break;
                     case Key.T:
                         KanjiFilterControl.TextFilter.Focus();
+                        e.Handled = true;
                         break;
                     case Key.F:
                         KanjiFilterControl.Filter.Focus();
+                        e.Handled = true;
                         break;
                 }
             }

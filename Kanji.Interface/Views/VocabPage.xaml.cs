@@ -44,20 +44,27 @@ namespace Kanji.Interface.Views
                 {
                     case Key.R:
                         FilterControl.ReadingFilter.Focus();
+                        e.Handled = true;
                         break;
                     case Key.M:
                         FilterControl.MeaningFilter.Focus();
+                        e.Handled = true;
                         break;
                     case Key.W:
                         FilterControl.WkLevelFilter.LevelSlider.Focus();
+                        e.Handled = true;
                         break;
                     case Key.J:
                         FilterControl.JlptLevelFilter.LevelSlider.Focus();
+                        e.Handled = true;
                         break;
                     case Key.C:
                         // We can't just use CTRL+C here, because that would not work if a text box had focus.
                         if (keyboardDevice.IsKeyDown(Key.LeftAlt) || keyboardDevice.IsKeyDown(Key.RightAlt))
+                        {
                             FilterControl.CategoryFilter.ComboBox.Focus();
+                            e.Handled = true;
+                        }
                         break;
                 }
             }

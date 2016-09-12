@@ -792,7 +792,7 @@ namespace Kanji.Interface.ViewModels
         private void OnWrapUp()
         {
             IsWrappingUp = true;
-			TotalReviewsCount = AnsweredReviewsCount + _currentBatch.Count;
+            TotalReviewsCount = AnsweredReviewsCount + _currentBatch.Count;
         }
 
         /// <summary>

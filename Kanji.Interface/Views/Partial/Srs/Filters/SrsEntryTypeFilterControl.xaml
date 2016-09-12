@@ -24,12 +24,12 @@
                                     <CheckBox Content="Kanji items" HorizontalAlignment="Center"
                                         IsChecked="{Binding IsKanjiItemEnabled}"
                                         Command="{Binding FilterChangedCommand}"
-                                        ToolTip="Include kanji items" />
+                                        ToolTip="Include kanji items (CTRL+Alt+K)" />
                                     <CheckBox Grid.Column="1" Content="Vocab items"
                                         HorizontalAlignment="Center"
                                         IsChecked="{Binding IsVocabItemEnabled}"
                                         Command="{Binding FilterChangedCommand}"
-                                        ToolTip="Include vocab items" />
+                                        ToolTip="Include vocab items (CTRL+Alt+V)" />
                                 </Grid>
                             </ControlTemplate>
                         </Setter.Value>
@@ -58,12 +58,12 @@
                             <CheckBox Grid.Row="1" HorizontalAlignment="Center"
                                 IsChecked="{Binding IsKanjiItemEnabled}"
                                 Command="{Binding FilterChangedCommand}"
-                                ToolTip="Include kanji items" />
+                                ToolTip="Include kanji items (CTRL+Alt+K)" />
                             <CheckBox Grid.Row="1" Grid.Column="1"
                                 HorizontalAlignment="Center"
                                 IsChecked="{Binding IsVocabItemEnabled}"
                                 Command="{Binding FilterChangedCommand}"
-                                ToolTip="Include vocab items" />
+                                ToolTip="Include vocab items (CTRL+Alt+V)" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>

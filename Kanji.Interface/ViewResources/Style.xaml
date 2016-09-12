@@ -587,38 +587,38 @@
 
     <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}" x:Key="VocabAudioButton">
         <Style.Triggers>
-            <DataTrigger Binding="{Binding CurrentQuestion.ParentGroup.Audio.State}" Value="Loading">
+            <DataTrigger Binding="{Binding State}" Value="Loading">
                 <Setter Property="Content" Value="(Loading)" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding CurrentQuestion.ParentGroup.Audio.State}" Value="Playing">
+            <DataTrigger Binding="{Binding State}" Value="Playing">
                 <Setter Property="Content" Value="(Playing)" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding CurrentQuestion.ParentGroup.Audio.State}" Value="Failed">
+            <DataTrigger Binding="{Binding State}" Value="Failed">
                 <Setter Property="Content" Value="(Failed)" />
                 <Setter Property="BorderBrush" Value="DarkRed" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding CurrentQuestion.ParentGroup.Audio.State}" Value="Unavailable">
+            <DataTrigger Binding="{Binding State}" Value="Unavailable">
                 <Setter Property="Content" Value="(No audio)" />
                 <Setter Property="BorderBrush" Value="DarkRed" />
             </DataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding IsBusy, Source={x:Static business:AudioBusiness.Instance}}" Value="False" />
-                    <Condition Binding="{Binding CurrentQuestion.ParentGroup.Audio.State}" Value="Unknown" />
+                    <Condition Binding="{Binding State}" Value="Unknown" />
                 </MultiDataTrigger.Conditions>
                 <Setter Property="IsEnabled" Value="True" />
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding IsBusy, Source={x:Static business:AudioBusiness.Instance}}" Value="False" />
-                    <Condition Binding="{Binding CurrentQuestion.ParentGroup.Audio.State}" Value="Playable" />
+                    <Condition Binding="{Binding State}" Value="Playable" />
                 </MultiDataTrigger.Conditions>
                 <Setter Property="IsEnabled" Value="True" />
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding IsBusy, Source={x:Static business:AudioBusiness.Instance}}" Value="False" />
-                    <Condition Binding="{Binding CurrentQuestion.ParentGroup.Audio.State}" Value="Failed" />
+                    <Condition Binding="{Binding State}" Value="Failed" />
                 </MultiDataTrigger.Conditions>
                 <Setter Property="IsEnabled" Value="True" />
             </MultiDataTrigger>
@@ -634,7 +634,7 @@
         <Setter Property="Opacity" Value="0.35" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Command" Value="{Binding PlayVocabAudioCommand, Source={x:Static business:AudioBusiness.Instance}}" />
-        <Setter Property="CommandParameter" Value="{Binding CurrentQuestion.ParentGroup.Audio}" />
+        <Setter Property="CommandParameter" Value="{Binding Audio}" />
     </Style>
 
     <Style TargetType="{x:Type TextBox}" x:Key="KanjiMeaningLabel" BasedOn="{StaticResource LabelBox}">
@@ -1452,7 +1452,7 @@
                                             
                                                     <!-- Audio button -->
                                                     <Button Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource VocabAudioButton}"
-				                                        DataContext="{Binding Audio}">
+				                                        DataContext="{Binding .}">
                                                         <Button.LayoutTransform>
                                                             <RotateTransform Angle="-90" />
                                                         </Button.LayoutTransform>

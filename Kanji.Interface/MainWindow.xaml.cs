@@ -83,6 +83,7 @@ namespace Kanji.Interface
                 {
                     NavigableViewModel navModel = (NavigableViewModel)HomePage.DataContext;
                     navModel.NavigateCommand.Execute(navigationTarget.Value);
+                    e.Handled = true;
                 }
             }
         }

@@ -65,7 +65,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <controls:SrsEntryFilterControl DataContext="{Binding FilterVm}" />
+                        <controls:SrsEntryFilterControl x:Name="FilterControl" DataContext="{Binding FilterVm}" />
                         <controls:SrsEntryList Grid.Row="1" DataContext="{Binding ListVm}" />
                     </Grid>
                     

@@ -7,7 +7,9 @@
 This means that all kanji and vocab of which the reading question has appeared in the session will get their meaning question soon and vice versa, but no new kanji and vocab will appear in this session.
 (Note that since review items are scheduled in batches, items in the current batch of which neither the meaning nor reading has appeared will still appear in this session.)
 
-This helps when you're in a hurry, or when you have 300 reviews and don't want to do all of them at once.</Description>
+This helps when you're in a hurry, or when you have 300 reviews and don't want to do all of them at once.
+
+Note: The old behaviour of exiting the review immediately is still available through the little 'X' button next to it.</Description>
   </ChangelogEntry>
    <ChangelogEntry>
     <Version>1.3</Version>
@@ -20,7 +22,7 @@ This helps when you're in a hurry, or when you have 300 reviews and don't want t
     <Description>You can now filter vocabulary words and kanji by the level at which they are taught on the Kanji learning website WaniKani and the JLPT level at which they are used.
 
 Moreover, vocabulary words can now be filtered by their categories (such as mathematical terms and computer-related terms).
-Note that a lot of categories currently exist, but many of them are not used.</Description>
+Note that some categories actually do not contain any words.</Description>
   </ChangelogEntry>
   <ChangelogEntry>
     <Version>1.2</Version>

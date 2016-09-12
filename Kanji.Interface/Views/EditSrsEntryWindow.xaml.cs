@@ -140,23 +140,29 @@ namespace Kanji.Interface.Views
                 {
                     case Key.Enter:
                         viewModel.SubmitCommand.Execute(null);
+                        e.Handled = true;
                         break;
                     case Key.Delete:
                         viewModel.DeleteCommand.Execute(null);
+                        e.Handled = true;
                         break;
                     case Key.R:
                         viewModel.DateToNowCommand.Execute(null);
+                        e.Handled = true;
                         break;
                     case Key.N:
                         viewModel.DateToNeverCommand.Execute(null);
+                        e.Handled = true;
                         break;
                     case Key.E:
                         viewModel.ToggleDateEditCommand.Execute(null);
                         if (viewModel.IsEditingDate)
                             ReviewDatePicker.Focus();
+                        e.Handled = true;
                         break;
                     case Key.S:
                         viewModel.ToggleSuspendCommand.Execute(null);
+                        e.Handled = true;
                         break;
                 }
             }
