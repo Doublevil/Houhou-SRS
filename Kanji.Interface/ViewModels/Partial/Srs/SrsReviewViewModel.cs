@@ -21,7 +21,7 @@ namespace Kanji.Interface.ViewModels
     {
         #region Constants
 
-        private static readonly int BatchMaxSize = 7;
+        private static readonly int BatchMaxSize = 10;
 
         private static readonly int[] MeaningDistanceLenience =
             new int[] { 0, 4, 7, 12, 20 };
@@ -792,6 +792,7 @@ namespace Kanji.Interface.ViewModels
         private void OnWrapUp()
         {
             IsWrappingUp = true;
+			TotalReviewsCount = AnsweredReviewsCount + _currentBatch.Count;
         }
 
         /// <summary>
