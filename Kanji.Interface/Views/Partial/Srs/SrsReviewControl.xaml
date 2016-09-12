@@ -324,7 +324,7 @@
                 </Border.Style>
                 <StackPanel Orientation="Vertical">
                     <Button Style="{StaticResource VocabAudioButton}" Width="120" HorizontalAlignment="Left"
-                        BorderBrush="Black" DataContext="{Binding CurrentQuestion.ParentGroup.Audio}"
+                        BorderBrush="Black"
                         Visibility="{Binding CurrentQuestion.ParentGroup.IsVocab, Converter={StaticResource ValueToVisibilityConverter}}" />
                     <TextBlock Style="{StaticResource LegendText}" Text="Reading notes:" />
                     <TextBlock Text="{Binding CurrentQuestion.ParentGroup.Reference.ReadingNote, Mode=OneWay}" TextWrapping="Wrap" />
