@@ -107,25 +107,34 @@ namespace Kanji.Interface.Views
                     break;
                 case Key.M:
                 {
-                    var filterTextBox =
-                        (CommandTextBox)FilterControl.MeaningFilter.Template.FindName("FilterTextBox", FilterControl.MeaningFilter);
-                    filterTextBox.Focus();
-                    e.Handled = true;
+                    if (isCtrlDown)
+                    {
+					    var filterTextBox =
+                            (CommandTextBox)FilterControl.MeaningFilter.Template.FindName("FilterTextBox", FilterControl.MeaningFilter);
+                        filterTextBox.Focus();
+                        e.Handled = true;
+					}
                     break;
                 }
                 case Key.R:
                 {
-                    var filterTextBox =
-                        (CommandTextBox)FilterControl.ReadingFilter.Template.FindName("FilterTextBox", FilterControl.ReadingFilter);
-                    filterTextBox.Focus();
-                    e.Handled = true;
+                    if (isCtrlDown)
+                    {
+                        var filterTextBox =
+                            (CommandTextBox)FilterControl.ReadingFilter.Template.FindName("FilterTextBox", FilterControl.ReadingFilter);
+                        filterTextBox.Focus();
+                        e.Handled = true;
+					}
                     break;
                 }
                 case Key.T:
                 {
-                    var filterTextBox = (CommandTextBox)FilterControl.TagFilter.Template.FindName("FilterTextBox", FilterControl.TagFilter);
-                    filterTextBox.Focus();
-                    e.Handled = true;
+                    if (isCtrlDown)
+                    {
+                        var filterTextBox = (CommandTextBox)FilterControl.TagFilter.Template.FindName("FilterTextBox", FilterControl.TagFilter);
+                        filterTextBox.Focus();
+                        e.Handled = true;
+					}
                     break;
                 }
                 case Key.K:
