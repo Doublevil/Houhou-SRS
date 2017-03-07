@@ -54,6 +54,11 @@ namespace Kanji.Interface.ViewModels
         #region Properties
 
         /// <summary>
+        /// Gets the category filter view model.
+        /// </summary>
+        public CategoryFilterViewModel CategoryFilterVm { get; private set; }
+
+        /// <summary>
         /// Gets the vocab list view model.
         /// </summary>
         public VocabListViewModel VocabListVm { get; private set; }
@@ -244,6 +249,9 @@ namespace Kanji.Interface.ViewModels
 
             VocabFilter filter = new VocabFilter() {
                 Kanji = new KanjiEntity[] { _kanjiEntity.DbKanji } };
+
+            CategoryFilterVm = new CategoryFilterViewModel();
+            CategoryFilterVm.PropertyChanged += OnCategoryChanged;
 
             VocabListVm = new VocabListViewModel(filter);
             VocabListVm.KanjiNavigated += OnKanjiNavigated;
@@ -537,6 +545,17 @@ namespace Kanji.Interface.ViewModels
                 // If different, forward the event.
                 KanjiNavigated(sender, e);
             }
+        }
+        
+        /// <summary>
+        /// Event callback.
+        /// Called when the vocab category changes.
+        /// Refreshes the vocab list.
+        /// </summary>
+        private void OnCategoryChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "CategoryFilter")
+                VocabListVm.Category = CategoryFilterVm.CategoryFilter;
         }
 
         /// <summary>

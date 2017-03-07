@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace Kanji.Interface.ViewModels
         #endregion
 
         #region Properties
+
+        public CategoryFilterViewModel CategoryFilterVm { get; set; }
         
         /// <summary>
         /// Gets or sets the reading filter applied to the vocab list.
@@ -61,6 +64,7 @@ namespace Kanji.Interface.ViewModels
             {
                 if (_filter.Category != value)
                 {
+                    CategoryFilterVm.CategoryFilter = value;
                     _filter.Category = value;
                     RaisePropertyChanged();
                 }
@@ -178,7 +182,10 @@ namespace Kanji.Interface.ViewModels
         public VocabFilterViewModel(VocabFilter filter)
         {
 	        _filter = filter;
-            
+
+            CategoryFilterVm = new CategoryFilterViewModel();
+            CategoryFilterVm.PropertyChanged += OnCategoryChanged;
+
 	        ApplyFilterCommand = new RelayCommand(IssueFilterChangedEvent);
             ClearCategoryFilterCommand = new RelayCommand(OnClearCategoryFilter);
             SwitchCommonOrderCommand = new RelayCommand(OnSwitchCommonOrder);
@@ -188,6 +195,12 @@ namespace Kanji.Interface.ViewModels
         #endregion
 
         #region Methods
+
+        private void OnCategoryChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "CategoryFilter")
+                CategoryFilter = CategoryFilterVm.CategoryFilter;
+        }
 
         /// <summary>
         /// Issues a filter changed event if the event is not null.

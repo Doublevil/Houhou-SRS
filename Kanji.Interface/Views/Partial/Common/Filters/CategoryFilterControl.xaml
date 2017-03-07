@@ -13,10 +13,10 @@
         </Grid.ColumnDefinitions>
 
         <ComboBox Name="ComboBox" Margin="5,2" VerticalAlignment="Center" VerticalContentAlignment="Center"
-            FontSize="15" FontWeight="SemiBold"
-            SelectedIndex="{Binding SelectedIndex, ElementName=HiddenList}"
+            FontSize="15" FontWeight="SemiBold" ToolTip="Select the category to filter by (CTRL+ALT+C)."
             behaviors:SelectionChangedBehavior.Command="{Binding FilterChangedCommand}"
-            ToolTip="Select the category to filter by (CTRL+ALT+C)." >
+            DataContext="{Binding CategoryFilterVm}"
+            ItemsSource="{Binding Categories, Mode=OneTime}" SelectedIndex="{Binding SelectedCategoryIndex, Mode=TwoWay}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Converter={StaticResource VocabCategoriesToStringConverter}}"
@@ -25,7 +25,6 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <ListBox Grid.Column="0" Name="HiddenList" Visibility="Collapsed" SelectedItem="{Binding CategoryFilter, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Style="{StaticResource MiniActionButton}" Command="{Binding ClearCategoryFilterCommand}"
                 Content="Clear" Grid.Column="1"
                 HorizontalAlignment="Left" VerticalAlignment="Center" Padding="2,0" />
