@@ -73,6 +73,11 @@ namespace Kanji.Interface.ViewModels
         public RelayCommand ClearFilterCommand { get; set; }
 
         public RelayCommand NavigateBackCommand { get; set; }
+        
+        /// <summary>
+        /// Command used apply the filter.
+        /// </summary>
+        public RelayCommand ApplyFilterCommand { get; set; }
 
         #endregion
 
@@ -94,6 +99,7 @@ namespace Kanji.Interface.ViewModels
 
             ClearSelectedKanjiCommand = new RelayCommand(OnClearSelectedKanji);
             ClearFilterCommand = new RelayCommand(OnClearFilter);
+	        ApplyFilterCommand = new RelayCommand(OnApplyFilter);
             NavigateBackCommand = new RelayCommand(OnNavigateBack);
 
             _navigationHistory = new FixedSizeStack<KanjiNavigationEntry>(
@@ -245,6 +251,13 @@ namespace Kanji.Interface.ViewModels
         {
             SetKanjiDetailsVm(null);
             KanjiListVm.ClearSelection();
+
+            int navigationHistorySize = _navigationHistory.Count;
+            for (int i = 0; i < navigationHistorySize; i++)
+            {
+                _navigationHistory.Pop();
+            }
+            RaisePropertyChanged("CanNavigateBack");
         }
 
         /// <summary>
@@ -254,6 +267,15 @@ namespace Kanji.Interface.ViewModels
         private void OnClearFilter()
         {
             KanjiFilterVm.ClearFilter();
+        }
+
+        /// <summary>
+        /// Command callback.
+        /// Applies the kanji filter.
+        /// </summary>
+        private void OnApplyFilter()
+        {
+            KanjiFilterVm.ApplyFilter();
         }
 
         /// <summary>

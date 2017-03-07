@@ -55,7 +55,21 @@ namespace Kanji.Interface.Views
                         KanjiFilterControl.Filter.Focus();
                         e.Handled = true;
                         break;
+                    case Key.C:
+                        if (!keyboardDevice.IsKeyDown(Key.LeftShift) && !keyboardDevice.IsKeyDown(Key.RightShift))
+                            break;
+                        ClearFilterButton.Command.Execute(null);
+                        e.Handled = true;
+                        break;
                 }
+            }
+
+            switch (e.Key)
+            {
+                case Key.Enter:
+                    ApplyFilterButton.Command.Execute(null);
+                    e.Handled = true;
+                    break;
             }
         }
 

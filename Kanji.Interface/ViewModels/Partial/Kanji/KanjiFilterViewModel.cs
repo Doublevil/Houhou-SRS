@@ -224,18 +224,8 @@ namespace Kanji.Interface.ViewModels
 
         public RelayCommand FilterModeChangedCommand { get; set; }
         public RelayCommand SendMainFilterCommand { get; set; }
-        public RelayCommand SendTextFilterCommand { get; set; }
         public RelayCommand SendRadicalFilterCommand { get; set; }
         public RelayCommand<RadicalSortModeEnum> SetRadicalSortModeCommand { get; set; }
-        
-        /// <summary>
-        /// Command used to validate the JLPT & WK level filters.
-        /// </summary>
-        /// <remarks>
-        /// This is a shared command named like this because the control shared with
-        /// the SRS tab wants the command to have this name.
-        /// </remarks>
-        public RelayCommand FilterChangedCommand { get; set; }
 
         #endregion
 
@@ -263,10 +253,8 @@ namespace Kanji.Interface.ViewModels
 
             FilterModeChangedCommand = new RelayCommand(OnFilterModeChanged);
             SendMainFilterCommand = new RelayCommand(OnSendMainFilter);
-            SendTextFilterCommand = new RelayCommand(OnSendTextFilter);
             SendRadicalFilterCommand = new RelayCommand(OnSendRadicalFilter);
             SetRadicalSortModeCommand = new RelayCommand<RadicalSortModeEnum>(OnSetRadicalSortMode);
-	        FilterChangedCommand = new RelayCommand(DoFilterChange);
 
             RadicalStore.Instance.IssueWhenLoaded(OnRadicalsLoaded);
         }
@@ -293,6 +281,14 @@ namespace Kanji.Interface.ViewModels
                 radical.IsSelected = false;
             }
 
+            DoFilterChange();
+        }
+
+        /// <summary>
+        /// Applies the filter.
+        /// </summary>
+        public void ApplyFilter()
+        {
             DoFilterChange();
         }
 
@@ -407,11 +403,6 @@ namespace Kanji.Interface.ViewModels
                 // Change main filter to kana when searching for a reading.
                 MainFilter = KanaHelper.RomajiToKana(MainFilter);
             }
-
-            if (!string.IsNullOrWhiteSpace(MainFilter))
-            {
-                DoFilterChange();
-            }
         }
 
         /// <summary>
@@ -424,16 +415,6 @@ namespace Kanji.Interface.ViewModels
                 // Change input to kana when searching for a reading.
                 MainFilter = KanaHelper.RomajiToKana(MainFilter);
             }
-
-            DoFilterChange();
-        }
-
-        /// <summary>
-        /// Called when the text filter is validated.
-        /// </summary>
-        private void OnSendTextFilter()
-        {
-            DoFilterChange();
         }
 
         /// <summary>

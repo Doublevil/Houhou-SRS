@@ -30,8 +30,7 @@
         <AdornerDecorator Grid.ColumnSpan="4">
             <controls:CommandTextBox x:Name="TextFilter" TextWrapping="Wrap" AcceptsReturn="False" Height="45" Margin="0 0 0 5"
                 Text="{Binding TextFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                ToolTip="Shortcut: (CTRL+T)."
-                ValidationCommand="{Binding SendTextFilterCommand}">
+                ToolTip="Shortcut: (CTRL+T).">
                 <controls:WatermarkService.Watermark>
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center">
                         Enter the kanji or a text containing kanji you are looking for.<LineBreak />
@@ -45,8 +44,7 @@
         <TextBlock Grid.Row="1" Text="with" Margin="0 0 5 0" VerticalAlignment="Center" />
         <AdornerDecorator Grid.Row="1" Grid.Column="1">
             <controls:CommandTextBox x:Name="Filter" Text="{Binding MainFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                ToolTip="Shortcut: (CTRL+F)."
-                ValidationCommand="{Binding SendMainFilterCommand}">
+                ToolTip="Shortcut: (CTRL+F).">
                 <controls:WatermarkService.Watermark>
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center">
                         <TextBlock.Text>
@@ -91,6 +89,7 @@
         <Grid Grid.Row="5" Grid.ColumnSpan="4" Margin="0 5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>

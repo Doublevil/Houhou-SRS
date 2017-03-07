@@ -82,22 +82,22 @@
                                 </Style>
                             </Button.Style>
                         </Button>
-                        <Button Content="Clear all filters"
-                            Command="{Binding ClearFilterCommand}" Margin="0,0,0,5">
-                            <Button.Style>
-                                <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding KanjiFilterVm.Radicals}" Value="{x:Null}">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding ElementName=CloseKanjiPageButton, Path=Visibility}"
-                                            Value="Visible">
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                        <Button x:Name="ClearFilterButton" Content="Clear all filters" ToolTip="(CTRL+Shift+C)"
+                                Command="{Binding ClearFilterCommand}" Margin="0,0,0,5">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding KanjiFilterVm.Radicals}" Value="{x:Null}">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ElementName=CloseKanjiPageButton, Path=Visibility}"
+                                                Value="Visible">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
 
                         <Button Content="Navigate back" Command="{Binding NavigateBackCommand}" Margin="0,0,0,5">
                             <Button.Style>
@@ -107,7 +107,20 @@
                                             <Setter Property="Visibility" Value="Visible" />
                                         </DataTrigger>
                                     </Style.Triggers>
-                                    <Setter Property="Visibility" Value="Hidden" />
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button x:Name="ApplyFilterButton" Command="{Binding ApplyFilterCommand}" Margin="0,0,0,5"
+                                Content="Apply Filter" ToolTip="(Enter or CTRL+Enter)" >
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding CanNavigateBack}" Value="False">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="Visibility" Value="Collapsed" />
                                 </Style>
                             </Button.Style>
                         </Button>
