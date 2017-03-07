@@ -22,7 +22,7 @@
         <!-- Reading filter -->
         <AdornerDecorator>
             <controls:CommandTextBox x:Name="ReadingFilter" Text="{Binding ReadingFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                ValidationCommand="{Binding SendReadingFilterCommand}" IsKanaInput="True" Margin="0 0 5 0"
+                IsKanaInput="True" Margin="0 0 5 0"
                 ToolTip="Enter the kana reading to filter by here (CTRL+R)."
                 VerticalContentAlignment="Center">
                 <controls:WatermarkService.Watermark>
@@ -36,7 +36,7 @@
         <!-- Meaning filter -->
         <AdornerDecorator Grid.Row="0" Grid.Column="1">
             <controls:CommandTextBox x:Name="MeaningFilter" Text="{Binding MeaningFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                ValidationCommand="{Binding SendMeaningFilterCommand}" Margin="5 0 0 0"
+                Margin="5 0 0 0"
                 ToolTip="Enter the English meaning to filter by here (CTRL+M)."
                 VerticalContentAlignment="Center">
                 <controls:WatermarkService.Watermark>
@@ -119,7 +119,10 @@
 
         <!-- JLPT/WK levels -->
         <controls:WkLevelFilterControl x:Name="WkLevelFilter" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding}" />
-        <controls:JlptLevelFilterControl x:Name="JlptLevelFilter" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="5,0,0,0" DataContext="{Binding}" />
+        <controls:JlptLevelFilterControl x:Name="JlptLevelFilter" Grid.Row="1" Grid.Column="2" Margin="5,0,0,0" DataContext="{Binding}" />
 
+        <Button x:Name="ApplyFilterButton" Style="{StaticResource MiniActionButton}" Command="{Binding ApplyFilterCommand}"
+                Content="Apply Filter" ToolTip="(Enter)" Grid.Row="1" Grid.Column="3"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
 </UserControl>

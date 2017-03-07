@@ -7,7 +7,7 @@
       xmlns:controls="clr-namespace:Kanji.Interface.Controls"
       xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-      mc:Ignorable="d" 
+      mc:Ignorable="d" KeyDown="OnKeyDown"
       d:DesignHeight="300" d:DesignWidth="600">
     
     <Grid>
@@ -306,7 +306,7 @@
             <Separator Grid.Row="1" Margin="5,10" Height="2" Background="Black" Foreground="Black" BorderBrush="Black" />
             
             <!-- Reading filter -->
-            <controls:VocabFilterControl Grid.Row="2" DataContext="{Binding VocabFilterVm}" />
+            <controls:VocabFilterControl x:Name="VocabFilter" Grid.Row="2" DataContext="{Binding VocabFilterVm}" />
         </Grid>
 
         <!-- Vocab table -->

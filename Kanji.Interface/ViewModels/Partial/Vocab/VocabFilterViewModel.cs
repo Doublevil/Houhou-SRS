@@ -138,28 +138,9 @@ namespace Kanji.Interface.ViewModels
         #region Commands
 
         /// <summary>
-        /// Command used to validate the reading filter.
+        /// Command used apply the filter.
         /// </summary>
-        public RelayCommand SendReadingFilterCommand { get; set; }
-
-        /// <summary>
-        /// Command used to validate the JLPT & WK level filters.
-        /// </summary>
-        /// <remarks>
-        /// This is a shared command named like this because the control shared with
-        /// the SRS tab wants the command to have this name.
-        /// </remarks>
-        public RelayCommand FilterChangedCommand { get; set; }
-
-        /// <summary>
-        /// Command used to validate the meaning filter.
-        /// </summary>
-        public RelayCommand SendMeaningFilterCommand { get; set; }
-
-        /// <summary>
-        /// Command used to validate the category filter.
-        /// </summary>
-        public RelayCommand SendCategoryFilterCommand { get; set; }
+        public RelayCommand ApplyFilterCommand { get; set; }
         
         /// <summary>
         /// Command used to clear the category filter.
@@ -198,10 +179,7 @@ namespace Kanji.Interface.ViewModels
         {
 	        _filter = filter;
             
-	        FilterChangedCommand = new RelayCommand(IssueFilterChangedEvent);
-	        SendReadingFilterCommand = new RelayCommand(OnSendReadingFilter);
-            SendMeaningFilterCommand = new RelayCommand(OnSendMeaningFilter);
-            SendCategoryFilterCommand = new RelayCommand(OnSendCategoryFilter);
+	        ApplyFilterCommand = new RelayCommand(IssueFilterChangedEvent);
             ClearCategoryFilterCommand = new RelayCommand(OnClearCategoryFilter);
             SwitchCommonOrderCommand = new RelayCommand(OnSwitchCommonOrder);
             SwitchWritingLengthOrderCommand = new RelayCommand(OnSwitchWritingLengthOrder);
@@ -223,38 +201,10 @@ namespace Kanji.Interface.ViewModels
         }
 
         #region Command callbacks
-
-        /// <summary>
-        /// Command callback.
-        /// Issues a filter changed event.
-        /// </summary>
-        private void OnSendReadingFilter()
-        {
-            IssueFilterChangedEvent();
-        }
-
-        /// <summary>
-        /// Command callback.
-        /// Issues a filter changed event.
-        /// </summary>
-        private void OnSendMeaningFilter()
-        {
-            IssueFilterChangedEvent();
-        }
-
-        /// <summary>
-        /// Command callback.
-        /// Issues a filter changed event.
-        /// </summary>
-        private void OnSendCategoryFilter()
-        {
-            IssueFilterChangedEvent();
-        }
         
         private void OnClearCategoryFilter()
         {
             CategoryFilter = null;
-            IssueFilterChangedEvent();
         }
 
         /// <summary>
@@ -264,7 +214,6 @@ namespace Kanji.Interface.ViewModels
         private void OnSwitchCommonOrder()
         {
             IsCommonFirst = !IsCommonFirst;
-            IssueFilterChangedEvent();
         }
 
         /// <summary>
@@ -274,7 +223,6 @@ namespace Kanji.Interface.ViewModels
         private void OnSwitchWritingLengthOrder()
         {
             IsShortReadingFirst = !IsShortReadingFirst;
-            IssueFilterChangedEvent();
         }
         
         #endregion

@@ -640,6 +640,8 @@ namespace Kanji.Database.Dao
 				 * 
 				 * This does mean that this query must be changed if vocab items ever
 				 * get a category attached to them.
+				 * 
+				 * Actually, scratch that. Ateji DO have a category attached to the vocab themselves.
 				 */
 
 	            string subQuery = string.Format("(SELECT m.{0} FROM {1} m WHERE m.{2}=@cat)",

@@ -854,7 +854,8 @@ namespace Kanji.Interface.ViewModels
                         // for review. Remove the question group from the batch.
                         ReviewState = SrsReviewStateEnum.Ignore;
                         _currentBatch.Remove(CurrentQuestionGroup);
-                        FillCurrentBatch();
+						if (!IsWrappingUp)
+							FillCurrentBatch();
 
                         AnsweredReviewsCount++;
                         ToNextQuestion();

@@ -15,7 +15,6 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="JLPT Level" Style="{StaticResource LegendText}" />
@@ -34,8 +33,5 @@
                 <KeyBinding Command="{Binding FilterChangedCommand}" Key="Enter" />
             </Slider.InputBindings>
         </Slider>
-        <Button Style="{StaticResource MiniActionButton}" Command="{Binding FilterChangedCommand}"
-                Content="Filter" Grid.Column="3"
-                HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Grid>
 </UserControl>

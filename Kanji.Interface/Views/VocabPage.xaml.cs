@@ -68,6 +68,14 @@ namespace Kanji.Interface.Views
                         break;
                 }
             }
+
+            switch (e.Key)
+            {
+                case Key.Enter:
+                    FilterControl.ApplyFilterButton.Command.Execute(null);
+                    e.Handled = true;
+                    break;
+            }
         }
 
         private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)

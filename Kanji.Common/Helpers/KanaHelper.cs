@@ -739,6 +739,8 @@ namespace Kanji.Common.Helpers
             romaji = romaji.Replace("dye", "ぢぇ");
             romaji = romaji.Replace("DYO", "ヂョ");
             romaji = romaji.Replace("dyo", "ぢょ");
+            romaji = romaji.Replace("XTU", "ッ");
+            romaji = romaji.Replace("xtu", "っ");
             romaji = romaji.Replace("XWA", "ヮ");
             romaji = romaji.Replace("xwa", "ゎ");
             romaji = romaji.Replace("XKA", "ヵ");
