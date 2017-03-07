@@ -34,6 +34,39 @@ namespace Kanji.Interface.Controls
         /// </summary>
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
+            KeyboardDevice keyboardDevice = e.KeyboardDevice;
+
+            if (keyboardDevice.IsKeyDown(Key.LeftCtrl) || keyboardDevice.IsKeyDown(Key.RightCtrl))
+            {
+                switch (e.Key)
+                {
+                    case Key.R:
+                        VocabFilter.ReadingFilter.Focus();
+                        e.Handled = true;
+                        break;
+                    case Key.M:
+                        VocabFilter.MeaningFilter.Focus();
+                        e.Handled = true;
+                        break;
+                    case Key.W:
+                        VocabFilter.WkLevelFilter.LevelSlider.Focus();
+                        e.Handled = true;
+                        break;
+                    case Key.J:
+                        VocabFilter.JlptLevelFilter.LevelSlider.Focus();
+                        e.Handled = true;
+                        break;
+                    case Key.C:
+                        // We can't just use CTRL+C here, because that would not work if a text box had focus.
+                        if (keyboardDevice.IsKeyDown(Key.LeftAlt) || keyboardDevice.IsKeyDown(Key.RightAlt))
+                        {
+                            VocabFilter.CategoryFilter.ComboBox.Focus();
+                            e.Handled = true;
+                        }
+                        break;
+                }
+            }
+
             switch (e.Key)
             {
                 case Key.Enter:

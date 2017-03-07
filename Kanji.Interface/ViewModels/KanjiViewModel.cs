@@ -66,6 +66,11 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         public bool CanNavigateBack { get { return _navigationHistory.Count > 0; } }
 
+        /// <summary>
+        /// Gets a boolean indicating whether the 'apply filter' button should be shown.
+        /// </summary>
+        public bool CanApplyFilter { get { return _kanjiDetailsVm == null; } }
+
         #region Commands
 
         public RelayCommand ClearSelectedKanjiCommand { get; set; }
@@ -193,6 +198,7 @@ namespace Kanji.Interface.ViewModels
                 {
                     _kanjiDetailsVm.KanjiNavigated += OnKanjiNavigated;
                 }
+                RaisePropertyChanged("CanApplyFilter");
             }
         }
 

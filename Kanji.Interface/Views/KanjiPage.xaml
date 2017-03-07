@@ -116,11 +116,14 @@
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding CanNavigateBack}" Value="False">
+                                        <DataTrigger Binding="{Binding CanNavigateBack}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding CanApplyFilter}" Value="True">
                                             <Setter Property="Visibility" Value="Visible" />
                                         </DataTrigger>
                                     </Style.Triggers>
-                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Setter Property="Visibility" Value="Hidden" />
                                 </Style>
                             </Button.Style>
                         </Button>

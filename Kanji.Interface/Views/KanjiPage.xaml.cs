@@ -17,11 +17,17 @@ namespace Kanji.Interface.Views
 {
     public partial class KanjiPage : UserControl
     {
+        #region Constructors
+
         public KanjiPage()
         {
             InitializeComponent();
             DataContext = new KanjiViewModel();
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Since a <see cref="GalaSoft.MvvmLight.Command.RelayCommand"/> does not accept keyboard shortcuts,
@@ -29,6 +35,9 @@ namespace Kanji.Interface.Views
         /// </summary>
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
+            if (KanjiDetailsControl.Visibility == Visibility.Visible)
+                return;
+
             KeyboardDevice keyboardDevice = e.KeyboardDevice;
 
             if (keyboardDevice.IsKeyDown(Key.LeftCtrl) || keyboardDevice.IsKeyDown(Key.RightCtrl))
@@ -82,5 +91,7 @@ namespace Kanji.Interface.Views
                 Focus();
             }
         }
+
+        #endregion
     }
 }
