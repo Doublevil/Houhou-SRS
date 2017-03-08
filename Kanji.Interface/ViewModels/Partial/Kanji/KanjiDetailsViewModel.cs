@@ -257,6 +257,7 @@ namespace Kanji.Interface.ViewModels
             VocabListVm.KanjiNavigated += OnKanjiNavigated;
             VocabFilterVm = new VocabFilterViewModel(filter);
             VocabFilterVm.FilterChanged += OnVocabFilterChanged;
+            VocabFilterVm.PropertyChanged += OnVocabPropertyChanged;
 
             ToggleDetailsCommand = new RelayCommand(OnToggleDetails);
             AddToSrsCommand = new RelayCommand(OnAddToSrs);
@@ -566,6 +567,17 @@ namespace Kanji.Interface.ViewModels
         private void OnVocabFilterChanged(object sender, EventArgs e)
         {
             VocabListVm.ReapplyFilter();
+        }
+
+        /// <summary>
+        /// Event callback.
+        /// Called when a vocab property changes.
+        /// Refreshes the vocab list.
+        /// </summary>
+        private void OnVocabPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ReadingFilter")
+                VocabListVm.ReapplyFilter();
         }
 
         /// <summary>
