@@ -454,7 +454,14 @@ namespace Kanji.Interface.ViewModels
         /// <param name="reading">Reading to use as a filter.</param>
         private void OnFilterReading(string reading)
         {
-            VocabFilterVm.ReadingFilter = reading.Replace("ー", string.Empty).Replace(".", string.Empty);
+            // This command is not fired by typing, but rather from events like
+            // clicking on a reading on the kanji page.
+            // In those events, we *do* want to automatically re-apply the filter.
+            string newReading = reading.Replace("ー", string.Empty).Replace(".", string.Empty);
+            if (VocabFilterVm.ReadingFilter == newReading)
+                return;
+            VocabFilterVm.ReadingFilter = newReading;
+            VocabListVm.ReapplyFilter();
         }
 
         /// <summary>
@@ -576,8 +583,8 @@ namespace Kanji.Interface.ViewModels
         /// </summary>
         private void OnVocabPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "ReadingFilter")
-                VocabListVm.ReapplyFilter();
+            //if (e.PropertyName == "ReadingFilter")
+            //    VocabListVm.ReapplyFilter();
         }
 
         /// <summary>
