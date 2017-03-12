@@ -54,6 +54,27 @@
                         </TextBlock.Text>
                     </TextBlock>
                 </controls:WatermarkService.Watermark>
+                <controls:CommandTextBox.Style>
+                    <Style TargetType="controls:CommandTextBox">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding MainFilterMode, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static models:KanjiFilterModeEnum.Meaning}">
+                                <Setter Property="IsKanaInput" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MainFilterMode, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static models:KanjiFilterModeEnum.AnyReading}">
+                                <Setter Property="IsKanaInput" Value="True" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MainFilterMode, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static models:KanjiFilterModeEnum.KunYomi}">
+                                <Setter Property="IsKanaInput" Value="True" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MainFilterMode, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static models:KanjiFilterModeEnum.OnYomi}">
+                                <Setter Property="IsKanaInput" Value="True" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MainFilterMode, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static models:KanjiFilterModeEnum.Nanori}">
+                                <Setter Property="IsKanaInput" Value="True" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:CommandTextBox.Style>
             </controls:CommandTextBox>
         </AdornerDecorator>
         <TextBlock Grid.Row="1" Grid.Column="2" Text="as" VerticalAlignment="Center" Margin="5,0" />
