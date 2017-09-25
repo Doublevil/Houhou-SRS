@@ -9,8 +9,8 @@
       xmlns:controls="clr-namespace:Kanji.Interface.Controls"
       xmlns:business="clr-namespace:Kanji.Interface.Business"
       xmlns:converters="clr-namespace:Kanji.Interface.Converters"
-      mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="600">
+      mc:Ignorable="d" Focusable="true"
+      d:DesignHeight="300" d:DesignWidth="600" KeyDown="OnKeyDown" IsVisibleChanged="OnIsVisibleChanged">
 
     <DockPanel>
         <controls:NavigationBar DockPanel.Dock="Top" />
@@ -65,12 +65,12 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <controls:SrsEntryFilterControl DataContext="{Binding FilterVm}" />
+                        <controls:SrsEntryFilterControl x:Name="FilterControl" DataContext="{Binding FilterVm}" />
                         <controls:SrsEntryList Grid.Row="1" DataContext="{Binding ListVm}" />
                     </Grid>
                     
                     <!-- Navigation control as a footer, always visible -->
-                    <controls:SrsPageNavigationControl Grid.Row="3" />
+                    <controls:SrsPageNavigationControl x:Name="Navigation" Grid.Row="3" />
                 </Grid>
 
                 <!-- SRS Review control taking the whole space when the review session is started -->

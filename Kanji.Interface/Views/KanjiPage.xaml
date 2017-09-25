@@ -7,8 +7,8 @@
       xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WPF4"
       xmlns:utilities="clr-namespace:Kanji.Interface.Utilities"
       xmlns:controls="clr-namespace:Kanji.Interface.Controls"
-      mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="600">
+      mc:Ignorable="d" Focusable="true"
+      d:DesignHeight="300" d:DesignWidth="600" KeyDown="OnKeyDown" IsVisibleChanged="OnIsVisibleChanged">
 
     <DockPanel>
         <controls:NavigationBar DockPanel.Dock="Top" />
@@ -24,7 +24,7 @@
                 </Grid.RowDefinitions>
             
                 <!-- Filter control panel -->
-                <controls:KanjiFilterControl DataContext="{Binding KanjiFilterVm}">
+                <controls:KanjiFilterControl x:Name="KanjiFilterControl" DataContext="{Binding KanjiFilterVm}">
                     <controls:KanjiFilterControl.Style>
                         <Style TargetType="UserControl">
                             <Style.Triggers>
@@ -82,28 +82,44 @@
                                 </Style>
                             </Button.Style>
                         </Button>
-                        <Button Content="Clear all filters"
-                            Command="{Binding ClearFilterCommand}" Margin="0,0,0,5">
-                            <Button.Style>
-                                <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding KanjiFilterVm.Radicals}" Value="{x:Null}">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding ElementName=CloseKanjiPageButton, Path=Visibility}"
-                                            Value="Visible">
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                        <Button x:Name="ClearFilterButton" Content="Clear all filters" ToolTip="(CTRL+Shift+C)"
+                                Command="{Binding ClearFilterCommand}" Margin="0,0,0,5">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding KanjiFilterVm.Radicals}" Value="{x:Null}">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ElementName=CloseKanjiPageButton, Path=Visibility}"
+                                                Value="Visible">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
 
                         <Button Content="Navigate back" Command="{Binding NavigateBackCommand}" Margin="0,0,0,5">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding CanNavigateBack}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button x:Name="ApplyFilterButton" Command="{Binding ApplyFilterCommand}" Margin="0,0,0,5"
+                                Content="Apply Filter" ToolTip="(Enter or CTRL+Enter)" >
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource MiniActionButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding CanNavigateBack}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding CanApplyFilter}" Value="True">
                                             <Setter Property="Visibility" Value="Visible" />
                                         </DataTrigger>
                                     </Style.Triggers>

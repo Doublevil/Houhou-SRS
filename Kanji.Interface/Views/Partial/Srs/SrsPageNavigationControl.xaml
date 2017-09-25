@@ -7,13 +7,13 @@
              d:DesignHeight="50" d:DesignWidth="500">
 
     <UniformGrid Rows="1">
-        <Button Content="Add a kanji item" ToolTip="Add a new kanji SRS item to your list"
+        <Button Content="Add a kanji item" ToolTip="Add a new kanji SRS item to your list (CTRL+K)"
             Margin="0 0 5 0" Command="{Binding AddKanjiItemCommand}" Style="{StaticResource ActionButton}" />
-        <Button Content="Add a vocab item" ToolTip="Add a new vocab SRS item to your list"
+        <Button Content="Add a vocab item" ToolTip="Add a new vocab SRS item to your list (CTRL+V)"
             Margin="0 0 5 0" Command="{Binding AddVocabItemCommand}" Style="{StaticResource ActionButton}" />
-        <Button Content="Import SRS items" ToolTip="Import SRS items from external sources (Anki, WaniKani, etc)"
+        <Button Content="Import SRS items" ToolTip="Import SRS items from external sources (Anki, WaniKani, etc) (CTRL+I)"
             Margin="0 0 5 0" Command="{Binding ImportCommand}" Style="{StaticResource ActionButton}" />
-        <Button Content="Dashboard" ToolTip="Return to the dashboard"
+        <Button Content="Dashboard" ToolTip="Return to the dashboard (CTRL+Alt+Home)"
             Margin="0 0 5 0" Command="{Binding SwitchToDashboardCommand}">
             <Button.Style>
                 <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
@@ -25,7 +25,7 @@
                 </Style>
             </Button.Style>
         </Button>
-        <Button Content="Browse SRS items" ToolTip="Display the SRS item filter panel"
+        <Button Content="Browse SRS items" ToolTip="Display the SRS item filter panel (CTRL+B)"
             Grid.Column="1" Command="{Binding SwitchToSimpleFilterCommand}">
             <Button.Style>
                 <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">

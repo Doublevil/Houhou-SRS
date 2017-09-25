@@ -634,7 +634,7 @@
         <Setter Property="Opacity" Value="0.35" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Command" Value="{Binding PlayVocabAudioCommand, Source={x:Static business:AudioBusiness.Instance}}" />
-        <Setter Property="CommandParameter" Value="{Binding .}" />
+        <Setter Property="CommandParameter" Value="{Binding Audio}" />
     </Style>
 
     <Style TargetType="{x:Type TextBox}" x:Key="KanjiMeaningLabel" BasedOn="{StaticResource LabelBox}">
@@ -1452,7 +1452,7 @@
                                             
                                                     <!-- Audio button -->
                                                     <Button Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource VocabAudioButton}"
-				                                        DataContext="{Binding Audio}">
+				                                        DataContext="{Binding .}">
                                                         <Button.LayoutTransform>
                                                             <RotateTransform Angle="-90" />
                                                         </Button.LayoutTransform>

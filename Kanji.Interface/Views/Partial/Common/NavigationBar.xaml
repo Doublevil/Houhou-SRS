@@ -28,7 +28,7 @@
                 <Label Style="{StaticResource NavigationPanelTabTitle}" Content="HOME" />
             </DockPanel>
             <Button Grid.ColumnSpan="2" Style="{StaticResource NavigationPanelButton}" Command="{Binding NavigateCommand}"
-                CommandParameter="{x:Static models:NavigationPageEnum.Home}" />
+                CommandParameter="{x:Static models:NavigationPageEnum.Home}" ToolTip="(CTRL+1)" />
         </Grid>
         
         <!-- SRS tab -->
@@ -64,7 +64,7 @@
                 </TextBlock.Style>
             </TextBlock>
             <Button Grid.ColumnSpan="3" Style="{StaticResource NavigationPanelButton}" Command="{Binding NavigateCommand}"
-                    CommandParameter="{x:Static models:NavigationPageEnum.Srs}" />
+                    CommandParameter="{x:Static models:NavigationPageEnum.Srs}" ToolTip="(CTRL+2)" />
         </Grid>
 
         <!-- Kanji tab -->
@@ -76,7 +76,7 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Column="1" Style="{StaticResource NavigationPanelTabTitle}" Content="KANJI" />
             <Button Grid.ColumnSpan="3" Style="{StaticResource NavigationPanelButton}" Command="{Binding NavigateCommand}"
-                    CommandParameter="{x:Static models:NavigationPageEnum.Kanji}" />
+                    CommandParameter="{x:Static models:NavigationPageEnum.Kanji}" ToolTip="(CTRL+3)" />
         </Grid>
 
         <!-- Vocab tab -->
@@ -88,7 +88,7 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Column="1" Style="{StaticResource NavigationPanelTabTitle}" Content="VOCAB" />
             <Button Grid.ColumnSpan="3" Style="{StaticResource NavigationPanelButton}" Command="{Binding NavigateCommand}"
-                    CommandParameter="{x:Static models:NavigationPageEnum.Vocab}" />
+                    CommandParameter="{x:Static models:NavigationPageEnum.Vocab}" ToolTip="(CTRL+4)" />
         </Grid>
 
         <!-- Settings tab -->
@@ -113,7 +113,7 @@
                 </TextBlock.Style>
             </TextBlock>
             <Button Grid.ColumnSpan="3" Style="{StaticResource NavigationPanelButton}" Command="{Binding NavigateCommand}"
-                    CommandParameter="{x:Static models:NavigationPageEnum.Settings}" />
+                    CommandParameter="{x:Static models:NavigationPageEnum.Settings}" ToolTip="(CTRL+5)" />
         </Grid>
     </Grid>
 </UserControl>

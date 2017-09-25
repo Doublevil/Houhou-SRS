@@ -17,10 +17,81 @@ namespace Kanji.Interface.Views
 {
     public partial class KanjiPage : UserControl
     {
+        #region Constructors
+
         public KanjiPage()
         {
             InitializeComponent();
             DataContext = new KanjiViewModel();
         }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Since a <see cref="GalaSoft.MvvmLight.Command.RelayCommand"/> does not accept keyboard shortcuts,
+        /// we have to manually invoke the commands on a keyboard event.
+        /// </summary>
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (KanjiDetailsControl.Visibility == Visibility.Visible)
+                return;
+
+            KeyboardDevice keyboardDevice = e.KeyboardDevice;
+
+            if (keyboardDevice.IsKeyDown(Key.LeftCtrl) || keyboardDevice.IsKeyDown(Key.RightCtrl))
+            {
+                switch (e.Key)
+                {
+                    case Key.R:
+                        KanjiFilterControl.RadicalNameFilter.Focus();
+                        e.Handled = true;
+                        break;
+                    case Key.W:
+                        KanjiFilterControl.WkLevelFilter.LevelSlider.Focus();
+                        e.Handled = true;
+                        break;
+                    case Key.J:
+                        KanjiFilterControl.JlptLevelFilter.LevelSlider.Focus();
+                        e.Handled = true;
+                        break;
+                    case Key.T:
+                        KanjiFilterControl.TextFilter.Focus();
+                        e.Handled = true;
+                        break;
+                    case Key.F:
+                        KanjiFilterControl.Filter.Focus();
+                        e.Handled = true;
+                        break;
+                    case Key.C:
+                        if (!keyboardDevice.IsKeyDown(Key.LeftShift) && !keyboardDevice.IsKeyDown(Key.RightShift))
+                            break;
+                        ClearFilterButton.Command.Execute(null);
+                        e.Handled = true;
+                        break;
+                }
+            }
+
+            switch (e.Key)
+            {
+                case Key.Enter:
+                    ApplyFilterButton.Command.Execute(null);
+                    e.Handled = true;
+                    break;
+            }
+        }
+
+        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            // Focus the page once it becomes visible.
+            // This is so that the navigation bar does not keep the focus, which would prevent shortcut keys from working.
+            if (((bool)e.NewValue))
+            {
+                Focus();
+            }
+        }
+
+        #endregion
     }
 }

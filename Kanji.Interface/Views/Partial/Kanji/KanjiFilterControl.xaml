@@ -28,9 +28,9 @@
         
         <!-- 0. Multiline text filter -->
         <AdornerDecorator Grid.ColumnSpan="4">
-            <controls:CommandTextBox TextWrapping="Wrap" AcceptsReturn="False" Height="45" Margin="0 0 0 5"
+            <controls:CommandTextBox x:Name="TextFilter" TextWrapping="Wrap" AcceptsReturn="False" Height="45" Margin="0 0 0 5"
                 Text="{Binding TextFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                ValidationCommand="{Binding SendTextFilterCommand}">
+                ToolTip="Shortcut: (CTRL+T).">
                 <controls:WatermarkService.Watermark>
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center">
                         Enter the kanji or a text containing kanji you are looking for.<LineBreak />
@@ -43,8 +43,8 @@
         <!-- 1. Reading/meaning filter -->
         <TextBlock Grid.Row="1" Text="with" Margin="0 0 5 0" VerticalAlignment="Center" />
         <AdornerDecorator Grid.Row="1" Grid.Column="1">
-            <controls:CommandTextBox Text="{Binding MainFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                ValidationCommand="{Binding SendMainFilterCommand}">
+            <controls:CommandTextBox x:Name="Filter" Text="{Binding MainFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                ToolTip="Shortcut: (CTRL+F).">
                 <controls:WatermarkService.Watermark>
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center">
                         <TextBlock.Text>
@@ -54,6 +54,27 @@
                         </TextBlock.Text>
                     </TextBlock>
                 </controls:WatermarkService.Watermark>
+                <controls:CommandTextBox.Style>
+                    <Style TargetType="controls:CommandTextBox">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding MainFilterMode, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static models:KanjiFilterModeEnum.Meaning}">
+                                <Setter Property="IsKanaInput" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MainFilterMode, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static models:KanjiFilterModeEnum.AnyReading}">
+                                <Setter Property="IsKanaInput" Value="True" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MainFilterMode, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static models:KanjiFilterModeEnum.KunYomi}">
+                                <Setter Property="IsKanaInput" Value="True" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MainFilterMode, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static models:KanjiFilterModeEnum.OnYomi}">
+                                <Setter Property="IsKanaInput" Value="True" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MainFilterMode, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static models:KanjiFilterModeEnum.Nanori}">
+                                <Setter Property="IsKanaInput" Value="True" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:CommandTextBox.Style>
             </controls:CommandTextBox>
         </AdornerDecorator>
         <TextBlock Grid.Row="1" Grid.Column="2" Text="as" VerticalAlignment="Center" Margin="5,0" />
@@ -74,8 +95,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <controls:WkLevelFilterControl Grid.Column="0" DataContext="{Binding}" />
-            <controls:JlptLevelFilterControl Grid.Column="1" Margin="5,0,0,0" DataContext="{Binding}" />
+            <controls:WkLevelFilterControl x:Name="WkLevelFilter" Grid.Column="0" DataContext="{Binding}" />
+            <controls:JlptLevelFilterControl x:Name="JlptLevelFilter" Grid.Column="1" Margin="5,0,0,0" DataContext="{Binding}" />
         </Grid>
 
         <!-- 2. Radical list label -->
@@ -91,10 +112,11 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <AdornerDecorator>
-                <TextBox Text="{Binding RadicalFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    ToolTip="Type the filter until one single result remains, then press Enter to select it.">
+                <TextBox x:Name="RadicalNameFilter" Text="{Binding RadicalFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    ToolTip="Type the filter until one single result remains, then press Enter to select or deselect it (CTRL+R).">
                     <TextBox.InputBindings>
                         <KeyBinding Command="{Binding SendRadicalFilterCommand}" Key="Enter" />
                     </TextBox.InputBindings>

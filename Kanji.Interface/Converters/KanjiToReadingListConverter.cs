@@ -38,10 +38,10 @@ namespace Kanji.Interface.Converters
                 results.AddRange(GetReadingList(kanji.DbKanji.KunYomi, Properties.Settings.Default.KunYomiReadingType));
             }
 
-            if (!string.IsNullOrWhiteSpace(kanji.DbKanji.Nanori) && Kanji.Interface.Properties.Settings.Default.ShowNanori)
+            if (!string.IsNullOrWhiteSpace(kanji.DbKanji.Nanori) && Properties.Settings.Default.ShowNanori)
             {
                 results.Add(new KanjiReadingLabel() { Label = "Nanori" });
-                results.AddRange(GetReadingList(kanji.DbKanji.KunYomi, Properties.Settings.Default.NanoriReadingType));
+                results.AddRange(GetReadingList(kanji.DbKanji.Nanori, Properties.Settings.Default.NanoriReadingType));
             }
 
             return results;

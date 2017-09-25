@@ -54,6 +54,11 @@ namespace Kanji.Interface.ViewModels
         #region Properties
 
         /// <summary>
+        /// Gets the category filter view model.
+        /// </summary>
+        public CategoryFilterViewModel CategoryFilterVm { get; private set; }
+
+        /// <summary>
         /// Gets the vocab list view model.
         /// </summary>
         public VocabListViewModel VocabListVm { get; private set; }
@@ -245,10 +250,14 @@ namespace Kanji.Interface.ViewModels
             VocabFilter filter = new VocabFilter() {
                 Kanji = new KanjiEntity[] { _kanjiEntity.DbKanji } };
 
+            CategoryFilterVm = new CategoryFilterViewModel();
+            CategoryFilterVm.PropertyChanged += OnCategoryChanged;
+
             VocabListVm = new VocabListViewModel(filter);
             VocabListVm.KanjiNavigated += OnKanjiNavigated;
             VocabFilterVm = new VocabFilterViewModel(filter);
             VocabFilterVm.FilterChanged += OnVocabFilterChanged;
+            VocabFilterVm.PropertyChanged += OnVocabPropertyChanged;
 
             ToggleDetailsCommand = new RelayCommand(OnToggleDetails);
             AddToSrsCommand = new RelayCommand(OnAddToSrs);
@@ -445,7 +454,14 @@ namespace Kanji.Interface.ViewModels
         /// <param name="reading">Reading to use as a filter.</param>
         private void OnFilterReading(string reading)
         {
-            VocabFilterVm.ReadingFilter = reading.Replace("ー", string.Empty).Replace(".", string.Empty);
+            // This command is not fired by typing, but rather from events like
+            // clicking on a reading on the kanji page.
+            // In those events, we *do* want to automatically re-apply the filter.
+            string newReading = reading.Replace("ー", string.Empty).Replace(".", string.Empty);
+            if (VocabFilterVm.ReadingFilter == newReading)
+                return;
+            VocabFilterVm.ReadingFilter = newReading;
+            VocabListVm.ReapplyFilter();
         }
 
         /// <summary>
@@ -538,6 +554,17 @@ namespace Kanji.Interface.ViewModels
                 KanjiNavigated(sender, e);
             }
         }
+        
+        /// <summary>
+        /// Event callback.
+        /// Called when the vocab category changes.
+        /// Refreshes the vocab list.
+        /// </summary>
+        private void OnCategoryChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "CategoryFilter")
+                VocabListVm.Category = CategoryFilterVm.CategoryFilter;
+        }
 
         /// <summary>
         /// Event callback.
@@ -547,6 +574,17 @@ namespace Kanji.Interface.ViewModels
         private void OnVocabFilterChanged(object sender, EventArgs e)
         {
             VocabListVm.ReapplyFilter();
+        }
+
+        /// <summary>
+        /// Event callback.
+        /// Called when a vocab property changes.
+        /// Refreshes the vocab list.
+        /// </summary>
+        private void OnVocabPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            //if (e.PropertyName == "ReadingFilter")
+            //    VocabListVm.ReapplyFilter();
         }
 
         /// <summary>
