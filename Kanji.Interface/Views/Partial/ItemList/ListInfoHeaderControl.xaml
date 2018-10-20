@@ -36,6 +36,7 @@
                         <MultiDataTrigger.Conditions>
                             <Condition Binding="{Binding LoadedItems.Count}" Value="0" />
                             <Condition Binding="{Binding TotalItemCount}" Value="0" />
+                            <Condition Binding="{Binding IsFiltering}" Value="True" />
                         </MultiDataTrigger.Conditions>
                         <Setter Property="Text" Value="There are no results for this request." />
                     </MultiDataTrigger>

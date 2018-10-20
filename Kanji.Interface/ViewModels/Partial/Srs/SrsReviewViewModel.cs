@@ -21,7 +21,7 @@ namespace Kanji.Interface.ViewModels
     {
         #region Constants
 
-        private static readonly int BatchMaxSize = 7;
+        private static readonly int BatchMaxSize = 10;
 
         private static readonly int[] MeaningDistanceLenience =
             new int[] { 0, 4, 7, 12, 20 };
@@ -65,6 +65,8 @@ namespace Kanji.Interface.ViewModels
 
         private bool _isReviewing;
 
+        private bool _isWrappingUp;
+
         private SrsQuestion _currentQuestion;
 
         private SrsReviewStateEnum _reviewState;
@@ -101,6 +103,23 @@ namespace Kanji.Interface.ViewModels
                 if (_isReviewing != value)
                 {
                     _isReviewing = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a boolean indicating if the
+        /// review session is being wrapped up.
+        /// </summary>
+        public bool IsWrappingUp
+        {
+            get { return _isWrappingUp; }
+            set
+            {
+                if (_isWrappingUp != value)
+                {
+                    _isWrappingUp = value;
                     RaisePropertyChanged();
                 }
             }
@@ -247,6 +266,11 @@ namespace Kanji.Interface.ViewModels
         public RelayCommand AddAnswerCommand { get; private set; }
 
         /// <summary>
+        /// Gets the command used wrap up the review session.
+        /// </summary>
+        public RelayCommand WrapUpCommand { get; private set; }
+
+        /// <summary>
         /// Gets the command used to push the last question
         /// answered back to the pool as if it was never answered.
         /// </summary>
@@ -291,6 +315,7 @@ namespace Kanji.Interface.ViewModels
 
             SubmitCommand = new RelayCommand(OnSubmit);
             AddAnswerCommand = new RelayCommand(OnAddAnswer);
+            WrapUpCommand = new RelayCommand(OnWrapUp);
             IgnoreAnswerCommand = new RelayCommand(OnIgnoreAnswer);
             EditSrsEntryCommand = new RelayCommand(OnEditSrsEntry);
             StopSessionCommand = new RelayCommand(OnStopSession);
@@ -409,7 +434,7 @@ namespace Kanji.Interface.ViewModels
         #region Helper methods
 
         /// <summary>
-        /// Attemps to fill the batch to its maximal capacity.
+        /// Attempts to fill the batch to its maximal capacity.
         /// </summary>
         private void FillCurrentBatch()
         {
@@ -548,7 +573,14 @@ namespace Kanji.Interface.ViewModels
                     AnsweredReviewsCount++;
 
                     // Fill the batch to compensate for the removed group.
-                    FillCurrentBatch();
+                    if (!IsWrappingUp)
+                    {
+                        FillCurrentBatch();
+                    }
+                    else if (_currentBatch.Count == 0)
+                    {
+                        StopSessionCommand.Execute(null);
+                    }
                 }
             }
             else if (ReviewState == SrsReviewStateEnum.Failure)
@@ -754,6 +786,17 @@ namespace Kanji.Interface.ViewModels
 
         /// <summary>
         /// Command callback.
+        /// Wraps up the session by not introducing any more new items
+        /// and offering only those of which either the meaning or the reading have appeared (but not both).
+        /// </summary>
+        private void OnWrapUp()
+        {
+            IsWrappingUp = true;
+            TotalReviewsCount = AnsweredReviewsCount + _currentBatch.Count;
+        }
+
+        /// <summary>
+        /// Command callback.
         /// Ignores the last answer and goes to the next question.
         /// </summary>
         private void OnIgnoreAnswer()
@@ -811,7 +854,8 @@ namespace Kanji.Interface.ViewModels
                         // for review. Remove the question group from the batch.
                         ReviewState = SrsReviewStateEnum.Ignore;
                         _currentBatch.Remove(CurrentQuestionGroup);
-                        FillCurrentBatch();
+						if (!IsWrappingUp)
+							FillCurrentBatch();
 
                         AnsweredReviewsCount++;
                         ToNextQuestion();

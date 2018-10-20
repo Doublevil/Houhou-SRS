@@ -5,9 +5,10 @@
         xmlns:views="clr-namespace:Kanji.Interface.Views"
         xmlns:actors="clr-namespace:Kanji.Interface.Actors"
         xmlns:models="clr-namespace:Kanji.Interface.Models"
-        Title="Houhou" Height="600" Width="1000">
+        Title="Houhou" Height="600" Width="1000" KeyDown="OnKeyDown">
+
     <Grid>
-        <views:HomePage>
+        <views:HomePage x:Name="HomePage">
             <views:HomePage.Style>
                 <Style TargetType="UserControl">
                     <Style.Triggers>

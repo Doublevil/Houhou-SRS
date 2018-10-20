@@ -424,13 +424,15 @@ namespace Kanji.Database.Dao
                 int idParamIndex = 0;
 
                 // Start with the request for all mandatory radicals.
-                if (mandatoryRadicals.Any())
+                bool hasMandatoryRadicals = mandatoryRadicals.Any();
+                if (hasMandatoryRadicals)
                 {
                     sqlRadicalFilter.Append("(SELECT COUNT(*) FROM (");
-                    foreach (RadicalEntity radical in mandatoryRadicals)
+                    for (int i = 0; i < mandatoryRadicals.Length; i++)
                     {
+                        RadicalEntity radical = mandatoryRadicals[i];
                         sqlRadicalFilter.AppendFormat("SELECT @rid{0} ", idParamIndex);
-                        if (mandatoryRadicals.Last() != radical)
+                        if (i < mandatoryRadicals.Length - 1)
                         {
                             sqlRadicalFilter.Append("UNION ");
                         }
@@ -446,8 +448,12 @@ namespace Kanji.Database.Dao
                 }
 
                 // Now build the requests for the option groups.
-                foreach (RadicalGroup optionGroup in optionGroups)
+                for (int i = 0; i < optionGroups.Length; i++)
                 {
+                    RadicalGroup optionGroup = optionGroups[i];
+                    if (hasMandatoryRadicals || i > 0)
+                        sqlRadicalFilter.Append("AND ");
+
                     sqlRadicalFilter.Append("(SELECT COUNT(*) FROM (");
                     foreach (RadicalEntity radical in optionGroup.Radicals)
                     {

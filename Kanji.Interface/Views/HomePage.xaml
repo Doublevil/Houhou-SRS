@@ -6,8 +6,8 @@
              xmlns:controls="clr-namespace:Kanji.Interface.Controls"
              xmlns:business="clr-namespace:Kanji.Interface.Business"
              xmlns:toolkit="WPF"
-             mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="900">
+             mc:Ignorable="d" Focusable="true"
+             d:DesignHeight="400" d:DesignWidth="900" KeyDown="OnKeyDown" IsVisibleChanged="OnIsVisibleChanged">
 
     <DockPanel>
         <controls:NavigationBar DockPanel.Dock="Top" />
@@ -38,9 +38,10 @@
                     <TabItem Header="What's new">
                         <controls:ChangelogListControl DataContext="{Binding ChangesHistory}" />
                     </TabItem>
-                    <TabItem Header="What's planned">
+                    <!-- Let's not show these anymore because they're no longer relevant. -->
+                    <!--<TabItem Header="What's planned">
                         <controls:ChangelogListControl DataContext="{Binding FutureChanges}" />
-                    </TabItem>
+                    </TabItem>-->
                 </TabControl>
                 
                 <StackPanel Grid.Row="2" Margin="0 5 0 0">

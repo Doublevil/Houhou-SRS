@@ -49,10 +49,7 @@ namespace Kanji.Interface.ViewModels
         /// <param name="destinationPage">Destination page.</param>
         protected void Navigate(NavigationPageEnum destinationPage)
         {
-            if (destinationPage != CurrentPage)
-            {
-                NavigationActor.Instance.Navigate(destinationPage);
-            }
+            NavigationActor.Instance.Navigate(destinationPage);
         }
 
         #endregion

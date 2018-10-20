@@ -2,11 +2,40 @@
 <ArrayOfChangelogEntry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ChangelogEntry>
     <Version>1.3</Version>
-    <Title>Filter vocab/kanji by JLPT/WK level</Title>
-    <Description>You can now filter vocabulary words and kanji by the level at which they are taught on the Kanji learning website WaniKani and the JLPT level at which they are used.
+    <Title>Fixed audio issues</Title>
+    <Description>After Windows 10's october 2018 update, trying to play an audio clip would crash Houhou.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.3</Version>
+    <Title>WaniKani levels 51-60</Title>
+    <Description>(Contribution by Larsie13 and shoaibshakeel381)
+Houhou will now properly show vocab and kanji taught for levels 51 to 60 on WaniKani, and import your WaniKani items for these levels through the WaniKani import module.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.3</Version>
+    <Title>Wrap Up</Title>
+    <Description>(Contribution by Larsie13)
+While doing reviews, there is now a 'Wrap up' button that ends the review session without a loss of data.
+This means that all kanji and vocab of which the reading question has appeared in the session will get their meaning question soon and vice versa, but no new kanji and vocab will appear in this session.
+(Note that since review items are scheduled in batches, items in the current batch of which neither the meaning nor reading has appeared will still appear in this session.)
 
-Moreover, vocabulary words can now be filtered by their categories (such as mathematical terms and computer-related terms).
-Note that a lot of categories currently exist, but many of them are not used.</Description>
+This helps when you're in a hurry, or when you have 300 reviews and don't want to do all of them at once.
+
+Note: The old behaviour of exiting the review immediately is still available through the little 'X' button next to it.</Description>
+  </ChangelogEntry>
+   <ChangelogEntry>
+    <Version>1.3</Version>
+    <Title>Shortcuts!</Title>
+    <Description>(Contribution by Larsie13)
+Many tasks can now be performed with the keyboard, no mouse needed! Check the help page for more information (under 'Efficiency tips...').</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.3</Version>
+    <Title>Filter vocab/kanji by JLPT/WK level</Title>
+    <Description>(Contribution by Larsie13)
+You can now filter vocabulary words and kanji by the level at which they are taught on the Kanji learning website WaniKani and the JLPT level at which they are used.
+
+Moreover, vocabulary words can now be filtered by their categories (such as mathematical terms and computer-related terms).</Description>
   </ChangelogEntry>
   <ChangelogEntry>
     <Version>1.2</Version>

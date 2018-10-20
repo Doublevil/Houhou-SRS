@@ -13,20 +13,20 @@
         </Grid.ColumnDefinitions>
 
         <ComboBox Name="ComboBox" Margin="5,2" VerticalAlignment="Center" VerticalContentAlignment="Center"
-            FontSize="15" FontWeight="SemiBold"
-            SelectedIndex="{Binding SelectedIndex, ElementName=HiddenList}"
-            behaviors:SelectionChangedBehavior.Command="{Binding FilterChangedCommand}">
+            ToolTip="Select the category to filter by (CTRL+ALT+C)."
+            FontSize="14"
+            behaviors:SelectionChangedBehavior.Command="{Binding FilterChangedCommand}"
+            DataContext="{Binding CategoryFilterVm}"
+            ItemsSource="{Binding Categories, Mode=OneTime}" SelectedIndex="{Binding SelectedCategoryIndex, Mode=TwoWay}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Converter={StaticResource VocabCategoriesToStringConverter}}"
-                        VerticalAlignment="Center" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" />
+                        VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <ListBox Grid.Column="0" Name="HiddenList" Visibility="Collapsed" SelectedItem="{Binding CategoryFilter, UpdateSourceTrigger=PropertyChanged}"/>
-        <Button Style="{StaticResource MiniActionButton}" Command="{Binding ClearCategoryFilterCommand}"
-                Content="Clear" Grid.Column="1"
-                HorizontalAlignment="Left" VerticalAlignment="Center" Padding="2,0" />
+        <Button Style="{StaticResource MiniActionButton}" Command="{Binding ClearCategoryFilterCommand}" Height="20" Width="50"
+                Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Padding="2,0" Content="Clear" />
     </Grid>
 </UserControl>

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -161,8 +162,16 @@ namespace Kanji.Interface.Business
 
                 // Switch the playing vocab and open the audio file.
                 _playingVocab = vocab;
+
+                // If we are already playing the same URI, close it before reloading (I swear it won't play the same clip again for pete's sake)
+                Uri sourceUri = GetUri(vocab);
+                if (_player.Source == sourceUri)
+                {
+                    _player.Close();
+                }
+
                 _timeoutTimer.Start();
-                _player.Open(GetUri(vocab));
+                _player.Open(sourceUri);
             }
             catch (Exception ex)
             {
@@ -217,7 +226,34 @@ namespace Kanji.Interface.Business
         /// </summary>
         private void OnMediaOpened(object sender, EventArgs e)
         {
-            if (_player.NaturalDuration.TimeSpan.Ticks == UnavailableDurationTicks)
+            // After Windows 10's october 2018 big update, the behavior of the media player changed.
+            
+            // We need the duration of the media that just loaded, to test it against the unwanted "missing audio" clip duration.
+            TimeSpan duration;
+            if (_player.NaturalDuration.HasTimeSpan)
+            {
+                // Windows 10 before october 2018 update, or older versions
+                // We can get the duration through normal, reasonable ways
+                duration = _player.NaturalDuration.TimeSpan;
+            }
+            else
+            {
+                // Windows 10 post october 2018 update
+                // We cannot get the duration through the normal way, and have no access whatsoever on what is
+                // currently loaded in the player. Fortunately, there's a tricky way to get the duration we want.
+
+                // We can set the current playing Position to an absurdly high value, and then get the Position again,
+                // and, because the Position is limited to the duration of the clip, the value we get will be the last
+                // possible Position, i.e. the duration of the clip.
+
+                // BUT!.. Apparently it takes a bit of time before it does restrict the Position.
+                // So we need to be sleeping while the magic happens.
+                _player.Position = TimeSpan.MaxValue;
+                Thread.Sleep(1); // yes yes absolutely
+                duration = _player.Position;
+            }
+            
+            if (duration.Ticks == UnavailableDurationTicks)
             {
                 // Probably unavailable (or we're having terrible, terrible luck)
                 if (_playingVocab != null)
@@ -229,6 +265,8 @@ namespace Kanji.Interface.Business
             }
             else
             {
+                _player.Position = TimeSpan.Zero;
+
                 // Audio is available. Play it!
                 if (_playingVocab != null)
                 {

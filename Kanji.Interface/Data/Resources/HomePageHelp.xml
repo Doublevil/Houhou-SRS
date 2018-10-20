@@ -684,6 +684,12 @@ If you don't like the names of your Radicals, why not change them? See the "Radi
         <Title>Filter fields clear shortcut</Title>
         <Content>Most of the filter fields have the ability to clear when you press the mouse middle button while hovering the field. You can use this "shortcut" to quickly start a new filter search.</Content>
       </HelpInfo>
+	  <HelpInfo>
+        <Title>Other shortcuts</Title>
+        <Content>You can press any of the numbered keys on your keyboard (either at the top or on the numpad) while holding the Control key to jump to the tab with that number. For example, Control+1 jumps to the home page and Control+3 to the kanji page.
+
+Aside from that, many buttons, text fields and other UI elements have shortcut keys that you can press instead of clicking them with the mouse. Hover your mouse over an element to learn if it has a shortcut.</Content>
+      </HelpInfo>
     </Content>
   </HelpCategory>
 </ArrayOfHelpCategory>

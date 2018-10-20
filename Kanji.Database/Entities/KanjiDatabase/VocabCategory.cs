@@ -34,5 +34,13 @@ namespace Kanji.Database.Entities
         {
             return Dao.DaoConnectionEnum.KanjiDatabase;
         }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            // Used for selecting items by typing the first letter.
+            // TODO: This should use the same value as VocabCategoriesToStringConverter.
+            return Label;
+        }
     }
 }
