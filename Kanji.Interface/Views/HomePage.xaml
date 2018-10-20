@@ -38,9 +38,10 @@
                     <TabItem Header="What's new">
                         <controls:ChangelogListControl DataContext="{Binding ChangesHistory}" />
                     </TabItem>
-                    <TabItem Header="What's planned">
+                    <!-- Let's not show these anymore because they're no longer relevant. -->
+                    <!--<TabItem Header="What's planned">
                         <controls:ChangelogListControl DataContext="{Binding FutureChanges}" />
-                    </TabItem>
+                    </TabItem>-->
                 </TabControl>
                 
                 <StackPanel Grid.Row="2" Margin="0 5 0 0">

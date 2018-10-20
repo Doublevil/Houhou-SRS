@@ -10,7 +10,7 @@
     <UserControl.Resources>
         <converters:NumberToWkConverter x:Key="NumberToWkConverter"/>
     </UserControl.Resources>
-    <Grid Height="40" VerticalAlignment="Center">
+    <Grid VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
@@ -26,7 +26,7 @@
                    TextAlignment="Center"/>
         <Slider x:Name="LevelSlider" Grid.Column="2" VerticalAlignment="Center"
 			    Minimum="0" Maximum="61" Value="{Binding WkLevel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SmallChange="1" LargeChange="10"
-                TickPlacement="BottomRight" IsSnapToTickEnabled="True" Foreground="Black" IsMoveToPointEnabled="True"
+                TickPlacement="None" IsSnapToTickEnabled="True" Foreground="Black" IsMoveToPointEnabled="True"
                 ToolTip="Select the WaniKani level to filter by (CTRL+W)">
             <Slider.InputBindings>
                 <KeyBinding Command="{Binding FilterChangedCommand}" Key="Enter" />

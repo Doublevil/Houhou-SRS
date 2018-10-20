@@ -10,7 +10,7 @@
     <UserControl.Resources>
         <converters:NumberToJlptLevelConverter x:Key="NumberToJlptLevelConverter"/>
     </UserControl.Resources>
-    <Grid Height="40" VerticalAlignment="Center">
+    <Grid VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
@@ -27,7 +27,7 @@
         <Slider x:Name="LevelSlider" Grid.Column="2" VerticalAlignment="Center"
                 Minimum="0" Maximum="6" Value="{Binding JlptLevel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 SmallChange="1" IsDirectionReversed="True" MinWidth="50"
-                TickPlacement="BottomRight" IsSnapToTickEnabled="True" Foreground="Black" IsMoveToPointEnabled="True"
+                TickPlacement="None" IsSnapToTickEnabled="True" Foreground="Black" IsMoveToPointEnabled="True"
                 ToolTip="Select the JLPT level to filter by (CTRL+J)">
             <Slider.InputBindings>
                 <KeyBinding Command="{Binding FilterChangedCommand}" Key="Enter" />

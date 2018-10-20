@@ -10,6 +10,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -118,11 +119,11 @@
         </StackPanel>
 
         <!-- JLPT/WK levels -->
-        <controls:WkLevelFilterControl x:Name="WkLevelFilter" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding}" />
-        <controls:JlptLevelFilterControl x:Name="JlptLevelFilter" Grid.Row="1" Grid.Column="2" Margin="5,0,0,0" DataContext="{Binding}" />
+        <controls:WkLevelFilterControl x:Name="WkLevelFilter" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding}" />
+        <controls:JlptLevelFilterControl x:Name="JlptLevelFilter" Grid.Row="2" Grid.Column="2" Margin="5,0,0,0" DataContext="{Binding}" />
 
         <Button x:Name="ApplyFilterButton" Style="{StaticResource MiniActionButton}" Command="{Binding ApplyFilterCommand}"
-                Content="Apply Filter" ToolTip="(Enter)" Grid.Row="1" Grid.Column="3"
+                Content="Apply Filter" ToolTip="(Enter)" Grid.Row="2" Grid.Column="3"
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
 </UserControl>
