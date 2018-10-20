@@ -1,6 +1,6 @@
 ﻿[Setup]
 AppName=Houhou SRS
-AppVersion=1.2
+AppVersion=1.3
 DefaultDirName={pf}\Houhou SRS
 DefaultGroupName=Houhou SRS
 UninstallDisplayIcon={app}\Houhou.exe
@@ -9,12 +9,12 @@ SolidCompression=yes
 
 [Files]
 Source: "dotnet-4.5.1-web.exe"; DestDir: {tmp}; Flags: deleteafterinstall; Check: not IsRequiredDotNetDetected
-Source: "..\Kanji.Interface\bin\Release\Data\*"; DestDir: "{app}\Data"; Flags: recursesubdirs
-Source: "..\Kanji.Interface\bin\Release\*.dll"; DestDir: "{app}"
-Source: "..\Kanji.Interface\bin\Release\Houhou.exe"; DestDir: "{app}"; DestName: "Houhou SRS.exe"
-Source: "..\Kanji.Interface\bin\Release\Houhou.exe.config"; DestDir: "{app}"; DestName: "Houhou SRS.exe.config"; AfterInstall: ChangeEndpointAddress 
-Source: "..\Kanji.Interface\bin\Release\x64\*.dll"; DestDir: "{app}\x64";
-Source: "..\Kanji.Interface\bin\Release\x86\*.dll"; DestDir: "{app}\x86";
+Source: "..\Kanji.Interface\bin\Release\Data\*"; DestDir: "{app}\Data"; Flags: ignoreversion recursesubdirs
+Source: "..\Kanji.Interface\bin\Release\*.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\Kanji.Interface\bin\Release\Houhou.exe"; DestDir: "{app}"; DestName: "Houhou SRS.exe"; Flags: ignoreversion
+Source: "..\Kanji.Interface\bin\Release\Houhou.exe.config"; DestDir: "{app}"; DestName: "Houhou SRS.exe.config"; AfterInstall: ChangeEndpointAddress; Flags: ignoreversion
+Source: "..\Kanji.Interface\bin\Release\x64\*.dll"; DestDir: "{app}\x64"; Flags: ignoreversion
+Source: "..\Kanji.Interface\bin\Release\x86\*.dll"; DestDir: "{app}\x86"; Flags: ignoreversion                     
 
 [Icons]
 Name: "{group}\Houhou SRS"; Filename: "{app}\Houhou SRS.exe"
