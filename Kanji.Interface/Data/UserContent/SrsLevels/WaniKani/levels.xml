@@ -4,10 +4,10 @@
     <level name="A1" delayh="4" /> <!-- 4h -->
     <level name="A2" delayh="8" /> <!-- 8h -->
     <level name="A3" delayd="1" /> <!-- 1d -->
-    <level name="A4" delayd="3" /> <!-- 3d -->
+    <level name="A4" delayd="2" /> <!-- 2d -->
   </group>
   <group name="Guru" color="004E8E">
-    <level name="G1" delayd="7" /> <!-- 1w -->
+    <level name="G1" delayd="4" /> <!-- 4d -->
     <level name="G2" delayd="14" /> <!-- 2w -->
   </group>
   <group name="Master" color="5C1696">
