@@ -29,7 +29,7 @@ namespace Kanji.Database.Models
     public sealed class SrsEntryFilterReadingClause : StringFieldSearchFilterClause
     {
         public SrsEntryFilterReadingClause()
-            : base("se." + SqlHelper.Field_SrsEntry_Readings)
+            : base("se." + SqlHelper.Field_SrsEntry_Readings, "se." + SqlHelper.Field_SrsEntry_AssociatedKanji, "se." + SqlHelper.Field_SrsEntry_AssociatedVocab)
         {
             IsMultiValueExactMatch = true;
         }
