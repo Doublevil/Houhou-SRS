@@ -545,7 +545,14 @@ namespace Kanji.DatabaseMaker
                     VocabCategoryCount++;
 
                     // Add them to the dictionary too.
-                    _categoryDictionary.Add(category.Label, category);
+                    if (_categoryDictionary.ContainsKey(category.Label))
+                    {
+                        _categoryDictionary[category.Label] = category;
+                    } 
+                    else 
+                    {
+                        _categoryDictionary.Add(category.Label, category);
+                    }
                 }
             }
             _log.InfoFormat("Loaded {0} vocab categories", VocabCategoryCount);
@@ -851,7 +858,7 @@ namespace Kanji.DatabaseMaker
                     meaning.Meaning += value + " ; ";
                 }
             }
-            meaning.Meaning = meaning.Meaning.TrimEnd(new char[] { ';', ' ' });
+            meaning.Meaning = meaning.Meaning?.TrimEnd(new char[] { ';', ' ' });
 
             // Value the targets.
             foreach (VocabEntity target in targets)
