@@ -60,10 +60,12 @@ namespace Kanji.Database.Dao
             KanjiEntity result = null;
 
             DaoConnection connection = null;
+            DaoConnection srsConnection = null;
             try
             {
                 // Create and open synchronously the primary Kanji connection.
                 connection = DaoConnection.Open(DaoConnectionEnum.KanjiDatabase);
+                srsConnection = DaoConnection.Open(DaoConnectionEnum.SrsDatabase);
 
                 // FILTERS COMPUTED.
                 // Execute the final request.
@@ -79,14 +81,13 @@ namespace Kanji.Database.Dao
                     result = new KanjiBuilder()
                         .BuildEntity(results.First(), null);
                     IncludeKanjiMeanings(connection, result);
+                    IncludeSrsEntries(srsConnection, result);
                 }
             }
             finally
             {
-                if (connection != null)
-                {
-                    connection.Dispose();
-                }
+                connection?.Dispose();
+                srsConnection?.Dispose();
             }
 
             return result;
