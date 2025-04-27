@@ -8,7 +8,7 @@ Compression=lzma2
 SolidCompression=yes
 
 [Files]
-Source: "NDP481-Web.exe"; DestDir: {tmp}; Flags: deleteafterinstall; Check: not IsRequiredDotNetDetected
+Source: "NDP481-Web.exe"; DestDir: {tmp}; Flags: deleteafterinstall; Check: not IsDotNet481Installed
 Source: "..\Kanji.Interface\bin\Release\Data\*"; DestDir: "{app}\Data"; Flags: ignoreversion recursesubdirs
 Source: "..\Kanji.Interface\bin\Release\*.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Kanji.Interface\bin\Release\Houhou.exe"; DestDir: "{app}"; DestName: "Houhou SRS.exe"; Flags: ignoreversion
@@ -21,7 +21,7 @@ Name: "{group}\Houhou SRS"; Filename: "{app}\Houhou SRS.exe"
 Name: "{commondesktop}\Houhou SRS"; Filename: "{app}\Houhou SRS.exe"
 
 [Run]
-Filename: "{tmp}\NDP481-Web.exe"; Check: not IsRequiredDotNetDetected; StatusMsg: Please follow the directions of the Microsoft .NET Framework 4.8.1 installer to continue.
+Filename: "{tmp}\NDP481-Web.exe"; Check: not IsDotNet481Installed; StatusMsg: Please follow the directions of the Microsoft .NET Framework 4.8.1 installer to continue.
 
 [Code]
 function IsDotNet481Installed(): Boolean;
