@@ -66,6 +66,7 @@
                         project by Ulrich Apel.
                         The JLPT level data comes from <Bold><Hyperlink NavigateUri="http://www.tanos.co.uk/jlpt/" RequestNavigate="OnRequestNavigate">Jonathan Waller's website</Hyperlink></Bold>.
                         The Wikipedia word ranking data comes from the <Bold><Hyperlink NavigateUri="http://en.wiktionary.org/wiki/Wiktionary:Frequency_lists/Japanese" RequestNavigate="OnRequestNavigate">Wiktionary</Hyperlink></Bold>.
+                        Audio playback is done with <Bold><Hyperlink NavigateUri="https://github.com/naudio/NAudio" RequestNavigate="OnRequestNavigate">NAudio</Hyperlink></Bold>, by Mark Heath and contributors.
                         The idea and the design were inspired by <Bold><Hyperlink NavigateUri="https://www.wanikani.com/" RequestNavigate="OnRequestNavigate">WaniKani</Hyperlink></Bold>,
                         a cool kanji learning website by the Tofugu team, and the WaniKani level data is used with their permission.
                     </TextBlock>

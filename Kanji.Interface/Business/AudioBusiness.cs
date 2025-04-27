@@ -1,18 +1,13 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using Kanji.Common.Helpers;
-using Kanji.Database.Entities;
 using Kanji.Interface.Actors;
 using Kanji.Interface.Helpers;
 using Kanji.Interface.Models;
 using Kanji.Interface.Utilities;
+using NAudio.Wave;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Media;
-using System.Windows.Threading;
+using System.IO;
+using System.Net.Http;
 
 namespace Kanji.Interface.Business
 {
@@ -20,8 +15,7 @@ namespace Kanji.Interface.Business
     {
         #region Constants
 
-        private static readonly int UnavailableDurationTicks = 56946938;
-        private static readonly int TimeoutMs = 10000;
+        private static readonly int UnavailableDurationTicks = 56950000;
 
         #endregion
 
@@ -46,10 +40,8 @@ namespace Kanji.Interface.Business
 
         #region Fields
 
-        private MediaPlayer _player;
         private VocabAudio _playingVocab;
         private bool _isBusy;
-        private DispatcherTimer _timeoutTimer;
 
         #endregion
 
@@ -60,7 +52,7 @@ namespace Kanji.Interface.Business
         /// </summary>
         public bool IsBusy
         {
-            get { return _isBusy; }
+            get => _isBusy;
             private set
             {
                 if (_isBusy != value)
@@ -86,36 +78,8 @@ namespace Kanji.Interface.Business
 
         public AudioBusiness()
         {
-            _player = new MediaPlayer();
-            _player.MediaEnded += OnMediaEnded;
-            _player.MediaOpened += OnMediaOpened;
-            _player.MediaFailed += OnMediaFailed;
-
+            _waveOutDevice.PlaybackStopped += OnMediaEnded;
             PlayVocabAudioCommand = new RelayCommand<VocabAudio>(PlayVocabAudio);
-
-            _timeoutTimer = new DispatcherTimer();
-            _timeoutTimer.Interval = TimeSpan.FromMilliseconds(TimeoutMs);
-            _timeoutTimer.Tick += OnTimeoutTick;
-        }
-
-        /// <summary>
-        /// Event trigger.
-        /// Triggered when the timeout timer ticks.
-        /// Stops loading and returns the business to a non-busy state.
-        /// </summary>
-        private void OnTimeoutTick(object sender, EventArgs e)
-        {
-            if (IsBusy)
-            {
-                if (_playingVocab != null)
-                {
-                    _playingVocab.State = VocabAudioState.Failed;
-                    _playingVocab = null;
-                }
-
-                _player.Stop();
-                IsBusy = false;
-            }
         }
 
         #endregion
@@ -135,7 +99,7 @@ namespace Kanji.Interface.Business
             }
         }
 
-        private void AsyncPlayVocabAudio(VocabAudio vocab)
+        private async void AsyncPlayVocabAudio(VocabAudio vocab)
         {
             if (vocab.State == VocabAudioState.Unavailable)
             {
@@ -150,28 +114,37 @@ namespace Kanji.Interface.Business
 
             try
             {
-                // If something was playing...
-                if (_playingVocab != null)
-                {
-                    // Switch it to playable state and stop.
-                    _playingVocab.State = VocabAudioState.Playable;
-                    _player.Stop();
-
-                    // Note: this should not happen, but it's there just in case.
-                }
+                // Close the current clip before playing a new one.
+                CloseWaveOut();
 
                 // Switch the playing vocab and open the audio file.
                 _playingVocab = vocab;
 
-                // If we are already playing the same URI, close it before reloading (I swear it won't play the same clip again for pete's sake)
-                Uri sourceUri = GetUri(vocab);
-                if (_player.Source == sourceUri)
+                string url = GetUri(vocab);
+
+                // Issue a web request to get the audio
+                using (var httpClient = new HttpClient())
                 {
-                    _player.Close();
+                    using (var response = await httpClient.GetAsync(url))
+                    {
+                        var audioData = await response.Content.ReadAsByteArrayAsync();
+                        var ms = new MemoryStream(audioData);
+                        _currentOutputStream = new Mp3FileReader(ms);
+
+                        // Audio clip unavailability check
+                        if (_currentOutputStream.TotalTime.Ticks == UnavailableDurationTicks)
+                        {
+                            vocab.State = VocabAudioState.Unavailable;
+                            IsBusy = false;
+                            return;
+                        }
+                    }
                 }
 
-                _timeoutTimer.Start();
-                _player.Open(sourceUri);
+                // Connect the reader to the output device
+                _waveOutDevice.Init(_currentOutputStream);
+                vocab.State = VocabAudioState.Playing;
+                _waveOutDevice.Play();
             }
             catch (Exception ex)
             {
@@ -181,7 +154,17 @@ namespace Kanji.Interface.Business
                 IsBusy = false;
             }
         }
-        
+
+        private readonly IWavePlayer _waveOutDevice = new WaveOut();
+        private WaveStream _currentOutputStream;
+
+        private void CloseWaveOut()
+        {
+            _waveOutDevice?.Stop();
+            _currentOutputStream?.Dispose();
+            _currentOutputStream = null;
+        }
+
         /// <summary>
         /// Checks that the audio URI setting has been configured.
         /// </summary>
@@ -214,82 +197,11 @@ namespace Kanji.Interface.Business
         /// </summary>
         /// <param name="vocab">Vocab to use to build the URI.</param>
         /// <returns>URI built from the setting using the vocab.</returns>
-        private Uri GetUri(VocabAudio vocab)
+        private string GetUri(VocabAudio vocab)
         {
-            return new Uri(Kanji.Interface.Properties.Settings.Default.AudioUri
+            return Kanji.Interface.Properties.Settings.Default.AudioUri
                 .Replace("%kana%", vocab.KanaReading)
-                .Replace("%kanji%", vocab.KanjiReading));
-        }
-
-        /// <summary>
-        /// Triggered when the media has been successfuly opened.
-        /// </summary>
-        private void OnMediaOpened(object sender, EventArgs e)
-        {
-            // After Windows 10's october 2018 big update, the behavior of the media player changed.
-            
-            // We need the duration of the media that just loaded, to test it against the unwanted "missing audio" clip duration.
-            TimeSpan duration;
-            if (_player.NaturalDuration.HasTimeSpan)
-            {
-                // Windows 10 before october 2018 update, or older versions
-                // We can get the duration through normal, reasonable ways
-                duration = _player.NaturalDuration.TimeSpan;
-            }
-            else
-            {
-                // Windows 10 post october 2018 update
-                // We cannot get the duration through the normal way, and have no access whatsoever on what is
-                // currently loaded in the player. Fortunately, there's a tricky way to get the duration we want.
-
-                // We can set the current playing Position to an absurdly high value, and then get the Position again,
-                // and, because the Position is limited to the duration of the clip, the value we get will be the last
-                // possible Position, i.e. the duration of the clip.
-
-                // BUT!.. Apparently it takes a bit of time before it does restrict the Position.
-                // So we need to be sleeping while the magic happens.
-                _player.Position = TimeSpan.MaxValue;
-                Thread.Sleep(1); // yes yes absolutely
-                duration = _player.Position;
-            }
-            
-            if (duration.Ticks == UnavailableDurationTicks)
-            {
-                // Probably unavailable (or we're having terrible, terrible luck)
-                if (_playingVocab != null)
-                {
-                    _playingVocab.State = VocabAudioState.Unavailable;
-                    _playingVocab = null;
-                }
-                IsBusy = false;
-            }
-            else
-            {
-                _player.Position = TimeSpan.Zero;
-
-                // Audio is available. Play it!
-                if (_playingVocab != null)
-                {
-                    _playingVocab.State = VocabAudioState.Playing;
-                }
-
-                _player.Volume = Math.Min(1, Math.Max(0, Properties.Settings.Default.AudioVolume / 100f));
-                _player.Play();
-                _timeoutTimer.Stop();
-            }
-        }
-
-        /// <summary>
-        /// Triggers when the media failed to load or play.
-        /// </summary>
-        private void OnMediaFailed(object sender, ExceptionEventArgs e)
-        {
-            if (_playingVocab != null)
-            {
-                _playingVocab.State = VocabAudioState.Failed;
-                _playingVocab = null;
-            }
-            IsBusy = false;
+                .Replace("%kanji%", vocab.KanjiReading);
         }
 
         /// <summary>
