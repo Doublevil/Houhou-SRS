@@ -1,6 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ArrayOfChangelogEntry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ChangelogEntry>
+    <Version>1.4</Version>
+    <Title>Fixed audio issues (again)</Title>
+    <Description>Audio playback had stopped working for unknown reasons. It's now fixed.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
+    <Version>1.4</Version>
+    <Title>New paging setting for vocab search</Title>
+    <Description>You can now set the paging behavior for vocab search in the Settings tab. This is useful when using the vocab search as a discovery feature, to prevent performance from getting worse and worse as new items are loaded.</Description>
+  </ChangelogEntry>
+  <ChangelogEntry>
     <Version>1.3</Version>
     <Title>Fixed audio issues</Title>
     <Description>After Windows 10's october 2018 update, trying to play an audio clip would crash Houhou.</Description>
