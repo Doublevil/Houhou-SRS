@@ -31,6 +31,11 @@ namespace Kanji.Interface.ViewModels
         public SettingVocabPerPageViewModel VocabPerPageVm { get; private set; }
 
         /// <summary>
+        /// Gets the vocab paging mode view model.
+        /// </summary>
+        public SettingVocabPagingModeViewModel  VocabPagingModeVm { get; private set; }
+
+        /// <summary>
         /// Gets the collapse meaning limit view model.
         /// </summary>
         public SettingCollapseMeaningLimitViewModel CollapseMeaningLimitVm { get; private set; }
@@ -57,6 +62,7 @@ namespace Kanji.Interface.ViewModels
             ReviewPlayAudioVm = new SettingReviewPlayAudio();
             AudioVolumeVm = new SettingAudioVolumeViewModel();
             VocabPerPageVm = new SettingVocabPerPageViewModel();
+            VocabPagingModeVm = new SettingVocabPagingModeViewModel();
             CollapseMeaningLimitVm = new SettingCollapseMeaningLimitViewModel();
             VocabInfoVm = new SettingVocabInfoViewModel();
             SrsQuickDelayVm = new SettingSrsQuickDelayViewModel();
@@ -67,6 +73,7 @@ namespace Kanji.Interface.ViewModels
                 ReviewPlayAudioVm,
                 AudioVolumeVm,
                 VocabPerPageVm,
+                VocabPagingModeVm,
                 CollapseMeaningLimitVm,
                 VocabInfoVm,
                 SrsQuickDelayVm

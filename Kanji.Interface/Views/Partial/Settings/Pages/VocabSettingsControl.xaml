@@ -23,6 +23,7 @@
             </GroupBox.Header>
             <StackPanel Margin="6 10">
                 <controls:SettingVocabPerPageControl DataContext="{Binding VocabPerPageVm}" />
+                <controls:SettingVocabPagingModeControl DataContext="{Binding VocabPagingModeVm}" />
                 <controls:SettingCollapseMeaningLimitControl DataContext="{Binding CollapseMeaningLimitVm}" Margin="0 10 0 10" />
                 <controls:SettingVocabInfoControl DataContext="{Binding VocabInfoVm}" Margin="0 0 0 10" />
                 <controls:SettingQuickSrsDelayControl DataContext="{Binding SrsQuickDelayVm}" />

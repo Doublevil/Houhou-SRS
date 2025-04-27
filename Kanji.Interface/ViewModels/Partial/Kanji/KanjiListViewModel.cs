@@ -144,6 +144,14 @@ namespace Kanji.Interface.ViewModels
         }
 
         /// <summary>
+        /// Gets the behavior of the paging system.
+        /// </summary>
+        protected override ItemListPagingMode GetPagingMode()
+        {
+            return ItemListPagingMode.Additive;
+        }
+
+        /// <summary>
         /// Processes the given item and outputs an extended kanji that will be
         /// added to the item collection.
         /// </summary>

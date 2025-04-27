@@ -541,6 +541,14 @@ namespace Kanji.Interface.ViewModels
         }
 
         /// <summary>
+        /// Gets the behavior of the paging system.
+        /// </summary>
+        protected override ItemListPagingMode GetPagingMode()
+        {
+            return ItemListPagingMode.Additive;
+        }
+
+        /// <summary>
         /// Creates the FilteringSrsEntry matching the SrsEntry before
         /// adding it to the item list.
         /// </summary>

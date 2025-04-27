@@ -175,6 +175,11 @@ namespace Kanji.Interface.ViewModels
         protected abstract int GetItemsPerPage();
 
         /// <summary>
+        /// In a subclass, returns the paging behavior.
+        /// </summary>
+        protected abstract ItemListPagingMode GetPagingMode();
+
+        /// <summary>
         /// In a subclass, processes a retrieved item before the subsequent
         /// model is added to the collection.
         /// </summary>
@@ -200,6 +205,14 @@ namespace Kanji.Interface.ViewModels
 
             // Get the next batch of items.
             IEnumerable<Tentity> nextItems = _itemList.GetNext(loadCount);
+
+            if (GetPagingMode() == ItemListPagingMode.Substitutive)
+            {
+                DispatcherHelper.Invoke(() =>
+                {
+                    LoadedItems.Clear();
+                });
+            }
 
             // Browse  and process each retrieved item.
             foreach (Tentity item in nextItems)

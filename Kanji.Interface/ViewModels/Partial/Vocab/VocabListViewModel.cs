@@ -1,22 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Documents;
-using System.Windows.Threading;
 using GalaSoft.MvvmLight.Command;
 using Kanji.Common.Helpers;
 using Kanji.Database.Entities;
 using Kanji.Interface.Business;
-using Kanji.Interface.Converters;
 using Kanji.Interface.Helpers;
 using Kanji.Interface.Models;
-using Kanji.Interface.Utilities;
 using Kanji.Interface.Extensions;
 using Kanji.Interface.Views;
 using Kanji.Database.Dao;
@@ -227,6 +216,14 @@ namespace Kanji.Interface.ViewModels
         protected override int GetItemsPerPage()
         {
             return Properties.Settings.Default.VocabPerPage;
+        }
+
+        /// <summary>
+        /// Gets the behavior of the paging system.
+        /// </summary>
+        protected override ItemListPagingMode GetPagingMode()
+        {
+            return Properties.Settings.Default.VocabPagingMode;
         }
 
         /// <summary>

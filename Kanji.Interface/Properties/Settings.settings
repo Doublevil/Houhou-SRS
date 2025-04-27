@@ -131,5 +131,8 @@
     <Setting Name="AudioAutoplayMode" Type="Kanji.Interface.Models.AudioAutoplayModeEnum" Scope="User">
       <Value Profile="(Default)">Disabled</Value>
     </Setting>
+    <Setting Name="VocabPagingMode" Type="Kanji.Interface.Models.ItemListPagingMode" Scope="User">
+      <Value Profile="(Default)">Additive</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

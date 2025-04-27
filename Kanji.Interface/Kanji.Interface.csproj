@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Kanji.Interface</RootNamespace>
     <AssemblyName>Houhou</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -224,6 +224,7 @@
     <Compile Include="Models\Import\WkItem.cs" />
     <Compile Include="Models\KanjiReadingLabel.cs" />
     <Compile Include="Models\Settings\AudioAutoplayModeEnum.cs" />
+    <Compile Include="Models\Settings\ItemListPagingMode.cs" />
     <Compile Include="Models\TrayNotificationEnum.cs" />
     <Compile Include="Models\VocabAudio.cs" />
     <Compile Include="Models\VocabAudioState.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="ViewModels\Partial\Common\Filters\CategoryFilterViewModel.cs" />
     <Compile Include="ViewModels\Partial\Common\Filters\JlptLevelFilterViewModel.cs" />
     <Compile Include="ViewModels\Partial\Common\Filters\WkLevelFilterViewModel.cs" />
+    <Compile Include="ViewModels\Partial\Settings\Controls\SettingVocabPagingModeViewModel.cs" />
     <Compile Include="ViewModels\Partial\Srs\SrsTimingViewModel.cs" />
     <Compile Include="Models\Import\ImportTimingMode.cs" />
     <Compile Include="Models\SettingsCategoryEnum.cs" />
@@ -447,6 +449,9 @@
     </Compile>
     <Compile Include="Views\Partial\Settings\Controls\SettingRadicalSetControl.xaml.cs">
       <DependentUpon>SettingRadicalSetControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Settings\Controls\SettingVocabPagingModeControl.xaml.cs">
+      <DependentUpon>SettingVocabPagingModeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\Settings\Controls\SettingReviewPlayAudioControl.xaml.cs">
       <DependentUpon>SettingReviewPlayAudioControl.xaml</DependentUpon>
@@ -765,6 +770,10 @@
     <Page Include="Views\Partial\Settings\Controls\SettingRadicalSetControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Settings\Controls\SettingVocabPagingModeControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Partial\Settings\Controls\SettingReviewPlayAudioControl.xaml">
       <SubType>Designer</SubType>
@@ -1181,6 +1190,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\Partial\Home\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
