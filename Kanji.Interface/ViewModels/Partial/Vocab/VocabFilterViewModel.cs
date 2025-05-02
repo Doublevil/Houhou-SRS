@@ -237,7 +237,7 @@ namespace Kanji.Interface.ViewModels
         {
             IsShortReadingFirst = !IsShortReadingFirst;
         }
-        
+
         #endregion
 
         #endregion
