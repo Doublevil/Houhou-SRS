@@ -12,6 +12,7 @@ using Kanji.Interface.Utilities;
 using Kanji.Interface.ViewModels;
 using Kanji.Interface.Views;
 using Kanji.Interface.Extensions;
+using Kanji.Database.Dao;
 
 namespace Kanji.Interface.Actors
 {
@@ -42,6 +43,12 @@ namespace Kanji.Interface.Actors
         #endregion
 
         #region Property
+
+        /// <summary>
+        /// Gets or sets the reference to the kanji dao
+        /// to enable kanji refreshing when navigating.
+        /// </summary>
+        public KanjiDao KanjiDao { get; set; }
 
         /// <summary>
         /// Gets the currently active page.
@@ -95,6 +102,7 @@ namespace Kanji.Interface.Actors
         {
             _mainWindowLock = new object();
             CurrentPage = NavigationPageEnum.Home;
+            KanjiDao = new KanjiDao();
         }
 
         #endregion
@@ -151,6 +159,7 @@ namespace Kanji.Interface.Actors
             {
                 RequireMainWindow();
                 CurrentPage = NavigationPageEnum.Kanji;
+                character.Kanji = KanjiDao.GetFirstMatchingKanji(character.Character.ToString());
                 KanjiVm.Navigate(character);
             }
         }

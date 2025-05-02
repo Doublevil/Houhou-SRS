@@ -176,6 +176,7 @@ namespace Kanji.Interface.ViewModels
         {
             if (KanjiSelected != null && kanji != null)
             {
+                ReapplyFilter();
                 KanjiSelected(this, new KanjiSelectedEventArgs(kanji));
             }
         }
